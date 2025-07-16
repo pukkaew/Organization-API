@@ -1,6 +1,7 @@
 <!-- Path: /views/api-keys/details.ejs -->
 <%- include('../layouts/main', { 
     title: apiKey.app_name + ' - API Key Details',
+    includeChart: true,
     body: ` 
     <div class="max-w-7xl mx-auto">
         <!-- Header -->
@@ -366,7 +367,7 @@
 
     <script>
         // Parse hourly stats data
-        const hourlyStats = <%- hourlyStats %>;
+        const hourlyStats = <%- JSON.stringify(hourlyStats) %>;
         
         // Hourly Usage Chart
         const ctx = document.getElementById('hourlyChart').getContext('2d');

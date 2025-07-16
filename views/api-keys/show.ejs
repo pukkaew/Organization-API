@@ -1,6 +1,7 @@
 <!-- Path: /views/api-keys/show.ejs -->
-<%- include('../layouts/main', { body: ` 
-
+<%- include('../layouts/main', { 
+    title: 'API Key Created Successfully',
+    body: ` 
     <div class="max-w-3xl mx-auto">
         <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-6">
             <div class="flex">
@@ -93,7 +94,7 @@
                                        readonly
                                        class="flex-1 font-mono text-sm bg-gray-100 p-3 rounded border border-gray-300 select-all">
                                 <button type="button"
-                                        onclick="OrgStructure.copyToClipboard('<%= actualKey %>', this)"
+                                        onclick="copyApiKey()"
                                         class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                                     <i class="fas fa-copy mr-2"></i>
                                     Copy
@@ -127,7 +128,7 @@
                             Example using cURL:
                         </p>
                         <div class="mt-2 bg-gray-800 text-gray-100 p-3 rounded font-mono text-xs overflow-x-auto">
-                            curl -H "X-API-Key: <%= actualKey %>" <%= request.protocol %>://<%= request.get('host') %>/api/v1/companies
+                            curl -H "X-API-Key: <%= actualKey %>" <%= typeof request !== 'undefined' ? request.protocol + '://' + request.get('host') : 'https://example.com' %>/api/v1/companies
                         </div>
                     </div>
                 </div>
@@ -154,6 +155,31 @@
                 apiKeyField.select();
             }
         });
+        
+        // Copy API key to clipboard
+        function copyApiKey() {
+            const apiKeyField = document.getElementById('apiKeyField');
+            const button = event.currentTarget;
+            
+            apiKeyField.select();
+            apiKeyField.setSelectionRange(0, 99999); // For mobile devices
+            
+            navigator.clipboard.writeText(apiKeyField.value).then(() => {
+                const originalHTML = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check mr-2"></i>Copied!';
+                button.classList.add('bg-green-600', 'hover:bg-green-700');
+                button.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                
+                setTimeout(() => {
+                    button.innerHTML = originalHTML;
+                    button.classList.remove('bg-green-600', 'hover:bg-green-700');
+                    button.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy API key. Please copy it manually.');
+            });
+        }
     </script>
-    
-    ` }) %>
+    ` 
+}) %>
