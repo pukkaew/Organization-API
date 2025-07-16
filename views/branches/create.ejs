@@ -1,0 +1,201 @@
+<!-- Path: /views/branches/create.ejs -->
+<%- include('../layouts/main', { 
+    title: 'Create Branch',
+    activeMenu: 'branches',
+    body: ` 
+    <div class="max-w-3xl mx-auto">
+        <div class="bg-white shadow-sm rounded-lg">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-semibold text-gray-900">Create New Branch</h2>
+                    <a href="/branches" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <form method="post" action="/branches" class="p-6">
+                <% if (typeof csrfToken !== 'undefined') { %>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <% } %>
+                
+                <div class="space-y-6">
+                    <!-- Company Selection -->
+                    <div>
+                        <label for="company_code" class="form-label">
+                            Company <span class="text-red-500">*</span>
+                        </label>
+                        <select id="company_code" 
+                                name="company_code" 
+                                required
+                                class="form-input">
+                            <option value="">Select a company</option>
+                            <% if (typeof companies !== 'undefined' && companies) { %>
+                                <% companies.forEach(function(company) { %>
+                                    <option value="<%= company.company_code %>"
+                                            <%= (typeof selectedCompany !== 'undefined' && selectedCompany === company.company_code) ? 'selected' : '' %>>
+                                        <%= company.company_code %> - <%= company.company_name_th %>
+                                    </option>
+                                <% }); %>
+                            <% } %>
+                        </select>
+                    </div>
+                    
+                    <!-- Branch Code -->
+                    <div>
+                        <label for="branch_code" class="form-label">
+                            Branch Code <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" 
+                               id="branch_code" 
+                               name="branch_code" 
+                               required
+                               maxlength="20"
+                               pattern="[A-Z0-9]+"
+                               class="form-input uppercase"
+                               placeholder="e.g., BR001">
+                        <p class="mt-1 text-sm text-gray-500">
+                            Use uppercase letters and numbers only. This cannot be changed later.
+                        </p>
+                    </div>
+                    
+                    <!-- Branch Name -->
+                    <div>
+                        <label for="branch_name" class="form-label">
+                            Branch Name <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" 
+                               id="branch_name" 
+                               name="branch_name" 
+                               required
+                               maxlength="200"
+                               class="form-input"
+                               placeholder="e.g., Bangkok Branch">
+                    </div>
+                    
+                    <!-- Branch Type -->
+                    <div>
+                        <label class="form-label">Branch Type</label>
+                        <div class="mt-2 space-y-2">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" 
+                                       name="is_headquarters" 
+                                       id="is_headquarters"
+                                       class="text-primary-600 focus:ring-primary-500 rounded">
+                                <span class="ml-2 text-sm text-gray-700">This is the headquarters</span>
+                            </label>
+                            <p class="text-sm text-gray-500">
+                                Check this if this branch is the main headquarters of the company.
+                                Each company can only have one headquarters.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Information -->
+                    <div class="space-y-6 pt-6 border-t border-gray-200">
+                        <h3 class="text-lg font-medium text-gray-900">Contact Information</h3>
+                        
+                        <!-- Address -->
+                        <div>
+                            <label for="address" class="form-label">Address</label>
+                            <textarea id="address" 
+                                      name="address" 
+                                      rows="3"
+                                      class="form-input"
+                                      placeholder="Branch address"></textarea>
+                        </div>
+                        
+                        <!-- Phone -->
+                        <div>
+                            <label for="phone" class="form-label">Phone</label>
+                            <input type="tel" 
+                                   id="phone" 
+                                   name="phone"
+                                   class="form-input"
+                                   placeholder="02-123-4567">
+                        </div>
+                        
+                        <!-- Email -->
+                        <div>
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" 
+                                   id="email" 
+                                   name="email"
+                                   class="form-input"
+                                   placeholder="branch@example.com">
+                        </div>
+                    </div>
+                    
+                    <!-- Status -->
+                    <div>
+                        <label class="form-label">Status</label>
+                        <div class="flex items-center space-x-6 mt-2">
+                            <label class="inline-flex items-center">
+                                <input type="radio" 
+                                       name="is_active" 
+                                       value="true" 
+                                       checked
+                                       class="text-primary-600 focus:ring-primary-500">
+                                <span class="ml-2 text-sm text-gray-700">Active</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" 
+                                       name="is_active" 
+                                       value="false"
+                                       class="text-primary-600 focus:ring-primary-500">
+                                <span class="ml-2 text-sm text-gray-700">Inactive</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Form Actions -->
+                <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
+                    <a href="/branches" class="btn btn-ghost">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Cancel
+                    </a>
+                    
+                    <div class="flex items-center space-x-3">
+                        <button type="reset" class="btn btn-outline">
+                            <i class="fas fa-redo mr-2"></i>
+                            Reset
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save mr-2"></i>
+                            Create Branch
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Help Section -->
+        <div class="mt-6 bg-primary-50 rounded-lg p-4 border border-primary-200">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-info-circle text-primary-400 text-lg"></i>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-primary-800">Guidelines</h3>
+                    <div class="mt-2 text-sm text-primary-700">
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Branch code cannot be changed after creation</li>
+                            <li>Each company can have only one headquarters</li>
+                            <li>Branch code should be unique within the company</li>
+                            <li>All branches start as active by default</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    // Auto uppercase for branch code
+    document.getElementById('branch_code').addEventListener('input', function(e) {
+        e.target.value = e.target.value.toUpperCase();
+    });
+    </script>
+    ` 
+}) %>

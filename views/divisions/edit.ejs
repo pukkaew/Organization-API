@@ -1,0 +1,159 @@
+<!-- Path: /views/divisions/edit.ejs -->
+<%- include('../layouts/main', { 
+    title: 'Edit Division',
+    activeMenu: 'divisions',
+    body: ` 
+    <div class="max-w-3xl mx-auto">
+        <div class="bg-white shadow-sm rounded-lg">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-semibold text-gray-900">Edit Division</h2>
+                    <a href="/divisions" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <form method="post" action="/divisions/<%= division.division_code %>" class="p-6">
+                <% if (typeof csrfToken !== 'undefined') { %>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <% } %>
+                
+                <div class="space-y-6">
+                    <!-- Division Info Card -->
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-500">Division Code:</span>
+                                <span class="text-gray-900 font-medium ml-2"><%= division.division_code %></span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Current Company:</span>
+                                <span class="text-gray-900 font-medium ml-2">
+                                    <%= division.company_code %> - <%= division.company_name %>
+                                </span>
+                            </div>
+                            <% if (division.branch_code) { %>
+                                <div class="col-span-2">
+                                    <span class="text-gray-500">Current Branch:</span>
+                                    <span class="text-gray-900 font-medium ml-2">
+                                        <%= division.branch_code %> - <%= division.branch_name %>
+                                    </span>
+                                </div>
+                            <% } else { %>
+                                <div class="col-span-2">
+                                    <span class="text-gray-500">Level:</span>
+                                    <span class="text-gray-900 font-medium ml-2">Company Level (No Branch)</span>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-info-circle text-yellow-400"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-yellow-700">
+                                    Division code, company, and branch cannot be changed after creation.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Division Name -->
+                    <div>
+                        <label for="division_name" class="form-label">
+                            Division Name <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" 
+                               id="division_name" 
+                               name="division_name" 
+                               required
+                               maxlength="200"
+                               value="<%= division.division_name %>"
+                               class="form-input">
+                    </div>
+                    
+                    <!-- Status Notice -->
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-yellow-700">
+                                    Status: <strong><%= division.is_active ? 'Active' : 'Inactive' %></strong>
+                                </p>
+                                <p class="text-sm text-yellow-700 mt-1">
+                                    To change status, use the toggle button on the division list page.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Related Information -->
+                    <% if (typeof division.department_count !== 'undefined' && division.department_count > 0) { %>
+                        <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                            <div class="flex items-center">
+                                <i class="fas fa-users text-blue-500 mr-3"></i>
+                                <div>
+                                    <p class="text-sm font-medium text-blue-900">
+                                        This division has <%= division.department_count %> department(s)
+                                    </p>
+                                    <a href="/departments?division_code=<%= division.division_code %>" 
+                                       class="text-sm text-blue-700 hover:text-blue-900 underline">
+                                        View departments →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                    
+                    <!-- Metadata -->
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-500">Created:</span>
+                                <span class="text-gray-900 ml-2">
+                                    <%= new Date(division.created_date).toLocaleString('th-TH') %>
+                                </span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Created by:</span>
+                                <span class="text-gray-900 ml-2"><%= division.created_by %></span>
+                            </div>
+                            <% if (division.updated_date) { %>
+                                <div>
+                                    <span class="text-gray-500">Updated:</span>
+                                    <span class="text-gray-900 ml-2">
+                                        <%= new Date(division.updated_date).toLocaleString('th-TH') %>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Updated by:</span>
+                                    <span class="text-gray-900 ml-2"><%= division.updated_by %></span>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Form Actions -->
+                <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
+                    <a href="/divisions" class="btn btn-ghost">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Cancel
+                    </a>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save mr-2"></i>
+                        Update Division
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    ` 
+}) %>

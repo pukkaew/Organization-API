@@ -1,0 +1,362 @@
+<!-- Path: /views/dashboard/index.ejs -->
+<!DOCTYPE html>
+<html lang="th" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Organization Structure Management System">
+    <meta name="csrf-token" content="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+    
+    <title>Dashboard - Organization Management</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': {
+                            50: '#E6F4FB',
+                            100: '#CCE9F7',
+                            200: '#99D3EE',
+                            300: '#66BDE6',
+                            400: '#33A6DD',
+                            500: '#0090D3',
+                            600: '#0073A9',
+                            700: '#00567F',
+                            800: '#003A54',
+                            900: '#001D2A',
+                        },
+                        'success': {
+                            50: '#E8F5E7',
+                            100: '#D1EBCF',
+                            200: '#A3D79F',
+                            300: '#75C36F',
+                            400: '#47AF3F',
+                            500: '#3AAA35',
+                            600: '#2E882A',
+                            700: '#22661F',
+                            800: '#164415',
+                            900: '#0B220A',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="h-full bg-gray-50 custom-scrollbar">
+    <div class="min-h-full">
+        <!-- Navigation -->
+        <nav class="bg-white shadow-sm border-b border-gray-200">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="flex h-16 items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <h1 class="text-xl font-bold text-primary-600">
+                                <i class="fas fa-building mr-2"></i>
+                                Organization Management
+                            </h1>
+                        </div>
+                        <div class="hidden md:block">
+                            <div class="ml-10 flex items-baseline space-x-4">
+                                <a href="/dashboard" class="bg-primary-50 text-primary-700 rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                                    <i class="fas fa-chart-line mr-1"></i> Dashboard
+                                </a>
+                                <a href="/companies" class="text-gray-700 hover:bg-gray-50 rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                                    <i class="fas fa-building mr-1"></i> Companies
+                                </a>
+                                <a href="/branches" class="text-gray-700 hover:bg-gray-50 rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                                    <i class="fas fa-code-branch mr-1"></i> Branches
+                                </a>
+                                <a href="/divisions" class="text-gray-700 hover:bg-gray-50 rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                                    <i class="fas fa-sitemap mr-1"></i> Divisions
+                                </a>
+                                <a href="/departments" class="text-gray-700 hover:bg-gray-50 rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                                    <i class="fas fa-users mr-1"></i> Departments
+                                </a>
+                                <a href="/api-keys" class="text-gray-700 hover:bg-gray-50 rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                                    <i class="fas fa-key mr-1"></i> API Keys
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-4 flex items-center md:ml-6">
+                            <button type="button" class="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+                                <span class="sr-only">View notifications</span>
+                                <i class="fas fa-bell"></i>
+                            </button>
+                            <div class="ml-3 relative">
+                                <a href="/docs" class="text-gray-700 hover:text-primary-600 text-sm font-medium">
+                                    <i class="fas fa-book mr-1"></i> API Docs
+                                </a>
+                            </div>
+                            <div class="ml-3 relative">
+                                <a href="/logout" class="text-gray-700 hover:text-primary-600 text-sm font-medium">
+                                    <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="-mr-2 flex md:hidden">
+                        <button type="button" class="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2" id="mobile-menu-button">
+                            <span class="sr-only">Open main menu</span>
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile menu -->
+            <div class="md:hidden hidden" id="mobile-menu">
+                <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
+                    <a href="/dashboard" class="bg-primary-50 text-primary-700 block rounded-md px-3 py-2 text-base font-medium">
+                        <i class="fas fa-chart-line mr-1"></i> Dashboard
+                    </a>
+                    <a href="/companies" class="text-gray-700 hover:bg-gray-50 block rounded-md px-3 py-2 text-base font-medium">
+                        <i class="fas fa-building mr-1"></i> Companies
+                    </a>
+                    <a href="/branches" class="text-gray-700 hover:bg-gray-50 block rounded-md px-3 py-2 text-base font-medium">
+                        <i class="fas fa-code-branch mr-1"></i> Branches
+                    </a>
+                    <a href="/divisions" class="text-gray-700 hover:bg-gray-50 block rounded-md px-3 py-2 text-base font-medium">
+                        <i class="fas fa-sitemap mr-1"></i> Divisions
+                    </a>
+                    <a href="/departments" class="text-gray-700 hover:bg-gray-50 block rounded-md px-3 py-2 text-base font-medium">
+                        <i class="fas fa-users mr-1"></i> Departments
+                    </a>
+                    <a href="/api-keys" class="text-gray-700 hover:bg-gray-50 block rounded-md px-3 py-2 text-base font-medium">
+                        <i class="fas fa-key mr-1"></i> API Keys
+                    </a>
+                    <hr class="my-2 border-gray-200">
+                    <a href="/logout" class="text-gray-700 hover:bg-gray-50 block rounded-md px-3 py-2 text-base font-medium">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="py-8">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <!-- Welcome Section -->
+                <div class="bg-white overflow-hidden shadow-sm rounded-lg">
+                    <div class="p-6 bg-gradient-to-r from-primary-500 to-primary-600">
+                        <h1 class="text-3xl font-bold text-white">
+                            Welcome to Organization Management System
+                        </h1>
+                        <p class="mt-2 text-primary-100">
+                            Manage your organization structure efficiently
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Statistics Cards -->
+                <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                    <!-- Companies Card -->
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="p-5">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-building text-3xl text-primary-500"></i>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt class="text-sm font-medium text-gray-500 truncate">
+                                            Total Companies
+                                        </dt>
+                                        <dd class="text-lg font-semibold text-gray-900">
+                                            <%= typeof stats !== 'undefined' && stats.companies || 0 %>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 px-5 py-3">
+                            <div class="text-sm">
+                                <a href="/companies" class="font-medium text-primary-600 hover:text-primary-500">
+                                    View all <span aria-hidden="true">&rarr;</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Branches Card -->
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="p-5">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-code-branch text-3xl text-success-500"></i>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt class="text-sm font-medium text-gray-500 truncate">
+                                            Total Branches
+                                        </dt>
+                                        <dd class="text-lg font-semibold text-gray-900">
+                                            <%= typeof stats !== 'undefined' && stats.branches || 0 %>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 px-5 py-3">
+                            <div class="text-sm">
+                                <a href="/branches" class="font-medium text-primary-600 hover:text-primary-500">
+                                    View all <span aria-hidden="true">&rarr;</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Divisions Card -->
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="p-5">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-sitemap text-3xl text-yellow-500"></i>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt class="text-sm font-medium text-gray-500 truncate">
+                                            Total Divisions
+                                        </dt>
+                                        <dd class="text-lg font-semibold text-gray-900">
+                                            <%= typeof stats !== 'undefined' && stats.divisions || 0 %>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 px-5 py-3">
+                            <div class="text-sm">
+                                <a href="/divisions" class="font-medium text-primary-600 hover:text-primary-500">
+                                    View all <span aria-hidden="true">&rarr;</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Departments Card -->
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="p-5">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-users text-3xl text-purple-500"></i>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt class="text-sm font-medium text-gray-500 truncate">
+                                            Total Departments
+                                        </dt>
+                                        <dd class="text-lg font-semibold text-gray-900">
+                                            <%= typeof stats !== 'undefined' && stats.departments || 0 %>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 px-5 py-3">
+                            <div class="text-sm">
+                                <a href="/departments" class="font-medium text-primary-600 hover:text-primary-500">
+                                    View all <span aria-hidden="true">&rarr;</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity & Quick Actions -->
+                <div class="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-2">
+                    <!-- Quick Actions -->
+                    <div class="bg-white shadow rounded-lg">
+                        <div class="px-4 py-5 sm:p-6">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                Quick Actions
+                            </h3>
+                            <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                <a href="/companies/new" class="inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    Add Company
+                                </a>
+                                <a href="/branches/new" class="inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-success-600 hover:bg-success-700">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    Add Branch
+                                </a>
+                                <a href="/divisions/new" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    Add Division
+                                </a>
+                                <a href="/departments/new" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                    <i class="fas fa-plus mr-2"></i>
+                                    Add Department
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- API Usage -->
+                    <div class="bg-white shadow rounded-lg">
+                        <div class="px-4 py-5 sm:p-6">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                                API Usage (Last 30 Days)
+                            </h3>
+                            <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+                                <div>
+                                    <dt class="text-sm font-medium text-gray-500">
+                                        Total API Calls
+                                    </dt>
+                                    <dd class="mt-1 text-3xl font-semibold text-gray-900">
+                                        <%= typeof apiStats !== 'undefined' && apiStats.totalCalls || 0 %>
+                                    </dd>
+                                </div>
+                                <div>
+                                    <dt class="text-sm font-medium text-gray-500">
+                                        Active API Keys
+                                    </dt>
+                                    <dd class="mt-1 text-3xl font-semibold text-gray-900">
+                                        <%= typeof apiStats !== 'undefined' && apiStats.activeKeys || 0 %>
+                                    </dd>
+                                </div>
+                            </dl>
+                            <div class="mt-5">
+                                <a href="/api-keys" class="text-sm font-medium text-primary-600 hover:text-primary-500">
+                                    Manage API Keys <span aria-hidden="true">&rarr;</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="bg-white border-t border-gray-200 mt-auto">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="py-4 text-center text-sm text-gray-500">
+                    <p>&copy; <%= new Date().getFullYear() %> Organization Management System. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Main JavaScript -->
+    <script src="/js/main.js"></script>
+    
+    <!-- Page specific scripts -->
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

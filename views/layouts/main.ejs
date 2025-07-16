@@ -1,0 +1,193 @@
+<!-- Path: /views/layouts/main.ejs -->
+<!DOCTYPE html>
+<html lang="th" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Organization Structure Management System">
+    <meta name="csrf-token" content="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+    
+    <title><%= typeof title !== 'undefined' ? title + ' - ' : '' %>Organization Management</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': {
+                            50: '#E6F4FB',
+                            100: '#CCE9F7',
+                            200: '#99D3EE',
+                            300: '#66BDE6',
+                            400: '#33A6DD',
+                            500: '#0090D3',
+                            600: '#0073A9',
+                            700: '#00567F',
+                            800: '#003A54',
+                            900: '#001D2A',
+                        },
+                        'success': {
+                            50: '#E8F5E7',
+                            100: '#D1EBCF',
+                            200: '#A3D79F',
+                            300: '#75C36F',
+                            400: '#47AF3F',
+                            500: '#3AAA35',
+                            600: '#2E882A',
+                            700: '#22661F',
+                            800: '#164415',
+                            900: '#0B220A',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="h-full bg-gray-50 custom-scrollbar">
+    <div class="min-h-full">
+        <!-- Navigation -->
+        <nav class="bg-white shadow-sm border-b border-gray-200">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="flex h-16 items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <h1 class="text-xl font-bold text-primary-600">
+                                <i class="fas fa-building mr-2"></i>
+                                Organization Management
+                            </h1>
+                        </div>
+                        <div class="hidden md:block">
+                            <div class="ml-10 flex items-baseline space-x-4">
+                                <a href="/dashboard" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                                    <i class="fas fa-chart-line mr-1"></i> Dashboard
+                                </a>
+                                <a href="/companies" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'companies' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                                    <i class="fas fa-building mr-1"></i> Companies
+                                </a>
+                                <a href="/branches" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'branches' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                                    <i class="fas fa-code-branch mr-1"></i> Branches
+                                </a>
+                                <a href="/divisions" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'divisions' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                                    <i class="fas fa-sitemap mr-1"></i> Divisions
+                                </a>
+                                <a href="/departments" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'departments' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                                    <i class="fas fa-users mr-1"></i> Departments
+                                </a>
+                                <a href="/api-keys" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                                    <i class="fas fa-key mr-1"></i> API Keys
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-4 flex items-center md:ml-6">
+                            <button type="button" class="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+                                <span class="sr-only">View notifications</span>
+                                <i class="fas fa-bell"></i>
+                            </button>
+                            <div class="ml-3 relative">
+                                <a href="/docs" class="text-gray-700 hover:text-primary-600 text-sm font-medium">
+                                    <i class="fas fa-book mr-1"></i> API Docs
+                                </a>
+                            </div>
+                            <div class="ml-3 relative">
+                                <a href="/logout" class="text-gray-700 hover:text-primary-600 text-sm font-medium">
+                                    <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="-mr-2 flex md:hidden">
+                        <button type="button" class="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2" id="mobile-menu-button">
+                            <span class="sr-only">Open main menu</span>
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile menu -->
+            <div class="md:hidden hidden" id="mobile-menu">
+                <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
+                    <a href="/dashboard" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> block rounded-md px-3 py-2 text-base font-medium">
+                        <i class="fas fa-chart-line mr-1"></i> Dashboard
+                    </a>
+                    <a href="/companies" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'companies' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> block rounded-md px-3 py-2 text-base font-medium">
+                        <i class="fas fa-building mr-1"></i> Companies
+                    </a>
+                    <a href="/branches" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'branches' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> block rounded-md px-3 py-2 text-base font-medium">
+                        <i class="fas fa-code-branch mr-1"></i> Branches
+                    </a>
+                    <a href="/divisions" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'divisions' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> block rounded-md px-3 py-2 text-base font-medium">
+                        <i class="fas fa-sitemap mr-1"></i> Divisions
+                    </a>
+                    <a href="/departments" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'departments' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> block rounded-md px-3 py-2 text-base font-medium">
+                        <i class="fas fa-users mr-1"></i> Departments
+                    </a>
+                    <a href="/api-keys" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> block rounded-md px-3 py-2 text-base font-medium">
+                        <i class="fas fa-key mr-1"></i> API Keys
+                    </a>
+                    <hr class="my-2 border-gray-200">
+                    <a href="/logout" class="text-gray-700 hover:bg-gray-50 block rounded-md px-3 py-2 text-base font-medium">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Flash Messages -->
+        <% if (typeof success !== 'undefined' && success) { %>
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-4">
+                <div class="alert alert-success animate-fade-in">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    <span><%= success %></span>
+                </div>
+            </div>
+        <% } %>
+        
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-4">
+                <div class="alert alert-error animate-fade-in">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    <span><%= error %></span>
+                </div>
+            </div>
+        <% } %>
+        
+        <!-- Main Content -->
+        <main class="py-8">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <%- content %>
+            </div>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="bg-white border-t border-gray-200 mt-auto">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="py-4 text-center text-sm text-gray-500">
+                    <p>&copy; <%= new Date().getFullYear() %> Organization Management System. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Main JavaScript -->
+    <script src="/js/main.js"></script>
+    
+    <!-- Mobile menu toggle -->
+    <script>
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

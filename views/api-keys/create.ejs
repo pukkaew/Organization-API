@@ -1,0 +1,186 @@
+<!-- Path: /views/api-keys/create.ejs -->
+<%- include('../layouts/main', { 
+    title: 'Create API Key',
+    activeMenu: 'api-keys',
+    body: ` 
+    <div class="max-w-3xl mx-auto">
+        <div class="bg-white shadow-sm rounded-lg">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-semibold text-gray-900">Create API Key</h2>
+                    <a href="/api-keys" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <form method="post" action="/api-keys" class="p-6">
+                <% if (typeof csrfToken !== 'undefined') { %>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <% } %>
+                
+                <div class="space-y-6">
+                    <!-- Application Name -->
+                    <div>
+                        <label for="app_name" class="form-label">
+                            Application Name <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" 
+                               id="app_name" 
+                               name="app_name" 
+                               required
+                               maxlength="100"
+                               class="form-input"
+                               placeholder="e.g., Mobile App, Web Portal">
+                        <p class="mt-1 text-sm text-gray-500">
+                            A descriptive name for the application using this API key
+                        </p>
+                    </div>
+                    
+                    <!-- Description -->
+                    <div>
+                        <label for="description" class="form-label">
+                            Description
+                        </label>
+                        <textarea id="description" 
+                                  name="description" 
+                                  rows="3"
+                                  maxlength="500"
+                                  class="form-input"
+                                  placeholder="Optional description of what this API key is used for"></textarea>
+                    </div>
+                    
+                    <!-- Permissions -->
+                    <div>
+                        <label class="form-label">
+                            Permissions <span class="text-red-500">*</span>
+                        </label>
+                        <div class="mt-2 space-y-4">
+                            <label class="flex items-start">
+                                <input type="radio" 
+                                       name="permissions" 
+                                       value="read" 
+                                       required
+                                       class="mt-1 text-primary-600 focus:ring-primary-500">
+                                <div class="ml-3">
+                                    <span class="block text-sm font-medium text-gray-700">Read Only</span>
+                                    <span class="block text-sm text-gray-500">
+                                        Can only view data (GET requests)
+                                    </span>
+                                </div>
+                            </label>
+                            
+                            <label class="flex items-start">
+                                <input type="radio" 
+                                       name="permissions" 
+                                       value="write"
+                                       class="mt-1 text-primary-600 focus:ring-primary-500">
+                                <div class="ml-3">
+                                    <span class="block text-sm font-medium text-gray-700">Write Only</span>
+                                    <span class="block text-sm text-gray-500">
+                                        Can only create/update/delete data (POST, PUT, DELETE requests)
+                                    </span>
+                                </div>
+                            </label>
+                            
+                            <label class="flex items-start">
+                                <input type="radio" 
+                                       name="permissions" 
+                                       value="read_write"
+                                       checked
+                                       class="mt-1 text-primary-600 focus:ring-primary-500">
+                                <div class="ml-3">
+                                    <span class="block text-sm font-medium text-gray-700">Read & Write</span>
+                                    <span class="block text-sm text-gray-500">
+                                        Full access to all API endpoints
+                                    </span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Expiration -->
+                    <div>
+                        <label for="expires_date" class="form-label">
+                            Expiration Date
+                        </label>
+                        <input type="date" 
+                               id="expires_date" 
+                               name="expires_date"
+                               min="<%= new Date().toISOString().split('T')[0] %>"
+                               class="form-input">
+                        <p class="mt-1 text-sm text-gray-500">
+                            Leave empty for no expiration
+                        </p>
+                    </div>
+                    
+                    <!-- Rate Limiting -->
+                    <div>
+                        <label for="rate_limit" class="form-label">
+                            Rate Limit (requests per hour)
+                        </label>
+                        <input type="number" 
+                               id="rate_limit" 
+                               name="rate_limit"
+                               min="1"
+                               max="10000"
+                               value="1000"
+                               class="form-input">
+                        <p class="mt-1 text-sm text-gray-500">
+                            Maximum number of API requests allowed per hour
+                        </p>
+                    </div>
+                    
+                    <!-- IP Whitelist -->
+                    <div>
+                        <label for="ip_whitelist" class="form-label">
+                            IP Whitelist
+                        </label>
+                        <textarea id="ip_whitelist" 
+                                  name="ip_whitelist" 
+                                  rows="3"
+                                  class="form-input"
+                                  placeholder="192.168.1.1&#10;10.0.0.0/24&#10;(one IP or CIDR per line)"></textarea>
+                        <p class="mt-1 text-sm text-gray-500">
+                            Optional: Restrict API key usage to specific IP addresses or ranges
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Form Actions -->
+                <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
+                    <a href="/api-keys" class="btn btn-ghost">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Cancel
+                    </a>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-key mr-2"></i>
+                        Generate API Key
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Security Notice -->
+        <div class="mt-6 bg-yellow-50 rounded-lg p-4 border border-yellow-200">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-shield-alt text-yellow-400 text-lg"></i>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-yellow-800">Security Notice</h3>
+                    <div class="mt-2 text-sm text-yellow-700">
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>The API key will only be shown once after creation</li>
+                            <li>Store the API key securely and never expose it in client-side code</li>
+                            <li>Use HTTPS for all API requests</li>
+                            <li>Rotate API keys regularly for better security</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    ` 
+}) %>

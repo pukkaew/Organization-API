@@ -1,0 +1,162 @@
+/* Path: /public/css/style.css */
+
+/* Import Tailwind CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Custom utility classes using Tailwind's @layer directive */
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  /* Custom scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-gray-100 rounded;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-ruxchai-blue-500 rounded transition-colors hover:bg-ruxchai-blue-600;
+  }
+}
+
+/* Component classes */
+@layer components {
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-primary {
+    @apply bg-ruxchai-blue-500 text-white hover:bg-ruxchai-blue-600 focus:ring-ruxchai-blue-500;
+  }
+  
+  .btn-secondary {
+    @apply bg-ruxchai-green-500 text-white hover:bg-ruxchai-green-600 focus:ring-ruxchai-green-500;
+  }
+  
+  .btn-outline {
+    @apply bg-transparent border-2 border-ruxchai-blue-500 text-ruxchai-blue-500 hover:bg-ruxchai-blue-500 hover:text-white focus:ring-ruxchai-blue-500;
+  }
+  
+  .btn-ghost {
+    @apply bg-transparent text-gray-700 hover:bg-gray-100 focus:ring-gray-300;
+  }
+  
+  .btn-danger {
+    @apply bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+  }
+  
+  /* Form elements */
+  .form-input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-blue-500 focus:border-ruxchai-blue-500 transition-colors;
+  }
+  
+  .form-label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+  }
+  
+  .form-error {
+    @apply mt-1 text-sm text-red-600;
+  }
+  
+  /* Cards */
+  .card {
+    @apply bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200;
+  }
+  
+  .card-header {
+    @apply px-6 py-4 border-b border-gray-200;
+  }
+  
+  .card-body {
+    @apply px-6 py-4;
+  }
+  
+  /* Tables */
+  .table-responsive {
+    @apply -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8;
+  }
+  
+  .table-wrapper {
+    @apply inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8;
+  }
+  
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .badge-primary {
+    @apply bg-ruxchai-blue-100 text-ruxchai-blue-800;
+  }
+  
+  .badge-success {
+    @apply bg-ruxchai-green-100 text-ruxchai-green-800;
+  }
+  
+  .badge-warning {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+  
+  .badge-danger {
+    @apply bg-red-100 text-red-800;
+  }
+  
+  .badge-gray {
+    @apply bg-gray-100 text-gray-800;
+  }
+  
+  /* Status indicators */
+  .status-dot {
+    @apply w-2 h-2 rounded-full;
+  }
+  
+  /* Alerts */
+  .alert {
+    @apply p-4 rounded-lg mb-4 flex items-start;
+  }
+  
+  .alert-success {
+    @apply bg-ruxchai-green-50 text-ruxchai-green-800 border border-ruxchai-green-200;
+  }
+  
+  .alert-error {
+    @apply bg-red-50 text-red-800 border border-red-200;
+  }
+  
+  .alert-warning {
+    @apply bg-yellow-50 text-yellow-800 border border-yellow-200;
+  }
+  
+  .alert-info {
+    @apply bg-ruxchai-blue-50 text-ruxchai-blue-800 border border-ruxchai-blue-200;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    @apply text-black bg-white;
+  }
+}
