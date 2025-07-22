@@ -1,232 +1,235 @@
 <!-- Path: /views/branches/index.ejs -->
-<%- include('../layouts/main', { 
-    title: 'Branches',
-    activeMenu: 'branches',
-    body: `
-    <div class="space-y-6">
-        <!-- Page Header -->
-        <div class="bg-white shadow-sm rounded-lg p-6">
-            <div class="sm:flex sm:items-center sm:justify-between">
-                <div>
-                    <h1 class="text-2xl font-bold text-gray-900">Branches</h1>
-                    <p class="mt-2 text-sm text-gray-700">Manage all branches across your organization</p>
-                </div>
-                <div class="mt-4 sm:mt-0">
-                    <a href="/branches/new" class="btn btn-primary">
-                        <i class="fas fa-plus mr-2"></i>
-                        Add New Branch
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Filters Section -->
-        <div class="bg-white shadow-sm rounded-lg p-6">
-            <h2 class="text-lg font-medium text-gray-900 mb-4">
-                <i class="fas fa-filter mr-2"></i>Filters
-            </h2>
-            <form method="get" action="/branches" class="grid grid-cols-1 gap-4 sm:grid-cols-4">
-                <div>
-                    <label for="search" class="form-label">Search</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fas fa-search text-gray-400"></i>
-                        </div>
-                        <input type="text" 
-                               name="search" 
-                               id="search" 
-                               value="<%= typeof query !== 'undefined' && query.search || '' %>"
-                               placeholder="Search by code or name..."
-                               class="form-input pl-10">
+<%- include('../partials/header', { title: 'Branches' }) %>
+<%- include('../partials/navigation', { activeMenu: 'branches' }) %>
+
+<main class="py-8">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="space-y-6">
+            <!-- Page Header -->
+            <div class="bg-white shadow-sm rounded-lg p-6">
+                <div class="sm:flex sm:items-center sm:justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">Branches</h1>
+                        <p class="mt-2 text-sm text-gray-700">Manage all branches across your organization</p>
+                    </div>
+                    <div class="mt-4 sm:mt-0">
+                        <a href="/branches/new" class="btn btn-primary">
+                            <i class="fas fa-plus mr-2"></i>
+                            Add New Branch
+                        </a>
                     </div>
                 </div>
-                
-                <div>
-                    <label for="company_code" class="form-label">Company</label>
-                    <select name="company_code" id="company_code" class="form-input">
-                        <option value="">All Companies</option>
-                        <% if (typeof companies !== 'undefined' && companies) { %>
-                            <% companies.forEach(function(company) { %>
-                                <option value="<%= company.company_code %>" 
-                                        <%= typeof query !== 'undefined' && query.company_code === company.company_code ? 'selected' : '' %>>
-                                    <%= company.company_name_th %>
-                                </option>
-                            <% }); %>
-                        <% } %>
-                    </select>
-                </div>
-                
-                <div>
-                    <label for="is_headquarters" class="form-label">Type</label>
-                    <select name="is_headquarters" id="is_headquarters" class="form-input">
-                        <option value="">All Types</option>
-                        <option value="true" <%= typeof query !== 'undefined' && query.is_headquarters === 'true' ? 'selected' : '' %>>Headquarters</option>
-                        <option value="false" <%= typeof query !== 'undefined' && query.is_headquarters === 'false' ? 'selected' : '' %>>Branch</option>
-                    </select>
-                </div>
-                
-                <div>
-                    <label for="is_active" class="form-label">Status</label>
-                    <select name="is_active" id="is_active" class="form-input">
-                        <option value="">All Status</option>
-                        <option value="true" <%= typeof query !== 'undefined' && query.is_active === 'true' ? 'selected' : '' %>>Active</option>
-                        <option value="false" <%= typeof query !== 'undefined' && query.is_active === 'false' ? 'selected' : '' %>>Inactive</option>
-                    </select>
-                </div>
-                
-                <div class="sm:col-span-4 flex justify-end">
-                    <button type="submit" class="btn btn-ghost">
-                        <i class="fas fa-search mr-2"></i>
-                        Apply Filters
-                    </button>
-                </div>
-            </form>
-        </div>
-        
-        <!-- Branches Table -->
-        <div class="bg-white shadow-sm rounded-lg overflow-hidden">
-            <div class="table-responsive">
-                <div class="table-wrapper">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Branch Code
-                                </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Branch Name
-                                </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Company
-                                </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Type
-                                </th>
-                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Status
-                                </th>
-                                <th scope="col" class="relative px-6 py-3">
-                                    <span class="sr-only">Actions</span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            <% if (typeof branches !== 'undefined' && branches.length > 0) { %>
-                                <% branches.forEach(function(branch) { %>
-                                    <tr class="hover:bg-gray-50 transition-colors">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-gray-900">
-                                                <%= branch.branch_code %>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">
-                                                <%= branch.branch_name %>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-500">
-                                                <%= branch.company_code %> - <%= branch.company_name %>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <% if (branch.is_headquarters) { %>
-                                                <span class="badge badge-primary">
-                                                    <i class="fas fa-building mr-1"></i>
-                                                    Headquarters
-                                                </span>
-                                            <% } else { %>
-                                                <span class="badge badge-gray">
-                                                    <i class="fas fa-code-branch mr-1"></i>
-                                                    Branch
-                                                </span>
-                                            <% } %>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-center">
-                                            <% if (branch.is_active) { %>
-                                                <span class="badge badge-success">
-                                                    <i class="fas fa-check-circle mr-1"></i>
-                                                    Active
-                                                </span>
-                                            <% } else { %>
-                                                <span class="badge badge-gray">
-                                                    <i class="fas fa-times-circle mr-1"></i>
-                                                    Inactive
-                                                </span>
-                                            <% } %>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a href="/branches/<%= branch.branch_code %>" 
-                                               class="text-primary-600 hover:text-primary-900 mr-3"
-                                               title="View Details">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <a href="/branches/<%= branch.branch_code %>/edit" 
-                                               class="text-success-600 hover:text-success-900 mr-3"
-                                               title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <form action="/branches/<%= branch.branch_code %>/toggle-status" 
-                                                  method="POST" 
-                                                  class="inline">
-                                                <% if (typeof csrfToken !== 'undefined') { %>
-                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            </div>
+            
+            <!-- Filters Section -->
+            <div class="bg-white shadow-sm rounded-lg p-6">
+                <h2 class="text-lg font-medium text-gray-900 mb-4">
+                    <i class="fas fa-filter mr-2"></i>Filters
+                </h2>
+                <form method="get" action="/branches" class="grid grid-cols-1 gap-4 sm:grid-cols-4">
+                    <div>
+                        <label for="search" class="form-label">Search</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-search text-gray-400"></i>
+                            </div>
+                            <input type="text" 
+                                   name="search" 
+                                   id="search" 
+                                   value="<%= typeof query !== 'undefined' && query.search || '' %>"
+                                   placeholder="Search by code or name..."
+                                   class="form-input pl-10">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="company_code" class="form-label">Company</label>
+                        <select name="company_code" id="company_code" class="form-input">
+                            <option value="">All Companies</option>
+                            <% if (typeof companies !== 'undefined' && companies) { %>
+                                <% companies.forEach(function(company) { %>
+                                    <option value="<%= company.company_code %>" 
+                                            <%= typeof query !== 'undefined' && query.company_code === company.company_code ? 'selected' : '' %>>
+                                        <%= company.company_name_th %>
+                                    </option>
+                                <% }); %>
+                            <% } %>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="is_headquarters" class="form-label">Type</label>
+                        <select name="is_headquarters" id="is_headquarters" class="form-input">
+                            <option value="">All Types</option>
+                            <option value="true" <%= typeof query !== 'undefined' && query.is_headquarters === 'true' ? 'selected' : '' %>>Headquarters</option>
+                            <option value="false" <%= typeof query !== 'undefined' && query.is_headquarters === 'false' ? 'selected' : '' %>>Branch</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="is_active" class="form-label">Status</label>
+                        <select name="is_active" id="is_active" class="form-input">
+                            <option value="">All Status</option>
+                            <option value="true" <%= typeof query !== 'undefined' && query.is_active === 'true' ? 'selected' : '' %>>Active</option>
+                            <option value="false" <%= typeof query !== 'undefined' && query.is_active === 'false' ? 'selected' : '' %>>Inactive</option>
+                        </select>
+                    </div>
+                    
+                    <div class="sm:col-span-4 flex justify-end">
+                        <button type="submit" class="btn btn-ghost">
+                            <i class="fas fa-search mr-2"></i>
+                            Apply Filters
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Branches Table -->
+            <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+                <div class="table-responsive">
+                    <div class="table-wrapper">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Branch Code
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Branch Name
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Company
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Type
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Status
+                                    </th>
+                                    <th scope="col" class="relative px-6 py-3">
+                                        <span class="sr-only">Actions</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <% if (typeof branches !== 'undefined' && branches.length > 0) { %>
+                                    <% branches.forEach(function(branch) { %>
+                                        <tr class="hover:bg-gray-50 transition-colors">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm font-medium text-gray-900">
+                                                    <%= branch.branch_code %>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm text-gray-900">
+                                                    <%= branch.branch_name %>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm text-gray-500">
+                                                    <%= branch.company_code %> - <%= branch.company_name %>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <% if (branch.is_headquarters) { %>
+                                                    <span class="badge badge-primary">
+                                                        <i class="fas fa-building mr-1"></i>
+                                                        Headquarters
+                                                    </span>
+                                                <% } else { %>
+                                                    <span class="badge badge-gray">
+                                                        <i class="fas fa-code-branch mr-1"></i>
+                                                        Branch
+                                                    </span>
                                                 <% } %>
-                                                <button type="submit" 
-                                                        class="<%= branch.is_active ? 'text-yellow-600 hover:text-yellow-900' : 'text-success-600 hover:text-success-900' %> mr-3" 
-                                                        title="<%= branch.is_active ? 'Deactivate' : 'Activate' %>"
-                                                        onclick="return confirm('Are you sure you want to <%= branch.is_active ? 'deactivate' : 'activate' %> this branch?')">
-                                                    <i class="fas fa-power-off"></i>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                                <% if (branch.is_active) { %>
+                                                    <span class="badge badge-success">
+                                                        <i class="fas fa-check-circle mr-1"></i>
+                                                        Active
+                                                    </span>
+                                                <% } else { %>
+                                                    <span class="badge badge-gray">
+                                                        <i class="fas fa-times-circle mr-1"></i>
+                                                        Inactive
+                                                    </span>
+                                                <% } %>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                <a href="/branches/<%= branch.branch_code %>" 
+                                                   class="text-primary-600 hover:text-primary-900 mr-3"
+                                                   title="View Details">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="/branches/<%= branch.branch_code %>/edit" 
+                                                   class="text-success-600 hover:text-success-900 mr-3"
+                                                   title="Edit">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <form action="/branches/<%= branch.branch_code %>/toggle-status" 
+                                                      method="POST" 
+                                                      class="inline">
+                                                    <% if (typeof csrfToken !== 'undefined') { %>
+                                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                    <% } %>
+                                                    <button type="submit" 
+                                                            class="<%= branch.is_active ? 'text-yellow-600 hover:text-yellow-900' : 'text-success-600 hover:text-success-900' %> mr-3" 
+                                                            title="<%= branch.is_active ? 'Deactivate' : 'Activate' %>"
+                                                            onclick="return confirm('Are you sure you want to <%= branch.is_active ? 'deactivate' : 'activate' %> this branch?')">
+                                                        <i class="fas fa-power-off"></i>
+                                                    </button>
+                                                </form>
+                                                <button class="text-red-600 hover:text-red-900"
+                                                        title="Delete"
+                                                        onclick="confirmDelete('<%= branch.branch_code %>')">
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
-                                            </form>
-                                            <button class="text-red-600 hover:text-red-900"
-                                                    title="Delete"
-                                                    onclick="confirmDelete('<%= branch.branch_code %>')">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+                                            No branches found.
                                         </td>
                                     </tr>
-                                <% }); %>
-                            <% } else { %>
-                                <tr>
-                                    <td colspan="6" class="px-6 py-4 text-center text-gray-500">
-                                        No branches found.
-                                    </td>
-                                </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+            
+            <!-- Pagination -->
+            <% if (typeof pagination !== 'undefined' && pagination.pages > 1) { %>
+                <%- include('../partials/pagination', { pagination, query }) %>
+            <% } %>
         </div>
-        
-        <!-- Pagination -->
-        <% if (typeof pagination !== 'undefined' && pagination.pages > 1) { %>
-            <%- include('../partials/pagination', { pagination, query }) %>
-        <% } %>
     </div>
-    
-    <script>
-        // Delete confirmation
-        function confirmDelete(branchCode) {
-            if (confirm('Are you sure you want to delete branch ' + branchCode + '?\\n\\nThis action cannot be undone.')) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/branches/' + branchCode + '/delete';
-                
-                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-                if (csrfToken) {
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = '_csrf';
-                    input.value = csrfToken;
-                    form.appendChild(input);
-                }
-                
-                document.body.appendChild(form);
-                form.submit();
+</main>
+
+<script>
+    // Delete confirmation
+    function confirmDelete(branchCode) {
+        if (confirm('Are you sure you want to delete branch ' + branchCode + '?\n\nThis action cannot be undone.')) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/branches/' + branchCode + '/delete';
+            
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+            if (csrfToken) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = '_csrf';
+                input.value = csrfToken;
+                form.appendChild(input);
             }
+            
+            document.body.appendChild(form);
+            form.submit();
         }
-    </script>
-    `
-}) %>
+    }
+</script>
+
+<%- include('../partials/footer') %>
