@@ -45,9 +45,19 @@
                         </a>
                     </div>
                     <div class="ml-3 relative">
-                        <a href="/logout" class="text-gray-700 hover:text-primary-600 text-sm font-medium">
-                            <i class="fas fa-sign-out-alt mr-1"></i> Logout
-                        </a>
+                        <% if (typeof user !== 'undefined' && user) { %>
+                            <div class="flex items-center text-sm text-gray-700">
+                                <i class="fas fa-user-circle mr-2"></i>
+                                <span class="mr-3"><%= user.username || 'User' %></span>
+                                <a href="/logout" class="text-gray-700 hover:text-primary-600 text-sm font-medium">
+                                    <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                                </a>
+                            </div>
+                        <% } else { %>
+                            <a href="/logout" class="text-gray-700 hover:text-primary-600 text-sm font-medium">
+                                <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                            </a>
+                        <% } %>
                     </div>
                 </div>
             </div>
@@ -81,7 +91,16 @@
             <a href="/api-keys" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> block rounded-md px-3 py-2 text-base font-medium">
                 <i class="fas fa-key mr-1"></i> API Keys
             </a>
+            <a href="/docs" class="text-gray-700 hover:bg-gray-50 block rounded-md px-3 py-2 text-base font-medium">
+                <i class="fas fa-book mr-1"></i> API Docs
+            </a>
             <hr class="my-2 border-gray-200">
+            <% if (typeof user !== 'undefined' && user) { %>
+                <div class="px-3 py-2 text-sm text-gray-500">
+                    <i class="fas fa-user-circle mr-2"></i>
+                    <%= user.username || 'User' %>
+                </div>
+            <% } %>
             <a href="/logout" class="text-gray-700 hover:bg-gray-50 block rounded-md px-3 py-2 text-base font-medium">
                 <i class="fas fa-sign-out-alt mr-1"></i> Logout
             </a>
@@ -92,18 +111,52 @@
 <!-- Flash Messages -->
 <% if (typeof success !== 'undefined' && success) { %>
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-4">
-        <div class="alert alert-success animate-fade-in">
+        <div class="alert alert-success animate-fade-in" role="alert">
             <i class="fas fa-check-circle mr-2"></i>
             <span><%= success %></span>
+            <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8" onclick="this.parentElement.parentElement.remove()">
+                <span class="sr-only">Close</span>
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     </div>
 <% } %>
 
 <% if (typeof error !== 'undefined' && error) { %>
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-4">
-        <div class="alert alert-error animate-fade-in">
+        <div class="alert alert-error animate-fade-in" role="alert">
             <i class="fas fa-exclamation-circle mr-2"></i>
             <span><%= error %></span>
+            <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8" onclick="this.parentElement.parentElement.remove()">
+                <span class="sr-only">Close</span>
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+<% } %>
+
+<% if (typeof warning !== 'undefined' && warning) { %>
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-4">
+        <div class="alert alert-warning animate-fade-in" role="alert">
+            <i class="fas fa-exclamation-triangle mr-2"></i>
+            <span><%= warning %></span>
+            <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-yellow-50 text-yellow-500 rounded-lg focus:ring-2 focus:ring-yellow-400 p-1.5 hover:bg-yellow-200 inline-flex h-8 w-8" onclick="this.parentElement.parentElement.remove()">
+                <span class="sr-only">Close</span>
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+<% } %>
+
+<% if (typeof info !== 'undefined' && info) { %>
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-4">
+        <div class="alert alert-info animate-fade-in" role="alert">
+            <i class="fas fa-info-circle mr-2"></i>
+            <span><%= info %></span>
+            <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-blue-50 text-blue-500 rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5 hover:bg-blue-200 inline-flex h-8 w-8" onclick="this.parentElement.parentElement.remove()">
+                <span class="sr-only">Close</span>
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     </div>
 <% } %>

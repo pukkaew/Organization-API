@@ -4,6 +4,11 @@
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="py-4 text-center text-sm text-gray-500">
                     <p>&copy; <%= new Date().getFullYear() %> Organization Management System. All rights reserved.</p>
+                    <p class="mt-1">
+                        <a href="/docs" class="text-primary-600 hover:text-primary-700">API Documentation</a>
+                        <span class="mx-2">|</span>
+                        <a href="mailto:support@orgmanagement.com" class="text-primary-600 hover:text-primary-700">Support</a>
+                    </p>
                 </div>
             </div>
         </footer>
@@ -17,6 +22,23 @@
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         });
+        
+        // Auto-hide flash messages after 5 seconds
+        setTimeout(function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                alert.style.opacity = '0';
+                alert.style.transition = 'opacity 0.5s ease-in-out';
+                setTimeout(function() {
+                    alert.remove();
+                }, 500);
+            });
+        }, 5000);
     </script>
+    
+    <!-- Page specific scripts can be added here via a variable -->
+    <% if (typeof pageScripts !== 'undefined') { %>
+        <%- pageScripts %>
+    <% } %>
 </body>
 </html>

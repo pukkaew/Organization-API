@@ -3,7 +3,7 @@
 <%- include('../partials/navigation', { activeMenu: 'dashboard' }) %>
 
 <!-- Main Content -->
-<main class="py-8">
+<main class="flex-1 py-8">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <!-- Welcome Section -->
         <div class="bg-white overflow-hidden shadow-sm rounded-lg">
@@ -32,7 +32,7 @@
                                     Total Companies
                                 </dt>
                                 <dd class="text-lg font-semibold text-gray-900">
-                                    <%= typeof stats !== 'undefined' ? stats.companies : 0 %>
+                                    <%= typeof stats !== 'undefined' && stats.companies ? stats.companies : 0 %>
                                 </dd>
                             </dl>
                         </div>
@@ -60,7 +60,7 @@
                                     Total Branches
                                 </dt>
                                 <dd class="text-lg font-semibold text-gray-900">
-                                    <%= typeof stats !== 'undefined' ? stats.branches : 0 %>
+                                    <%= typeof stats !== 'undefined' && stats.branches ? stats.branches : 0 %>
                                 </dd>
                             </dl>
                         </div>
@@ -88,7 +88,7 @@
                                     Total Divisions
                                 </dt>
                                 <dd class="text-lg font-semibold text-gray-900">
-                                    <%= typeof stats !== 'undefined' ? stats.divisions : 0 %>
+                                    <%= typeof stats !== 'undefined' && stats.divisions ? stats.divisions : 0 %>
                                 </dd>
                             </dl>
                         </div>
@@ -116,7 +116,7 @@
                                     Total Departments
                                 </dt>
                                 <dd class="text-lg font-semibold text-gray-900">
-                                    <%= typeof stats !== 'undefined' ? stats.departments : 0 %>
+                                    <%= typeof stats !== 'undefined' && stats.departments ? stats.departments : 0 %>
                                 </dd>
                             </dl>
                         </div>
@@ -141,19 +141,19 @@
                         Quick Actions
                     </h3>
                     <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                        <a href="/companies/new" class="inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700">
+                        <a href="/companies/new" class="inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
                             <i class="fas fa-plus mr-2"></i>
                             Add Company
                         </a>
-                        <a href="/branches/new" class="inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-success-600 hover:bg-success-700">
+                        <a href="/branches/new" class="inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-success-600 hover:bg-success-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-success-500">
                             <i class="fas fa-plus mr-2"></i>
                             Add Branch
                         </a>
-                        <a href="/divisions/new" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                        <a href="/divisions/new" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                             <i class="fas fa-plus mr-2"></i>
                             Add Division
                         </a>
-                        <a href="/departments/new" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                        <a href="/departments/new" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                             <i class="fas fa-plus mr-2"></i>
                             Add Department
                         </a>
@@ -173,7 +173,7 @@
                                 Total API Calls
                             </dt>
                             <dd class="mt-1 text-3xl font-semibold text-gray-900">
-                                <%= typeof apiStats !== 'undefined' ? apiStats.totalCalls : 0 %>
+                                <%= typeof apiStats !== 'undefined' && apiStats.totalCalls ? apiStats.totalCalls.toLocaleString() : 0 %>
                             </dd>
                         </div>
                         <div>
@@ -181,7 +181,7 @@
                                 Active API Keys
                             </dt>
                             <dd class="mt-1 text-3xl font-semibold text-gray-900">
-                                <%= typeof apiStats !== 'undefined' ? apiStats.activeKeys : 0 %>
+                                <%= typeof apiStats !== 'undefined' && apiStats.activeKeys ? apiStats.activeKeys : 0 %>
                             </dd>
                         </div>
                     </dl>
@@ -193,6 +193,54 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Recent Activities (Optional) -->
+        <% if (typeof recentActivities !== 'undefined' && recentActivities && recentActivities.length > 0) { %>
+            <div class="mt-8">
+                <div class="bg-white shadow rounded-lg">
+                    <div class="px-4 py-5 sm:p-6">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">
+                            Recent Activities
+                        </h3>
+                        <div class="flow-root">
+                            <ul class="-mb-8">
+                                <% recentActivities.forEach((activity, index) => { %>
+                                    <li>
+                                        <div class="relative pb-8">
+                                            <% if (index !== recentActivities.length - 1) { %>
+                                                <span class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                            <% } %>
+                                            <div class="relative flex space-x-3">
+                                                <div>
+                                                    <span class="h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white 
+                                                        <%= activity.type === 'create' ? 'bg-green-500' : 
+                                                            activity.type === 'update' ? 'bg-blue-500' : 
+                                                            activity.type === 'delete' ? 'bg-red-500' : 'bg-gray-500' %>">
+                                                        <i class="fas fa-<%= activity.type === 'create' ? 'plus' : 
+                                                            activity.type === 'update' ? 'edit' : 
+                                                            activity.type === 'delete' ? 'trash' : 'info' %> text-white text-xs"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                                                    <div>
+                                                        <p class="text-sm text-gray-900">
+                                                            <%= activity.description %>
+                                                        </p>
+                                                    </div>
+                                                    <div class="text-right text-sm whitespace-nowrap text-gray-500">
+                                                        <%= new Date(activity.created_at).toRelativeTime() %>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
     </div>
 </main>
 
