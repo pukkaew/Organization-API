@@ -202,73 +202,71 @@
             
             <!-- Pagination -->
             <% if (typeof pagination !== 'undefined' && pagination.pages > 1) { %>
-                <%- include('../partials/pagination', { pagination, query }) %>
+                <%- include('../partials/pagination', { pagination, query: typeof query !== 'undefined' ? query : {} }) %>
             <% } %>
         </div>
     </div>
 </main>
 
-<%- include('../partials/footer', {
-    pageScripts: `
-    <script>
-        // Delete confirmation
-        function confirmDelete(departmentCode) {
-            if (confirm('Are you sure you want to delete department ' + departmentCode + '?\\n\\nThis action cannot be undone.')) {
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/departments/' + departmentCode + '/delete';
-                
-                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-                if (csrfToken) {
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = '_csrf';
-                    input.value = csrfToken;
-                    form.appendChild(input);
-                }
-                
-                document.body.appendChild(form);
-                form.submit();
-            }
-        }
-        
-        // Dynamic division loading based on company selection
-        document.getElementById('company_code').addEventListener('change', function() {
-            const companyCode = this.value;
-            const divisionSelect = document.getElementById('division_code');
-            const currentDivision = '<%= typeof query !== "undefined" && query.division_code || "" %>';
+<script>
+    // Delete confirmation
+    function confirmDelete(departmentCode) {
+        if (confirm('Are you sure you want to delete department ' + departmentCode + '?\n\nThis action cannot be undone.')) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/departments/' + departmentCode + '/delete';
             
-            // Clear existing options
-            divisionSelect.innerHTML = '<option value="">All Divisions</option>';
-            
-            if (companyCode) {
-                // Fetch divisions for selected company
-                fetch('/api/companies/' + companyCode + '/divisions')
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success && data.data) {
-                            data.data.forEach(division => {
-                                const option = document.createElement('option');
-                                option.value = division.division_code;
-                                option.textContent = division.division_code + ' - ' + division.division_name;
-                                
-                                // Restore selection if it matches
-                                if (division.division_code === currentDivision) {
-                                    option.selected = true;
-                                }
-                                
-                                divisionSelect.appendChild(option);
-                            });
-                        }
-                    })
-                    .catch(error => console.error('Error loading divisions:', error));
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+            if (csrfToken) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = '_csrf';
+                input.value = csrfToken;
+                form.appendChild(input);
             }
-        });
-        
-        // Trigger change event on page load if company is pre-selected
-        if (document.getElementById('company_code').value) {
-            document.getElementById('company_code').dispatchEvent(new Event('change'));
+            
+            document.body.appendChild(form);
+            form.submit();
         }
-    </script>
-    `
-}) %>
+    }
+    
+    // Dynamic division loading based on company selection
+    document.getElementById('company_code').addEventListener('change', function() {
+        const companyCode = this.value;
+        const divisionSelect = document.getElementById('division_code');
+        const currentDivision = '<%= typeof query !== "undefined" && query.division_code || "" %>';
+        
+        // Clear existing options
+        divisionSelect.innerHTML = '<option value="">All Divisions</option>';
+        
+        if (companyCode) {
+            // Fetch divisions for selected company
+            fetch('/api/companies/' + companyCode + '/divisions')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.data) {
+                        data.data.forEach(division => {
+                            const option = document.createElement('option');
+                            option.value = division.division_code;
+                            option.textContent = division.division_code + ' - ' + division.division_name;
+                            
+                            // Restore selection if it matches
+                            if (division.division_code === currentDivision) {
+                                option.selected = true;
+                            }
+                            
+                            divisionSelect.appendChild(option);
+                        });
+                    }
+                })
+                .catch(error => console.error('Error loading divisions:', error));
+        }
+    });
+    
+    // Trigger change event on page load if company is pre-selected
+    if (document.getElementById('company_code').value) {
+        document.getElementById('company_code').dispatchEvent(new Event('change'));
+    }
+</script>
+
+<%- include('../partials/footer') %>

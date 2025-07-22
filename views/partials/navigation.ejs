@@ -12,7 +12,7 @@
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="/dashboard" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                        <a href="/" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> rounded-md px-3 py-2 text-sm font-medium transition-colors">
                             <i class="fas fa-chart-line mr-1"></i> Dashboard
                         </a>
                         <a href="/companies" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'companies' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> rounded-md px-3 py-2 text-sm font-medium transition-colors">
@@ -73,7 +73,7 @@
     <!-- Mobile menu -->
     <div class="md:hidden hidden" id="mobile-menu">
         <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-            <a href="/dashboard" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> block rounded-md px-3 py-2 text-base font-medium">
+            <a href="/" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> block rounded-md px-3 py-2 text-base font-medium">
                 <i class="fas fa-chart-line mr-1"></i> Dashboard
             </a>
             <a href="/companies" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'companies' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> block rounded-md px-3 py-2 text-base font-medium">
