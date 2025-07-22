@@ -2,7 +2,8 @@
 <%- include('../partials/header', { title: 'Branches' }) %>
 <%- include('../partials/navigation', { activeMenu: 'branches' }) %>
 
-<main class="py-8">
+<!-- Main Content -->
+<main class="flex-1 py-8">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="space-y-6">
             <!-- Page Header -->
@@ -167,19 +168,6 @@
                                                    title="Edit">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <form action="/branches/<%= branch.branch_code %>/toggle-status" 
-                                                      method="POST" 
-                                                      class="inline">
-                                                    <% if (typeof csrfToken !== 'undefined') { %>
-                                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                                    <% } %>
-                                                    <button type="submit" 
-                                                            class="<%= branch.is_active ? 'text-yellow-600 hover:text-yellow-900' : 'text-success-600 hover:text-success-900' %> mr-3" 
-                                                            title="<%= branch.is_active ? 'Deactivate' : 'Activate' %>"
-                                                            onclick="return confirm('Are you sure you want to <%= branch.is_active ? 'deactivate' : 'activate' %> this branch?')">
-                                                        <i class="fas fa-power-off"></i>
-                                                    </button>
-                                                </form>
                                                 <button class="text-red-600 hover:text-red-900"
                                                         title="Delete"
                                                         onclick="confirmDelete('<%= branch.branch_code %>')">
@@ -203,11 +191,13 @@
             
             <!-- Pagination -->
             <% if (typeof pagination !== 'undefined' && pagination.pages > 1) { %>
-                <%- include('../partials/pagination', { pagination, query }) %>
+                <%- include('../partials/pagination', { pagination, query: typeof query !== 'undefined' ? query : {} }) %>
             <% } %>
         </div>
     </div>
 </main>
+
+<%- include('../partials/footer') %>
 
 <script>
     // Delete confirmation
@@ -231,5 +221,3 @@
         }
     }
 </script>
-
-<%- include('../partials/footer') %>

@@ -2,7 +2,8 @@
 <%- include('../partials/header', { title: 'Divisions' }) %>
 <%- include('../partials/navigation', { activeMenu: 'divisions' }) %>
 
-<main class="py-8">
+<!-- Main Content -->
+<main class="flex-1 py-8">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="space-y-6">
             <!-- Page Header -->
@@ -204,11 +205,13 @@
             
             <!-- Pagination -->
             <% if (typeof pagination !== 'undefined' && pagination.pages > 1) { %>
-                <%- include('../partials/pagination', { pagination, query }) %>
+                <%- include('../partials/pagination', { pagination, query: typeof query !== 'undefined' ? query : {} }) %>
             <% } %>
         </div>
     </div>
 </main>
+
+<%- include('../partials/footer') %>
 
 <script>
     // Dynamic branch loading based on company selection
@@ -245,5 +248,3 @@
         document.getElementById('company_code').dispatchEvent(new Event('change'));
     }
 </script>
-
-<%- include('../partials/footer') %>
