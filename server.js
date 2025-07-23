@@ -113,10 +113,11 @@ app.use(session(sessionConfig));
 // Flash messages
 app.use(flash());
 
-// CSRF protection (skip for API routes)
+// CSRF protection (disabled for development)
 const csrfProtection = csrf({ cookie: false });
 app.use((req, res, next) => {
-    if (req.path.startsWith('/api/')) {
+    // Skip CSRF for development or API routes  
+    if (process.env.NODE_ENV === 'development' || req.path.startsWith('/api/')) {
         return next();
     }
     csrfProtection(req, res, next);
@@ -144,12 +145,15 @@ const apiLimiter = rateLimit({
     message: 'Too many API requests from this IP, please try again later.'
 });
 
-app.use('/api/', apiLimiter);
-app.use(limiter);
+// Disable rate limiting in development
+if (process.env.NODE_ENV !== 'development') {
+    app.use('/api/', apiLimiter);
+    app.use(limiter);
+}
 
-// Routes
-app.use('/', webRoutes);
+// Routes - API routes must come first to avoid web auth middleware
 app.use('/api', apiRoutes);
+app.use('/', webRoutes);
 
 // 404 handler
 app.use((req, res) => {

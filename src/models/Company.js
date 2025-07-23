@@ -18,9 +18,20 @@ class Company {
     // Get all companies
     static async findAll(filters = {}) {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return [];
+                return this.getMockData().filter(company => {
+                    if (filters.is_active !== undefined && company.is_active !== filters.is_active) {
+                        return false;
+                    }
+                    if (filters.search) {
+                        const search = filters.search.toLowerCase();
+                        return company.company_name_th.toLowerCase().includes(search) ||
+                               company.company_name_en?.toLowerCase().includes(search) ||
+                               company.company_code.toLowerCase().includes(search);
+                    }
+                    return true;
+                });
             }
             
             let query = `
@@ -58,9 +69,9 @@ class Company {
     // Get company by code
     static async findByCode(companyCode) {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return null;
+                return await this.findMockByCode(companyCode);
             }
             
             const query = `
@@ -87,9 +98,16 @@ class Company {
     // Create new company
     async create() {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return this;
+                return await Company.createMock({
+                    company_code: this.company_code,
+                    company_name_th: this.company_name_th,
+                    company_name_en: this.company_name_en,
+                    tax_id: this.tax_id,
+                    is_active: this.is_active,
+                    created_by: this.created_by
+                });
             }
             
             const query = `
@@ -125,9 +143,14 @@ class Company {
     // Update company
     async update() {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return this;
+                return await Company.updateMock(this.company_code, {
+                    company_name_th: this.company_name_th,
+                    company_name_en: this.company_name_en,
+                    tax_id: this.tax_id,
+                    updated_by: this.updated_by
+                });
             }
             
             const query = `
@@ -164,9 +187,9 @@ class Company {
     // Update company status
     static async updateStatus(companyCode, isActive, updatedBy) {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return null;
+                return await this.updateMockStatus(companyCode, isActive, updatedBy);
             }
             
             const query = `
@@ -199,9 +222,9 @@ class Company {
     // Check if company code exists
     static async exists(companyCode) {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return false;
+                return this.mockCompanies.some(c => c.company_code === companyCode);
             }
             
             const query = `
@@ -221,17 +244,9 @@ class Company {
     // Get companies with pagination
     static async findPaginated(page = 1, limit = 20, filters = {}) {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return {
-                    data: [],
-                    pagination: {
-                        page: page,
-                        limit: limit,
-                        total: 0,
-                        pages: 0
-                    }
-                };
+                return this.getMockPaginated(page, limit, filters);
             }
             
             const offset = (page - 1) * limit;
@@ -302,13 +317,9 @@ class Company {
     // Get company statistics
     static async getStatistics() {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return {
-                    total_companies: 0,
-                    active_companies: 0,
-                    inactive_companies: 0
-                };
+                return this.getMockStatistics();
             }
             
             const query = `
@@ -325,6 +336,138 @@ class Company {
             logger.error('Error in Company.getStatistics:', error);
             throw error;
         }
+    }
+
+    // Mock data for development/testing
+    static mockCompanies = [
+        {
+            company_code: 'RUXCHAI',
+            company_name_th: 'บริษัท รักษ์ชายธุรกิจ จำกัด',
+            company_name_en: 'Ruxchai Business Company Limited',
+            tax_id: '0105561234567',
+            is_active: true,
+            created_date: new Date('2024-01-15'),
+            created_by: 'admin',
+            updated_date: null,
+            updated_by: null
+        },
+        {
+            company_code: 'COLD001',
+            company_name_th: 'บริษัท รักษ์ชาย โคลสโตเรจ จำกัด',
+            company_name_en: 'Ruxchai Cold Storage Company Limited',
+            tax_id: '0105567890123',
+            is_active: true,
+            created_date: new Date('2024-02-01'),
+            created_by: 'admin',
+            updated_date: new Date('2024-02-15'),
+            updated_by: 'admin'
+        },
+        {
+            company_code: 'LOGISTICS',
+            company_name_th: 'บริษัท รักษ์ชาย โลจิสติกส์ จำกัด',
+            company_name_en: 'Ruxchai Logistics Company Limited',
+            tax_id: '0105512345678',
+            is_active: false,
+            created_date: new Date('2024-03-01'),
+            created_by: 'admin',
+            updated_date: new Date('2024-03-10'),
+            updated_by: 'admin'
+        }
+    ];
+
+    static getMockData() {
+        return this.mockCompanies.map(data => new Company(data));
+    }
+
+    static async findMockByCode(code) {
+        const company = this.mockCompanies.find(c => c.company_code === code);
+        return company ? new Company(company) : null;
+    }
+
+    static async createMock(companyData) {
+        // Check if code already exists
+        if (this.mockCompanies.find(c => c.company_code === companyData.company_code)) {
+            throw new Error(`Company code ${companyData.company_code} already exists`);
+        }
+
+        const newCompany = {
+            ...companyData,
+            created_date: new Date(),
+            updated_date: null
+        };
+
+        this.mockCompanies.push(newCompany);
+        return new Company(newCompany);
+    }
+
+    static async updateMock(code, updateData) {
+        const index = this.mockCompanies.findIndex(c => c.company_code === code);
+        if (index === -1) {
+            throw new Error('Company not found');
+        }
+
+        this.mockCompanies[index] = {
+            ...this.mockCompanies[index],
+            ...updateData,
+            updated_date: new Date()
+        };
+
+        return new Company(this.mockCompanies[index]);
+    }
+
+    static async updateMockStatus(code, isActive, updatedBy) {
+        const index = this.mockCompanies.findIndex(c => c.company_code === code);
+        if (index === -1) {
+            throw new Error('Company not found');
+        }
+
+        this.mockCompanies[index].is_active = isActive;
+        this.mockCompanies[index].updated_date = new Date();
+        this.mockCompanies[index].updated_by = updatedBy;
+
+        return new Company(this.mockCompanies[index]);
+    }
+
+    static getMockPaginated(page = 1, limit = 20, filters = {}) {
+        let filteredData = this.getMockData();
+
+        // Apply filters
+        if (filters.is_active !== undefined) {
+            filteredData = filteredData.filter(c => c.is_active === filters.is_active);
+        }
+
+        if (filters.search) {
+            const search = filters.search.toLowerCase();
+            filteredData = filteredData.filter(c => 
+                c.company_name_th.toLowerCase().includes(search) ||
+                c.company_name_en?.toLowerCase().includes(search) ||
+                c.company_code.toLowerCase().includes(search)
+            );
+        }
+
+        // Pagination
+        const total = filteredData.length;
+        const offset = (page - 1) * limit;
+        const paginatedData = filteredData.slice(offset, offset + limit);
+
+        return {
+            data: paginatedData,
+            pagination: {
+                page: page,
+                limit: limit,
+                total: total,
+                pages: Math.ceil(total / limit)
+            }
+        };
+    }
+
+    static getMockStatistics() {
+        const companies = this.mockCompanies;
+        return {
+            total_companies: companies.length,
+            active_companies: companies.filter(c => c.is_active).length,
+            inactive_companies: companies.filter(c => !c.is_active).length
+        };
     }
 }
 

@@ -1,0 +1,231 @@
+/* Path: /public/css/variables.css */
+/* Ruxchai Cold Storage - Brand Guidelines Color Variables */
+/* Based on Requirements SR-DEP-003 */
+
+:root {
+  /* Primary Colors */
+  --color-primary: #0090D3; /* Ruxchai Blue */
+  --color-primary-rgb: 0, 144, 211;
+  
+  /* Secondary Colors */
+  --color-secondary-green: #3AAA35; /* Green */
+  --color-secondary-green-rgb: 58, 170, 53;
+  
+  --color-secondary-grey: #555452; /* Grey */
+  --color-secondary-grey-rgb: 85, 84, 82;
+  
+  /* Blue Shades */
+  --color-blue-dark: #047685; /* 100% */
+  --color-blue-medium: #00B1EF; /* 70% */
+  --color-blue-light: #4DD1FF; /* 50% */
+  
+  /* Green Shades */
+  --color-green-dark: #258C1F; /* 100% */
+  --color-green-medium: #24C617; /* 70% */
+  --color-green-light: #56E04F; /* 50% */
+  
+  /* Grey Shades */
+  --color-grey-dark: #161616; /* 100% */
+  --color-grey-medium: #6B6B6B; /* 70% */
+  --color-grey-light: #999999; /* 50% */
+  
+  /* Semantic Colors */
+  --color-success: var(--color-secondary-green);
+  --color-info: var(--color-primary);
+  --color-warning: #FFC107;
+  --color-danger: #DC3545;
+  
+  /* Background Colors */
+  --bg-primary: var(--color-primary);
+  --bg-secondary: #F8F9FA;
+  --bg-dark: var(--color-grey-dark);
+  
+  /* Text Colors */
+  --text-primary: var(--color-grey-dark);
+  --text-secondary: var(--color-grey-medium);
+  --text-light: var(--color-grey-light);
+  --text-white: #FFFFFF;
+  
+  /* Border Colors */
+  --border-default: #E5E7EB;
+  --border-light: #F3F4F6;
+  --border-dark: var(--color-grey-medium);
+  
+  /* Shadow */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  /* Spacing (consistent with Tailwind CSS) */
+  --spacing-xs: 0.25rem;   /* 4px */
+  --spacing-sm: 0.5rem;    /* 8px */
+  --spacing-md: 1rem;      /* 16px */
+  --spacing-lg: 1.5rem;    /* 24px */
+  --spacing-xl: 2rem;      /* 32px */
+  --spacing-2xl: 3rem;     /* 48px */
+  
+  /* Border Radius */
+  --border-radius-sm: 0.25rem;  /* 4px */
+  --border-radius-md: 0.375rem; /* 6px */
+  --border-radius-lg: 0.5rem;   /* 8px */
+  --border-radius-xl: 0.75rem;  /* 12px */
+  
+  /* Typography */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  
+  /* Line Heights */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  
+  /* Font Weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 300ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+  
+  /* Z-Index */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+}
+
+/* Dark mode variables (for future use) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: var(--color-blue-dark);
+    --bg-secondary: #1F2937;
+    --bg-dark: #111827;
+    
+    --text-primary: var(--text-white);
+    --text-secondary: #D1D5DB;
+    --text-light: #9CA3AF;
+    
+    --border-default: #374151;
+    --border-light: #4B5563;
+    --border-dark: #6B7280;
+  }
+}
+
+/* CSS Custom Properties for Tailwind CSS Classes */
+/* These map to commonly used Tailwind classes for easier maintenance */
+
+.ruxchai-blue {
+  color: var(--color-primary);
+}
+
+.bg-ruxchai-blue {
+  background-color: var(--color-primary);
+}
+
+.ruxchai-green {
+  color: var(--color-secondary-green);
+}
+
+.bg-ruxchai-green {
+  background-color: var(--color-secondary-green);
+}
+
+.ruxchai-grey {
+  color: var(--color-secondary-grey);
+}
+
+.bg-ruxchai-grey {
+  background-color: var(--color-secondary-grey);
+}
+
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-light {
+  color: var(--text-light);
+}
+
+.bg-primary {
+  background-color: var(--bg-primary);
+}
+
+.bg-secondary {
+  background-color: var(--bg-secondary);
+}
+
+.border-default {
+  border-color: var(--border-default);
+}
+
+/* Utility classes using CSS variables */
+.shadow-ruxchai {
+  box-shadow: var(--shadow-md);
+}
+
+.rounded-ruxchai {
+  border-radius: var(--border-radius-md);
+}
+
+.transition-ruxchai {
+  transition: var(--transition-normal);
+}
+
+/* Component-specific variables */
+:root {
+  /* Header */
+  --header-height: 4rem;
+  --header-bg: var(--bg-primary);
+  --header-text: var(--text-white);
+  
+  /* Sidebar */
+  --sidebar-width: 16rem;
+  --sidebar-bg: var(--text-white);
+  --sidebar-border: var(--border-default);
+  
+  /* Card */
+  --card-bg: var(--text-white);
+  --card-border: var(--border-default);
+  --card-shadow: var(--shadow-sm);
+  --card-radius: var(--border-radius-lg);
+  
+  /* Button */
+  --btn-padding-x: var(--spacing-md);
+  --btn-padding-y: var(--spacing-sm);
+  --btn-radius: var(--border-radius-md);
+  --btn-font-weight: var(--font-weight-medium);
+  
+  /* Form */
+  --input-border: var(--border-default);
+  --input-focus-border: var(--color-primary);
+  --input-bg: var(--text-white);
+  --input-radius: var(--border-radius-md);
+  --input-padding-x: var(--spacing-md);
+  --input-padding-y: var(--spacing-sm);
+  
+  /* Table */
+  --table-border: var(--border-light);
+  --table-stripe-bg: #F9FAFB;
+  --table-hover-bg: var(--bg-secondary);
+  
+  /* Status Colors */
+  --status-active: var(--color-secondary-green);
+  --status-inactive: var(--color-grey-medium);
+  --status-pending: var(--color-warning);
+  --status-error: var(--color-danger);
+}

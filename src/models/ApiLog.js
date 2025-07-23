@@ -21,6 +21,17 @@ class ApiLog {
     // Create new log entry - Fixed to use regular query instead of stored procedure
     static async create(logData) {
         try {
+            // Skip database logging if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                logger.info('API Log (mock):', {
+                    endpoint: logData.endpoint,
+                    method: logData.method,
+                    status: logData.response_status,
+                    response_time: logData.response_time_ms + 'ms'
+                });
+                return true;
+            }
+            
             let apiKeyId = logData.api_key_id;
             
             // If no api_key_id but have api_key_hash, find the ID

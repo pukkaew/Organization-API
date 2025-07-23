@@ -15,6 +15,9 @@ const departmentValidator = require('../validators/departmentValidator');
 const companyController = require('../controllers/companyController');
 const apiController = require('../controllers/apiController');
 
+// Import services
+const OrganizationService = require('../services/organizationService');
+
 // Import models for direct API access
 const Company = require('../models/Company');
 const Branch = require('../models/Branch');
@@ -407,6 +410,18 @@ router.get(`${API_VERSION}/organization-tree`,
     apiController.getOrganizationTree
 );
 
+router.get(`${API_VERSION}/organization-tree/:company_code`,
+    companyValidator.getCompanyByCodeRules(),
+    validate,
+    asyncHandler(async (req, res) => {
+        const tree = await OrganizationService.getOrganizationTree(req.params.company_code);
+        if (!tree || tree.length === 0) {
+            return notFound(res, 'Company not found or has no organization structure');
+        }
+        sendSuccess(res, tree[0], 'Organization tree retrieved successfully');
+    })
+);
+
 router.get(`${API_VERSION}/search`,
     apiController.searchOrganization
 );
@@ -417,6 +432,133 @@ router.get(`${API_VERSION}/hierarchy/:type/:code`,
 
 router.get(`${API_VERSION}/statistics`,
     apiController.getOrganizationStatistics
+);
+
+// ===== FLEXIBLE API ROUTES (FR-API-004) =====
+router.get(`${API_VERSION}/flexible/company-departments`,
+    companyValidator.getCompanyByCodeRules(),
+    validate,
+    asyncHandler(async (req, res) => {
+        const company_code = req.query.company;
+        if (!company_code) {
+            return res.status(400).json({
+                success: false,
+                error: {
+                    code: 'MISSING_COMPANY_CODE',
+                    message: 'Company code is required',
+                    field: 'company'
+                }
+            });
+        }
+
+        const result = await OrganizationService.getCompanyWithDepartments(company_code);
+        if (!result) {
+            return notFound(res, 'Company not found');
+        }
+
+        const response = {
+            success: true,
+            data: result,
+            meta: {
+                included: ['company', 'departments'],
+                total_departments: result.departments.length
+            }
+        };
+
+        res.json(response);
+    })
+);
+
+router.get(`${API_VERSION}/flexible/company-full`,
+    companyValidator.getCompanyByCodeRules(),
+    validate,
+    asyncHandler(async (req, res) => {
+        const company_code = req.query.company;
+        if (!company_code) {
+            return res.status(400).json({
+                success: false,
+                error: {
+                    code: 'MISSING_COMPANY_CODE',
+                    message: 'Company code is required',
+                    field: 'company'
+                }
+            });
+        }
+
+        const result = await OrganizationService.getCompanyFull(company_code);
+        if (!result) {
+            return notFound(res, 'Company not found');
+        }
+
+        const response = {
+            success: true,
+            data: result,
+            meta: {
+                included: ['company', 'branches', 'divisions', 'departments'],
+                total_branches: result.branches.length,
+                total_divisions: result.divisions.length,
+                total_departments: result.departments.length
+            }
+        };
+
+        res.json(response);
+    })
+);
+
+router.get(`${API_VERSION}/flexible/custom`,
+    companyValidator.getCompanyByCodeRules(),
+    validate,
+    asyncHandler(async (req, res) => {
+        const company_code = req.query.company;
+        if (!company_code) {
+            return res.status(400).json({
+                success: false,
+                error: {
+                    code: 'MISSING_COMPANY_CODE',
+                    message: 'Company code is required',
+                    field: 'company'
+                }
+            });
+        }
+
+        // Parse include and skip parameters
+        const includeParam = req.query.include || '';
+        const skipParam = req.query.skip || '';
+        
+        const includeArray = includeParam.split(',').map(s => s.trim()).filter(s => s);
+        const skipArray = skipParam.split(',').map(s => s.trim()).filter(s => s);
+
+        const includeParams = {
+            branches: includeArray.includes('branches'),
+            divisions: includeArray.includes('divisions'),
+            departments: includeArray.includes('departments'),
+            skip: skipArray
+        };
+
+        const result = await OrganizationService.getCustomOrganizationData(company_code, includeParams);
+        if (!result) {
+            return notFound(res, 'Company not found');
+        }
+
+        // Build included array based on what was actually included
+        const included = ['company'];
+        if (result.branches) included.push('branches');
+        if (result.divisions) included.push('divisions');
+        if (result.departments) included.push('departments');
+
+        const response = {
+            success: true,
+            data: result,
+            meta: {
+                included,
+                ...(result.branches && { total_branches: result.branches.length }),
+                ...(result.divisions && { total_divisions: result.divisions.length }),
+                ...(result.departments && { total_departments: result.departments.length })
+            }
+        };
+
+        res.json(response);
+    })
 );
 
 // ===== ERROR HANDLING =====

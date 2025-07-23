@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm test)",
+      "Bash(node server.js)",
+      "Bash(curl:*)",
+      "Bash(node:*)",
+      "Bash(pkill:*)",
+      "Bash(npm start)",
+      "Bash(taskkill:*)",
+      "Bash(powershell:*)",
+      "Bash(set PORT=3004)",
+      "WebFetch(domain:localhost)",
+      "Bash(wmic process where:*)"
+    ],
+    "deny": []
+  }
+}

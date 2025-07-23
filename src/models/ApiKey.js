@@ -127,6 +127,11 @@ class ApiKey {
     // Authenticate with API key
     static async authenticate(apiKey) {
         try {
+            // Use mock data if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return this.authenticateMock(apiKey);
+            }
+            
             // Get all active API keys
             const query = `
                 SELECT api_key_id, api_key_hash, app_name, permissions, 
@@ -388,6 +393,56 @@ class ApiKey {
             logger.error('Error in ApiKey.getStatistics:', error);
             throw error;
         }
+    }
+
+    // Mock data for development/testing
+    static mockApiKeys = [
+        {
+            api_key_id: 1,
+            api_key_hash: '$2a$10$test.hash.for.development',
+            app_name: 'Development Key',
+            description: 'API key for development and testing',
+            permissions: 'read_write',
+            is_active: true,
+            created_date: new Date('2024-01-01'),
+            created_by: 'system',
+            expires_date: null,
+            raw_key: 'test-api-key-12345' // For development only
+        },
+        {
+            api_key_id: 2,
+            api_key_hash: '$2a$10$another.test.hash',
+            app_name: 'Read Only Key',
+            description: 'Read-only access key',
+            permissions: 'read',
+            is_active: true,
+            created_date: new Date('2024-01-15'),
+            created_by: 'admin',
+            expires_date: null,
+            raw_key: 'read-only-key-67890'
+        }
+    ];
+
+    static authenticateMock(apiKey) {
+        const mockKey = this.mockApiKeys.find(key => 
+            key.is_active && key.raw_key === apiKey
+        );
+
+        if (!mockKey) {
+            return { valid: false, reason: 'Invalid API key' };
+        }
+
+        // Check if expired
+        if (mockKey.expires_date && new Date(mockKey.expires_date) < new Date()) {
+            return { valid: false, reason: 'API key expired' };
+        }
+
+        return {
+            valid: true,
+            apiKeyId: mockKey.api_key_id,
+            appName: mockKey.app_name,
+            permissions: mockKey.permissions
+        };
     }
 }
 

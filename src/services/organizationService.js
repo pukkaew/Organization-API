@@ -258,6 +258,245 @@ class OrganizationService {
     }
 
     /**
+     * Get company with departments only (skip branches and divisions)
+     * FR-API-004: Flexible Data Retrieval
+     */
+    static async getCompanyWithDepartments(companyCode) {
+        // Skip database if USE_DATABASE is false
+        if (process.env.USE_DATABASE === 'false') {
+            return { company: null, departments: [] };
+        }
+
+        try {
+            const query = `
+                SELECT 
+                    c.company_code,
+                    c.company_name_th,
+                    c.company_name_en,
+                    c.tax_id,
+                    c.is_active as company_active,
+                    dp.department_code,
+                    dp.department_name,
+                    dp.is_active as department_active,
+                    d.division_code,
+                    d.division_name,
+                    b.branch_code,
+                    b.branch_name
+                FROM Companies c
+                LEFT JOIN Divisions d ON c.company_code = d.company_code AND d.is_active = 1
+                LEFT JOIN Departments dp ON d.division_code = dp.division_code AND dp.is_active = 1
+                LEFT JOIN Branches b ON d.branch_code = b.branch_code AND b.is_active = 1
+                WHERE c.company_code = @company_code AND c.is_active = 1
+                ORDER BY dp.department_name
+            `;
+
+            const result = await executeQuery(query, { company_code: companyCode });
+            const rows = result.recordset;
+
+            if (rows.length === 0) {
+                return null;
+            }
+
+            const company = {
+                company_code: rows[0].company_code,
+                company_name_th: rows[0].company_name_th,
+                company_name_en: rows[0].company_name_en,
+                tax_id: rows[0].tax_id,
+                is_active: rows[0].company_active
+            };
+
+            const departments = rows
+                .filter(row => row.department_code)
+                .map(row => ({
+                    department_code: row.department_code,
+                    department_name: row.department_name,
+                    division_code: row.division_code,
+                    division_name: row.division_name,
+                    branch_code: row.branch_code,
+                    branch_name: row.branch_name,
+                    is_active: row.department_active
+                }));
+
+            return { company, departments };
+        } catch (error) {
+            logger.error('Error getting company with departments:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Get complete company structure (all levels)
+     * FR-API-004: Flexible Data Retrieval
+     */
+    static async getCompanyFull(companyCode) {
+        // Skip database if USE_DATABASE is false
+        if (process.env.USE_DATABASE === 'false') {
+            return { company: null, branches: [], divisions: [], departments: [] };
+        }
+
+        try {
+            const query = `
+                SELECT 
+                    c.company_code,
+                    c.company_name_th,
+                    c.company_name_en,
+                    c.tax_id,
+                    c.is_active as company_active,
+                    b.branch_code,
+                    b.branch_name,
+                    b.is_headquarters,
+                    b.is_active as branch_active,
+                    d.division_code,
+                    d.division_name,
+                    d.is_active as division_active,
+                    dp.department_code,
+                    dp.department_name,
+                    dp.is_active as department_active
+                FROM Companies c
+                LEFT JOIN Branches b ON c.company_code = b.company_code AND b.is_active = 1
+                LEFT JOIN Divisions d ON c.company_code = d.company_code AND d.is_active = 1
+                    AND (b.branch_code IS NULL OR b.branch_code = d.branch_code)
+                LEFT JOIN Departments dp ON d.division_code = dp.division_code AND dp.is_active = 1
+                WHERE c.company_code = @company_code AND c.is_active = 1
+                ORDER BY b.branch_name, d.division_name, dp.department_name
+            `;
+
+            const result = await executeQuery(query, { company_code: companyCode });
+            const rows = result.recordset;
+
+            if (rows.length === 0) {
+                return null;
+            }
+
+            const company = {
+                company_code: rows[0].company_code,
+                company_name_th: rows[0].company_name_th,
+                company_name_en: rows[0].company_name_en,
+                tax_id: rows[0].tax_id,
+                is_active: rows[0].company_active
+            };
+
+            const branches = [];
+            const divisions = [];
+            const departments = [];
+
+            const seenBranches = new Set();
+            const seenDivisions = new Set();
+            const seenDepartments = new Set();
+
+            rows.forEach(row => {
+                if (row.branch_code && !seenBranches.has(row.branch_code)) {
+                    branches.push({
+                        branch_code: row.branch_code,
+                        branch_name: row.branch_name,
+                        is_headquarters: row.is_headquarters,
+                        is_active: row.branch_active
+                    });
+                    seenBranches.add(row.branch_code);
+                }
+
+                if (row.division_code && !seenDivisions.has(row.division_code)) {
+                    divisions.push({
+                        division_code: row.division_code,
+                        division_name: row.division_name,
+                        branch_code: row.branch_code,
+                        is_active: row.division_active
+                    });
+                    seenDivisions.add(row.division_code);
+                }
+
+                if (row.department_code && !seenDepartments.has(row.department_code)) {
+                    departments.push({
+                        department_code: row.department_code,
+                        department_name: row.department_name,
+                        division_code: row.division_code,
+                        is_active: row.department_active
+                    });
+                    seenDepartments.add(row.department_code);
+                }
+            });
+
+            return { company, branches, divisions, departments };
+        } catch (error) {
+            logger.error('Error getting company full structure:', error);
+            throw error;
+        }
+    }
+
+    /**
+     * Get custom organization data based on include parameters
+     * FR-API-004: Flexible Data Retrieval
+     */
+    static async getCustomOrganizationData(companyCode, includeParams = {}) {
+        const {
+            branches = false,
+            divisions = false,
+            departments = false,
+            skip = []
+        } = includeParams;
+
+        try {
+            const result = { company: null };
+            
+            // Get company basic info
+            const companyQuery = `
+                SELECT company_code, company_name_th, company_name_en, tax_id, is_active
+                FROM Companies 
+                WHERE company_code = @company_code AND is_active = 1
+            `;
+            
+            const companyResult = await executeQuery(companyQuery, { company_code: companyCode });
+            if (companyResult.recordset.length === 0) {
+                return null;
+            }
+            
+            result.company = companyResult.recordset[0];
+
+            // Include branches if requested and not skipped
+            if (branches && !skip.includes('branches')) {
+                const branchQuery = `
+                    SELECT branch_code, branch_name, is_headquarters, is_active
+                    FROM Branches 
+                    WHERE company_code = @company_code AND is_active = 1
+                    ORDER BY branch_name
+                `;
+                const branchResult = await executeQuery(branchQuery, { company_code: companyCode });
+                result.branches = branchResult.recordset;
+            }
+
+            // Include divisions if requested and not skipped
+            if (divisions && !skip.includes('divisions')) {
+                const divisionQuery = `
+                    SELECT division_code, division_name, branch_code, is_active
+                    FROM Divisions 
+                    WHERE company_code = @company_code AND is_active = 1
+                    ORDER BY division_name
+                `;
+                const divisionResult = await executeQuery(divisionQuery, { company_code: companyCode });
+                result.divisions = divisionResult.recordset;
+            }
+
+            // Include departments if requested and not skipped
+            if (departments && !skip.includes('departments')) {
+                const departmentQuery = `
+                    SELECT dp.department_code, dp.department_name, dp.division_code, dp.is_active
+                    FROM Departments dp
+                    INNER JOIN Divisions d ON dp.division_code = d.division_code
+                    WHERE d.company_code = @company_code AND dp.is_active = 1 AND d.is_active = 1
+                    ORDER BY dp.department_name
+                `;
+                const departmentResult = await executeQuery(departmentQuery, { company_code: companyCode });
+                result.departments = departmentResult.recordset;
+            }
+
+            return result;
+        } catch (error) {
+            logger.error('Error getting custom organization data:', error);
+            throw error;
+        }
+    }
+
+    /**
      * Clone organization structure
      */
     static async cloneStructure(sourceCompanyCode, targetCompanyCode, options = {}) {

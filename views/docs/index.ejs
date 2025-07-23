@@ -149,6 +149,171 @@
                 </table>
             </div>
             
+            <!-- Divisions -->
+            <div class="mt-8 border rounded-lg overflow-hidden">
+                <div class="bg-orange-600 text-white px-4 py-3">
+                    <h3 class="text-lg font-semibold mb-0">Divisions</h3>
+                </div>
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Endpoint</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permission</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/divisions</td>
+                            <td class="px-4 py-3 text-sm">Get all divisions with pagination</td>
+                            <td class="px-4 py-3 text-sm">read</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/divisions/{code}</td>
+                            <td class="px-4 py-3 text-sm">Get division by code</td>
+                            <td class="px-4 py-3 text-sm">read</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/companies/{code}/divisions</td>
+                            <td class="px-4 py-3 text-sm">Get divisions by company</td>
+                            <td class="px-4 py-3 text-sm">read</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/branches/{code}/divisions</td>
+                            <td class="px-4 py-3 text-sm">Get divisions by branch</td>
+                            <td class="px-4 py-3 text-sm">read</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded">POST</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/divisions</td>
+                            <td class="px-4 py-3 text-sm">Create new division</td>
+                            <td class="px-4 py-3 text-sm">write</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded">PUT</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/divisions/{code}</td>
+                            <td class="px-4 py-3 text-sm">Update division</td>
+                            <td class="px-4 py-3 text-sm">write</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-purple-100 text-purple-800 rounded">PATCH</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/divisions/{code}/status</td>
+                            <td class="px-4 py-3 text-sm">Toggle division status</td>
+                            <td class="px-4 py-3 text-sm">write</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Departments -->
+            <div class="mt-8 border rounded-lg overflow-hidden">
+                <div class="bg-teal-600 text-white px-4 py-3">
+                    <h3 class="text-lg font-semibold mb-0">Departments</h3>
+                </div>
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Endpoint</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permission</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/departments</td>
+                            <td class="px-4 py-3 text-sm">Get all departments with pagination</td>
+                            <td class="px-4 py-3 text-sm">read</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/departments/{code}</td>
+                            <td class="px-4 py-3 text-sm">Get department by code</td>
+                            <td class="px-4 py-3 text-sm">read</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/divisions/{code}/departments</td>
+                            <td class="px-4 py-3 text-sm">Get departments by division</td>
+                            <td class="px-4 py-3 text-sm">read</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded">POST</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/departments</td>
+                            <td class="px-4 py-3 text-sm">Create new department</td>
+                            <td class="px-4 py-3 text-sm">write</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded">PUT</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/departments/{code}</td>
+                            <td class="px-4 py-3 text-sm">Update department</td>
+                            <td class="px-4 py-3 text-sm">write</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-purple-100 text-purple-800 rounded">PATCH</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/departments/{code}/status</td>
+                            <td class="px-4 py-3 text-sm">Toggle department status</td>
+                            <td class="px-4 py-3 text-sm">write</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded">DELETE</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/departments/{code}</td>
+                            <td class="px-4 py-3 text-sm">Delete department</td>
+                            <td class="px-4 py-3 text-sm">delete</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- API Keys Management -->
+            <div class="mt-8 border rounded-lg overflow-hidden">
+                <div class="bg-indigo-600 text-white px-4 py-3">
+                    <h3 class="text-lg font-semibold mb-0">API Keys Management</h3>
+                </div>
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Endpoint</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permission</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/api-keys</td>
+                            <td class="px-4 py-3 text-sm">Get all API keys (admin only)</td>
+                            <td class="px-4 py-3 text-sm">admin</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded">POST</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/api-keys</td>
+                            <td class="px-4 py-3 text-sm">Create new API key</td>
+                            <td class="px-4 py-3 text-sm">admin</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-purple-100 text-purple-800 rounded">PATCH</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/api-keys/{id}/status</td>
+                            <td class="px-4 py-3 text-sm">Toggle API key status</td>
+                            <td class="px-4 py-3 text-sm">admin</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/api-keys/{id}/logs</td>
+                            <td class="px-4 py-3 text-sm">Get API usage logs</td>
+                            <td class="px-4 py-3 text-sm">admin</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
             <!-- Special Endpoints -->
             <div class="mt-8 border rounded-lg overflow-hidden">
                 <div class="bg-purple-600 text-white px-4 py-3">
@@ -222,6 +387,57 @@ Body:
     "company_name_en": "ABC Company Limited",
     "tax_id": "0105558123456",
     "is_active": true
+}</code></pre>
+            </div>
+            
+            <h3>Create New Division</h3>
+            <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+                <pre><code>POST /api/v1/divisions
+
+Headers:
+X-API-Key: YOUR_API_KEY
+Content-Type: application/json
+
+Body:
+{
+    "division_code": "HR",
+    "division_name": "Human Resources",
+    "company_code": "ABC",
+    "branch_code": null,
+    "is_active": true
+}</code></pre>
+            </div>
+            
+            <h3>Get Organization Tree</h3>
+            <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+                <pre><code>GET /api/v1/organization-tree?company_code=ABC
+
+Headers:
+X-API-Key: YOUR_API_KEY
+
+Response:
+{
+    "success": true,
+    "data": {
+        "company": {
+            "company_code": "ABC",
+            "company_name_th": "บริษัท เอบีซี จำกัด",
+            "branches": [
+                {
+                    "branch_code": "BKK01",
+                    "branch_name": "สำนักงานใหญ่",
+                    "divisions": [...]
+                }
+            ],
+            "divisions": [
+                {
+                    "division_code": "HR",
+                    "division_name": "Human Resources",
+                    "departments": [...]
+                }
+            ]
+        }
+    }
 }</code></pre>
             </div>
             
