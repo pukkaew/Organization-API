@@ -236,6 +236,21 @@ class ApiLog {
 
     // Get API usage statistics
     static async getStatistics(filters = {}) {
+        // Skip database if USE_DATABASE is false
+        if (process.env.USE_DATABASE === 'false') {
+            return {
+                total_requests: 0,
+                avg_response_time: 0,
+                max_response_time: 0,
+                min_response_time: 0,
+                successful_requests: 0,
+                client_errors: 0,
+                server_errors: 0,
+                unique_api_keys: 0,
+                unique_endpoints: 0
+            };
+        }
+        
         try {
             let query = `
                 SELECT 

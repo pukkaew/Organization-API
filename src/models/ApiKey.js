@@ -291,6 +291,19 @@ class ApiKey {
 
     // Get API keys with pagination
     static async findPaginated(page = 1, limit = 20, filters = {}) {
+        // Skip database if USE_DATABASE is false
+        if (process.env.USE_DATABASE === 'false') {
+            return {
+                data: [],
+                pagination: {
+                    page: page,
+                    limit: limit,
+                    total: 0,
+                    pages: 0
+                }
+            };
+        }
+        
         try {
             const offset = (page - 1) * limit;
             
