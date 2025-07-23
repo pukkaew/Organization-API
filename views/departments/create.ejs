@@ -1,23 +1,35 @@
 <!-- Path: /views/departments/create.ejs -->
-<%- include('../layouts/main', { 
+<%- include('../partials/header', { 
     title: 'Create Department',
+    includeChartJS: false
+}) %>
+<%- include('../partials/navigation', { 
     activeMenu: 'departments',
-    body: ` 
-    <div class="max-w-3xl mx-auto">
-        <div class="bg-white shadow-sm rounded-lg">
-            <div class="px-6 py-4 border-b border-gray-200">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-xl font-semibold text-gray-900">Create New Department</h2>
-                    <a href="/departments" class="text-gray-500 hover:text-gray-700">
-                        <i class="fas fa-times"></i>
-                    </a>
+    user: typeof user !== 'undefined' ? user : null,
+    success: typeof success !== 'undefined' ? success : null,
+    error: typeof error !== 'undefined' ? error : null,
+    warning: typeof warning !== 'undefined' ? warning : null,
+    info: typeof info !== 'undefined' ? info : null
+}) %>
+
+<!-- Main Content -->
+<main class="flex-1 py-8">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto">
+            <div class="bg-white shadow-sm rounded-lg">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-xl font-semibold text-gray-900">Create New Department</h2>
+                        <a href="/departments" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </div>
                 </div>
-            </div>
-            
-            <form method="post" action="/departments" class="p-6">
-                <% if (typeof csrfToken !== 'undefined') { %>
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <% } %>
+                
+                <form method="post" action="/departments" class="p-6">
+                    <% if (typeof csrfToken !== 'undefined') { %>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <% } %>
                 
                 <div class="space-y-6">
                     <!-- Company Selection -->
@@ -152,7 +164,10 @@
             </div>
         </div>
     </div>
-    
+</main>
+
+<%- include('../partials/footer', {
+    pageScripts: `
     <script>
     // Auto uppercase for department code
     document.getElementById('department_code').addEventListener('input', function(e) {
@@ -187,5 +202,5 @@
         }
     });
     </script>
-    ` 
+    `
 }) %>
