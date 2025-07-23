@@ -17,6 +17,11 @@ class Division {
     // Get all divisions
     static async findAll(filters = {}) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return [];
+            }
+            
             let query = `
                 SELECT d.division_code, d.division_name, d.company_code, 
                        d.branch_code, d.is_active, d.created_date, 
@@ -70,6 +75,11 @@ class Division {
     // Get division by code
     static async findByCode(divisionCode) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return null;
+            }
+            
             const query = `
                 SELECT d.division_code, d.division_name, d.company_code, 
                        d.branch_code, d.is_active, d.created_date, 
@@ -104,6 +114,11 @@ class Division {
     // Get divisions by company
     static async findByCompany(companyCode) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return [];
+            }
+            
             const query = `
                 SELECT d.division_code, d.division_name, d.company_code, 
                        d.branch_code, d.is_active, d.created_date, 
@@ -129,6 +144,11 @@ class Division {
     // Get divisions by branch
     static async findByBranch(branchCode) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return [];
+            }
+            
             const query = `
                 SELECT division_code, division_name, company_code, 
                        branch_code, is_active, created_date, 
@@ -149,6 +169,11 @@ class Division {
     // Create new division
     async create() {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return this;
+            }
+            
             const query = `
                 INSERT INTO Divisions (
                     division_code, division_name, company_code, 
@@ -181,6 +206,11 @@ class Division {
     // Update division
     async update() {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return this;
+            }
+            
             const query = `
                 UPDATE Divisions
                 SET division_name = @division_name,
@@ -213,6 +243,11 @@ class Division {
     // Update division status
     static async updateStatus(divisionCode, isActive, updatedBy) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return null;
+            }
+            
             const query = `
                 UPDATE Divisions
                 SET is_active = @is_active,
@@ -243,6 +278,11 @@ class Division {
     // Check if division code exists
     static async exists(divisionCode) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return false;
+            }
+            
             const query = `
                 SELECT COUNT(*) as count
                 FROM Divisions
@@ -260,6 +300,19 @@ class Division {
     // Get divisions with pagination
     static async findPaginated(page = 1, limit = 20, filters = {}) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return {
+                    data: [],
+                    pagination: {
+                        page: page,
+                        limit: limit,
+                        total: 0,
+                        pages: 0
+                    }
+                };
+            }
+            
             const offset = (page - 1) * limit;
             
             // Build WHERE clause
@@ -339,6 +392,17 @@ class Division {
     // Get division statistics
     static async getStatistics(filters = {}) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return {
+                    total_divisions: 0,
+                    active_divisions: 0,
+                    inactive_divisions: 0,
+                    companies_count: 0,
+                    branches_count: 0
+                };
+            }
+            
             let query = `
                 SELECT 
                     COUNT(*) as total_divisions,
@@ -373,6 +437,11 @@ class Division {
     // Move division to another branch
     static async moveToBranch(divisionCode, newBranchCode, updatedBy) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return null;
+            }
+            
             // First check if the division and new branch exist and belong to the same company
             const checkQuery = `
                 SELECT d.company_code as division_company, b.company_code as branch_company

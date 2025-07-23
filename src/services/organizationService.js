@@ -8,6 +8,18 @@ class OrganizationService {
      * Get organization statistics
      */
     static async getOrganizationStats() {
+        // Skip database if USE_DATABASE is false
+        if (process.env.USE_DATABASE === 'false') {
+            return {
+                totalCompanies: 0,
+                totalBranches: 0,
+                totalDivisions: 0,
+                totalDepartments: 0,
+                active_divisions: 0,
+                headquarters_count: 0
+            };
+        }
+        
         const cacheKey = 'org:stats:overall';
         const cached = await cache.get(cacheKey);
         if (cached) return cached;
@@ -122,6 +134,11 @@ class OrganizationService {
      * Get full organization tree
      */
     static async getOrganizationTree(companyCode = null) {
+        // Skip database if USE_DATABASE is false
+        if (process.env.USE_DATABASE === 'false') {
+            return [];
+        }
+        
         try {
             let query = `
                 SELECT 
@@ -244,6 +261,15 @@ class OrganizationService {
      * Clone organization structure
      */
     static async cloneStructure(sourceCompanyCode, targetCompanyCode, options = {}) {
+        // Skip database if USE_DATABASE is false
+        if (process.env.USE_DATABASE === 'false') {
+            return {
+                branches: 0,
+                divisions: 0,
+                departments: 0
+            };
+        }
+        
         const {
             includeBranches = true,
             includeDivisions = true,

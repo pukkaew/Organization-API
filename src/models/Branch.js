@@ -17,6 +17,11 @@ class Branch {
     // Get all branches
     static async findAll(filters = {}) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return [];
+            }
+            
             let query = `
                 SELECT b.branch_code, b.branch_name, b.company_code, 
                        b.is_headquarters, b.is_active, b.created_date, 
@@ -67,6 +72,11 @@ class Branch {
     // Get branch by code
     static async findByCode(branchCode) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return null;
+            }
+            
             const query = `
                 SELECT b.branch_code, b.branch_name, b.company_code, 
                        b.is_headquarters, b.is_active, b.created_date, 
@@ -98,6 +108,11 @@ class Branch {
     // Get branches by company
     static async findByCompany(companyCode) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return [];
+            }
+            
             const query = `
                 SELECT branch_code, branch_name, company_code, 
                        is_headquarters, is_active, created_date, 
@@ -118,6 +133,11 @@ class Branch {
     // Create new branch
     async create() {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return this;
+            }
+            
             // Check if setting as headquarters
             if (this.is_headquarters) {
                 // Remove headquarters status from other branches in the same company
@@ -166,6 +186,11 @@ class Branch {
     // Update branch
     async update() {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return this;
+            }
+            
             // Check if setting as headquarters
             if (this.is_headquarters) {
                 // Remove headquarters status from other branches in the same company
@@ -217,6 +242,11 @@ class Branch {
     // Update branch status
     static async updateStatus(branchCode, isActive, updatedBy) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return null;
+            }
+            
             const query = `
                 UPDATE Branches
                 SET is_active = @is_active,
@@ -247,6 +277,11 @@ class Branch {
     // Check if branch code exists
     static async exists(branchCode) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return false;
+            }
+            
             const query = `
                 SELECT COUNT(*) as count
                 FROM Branches
@@ -264,6 +299,19 @@ class Branch {
     // Get branches with pagination
     static async findPaginated(page = 1, limit = 20, filters = {}) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return {
+                    data: [],
+                    pagination: {
+                        page: page,
+                        limit: limit,
+                        total: 0,
+                        pages: 0
+                    }
+                };
+            }
+            
             const offset = (page - 1) * limit;
             
             // Build WHERE clause
@@ -335,6 +383,16 @@ class Branch {
     // Get branch statistics
     static async getStatistics(companyCode = null) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return {
+                    total_branches: 0,
+                    active_branches: 0,
+                    inactive_branches: 0,
+                    headquarters_count: 0
+                };
+            }
+            
             let query = `
                 SELECT 
                     COUNT(*) as total_branches,
@@ -362,6 +420,11 @@ class Branch {
     // Check if company has branches
     static async companyHasBranches(companyCode) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return false;
+            }
+            
             const query = `
                 SELECT COUNT(*) as count
                 FROM Branches

@@ -8,6 +8,18 @@ class ApiLogService {
      * Get today's API usage statistics
      */
     static async getTodayStats() {
+        // Skip database if USE_DATABASE is false
+        if (process.env.USE_DATABASE === 'false') {
+            return {
+                todayCalls: 0,
+                uniqueKeys: 0,
+                avgResponseTime: 0,
+                errorCount: 0,
+                totalCalls: 0,
+                activeKeys: 0
+            };
+        }
+        
         const cacheKey = 'api:stats:today';
         const cached = await cache.get(cacheKey);
         if (cached) return cached;

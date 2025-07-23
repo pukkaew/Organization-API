@@ -2,10 +2,6 @@
 const logger = require('../utils/logger');
 
 const requiredEnvVars = [
-    'DB_SERVER',
-    'DB_DATABASE',
-    'DB_USER',
-    'DB_PASSWORD',
     'SESSION_SECRET',
     'JWT_SECRET'
 ];
@@ -13,11 +9,24 @@ const requiredEnvVars = [
 const validateEnv = () => {
     const missing = [];
     
+    // Skip database validation if USE_DATABASE is false
+    const dbRequired = process.env.USE_DATABASE !== 'false';
+    const dbVars = ['DB_SERVER', 'DB_DATABASE', 'DB_USER', 'DB_PASSWORD'];
+    
     requiredEnvVars.forEach(varName => {
         if (!process.env[varName]) {
             missing.push(varName);
         }
     });
+    
+    // Check database vars only if database is required
+    if (dbRequired) {
+        dbVars.forEach(varName => {
+            if (!process.env[varName]) {
+                missing.push(varName);
+            }
+        });
+    }
     
     if (missing.length > 0) {
         const errorMessage = `Missing required environment variables: ${missing.join(', ')}`;

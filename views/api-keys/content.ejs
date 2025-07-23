@@ -1,0 +1,201 @@
+<!-- Path: /views/api-keys/content.ejs -->
+<div class="space-y-6">
+    <!-- Page Header -->
+    <div class="bg-white shadow-sm rounded-lg p-6">
+        <div class="sm:flex sm:items-center sm:justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">API Keys</h1>
+                <p class="mt-2 text-sm text-gray-700">Manage API keys for accessing the organization structure API</p>
+            </div>
+            <div class="mt-4 sm:mt-0">
+                <a href="/api-keys/new" class="btn btn-primary">
+                    <i class="fas fa-plus mr-2"></i>
+                    Create API Key
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Filters Section -->
+    <div class="bg-white shadow-sm rounded-lg p-6">
+        <h2 class="text-lg font-medium text-gray-900 mb-4">
+            <i class="fas fa-filter mr-2"></i>Filters
+        </h2>
+        <form method="get" action="/api-keys" class="grid grid-cols-1 gap-4 sm:grid-cols-4">
+            <div>
+                <label for="search" class="form-label">Search</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                    <input type="text" 
+                           name="search" 
+                           id="search" 
+                           value="<%= typeof query !== 'undefined' && query.search || '' %>"
+                           placeholder="Search by app name..."
+                           class="form-input pl-10">
+                </div>
+            </div>
+            
+            <div>
+                <label for="is_active" class="form-label">Status</label>
+                <select name="is_active" id="is_active" class="form-input">
+                    <option value="">All Status</option>
+                    <option value="true" <%= typeof query !== 'undefined' && query.is_active === 'true' ? 'selected' : '' %>>Active</option>
+                    <option value="false" <%= typeof query !== 'undefined' && query.is_active === 'false' ? 'selected' : '' %>>Inactive</option>
+                </select>
+            </div>
+            
+            <div>
+                <label for="permissions" class="form-label">Permissions</label>
+                <select name="permissions" id="permissions" class="form-input">
+                    <option value="">All Permissions</option>
+                    <option value="read" <%= typeof query !== 'undefined' && query.permissions === 'read' ? 'selected' : '' %>>Read Only</option>
+                    <option value="write" <%= typeof query !== 'undefined' && query.permissions === 'write' ? 'selected' : '' %>>Write Only</option>
+                    <option value="read_write" <%= typeof query !== 'undefined' && query.permissions === 'read_write' ? 'selected' : '' %>>Read & Write</option>
+                </select>
+            </div>
+            
+            <div class="flex items-end">
+                <button type="submit" class="btn btn-ghost w-full">
+                    <i class="fas fa-search mr-2"></i>
+                    Apply Filters
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <!-- API Keys Table -->
+    <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                App Name
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Description
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Permissions
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Usage
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Created
+                            </th>
+                            <th scope="col" class="relative px-6 py-3">
+                                <span class="sr-only">Actions</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <% if (typeof apiKeys !== 'undefined' && apiKeys.length > 0) { %>
+                            <% apiKeys.forEach(function(apiKey) { %>
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <a href="/api-keys/<%= apiKey.api_key_id %>" 
+                                           class="text-sm font-medium text-primary-600 hover:text-primary-900">
+                                            <%= apiKey.app_name %>
+                                        </a>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-500 max-w-xs truncate" 
+                                             title="<%= apiKey.description %>">
+                                            <%= apiKey.description || '-' %>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <% if (apiKey.permissions === 'read') { %>
+                                            <span class="badge badge-primary">
+                                                <i class="fas fa-eye mr-1"></i>
+                                                Read Only
+                                            </span>
+                                        <% } else if (apiKey.permissions === 'write') { %>
+                                            <span class="badge badge-warning">
+                                                <i class="fas fa-edit mr-1"></i>
+                                                Write Only
+                                            </span>
+                                        <% } else { %>
+                                            <span class="badge badge-success">
+                                                <i class="fas fa-check-double mr-1"></i>
+                                                Read & Write
+                                            </span>
+                                        <% } %>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">
+                                            <%= apiKey.usage_count || 0 %> requests
+                                        </div>
+                                        <% if (apiKey.last_used_date) { %>
+                                            <div class="text-xs text-gray-500">
+                                                Last: <%= new Date(apiKey.last_used_date).toLocaleDateString() %>
+                                            </div>
+                                        <% } else { %>
+                                            <div class="text-xs text-gray-500">Never used</div>
+                                        <% } %>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center">
+                                        <% if (apiKey.is_active) { %>
+                                            <span class="badge badge-success">
+                                                <i class="fas fa-check-circle mr-1"></i>
+                                                Active
+                                            </span>
+                                        <% } else { %>
+                                            <span class="badge badge-gray">
+                                                <i class="fas fa-times-circle mr-1"></i>
+                                                Inactive
+                                            </span>
+                                        <% } %>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-500">
+                                            <%= new Date(apiKey.created_date).toLocaleDateString() %>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <a href="/api-keys/<%= apiKey.api_key_id %>" 
+                                           class="text-primary-600 hover:text-primary-900 mr-3"
+                                           title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <form action="/api-keys/<%= apiKey.api_key_id %>/toggle-status" 
+                                              method="POST" 
+                                              class="inline">
+                                            <% if (typeof csrfToken !== 'undefined') { %>
+                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            <% } %>
+                                            <button type="submit" 
+                                                    class="<%= apiKey.is_active ? 'text-yellow-600 hover:text-yellow-900' : 'text-success-600 hover:text-success-900' %>" 
+                                                    title="<%= apiKey.is_active ? 'Deactivate' : 'Activate' %>"
+                                                    onclick="return confirm('Are you sure you want to <%= apiKey.is_active ? 'deactivate' : 'activate' %> this API key?')">
+                                                <i class="fas fa-power-off"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="7" class="px-6 py-4 text-center text-gray-500">
+                                    No API keys found.
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pagination -->
+    <% if (typeof pagination !== 'undefined' && pagination.pages > 1) { %>
+        <%- include('../partials/pagination', { pagination, query: typeof query !== 'undefined' ? query : {} }) %>
+    <% } %>
+</div>

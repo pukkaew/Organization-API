@@ -25,34 +25,31 @@ const index = asyncHandler(async (req, res) => {
         // Render dashboard view
         res.render('dashboard/index', {
             title: 'Dashboard',
-            pageTitle: 'แดชบอร์ด',
-            pageDescription: 'ภาพรวมระบบจัดการโครงสร้างองค์กร',
-            currentPath: '/',
+            activeMenu: 'dashboard',
             stats: stats,
             apiStats: apiStats,
-            activities: activities,
-            user: req.user || null
+            recentActivities: activities,
+            user: req.session?.user || null
         });
     } catch (error) {
         logger.error('Dashboard error:', error);
         res.render('dashboard/index', {
             title: 'Dashboard',
-            pageTitle: 'แดชบอร์ด',
-            pageDescription: 'ภาพรวมระบบจัดการโครงสร้างองค์กร',
-            currentPath: '/',
+            activeMenu: 'dashboard',
             stats: {
-                totalCompanies: 0,
-                totalBranches: 0,
-                totalDivisions: 0,
-                totalDepartments: 0,
+                companies: 0,
+                branches: 0,
+                divisions: 0,
+                departments: 0,
                 active_divisions: 0,
                 headquarters_count: 0
             },
             apiStats: {
-                todayCalls: 0
+                totalCalls: 0,
+                activeKeys: 0
             },
-            activities: [],
-            error: 'ไม่สามารถโหลดข้อมูลได้'
+            recentActivities: [],
+            user: req.session?.user || null
         });
     }
 });

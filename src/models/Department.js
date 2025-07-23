@@ -16,6 +16,11 @@ class Department {
     // Get all departments
     static async findAll(filters = {}) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return [];
+            }
+            
             let query = `
                 SELECT dp.department_code, dp.department_name, dp.division_code,
                        dp.is_active, dp.created_date, dp.created_by, 
@@ -79,6 +84,11 @@ class Department {
     // Get department by code
     static async findByCode(departmentCode) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return null;
+            }
+            
             const query = `
                 SELECT dp.department_code, dp.department_name, dp.division_code,
                        dp.is_active, dp.created_date, dp.created_by, 
@@ -118,6 +128,11 @@ class Department {
     // Get departments by division
     static async findByDivision(divisionCode) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return [];
+            }
+            
             const query = `
                 SELECT department_code, department_name, division_code,
                        is_active, created_date, created_by, 
@@ -138,6 +153,11 @@ class Department {
     // Create new department
     async create() {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return this;
+            }
+            
             const query = `
                 INSERT INTO Departments (
                     department_code, department_name, division_code, 
@@ -169,6 +189,11 @@ class Department {
     // Update department
     async update() {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return this;
+            }
+            
             const query = `
                 UPDATE Departments
                 SET department_name = @department_name,
@@ -199,6 +224,11 @@ class Department {
     // Update department status
     static async updateStatus(departmentCode, isActive, updatedBy) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return null;
+            }
+            
             const query = `
                 UPDATE Departments
                 SET is_active = @is_active,
@@ -229,6 +259,11 @@ class Department {
     // Check if department code exists
     static async exists(departmentCode) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return false;
+            }
+            
             const query = `
                 SELECT COUNT(*) as count
                 FROM Departments
@@ -246,6 +281,19 @@ class Department {
     // Get departments with pagination
     static async findPaginated(page = 1, limit = 20, filters = {}) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return {
+                    data: [],
+                    pagination: {
+                        page: page,
+                        limit: limit,
+                        total: 0,
+                        pages: 0
+                    }
+                };
+            }
+            
             const offset = (page - 1) * limit;
             
             // Build WHERE clause
@@ -336,6 +384,16 @@ class Department {
     // Get department statistics
     static async getStatistics(filters = {}) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return {
+                    total_departments: 0,
+                    active_departments: 0,
+                    inactive_departments: 0,
+                    divisions_count: 0
+                };
+            }
+            
             let query = `
                 SELECT 
                     COUNT(*) as total_departments,
@@ -375,6 +433,11 @@ class Department {
     // Move department to another division
     static async moveToDivision(departmentCode, newDivisionCode, updatedBy) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return null;
+            }
+            
             // Check if the division exists
             const checkQuery = `
                 SELECT COUNT(*) as count

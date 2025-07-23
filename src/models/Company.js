@@ -1,4 +1,5 @@
 const { sql, executeQuery, executeTransaction } = require('../config/database');
+const cache = require('../utils/cache');
 const logger = require('../utils/logger');
 
 class Company {
@@ -17,6 +18,11 @@ class Company {
     // Get all companies
     static async findAll(filters = {}) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return [];
+            }
+            
             let query = `
                 SELECT company_code, company_name_th, company_name_en, 
                        tax_id, is_active, created_date, created_by, 
@@ -52,6 +58,11 @@ class Company {
     // Get company by code
     static async findByCode(companyCode) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return null;
+            }
+            
             const query = `
                 SELECT company_code, company_name_th, company_name_en, 
                        tax_id, is_active, created_date, created_by, 
@@ -76,6 +87,11 @@ class Company {
     // Create new company
     async create() {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return this;
+            }
+            
             const query = `
                 INSERT INTO Companies (
                     company_code, company_name_th, company_name_en, 
@@ -109,6 +125,11 @@ class Company {
     // Update company
     async update() {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return this;
+            }
+            
             const query = `
                 UPDATE Companies
                 SET company_name_th = @company_name_th,
@@ -143,6 +164,11 @@ class Company {
     // Update company status
     static async updateStatus(companyCode, isActive, updatedBy) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return null;
+            }
+            
             const query = `
                 UPDATE Companies
                 SET is_active = @is_active,
@@ -173,6 +199,11 @@ class Company {
     // Check if company code exists
     static async exists(companyCode) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return false;
+            }
+            
             const query = `
                 SELECT COUNT(*) as count
                 FROM Companies
@@ -190,6 +221,19 @@ class Company {
     // Get companies with pagination
     static async findPaginated(page = 1, limit = 20, filters = {}) {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return {
+                    data: [],
+                    pagination: {
+                        page: page,
+                        limit: limit,
+                        total: 0,
+                        pages: 0
+                    }
+                };
+            }
+            
             const offset = (page - 1) * limit;
             
             // Count total records
@@ -258,6 +302,15 @@ class Company {
     // Get company statistics
     static async getStatistics() {
         try {
+            // Skip database if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return {
+                    total_companies: 0,
+                    active_companies: 0,
+                    inactive_companies: 0
+                };
+            }
+            
             const query = `
                 SELECT 
                     COUNT(*) as total_companies,

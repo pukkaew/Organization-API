@@ -31,6 +31,12 @@ let pool;
 
 // Connect to database
 async function connectDatabase() {
+    // Skip database connection if USE_DATABASE is false
+    if (process.env.USE_DATABASE === 'false') {
+        logger.info('Database connection skipped (USE_DATABASE=false)');
+        return null;
+    }
+    
     try {
         pool = await sql.connect(config);
         logger.info('Database connection established');
