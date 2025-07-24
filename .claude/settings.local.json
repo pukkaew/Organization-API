@@ -24,7 +24,9 @@
       "Bash(move test-*.js test/)",
       "Bash(mv:*)",
       "Bash(ls:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(del cookies.txt)",
+      "Bash(find:*)"
     ],
     "deny": []
   }

@@ -8,6 +8,7 @@ router.get('/', divisionController.showDivisionsPage);
 
 // Display create form (ต้องอยู่ก่อน /:code)
 router.get('/new', divisionController.showCreateDivisionForm);
+router.get('/create', divisionController.showCreateDivisionForm); // เพิ่ม route มาตรฐาน
 
 // Create division
 router.post('/', divisionController.handleCreateDivision);

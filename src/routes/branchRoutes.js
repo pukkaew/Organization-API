@@ -8,6 +8,7 @@ router.get('/', branchController.showBranchesPage);
 
 // Display create form (ต้องอยู่ก่อน /:code)
 router.get('/new', branchController.showCreateBranchForm);
+router.get('/create', branchController.showCreateBranchForm); // เพิ่ม route มาตรฐาน
 
 // Create branch
 router.post('/', branchController.handleCreateBranch);

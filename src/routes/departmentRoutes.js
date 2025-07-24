@@ -8,6 +8,7 @@ router.get('/', departmentController.showDepartmentsPage);
 
 // Display create form (ต้องอยู่ก่อน /:code)
 router.get('/new', departmentController.showCreateDepartmentForm);
+router.get('/create', departmentController.showCreateDepartmentForm); // เพิ่ม route มาตรฐาน
 
 // Create department
 router.post('/', departmentController.handleCreateDepartment);

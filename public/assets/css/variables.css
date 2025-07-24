@@ -1,0 +1,346 @@
+/* ===== RUXCHAI COLD STORAGE THEME VARIABLES ===== */
+/* Based on Organization Structure Service Requirements v2.pdf */
+/* Section 5.3: การจัดการ Theme (Ruxchai Cold Storage) */
+
+:root {
+    /* ===== PRIMARY COLORS ===== */
+    --color-primary: #0090D3; /* Ruxchai Blue */
+    --color-primary-rgb: 0, 144, 211;
+
+    /* ===== SECONDARY COLORS ===== */
+    --color-secondary-green: #3AAA35; /* Green */
+    --color-secondary-green-rgb: 58, 170, 53;
+
+    --color-secondary-grey: #555452; /* Grey */
+    --color-secondary-grey-rgb: 85, 84, 82;
+
+    /* ===== BLUE SHADES ===== */
+    --color-blue-dark: #047685;   /* 100% */
+    --color-blue-medium: #00B1EF; /* 70% */
+    --color-blue-light: #4DD1FF;  /* 50% */
+
+    /* ===== GREEN SHADES ===== */
+    --color-green-dark: #258C1F;   /* 100% */
+    --color-green-medium: #24C617; /* 70% */
+    --color-green-light: #56E04F;  /* 50% */
+
+    /* ===== GREY SHADES ===== */
+    --color-grey-dark: #161616;   /* 100% */
+    --color-grey-medium: #6B6B6B; /* 70% */
+    --color-grey-light: #999999;  /* 50% */
+
+    /* ===== SEMANTIC COLORS ===== */
+    --color-success: var(--color-secondary-green);
+    --color-info: var(--color-primary);
+    --color-warning: #FFC107;
+    --color-danger: #DC3545;
+
+    /* ===== BACKGROUND COLORS ===== */
+    --bg-primary: var(--color-primary);
+    --bg-secondary: #F8F9FA;
+    --bg-dark: var(--color-grey-dark);
+    --bg-light: #FFFFFF;
+
+    /* ===== TEXT COLORS ===== */
+    --text-primary: var(--color-grey-dark);
+    --text-secondary: var(--color-grey-medium);
+    --text-light: var(--color-grey-light);
+    --text-white: #FFFFFF;
+    --text-muted: #6C757D;
+
+    /* ===== BORDER COLORS ===== */
+    --border-primary: var(--color-primary);
+    --border-secondary: #DEE2E6;
+    --border-light: #E9ECEF;
+    --border-dark: var(--color-grey-medium);
+
+    /* ===== SPACING ===== */
+    --spacing-xs: 0.25rem;   /* 4px */
+    --spacing-sm: 0.5rem;    /* 8px */
+    --spacing-md: 1rem;      /* 16px */
+    --spacing-lg: 1.5rem;    /* 24px */
+    --spacing-xl: 2rem;      /* 32px */
+    --spacing-2xl: 3rem;     /* 48px */
+
+    /* ===== BORDER RADIUS ===== */
+    --radius-sm: 0.25rem;    /* 4px */
+    --radius-md: 0.375rem;   /* 6px */
+    --radius-lg: 0.5rem;     /* 8px */
+    --radius-xl: 0.75rem;    /* 12px */
+
+    /* ===== SHADOWS ===== */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+    /* ===== TRANSITIONS ===== */
+    --transition-fast: 150ms ease-in-out;
+    --transition-normal: 300ms ease-in-out;
+    --transition-slow: 500ms ease-in-out;
+
+    /* ===== FONT FAMILIES ===== */
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+
+    /* ===== FONT SIZES ===== */
+    --text-xs: 0.75rem;      /* 12px */
+    --text-sm: 0.875rem;     /* 14px */
+    --text-base: 1rem;       /* 16px */
+    --text-lg: 1.125rem;     /* 18px */
+    --text-xl: 1.25rem;      /* 20px */
+    --text-2xl: 1.5rem;      /* 24px */
+    --text-3xl: 1.875rem;    /* 30px */
+    --text-4xl: 2.25rem;     /* 36px */
+
+    /* ===== FONT WEIGHTS ===== */
+    --font-light: 300;
+    --font-normal: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+
+    /* ===== Z-INDEX ===== */
+    --z-dropdown: 1000;
+    --z-sticky: 1020;
+    --z-fixed: 1030;
+    --z-modal-backdrop: 1040;
+    --z-modal: 1050;
+    --z-popover: 1060;
+    --z-tooltip: 1070;
+}
+
+/* ===== UTILITY CLASSES ===== */
+
+/* Background Colors */
+.bg-ruxchai-blue { background-color: var(--color-primary); }
+.bg-ruxchai-green { background-color: var(--color-secondary-green); }
+.bg-ruxchai-grey { background-color: var(--color-secondary-grey); }
+
+.bg-blue-dark { background-color: var(--color-blue-dark); }
+.bg-blue-medium { background-color: var(--color-blue-medium); }
+.bg-blue-light { background-color: var(--color-blue-light); }
+
+.bg-green-dark { background-color: var(--color-green-dark); }
+.bg-green-medium { background-color: var(--color-green-medium); }
+.bg-green-light { background-color: var(--color-green-light); }
+
+/* Text Colors */
+.text-ruxchai-blue { color: var(--color-primary); }
+.text-ruxchai-green { color: var(--color-secondary-green); }
+.text-ruxchai-grey { color: var(--color-secondary-grey); }
+
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+.text-white { color: var(--text-white); }
+
+/* Border Colors */
+.border-ruxchai-blue { border-color: var(--color-primary); }
+.border-ruxchai-green { border-color: var(--color-secondary-green); }
+.border-primary { border-color: var(--border-primary); }
+.border-secondary { border-color: var(--border-secondary); }
+
+/* Hover States */
+.hover\:bg-ruxchai-blue:hover { background-color: var(--color-primary); }
+.hover\:bg-blue-dark:hover { background-color: var(--color-blue-dark); }
+.hover\:text-ruxchai-blue:hover { color: var(--color-primary); }
+
+/* Button Variants */
+.btn-ruxchai {
+    background-color: var(--color-primary);
+    color: var(--text-white);
+    border-color: var(--color-primary);
+    transition: all var(--transition-fast);
+}
+
+.btn-ruxchai:hover {
+    background-color: var(--color-blue-dark);
+    border-color: var(--color-blue-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-ruxchai-outline {
+    background-color: transparent;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    transition: all var(--transition-fast);
+}
+
+.btn-ruxchai-outline:hover {
+    background-color: var(--color-primary);
+    color: var(--text-white);
+}
+
+.btn-success {
+    background-color: var(--color-secondary-green);
+    color: var(--text-white);
+    border-color: var(--color-secondary-green);
+}
+
+.btn-success:hover {
+    background-color: var(--color-green-dark);
+    border-color: var(--color-green-dark);
+}
+
+/* Status Badges */
+.badge-success {
+    background-color: var(--color-secondary-green);
+    color: var(--text-white);
+}
+
+.badge-primary {
+    background-color: var(--color-primary);
+    color: var(--text-white);
+}
+
+.badge-secondary {
+    background-color: var(--color-secondary-grey);
+    color: var(--text-white);
+}
+
+/* Navigation Styles */
+.nav-link.active {
+    background-color: var(--color-primary);
+    color: var(--text-white);
+}
+
+.nav-link:hover {
+    background-color: var(--color-blue-light);
+    color: var(--text-white);
+}
+
+/* Form Styles */
+.form-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.1);
+}
+
+.form-select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.1);
+}
+
+/* Table Styles */
+.table-header {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.table-row:hover {
+    background-color: rgba(var(--color-primary-rgb), 0.05);
+}
+
+/* Card Styles */
+.card-ruxchai {
+    border: 1px solid var(--border-secondary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-fast);
+}
+
+.card-ruxchai:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+/* Alert Styles */
+.alert-success {
+    background-color: rgba(var(--color-secondary-green-rgb), 0.1);
+    border-color: var(--color-secondary-green);
+    color: var(--color-green-dark);
+}
+
+.alert-info {
+    background-color: rgba(var(--color-primary-rgb), 0.1);
+    border-color: var(--color-primary);
+    color: var(--color-blue-dark);
+}
+
+.alert-warning {
+    background-color: rgba(255, 193, 7, 0.1);
+    border-color: var(--color-warning);
+    color: #856404;
+}
+
+.alert-danger {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-color: var(--color-danger);
+    color: #721c24;
+}
+
+/* Loading Spinner */
+.spinner-ruxchai {
+    border: 2px solid rgba(var(--color-primary-rgb), 0.2);
+    border-top: 2px solid var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Utilities */
+@media (max-width: 640px) {
+    :root {
+        --text-base: 0.875rem;
+        --text-lg: 1rem;
+        --text-xl: 1.125rem;
+        --spacing-md: 0.75rem;
+        --spacing-lg: 1rem;
+    }
+}
+
+/* Additional Responsive Classes */
+.responsive { display: block; }
+.responsive-grid { display: grid; }
+.responsive-flex { display: flex; }
+
+/* Mobile-first responsive utilities */
+.col-12 { width: 100%; }
+.col-6 { width: 50%; }
+.col-4 { width: 33.333%; }
+.col-3 { width: 25%; }
+
+@media (min-width: 768px) {
+    .col-md-12 { width: 100%; }
+    .col-md-6 { width: 50%; }
+    .col-md-4 { width: 33.333%; }
+    .col-md-3 { width: 25%; }
+    .responsive-md { display: block; }
+}
+
+@media (min-width: 1024px) {
+    .col-lg-12 { width: 100%; }
+    .col-lg-6 { width: 50%; }
+    .col-lg-4 { width: 33.333%; }
+    .col-lg-3 { width: 25%; }
+    .responsive-lg { display: block; }
+}
+
+/* Container responsive classes */
+.container-responsive {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+@media (min-width: 768px) {
+    .container-responsive {
+        padding: 0 2rem;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .btn-ruxchai,
+    .btn-ruxchai-outline {
+        background-color: transparent !important;
+        color: var(--text-primary) !important;
+        border-color: var(--text-primary) !important;
+    }
+}

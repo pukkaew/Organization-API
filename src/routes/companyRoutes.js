@@ -8,6 +8,7 @@ router.get('/', companyController.showCompaniesPage);
 
 // Display create form (ต้องอยู่ก่อน /:code)
 router.get('/new', companyController.showCreateCompanyForm);
+router.get('/create', companyController.showCreateCompanyForm); // เพิ่ม route มาตรฐาน
 
 // Create company
 router.post('/', companyController.handleCreateCompany);
