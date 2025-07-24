@@ -145,12 +145,14 @@ const showEditCompanyForm = asyncHandler(async (req, res) => {
 // Handle create company form submission
 const handleCreateCompany = asyncHandler(async (req, res) => {
     try {
+        logger.info('Form data received:', req.body);
+        
         const companyData = {
             company_code: req.body.company_code,
             company_name_th: req.body.company_name_th,
             company_name_en: req.body.company_name_en,
             tax_id: req.body.tax_id,
-            is_active: req.body.is_active === 'on',
+            is_active: req.body.is_active === 'true',
             created_by: req.user?.username || 'admin'
         };
 

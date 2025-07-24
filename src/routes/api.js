@@ -410,11 +410,11 @@ router.get(`${API_VERSION}/organization-tree`,
     apiController.getOrganizationTree
 );
 
-router.get(`${API_VERSION}/organization-tree/:company_code`,
+router.get(`${API_VERSION}/organization-tree/:code`,
     companyValidator.getCompanyByCodeRules(),
     validate,
     asyncHandler(async (req, res) => {
-        const tree = await OrganizationService.getOrganizationTree(req.params.company_code);
+        const tree = await OrganizationService.getOrganizationTree(req.params.code);
         if (!tree || tree.length === 0) {
             return notFound(res, 'Company not found or has no organization structure');
         }
@@ -436,8 +436,8 @@ router.get(`${API_VERSION}/statistics`,
 
 // ===== FLEXIBLE API ROUTES (FR-API-004) =====
 router.get(`${API_VERSION}/flexible/company-departments`,
-    companyValidator.getCompanyByCodeRules(),
-    validate,
+    // companyValidator.flexibleApiRules(),
+    // validate,
     asyncHandler(async (req, res) => {
         const company_code = req.query.company;
         if (!company_code) {
@@ -470,8 +470,8 @@ router.get(`${API_VERSION}/flexible/company-departments`,
 );
 
 router.get(`${API_VERSION}/flexible/company-full`,
-    companyValidator.getCompanyByCodeRules(),
-    validate,
+    // companyValidator.flexibleApiRules(),
+    // validate,
     asyncHandler(async (req, res) => {
         const company_code = req.query.company;
         if (!company_code) {
@@ -506,8 +506,8 @@ router.get(`${API_VERSION}/flexible/company-full`,
 );
 
 router.get(`${API_VERSION}/flexible/custom`,
-    companyValidator.getCompanyByCodeRules(),
-    validate,
+    // companyValidator.flexibleApiRules(),
+    // validate,
     asyncHandler(async (req, res) => {
         const company_code = req.query.company;
         if (!company_code) {

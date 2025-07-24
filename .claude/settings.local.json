@@ -11,7 +11,9 @@
       "Bash(powershell:*)",
       "Bash(set PORT=3004)",
       "WebFetch(domain:localhost)",
-      "Bash(wmic process where:*)"
+      "Bash(wmic process where:*)",
+      "Bash(npm run dev:*)",
+      "Bash(tasklist)"
     ],
     "deny": []
   }

@@ -385,6 +385,11 @@ class Company {
     }
 
     static async createMock(companyData) {
+        // Validate company code
+        if (!companyData.company_code) {
+            throw new Error('Company code is required');
+        }
+        
         // Check if code already exists
         if (this.mockCompanies.find(c => c.company_code === companyData.company_code)) {
             throw new Error(`Company code ${companyData.company_code} already exists`);

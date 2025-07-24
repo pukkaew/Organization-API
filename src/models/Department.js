@@ -18,7 +18,20 @@ class Department {
         try {
             // Skip database if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return [];
+                return this.getMockData().filter(department => {
+                    if (filters.division_code && department.division_code !== filters.division_code) {
+                        return false;
+                    }
+                    if (filters.is_active !== undefined && department.is_active !== filters.is_active) {
+                        return false;
+                    }
+                    if (filters.search) {
+                        const search = filters.search.toLowerCase();
+                        return department.department_name.toLowerCase().includes(search) ||
+                               department.department_code.toLowerCase().includes(search);
+                    }
+                    return true;
+                });
             }
             
             let query = `
@@ -475,6 +488,125 @@ class Department {
             return await Department.findByCode(departmentCode);
         } catch (error) {
             logger.error('Error in Department.moveToDivision:', error);
+            throw error;
+        }
+    }
+
+    // Mock data for testing
+    static mockDepartments = [
+        {
+            department_code: 'RUXCHAI-DEPT01',
+            department_name: 'แผนกขายในประเทศ',
+            division_code: 'RUXCHAI-DIV01',
+            is_active: true,
+            created_date: '2024-01-17T00:00:00.000Z',
+            created_by: 'admin',
+            updated_date: null,
+            updated_by: null
+        },
+        {
+            department_code: 'RUXCHAI-DEPT02',
+            department_name: 'แผนกขายต่างประเทศ',
+            division_code: 'RUXCHAI-DIV01',
+            is_active: true,
+            created_date: '2024-01-17T00:00:00.000Z',
+            created_by: 'admin',
+            updated_date: null,
+            updated_by: null
+        },
+        {
+            department_code: 'RUXCHAI-DEPT03',
+            department_name: 'แผนกบัญชี',
+            division_code: 'RUXCHAI-DIV02',
+            is_active: true,
+            created_date: '2024-01-17T00:00:00.000Z',
+            created_by: 'admin',
+            updated_date: null,
+            updated_by: null
+        },
+        {
+            department_code: 'COLD001-DEPT01',
+            department_name: 'แผนกขนส่ง',
+            division_code: 'COLD001-DIV01',
+            is_active: true,
+            created_date: '2024-02-03T00:00:00.000Z',
+            created_by: 'admin',
+            updated_date: null,
+            updated_by: null
+        }
+    ];
+
+    static getMockData() {
+        return this.mockDepartments.map(data => new Department(data));
+    }
+
+    // Mock exists method
+    static async exists(departmentCode) {
+        if (process.env.USE_DATABASE === 'false') {
+            return this.mockDepartments.some(d => d.department_code === departmentCode);
+        }
+        
+        try {
+            const query = `
+                SELECT COUNT(*) as count
+                FROM Departments
+                WHERE department_code = @department_code
+            `;
+            
+            const result = await executeQuery(query, { department_code: departmentCode });
+            return result.recordset[0].count > 0;
+        } catch (error) {
+            logger.error('Error in Department.exists:', error);
+            throw error;
+        }
+    }
+
+    // Mock findByCode method
+    static async findByCode(departmentCode) {
+        if (process.env.USE_DATABASE === 'false') {
+            const department = this.mockDepartments.find(d => d.department_code === departmentCode);
+            return department ? new Department(department) : null;
+        }
+        
+        try {
+            const query = `
+                SELECT department_code, department_name, division_code, 
+                       is_active, created_date, created_by, 
+                       updated_date, updated_by
+                FROM Departments
+                WHERE department_code = @department_code
+            `;
+            
+            const result = await executeQuery(query, { department_code: departmentCode });
+            return result.recordset.length > 0 ? new Department(result.recordset[0]) : null;
+        } catch (error) {
+            logger.error('Error in Department.findByCode:', error);
+            throw error;
+        }
+    }
+
+    // Mock findByDivision method
+    static async findByDivision(divisionCode) {
+        if (process.env.USE_DATABASE === 'false') {
+            return this.mockDepartments
+                .filter(d => d.division_code === divisionCode)
+                .map(d => new Department(d));
+        }
+        
+        try {
+            const query = `
+                SELECT department_code, department_name, division_code, 
+                       is_active, created_date, created_by, 
+                       updated_date, updated_by
+                FROM Departments
+                WHERE division_code = @division_code
+                ORDER BY department_code
+            `;
+            
+            const result = await executeQuery(query, { division_code: divisionCode });
+            return result.recordset.map(row => new Department(row));
+        } catch (error) {
+            logger.error('Error in Department.findByDivision:', error);
             throw error;
         }
     }

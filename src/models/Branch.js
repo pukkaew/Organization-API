@@ -19,7 +19,23 @@ class Branch {
         try {
             // Skip database if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return [];
+                return this.getMockData().filter(branch => {
+                    if (filters.company_code && branch.company_code !== filters.company_code) {
+                        return false;
+                    }
+                    if (filters.is_active !== undefined && branch.is_active !== filters.is_active) {
+                        return false;
+                    }
+                    if (filters.is_headquarters !== undefined && branch.is_headquarters !== filters.is_headquarters) {
+                        return false;
+                    }
+                    if (filters.search) {
+                        const search = filters.search.toLowerCase();
+                        return branch.branch_name.toLowerCase().includes(search) ||
+                               branch.branch_code.toLowerCase().includes(search);
+                    }
+                    return true;
+                });
             }
             
             let query = `
@@ -422,7 +438,7 @@ class Branch {
         try {
             // Skip database if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return false;
+                return this.mockBranches.some(b => b.company_code === companyCode);
             }
             
             const query = `
@@ -435,6 +451,118 @@ class Branch {
             return result.recordset[0].count > 0;
         } catch (error) {
             logger.error('Error in Branch.companyHasBranches:', error);
+            throw error;
+        }
+    }
+
+    // Mock data for testing
+    static mockBranches = [
+        {
+            branch_code: 'RUXCHAI-HQ',
+            branch_name: 'สำนักงานใหญ่',
+            company_code: 'RUXCHAI',
+            is_headquarters: true,
+            is_active: true,
+            created_date: '2024-01-15T00:00:00.000Z',
+            created_by: 'admin',
+            updated_date: null,
+            updated_by: null
+        },
+        {
+            branch_code: 'RUXCHAI-BKK',
+            branch_name: 'สาขากรุงเทพ',
+            company_code: 'RUXCHAI',
+            is_headquarters: false,
+            is_active: true,
+            created_date: '2024-01-20T00:00:00.000Z',
+            created_by: 'admin',
+            updated_date: null,
+            updated_by: null
+        },
+        {
+            branch_code: 'COLD001-HQ',
+            branch_name: 'สำนักงานใหญ่',
+            company_code: 'COLD001',
+            is_headquarters: true,
+            is_active: true,
+            created_date: '2024-02-01T00:00:00.000Z',
+            created_by: 'admin',
+            updated_date: null,
+            updated_by: null
+        }
+    ];
+
+    static getMockData() {
+        return this.mockBranches.map(data => new Branch(data));
+    }
+
+    // Mock exists method
+    static async exists(branchCode) {
+        if (process.env.USE_DATABASE === 'false') {
+            return this.mockBranches.some(b => b.branch_code === branchCode);
+        }
+        
+        try {
+            const query = `
+                SELECT COUNT(*) as count
+                FROM Branches
+                WHERE branch_code = @branch_code
+            `;
+            
+            const result = await executeQuery(query, { branch_code: branchCode });
+            return result.recordset[0].count > 0;
+        } catch (error) {
+            logger.error('Error in Branch.exists:', error);
+            throw error;
+        }
+    }
+
+    // Mock findByCode method
+    static async findByCode(branchCode) {
+        if (process.env.USE_DATABASE === 'false') {
+            const branch = this.mockBranches.find(b => b.branch_code === branchCode);
+            return branch ? new Branch(branch) : null;
+        }
+        
+        try {
+            const query = `
+                SELECT branch_code, branch_name, company_code, 
+                       is_headquarters, is_active, created_date, 
+                       created_by, updated_date, updated_by
+                FROM Branches
+                WHERE branch_code = @branch_code
+            `;
+            
+            const result = await executeQuery(query, { branch_code: branchCode });
+            return result.recordset.length > 0 ? new Branch(result.recordset[0]) : null;
+        } catch (error) {
+            logger.error('Error in Branch.findByCode:', error);
+            throw error;
+        }
+    }
+
+    // Mock findByCompany method
+    static async findByCompany(companyCode) {
+        if (process.env.USE_DATABASE === 'false') {
+            return this.mockBranches
+                .filter(b => b.company_code === companyCode)
+                .map(b => new Branch(b));
+        }
+        
+        try {
+            const query = `
+                SELECT branch_code, branch_name, company_code, 
+                       is_headquarters, is_active, created_date, 
+                       created_by, updated_date, updated_by
+                FROM Branches
+                WHERE company_code = @company_code
+                ORDER BY is_headquarters DESC, branch_code
+            `;
+            
+            const result = await executeQuery(query, { company_code: companyCode });
+            return result.recordset.map(row => new Branch(row));
+        } catch (error) {
+            logger.error('Error in Branch.findByCompany:', error);
             throw error;
         }
     }

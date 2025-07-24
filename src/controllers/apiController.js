@@ -12,6 +12,23 @@ const logger = require('../utils/logger');
 const getOrganizationTree = asyncHandler(async (req, res) => {
     const { company_code } = req.query;
     
+    // Handle mock data when database is disabled
+    if (process.env.USE_DATABASE === 'false') {
+        const companies = await Company.findAll();
+        const tree = companies.map(company => ({
+            company_code: company.company_code,
+            company_name_th: company.company_name_th,
+            company_name_en: company.company_name_en,
+            is_active: company.is_active,
+            branches: [], // Mock data doesn't have branches/divisions/departments
+            divisions: []
+        }));
+        
+        // Filter by company code if specified
+        const filteredTree = company_code ? tree.filter(c => c.company_code === company_code) : tree;
+        return sendSuccess(res, filteredTree, 'Organization tree retrieved successfully');
+    }
+    
     let query = `
         SELECT 
             c.company_code,
@@ -59,6 +76,34 @@ const searchOrganization = asyncHandler(async (req, res) => {
     
     if (!q || q.length < 2) {
         return badRequest(res, 'Search query must be at least 2 characters');
+    }
+    
+    // Handle mock data when database is disabled
+    if (process.env.USE_DATABASE === 'false') {
+        const results = {
+            companies: [],
+            branches: [],
+            divisions: [],
+            departments: []
+        };
+        
+        // Search companies only (mock data doesn't have other entities)
+        if (!type || type === 'company') {
+            const companies = await Company.findAll({ search: q });
+            results.companies = companies.slice(0, parseInt(limit)).map(c => ({
+                company_code: c.company_code,
+                company_name_th: c.company_name_th,
+                company_name_en: c.company_name_en,
+                is_active: c.is_active
+            }));
+        }
+        
+        const totalResults = results.companies.length;
+        return sendSuccess(res, {
+            query: q,
+            total: totalResults,
+            results: results
+        }, 'Search completed successfully');
     }
     
     const searchTerm = `%${q}%`;
@@ -150,6 +195,29 @@ const searchOrganization = asyncHandler(async (req, res) => {
 const getEntityHierarchy = asyncHandler(async (req, res) => {
     const { type, code } = req.params;
     
+    // Handle mock data when database is disabled
+    if (process.env.USE_DATABASE === 'false') {
+        if (type === 'company') {
+            const company = await Company.findByCode(code);
+            if (!company) {
+                return notFound(res, 'Company not found');
+            }
+            
+            const hierarchy = {
+                company_code: company.company_code,
+                company_name_th: company.company_name_th,
+                company_name_en: company.company_name_en,
+                branch_count: 0, // Mock data doesn't have branches
+                division_count: 0,
+                department_count: 0
+            };
+            
+            return sendSuccess(res, hierarchy, 'Company hierarchy retrieved successfully');
+        } else {
+            return notFound(res, `${type} not found - mock data only supports companies`);
+        }
+    }
+    
     let query;
     const inputs = { code: code };
     
@@ -231,6 +299,33 @@ const getEntityHierarchy = asyncHandler(async (req, res) => {
 
 // Get organization statistics
 const getOrganizationStatistics = asyncHandler(async (req, res) => {
+    // Handle mock data when database is disabled
+    if (process.env.USE_DATABASE === 'false') {
+        const companies = await Company.findAll();
+        const activeCompanies = companies.filter(c => c.is_active).length;
+        const inactiveCompanies = companies.filter(c => !c.is_active).length;
+        
+        const stats = {
+            active_companies: activeCompanies,
+            inactive_companies: inactiveCompanies,
+            active_branches: 0, // Mock data doesn't have branches
+            inactive_branches: 0,
+            active_divisions: 0,
+            inactive_divisions: 0,
+            active_departments: 0,
+            inactive_departments: 0,
+            companies_with_branches: 0,
+            companies_without_branches: activeCompanies + inactiveCompanies,
+            total_companies: activeCompanies + inactiveCompanies,
+            total_branches: 0,
+            total_divisions: 0,
+            total_departments: 0,
+            total_entities: activeCompanies + inactiveCompanies
+        };
+        
+        return sendSuccess(res, stats, 'Organization statistics retrieved successfully');
+    }
+    
     const query = `
         SELECT 
             (SELECT COUNT(*) FROM Companies WHERE is_active = 1) as active_companies,

@@ -138,10 +138,29 @@ const searchCompaniesRules = () => {
     ];
 };
 
+// Validation rules for flexible API endpoints
+const flexibleApiRules = () => {
+    return [
+        query('company')
+            .trim()
+            .notEmpty().withMessage('Company code is required')
+            .isLength({ min: 1, max: 20 }).withMessage('Company code must be between 1 and 20 characters'),
+        
+        query('include')
+            .optional()
+            .trim(),
+        
+        query('skip')
+            .optional()
+            .trim()
+    ];
+};
+
 module.exports = {
     createCompanyRules,
     updateCompanyRules,
     getCompanyByCodeRules,
     updateCompanyStatusRules,
-    searchCompaniesRules
+    searchCompaniesRules,
+    flexibleApiRules
 };

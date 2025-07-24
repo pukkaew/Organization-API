@@ -2,6 +2,7 @@
 const { executeQuery, executeTransaction } = require('../config/database');
 const cache = require('../utils/cache');
 const logger = require('../utils/logger');
+const Company = require('../models/Company');
 
 class OrganizationService {
     /**
@@ -134,9 +135,9 @@ class OrganizationService {
      * Get full organization tree
      */
     static async getOrganizationTree(companyCode = null) {
-        // Skip database if USE_DATABASE is false
+        // Use mock data if USE_DATABASE is false
         if (process.env.USE_DATABASE === 'false') {
-            return [];
+            return this.getMockOrganizationTree(companyCode);
         }
         
         try {
@@ -262,9 +263,33 @@ class OrganizationService {
      * FR-API-004: Flexible Data Retrieval
      */
     static async getCompanyWithDepartments(companyCode) {
-        // Skip database if USE_DATABASE is false
+        // Use mock data if USE_DATABASE is false
         if (process.env.USE_DATABASE === 'false') {
-            return { company: null, departments: [] };
+            const company = await Company.findByCode(companyCode);
+            if (!company) {
+                return null;
+            }
+            
+            const Division = require('../models/Division');
+            const Department = require('../models/Department');
+            
+            const divisions = await Division.findByCompany(companyCode);
+            let departments = [];
+            for (const division of divisions) {
+                const divisionDepartments = await Department.findByDivision(division.division_code);
+                departments = departments.concat(divisionDepartments);
+            }
+            
+            return { 
+                company: {
+                    company_code: company.company_code,
+                    company_name_th: company.company_name_th,
+                    company_name_en: company.company_name_en,
+                    tax_id: company.tax_id,
+                    is_active: company.is_active
+                }, 
+                departments: departments
+            };
         }
 
         try {
@@ -329,9 +354,39 @@ class OrganizationService {
      * FR-API-004: Flexible Data Retrieval
      */
     static async getCompanyFull(companyCode) {
-        // Skip database if USE_DATABASE is false
+        // Use mock data if USE_DATABASE is false
         if (process.env.USE_DATABASE === 'false') {
-            return { company: null, branches: [], divisions: [], departments: [] };
+            const company = await Company.findByCode(companyCode);
+            if (!company) {
+                return null;
+            }
+            
+            const Branch = require('../models/Branch');
+            const Division = require('../models/Division');
+            const Department = require('../models/Department');
+            
+            const branches = await Branch.findByCompany(companyCode);
+            const divisions = await Division.findByCompany(companyCode);
+            
+            // Get all departments for divisions in this company
+            let departments = [];
+            for (const division of divisions) {
+                const divisionDepartments = await Department.findByDivision(division.division_code);
+                departments = departments.concat(divisionDepartments);
+            }
+            
+            return { 
+                company: {
+                    company_code: company.company_code,
+                    company_name_th: company.company_name_th,
+                    company_name_en: company.company_name_en,
+                    tax_id: company.tax_id,
+                    is_active: company.is_active
+                },
+                branches: branches,
+                divisions: divisions,
+                departments: departments
+            };
         }
 
         try {
@@ -435,6 +490,37 @@ class OrganizationService {
             skip = []
         } = includeParams;
 
+        // Handle mock data when database is disabled
+        if (process.env.USE_DATABASE === 'false') {
+            const company = await Company.findByCode(companyCode);
+            if (!company) {
+                return null;
+            }
+            
+            const result = {
+                company: {
+                    company_code: company.company_code,
+                    company_name_th: company.company_name_th,
+                    company_name_en: company.company_name_en,
+                    tax_id: company.tax_id,
+                    is_active: company.is_active
+                }
+            };
+            
+            // Mock data only has companies, so branches/divisions/departments are empty
+            if (branches && !skip.includes('branches')) {
+                result.branches = [];
+            }
+            if (divisions && !skip.includes('divisions')) {
+                result.divisions = [];
+            }
+            if (departments && !skip.includes('departments')) {
+                result.departments = [];
+            }
+            
+            return result;
+        }
+
         try {
             const result = { company: null };
             
@@ -532,6 +618,65 @@ class OrganizationService {
             logger.error('Error cloning structure:', error);
             throw error;
         }
+    }
+
+    /**
+     * Get mock organization tree for testing
+     */
+    static getMockOrganizationTree(companyCode = null) {
+        const Company = require('../models/Company');
+        const Branch = require('../models/Branch');
+        const Division = require('../models/Division');
+        const Department = require('../models/Department');
+
+        const companies = Company.mockCompanies;
+        const branches = Branch.mockBranches;
+        const divisions = Division.mockDivisions;
+        const departments = Department.mockDepartments;
+
+        // Filter companies if companyCode is provided
+        const filteredCompanies = companyCode 
+            ? companies.filter(c => c.company_code === companyCode)
+            : companies;
+
+        return filteredCompanies.map(company => {
+            const companyBranches = branches.filter(b => b.company_code === company.company_code);
+            const companyDivisions = divisions.filter(d => d.company_code === company.company_code);
+
+            return {
+                company_code: company.company_code,
+                company_name_th: company.company_name_th,
+                company_name_en: company.company_name_en,
+                is_active: company.is_active,
+                branches: companyBranches.map(branch => ({
+                    branch_code: branch.branch_code,
+                    branch_name: branch.branch_name,
+                    is_headquarters: branch.is_headquarters,
+                    is_active: branch.is_active,
+                    divisions: divisions.filter(d => d.branch_code === branch.branch_code).map(division => ({
+                        division_code: division.division_code,
+                        division_name: division.division_name,
+                        is_active: division.is_active,
+                        departments: departments.filter(dept => dept.division_code === division.division_code).map(dept => ({
+                            department_code: dept.department_code,
+                            department_name: dept.department_name,
+                            is_active: dept.is_active
+                        }))
+                    }))
+                })),
+                divisions: companyDivisions.map(division => ({
+                    division_code: division.division_code,
+                    division_name: division.division_name,
+                    branch_code: division.branch_code,
+                    is_active: division.is_active,
+                    departments: departments.filter(dept => dept.division_code === division.division_code).map(dept => ({
+                        department_code: dept.department_code,
+                        department_name: dept.department_name,
+                        is_active: dept.is_active
+                    }))
+                }))
+            };
+        });
     }
 }
 

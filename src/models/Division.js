@@ -19,7 +19,23 @@ class Division {
         try {
             // Skip database if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return [];
+                return this.getMockData().filter(division => {
+                    if (filters.company_code && division.company_code !== filters.company_code) {
+                        return false;
+                    }
+                    if (filters.branch_code && division.branch_code !== filters.branch_code) {
+                        return false;
+                    }
+                    if (filters.is_active !== undefined && division.is_active !== filters.is_active) {
+                        return false;
+                    }
+                    if (filters.search) {
+                        const search = filters.search.toLowerCase();
+                        return division.division_name.toLowerCase().includes(search) ||
+                               division.division_code.toLowerCase().includes(search);
+                    }
+                    return true;
+                });
             }
             
             let query = `
@@ -486,6 +502,144 @@ class Division {
             return await Division.findByCode(divisionCode);
         } catch (error) {
             logger.error('Error in Division.moveToBranch:', error);
+            throw error;
+        }
+    }
+
+    // Mock data for testing
+    static mockDivisions = [
+        {
+            division_code: 'RUXCHAI-DIV01',
+            division_name: 'ฝ่ายขาย',
+            company_code: 'RUXCHAI',
+            branch_code: 'RUXCHAI-HQ',
+            is_active: true,
+            created_date: '2024-01-16T00:00:00.000Z',
+            created_by: 'admin',
+            updated_date: null,
+            updated_by: null
+        },
+        {
+            division_code: 'RUXCHAI-DIV02',
+            division_name: 'ฝ่ายการเงิน',
+            company_code: 'RUXCHAI',
+            branch_code: 'RUXCHAI-HQ',
+            is_active: true,
+            created_date: '2024-01-16T00:00:00.000Z',
+            created_by: 'admin',
+            updated_date: null,
+            updated_by: null
+        },
+        {
+            division_code: 'COLD001-DIV01',
+            division_name: 'ฝ่ายโลจิสติกส์',
+            company_code: 'COLD001',
+            branch_code: 'COLD001-HQ',
+            is_active: true,
+            created_date: '2024-02-02T00:00:00.000Z',
+            created_by: 'admin',
+            updated_date: null,
+            updated_by: null
+        }
+    ];
+
+    static getMockData() {
+        return this.mockDivisions.map(data => new Division(data));
+    }
+
+    // Mock exists method
+    static async exists(divisionCode) {
+        if (process.env.USE_DATABASE === 'false') {
+            return this.mockDivisions.some(d => d.division_code === divisionCode);
+        }
+        
+        try {
+            const query = `
+                SELECT COUNT(*) as count
+                FROM Divisions
+                WHERE division_code = @division_code
+            `;
+            
+            const result = await executeQuery(query, { division_code: divisionCode });
+            return result.recordset[0].count > 0;
+        } catch (error) {
+            logger.error('Error in Division.exists:', error);
+            throw error;
+        }
+    }
+
+    // Mock findByCode method
+    static async findByCode(divisionCode) {
+        if (process.env.USE_DATABASE === 'false') {
+            const division = this.mockDivisions.find(d => d.division_code === divisionCode);
+            return division ? new Division(division) : null;
+        }
+        
+        try {
+            const query = `
+                SELECT division_code, division_name, company_code, 
+                       branch_code, is_active, created_date, 
+                       created_by, updated_date, updated_by
+                FROM Divisions
+                WHERE division_code = @division_code
+            `;
+            
+            const result = await executeQuery(query, { division_code: divisionCode });
+            return result.recordset.length > 0 ? new Division(result.recordset[0]) : null;
+        } catch (error) {
+            logger.error('Error in Division.findByCode:', error);
+            throw error;
+        }
+    }
+
+    // Mock findByBranch method
+    static async findByBranch(branchCode) {
+        if (process.env.USE_DATABASE === 'false') {
+            return this.mockDivisions
+                .filter(d => d.branch_code === branchCode)
+                .map(d => new Division(d));
+        }
+        
+        try {
+            const query = `
+                SELECT division_code, division_name, company_code, 
+                       branch_code, is_active, created_date, 
+                       created_by, updated_date, updated_by
+                FROM Divisions
+                WHERE branch_code = @branch_code
+                ORDER BY division_code
+            `;
+            
+            const result = await executeQuery(query, { branch_code: branchCode });
+            return result.recordset.map(row => new Division(row));
+        } catch (error) {
+            logger.error('Error in Division.findByBranch:', error);
+            throw error;
+        }
+    }
+
+    // Mock findByCompany method
+    static async findByCompany(companyCode) {
+        if (process.env.USE_DATABASE === 'false') {
+            return this.mockDivisions
+                .filter(d => d.company_code === companyCode)
+                .map(d => new Division(d));
+        }
+        
+        try {
+            const query = `
+                SELECT division_code, division_name, company_code, 
+                       branch_code, is_active, created_date, 
+                       created_by, updated_date, updated_by
+                FROM Divisions
+                WHERE company_code = @company_code
+                ORDER BY branch_code, division_code
+            `;
+            
+            const result = await executeQuery(query, { company_code: companyCode });
+            return result.recordset.map(row => new Division(row));
+        } catch (error) {
+            logger.error('Error in Division.findByCompany:', error);
             throw error;
         }
     }
