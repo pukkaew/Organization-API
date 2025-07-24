@@ -26,7 +26,12 @@
       "Bash(ls:*)",
       "Bash(rm:*)",
       "Bash(del cookies.txt)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(for file in views/divisions/index.ejs views/departments/index.ejs)",
+      "Bash(do sed -i 's|<main class=\"\"flex-1 py-8\"\">.*<%- include.*content.*%>.*</main>|<main class=\"\"flex-1 py-8\"\">\\n    <div class=\"\"mx-auto max-w-7xl px-4 sm:px-6 lg:px-8\"\">\\n        <%- include('\"''\"'./content'\"''\"') %>\\n    </div>\\n</main>|g' \"$file\")",
+      "Bash(done)",
+      "Bash(sed:*)",
+      "Bash(echo:*)"
     ],
     "deny": []
   }

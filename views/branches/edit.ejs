@@ -1,184 +1,165 @@
 <!-- Path: /views/branches/edit.ejs -->
-<%- include('../layouts/main', { 
+<%- include('../partials/header', { 
     title: 'Edit Branch',
+    activeMenu: 'branches'
+}) %>
+<%- include('../partials/navigation', { 
     activeMenu: 'branches',
-    body: ` 
-    <div class="max-w-3xl mx-auto">
-        <div class="bg-white shadow-sm rounded-lg">
-            <div class="px-6 py-4 border-b border-gray-200">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-xl font-semibold text-gray-900">Edit Branch</h2>
-                    <a href="/branches" class="text-gray-500 hover:text-gray-700">
-                        <i class="fas fa-times"></i>
-                    </a>
+    user: typeof user !== 'undefined' ? user : null,
+    success: typeof success !== 'undefined' ? success : null,
+    error: typeof error !== 'undefined' ? error : null,
+    warning: typeof warning !== 'undefined' ? warning : null,
+    info: typeof info !== 'undefined' ? info : null
+}) %>
+
+<!-- Main Content -->
+<main class="flex-1 py-8">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto">
+            <div class="bg-white shadow-sm rounded-lg">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-xl font-semibold text-gray-900">Edit Branch</h2>
+                        <a href="/branches" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </div>
                 </div>
-            </div>
-            
-            <form method="post" action="/branches/<%= branch.branch_code %>" class="p-6">
-                <% if (typeof csrfToken !== 'undefined') { %>
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <% } %>
                 
-                <div class="space-y-6">
-                    <!-- Branch Code (Read-only) -->
-                    <div>
-                        <label for="branch_code" class="form-label">
-                            Branch Code
-                        </label>
-                        <input type="text" 
-                               id="branch_code" 
-                               value="<%= branch.branch_code %>" 
-                               disabled
-                               class="form-input bg-gray-100 cursor-not-allowed">
-                        <p class="mt-1 text-sm text-gray-500">
-                            Branch code cannot be changed
-                        </p>
-                    </div>
+                <form method="post" action="/branches/<%= branch.branch_code %>" class="p-6">
+                    <% if (typeof csrfToken !== 'undefined') { %>
+                        <input type="hidden" name="_token" value="<%= csrfToken %>">
+                    <% } %>
+                    <input type="hidden" name="_method" value="PUT">
                     
-                    <!-- Company (Read-only) -->
-                    <div>
-                        <label for="company_display" class="form-label">
-                            Company
-                        </label>
-                        <input type="text" 
-                               id="company_display" 
-                               value="<%= branch.company_code %> - <%= branch.company_name_th %>" 
-                               disabled
-                               class="form-input bg-gray-100 cursor-not-allowed">
-                        <p class="mt-1 text-sm text-gray-500">
-                            Company cannot be changed
-                        </p>
-                    </div>
-                    
-                    <!-- Branch Name -->
-                    <div>
-                        <label for="branch_name" class="form-label">
-                            Branch Name <span class="text-red-500">*</span>
-                        </label>
-                        <input type="text" 
-                               id="branch_name" 
-                               name="branch_name" 
-                               required
-                               maxlength="200"
-                               value="<%= branch.branch_name %>"
-                               class="form-input">
-                    </div>
-                    
-                    <!-- Branch Type -->
-                    <div>
-                        <label class="form-label">Branch Type</label>
-                        <div class="mt-2 space-y-2">
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" 
-                                       name="is_headquarters" 
-                                       id="is_headquarters"
-                                       <%= branch.is_headquarters ? 'checked' : '' %>
-                                       class="text-primary-600 focus:ring-primary-500 rounded">
-                                <span class="ml-2 text-sm text-gray-700">This is the headquarters</span>
+                    <div class="space-y-6">
+                        <!-- Branch Code (Read-only) -->
+                        <div>
+                            <label for="branch_code" class="form-label">
+                                Branch Code
                             </label>
-                            <p class="text-sm text-gray-500">
-                                Check this if this branch is the main headquarters of the company.
-                                Each company can only have one headquarters.
+                            <input type="text" 
+                                   id="branch_code" 
+                                   value="<%= branch.branch_code %>" 
+                                   disabled
+                                   class="form-input bg-gray-100 cursor-not-allowed">
+                            <p class="mt-1 text-sm text-gray-500">
+                                Branch code cannot be changed
                             </p>
                         </div>
-                    </div>
-                    
-                    <!-- Contact Information -->
-                    <div class="space-y-6 pt-6 border-t border-gray-200">
-                        <h3 class="text-lg font-medium text-gray-900">Contact Information</h3>
                         
-                        <!-- Address -->
+                        <!-- Company (Read-only) -->
                         <div>
-                            <label for="address" class="form-label">Address</label>
-                            <textarea id="address" 
-                                      name="address" 
-                                      rows="3"
-                                      class="form-input"><%= branch.address || '' %></textarea>
+                            <label for="company_display" class="form-label">
+                                Company
+                            </label>
+                            <input type="text" 
+                                   id="company_display" 
+                                   value="<%= branch.company_code %>" 
+                                   disabled
+                                   class="form-input bg-gray-100 cursor-not-allowed">
+                            <p class="mt-1 text-sm text-gray-500">
+                                Company cannot be changed
+                            </p>
                         </div>
                         
-                        <!-- Phone -->
+                        <!-- Branch Name -->
                         <div>
-                            <label for="phone" class="form-label">Phone</label>
-                            <input type="tel" 
-                                   id="phone" 
-                                   name="phone"
-                                   value="<%= branch.phone || '' %>"
-                                   class="form-input"
-                                   placeholder="02-123-4567">
+                            <label for="branch_name" class="form-label">
+                                Branch Name <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" 
+                                   id="branch_name" 
+                                   name="branch_name" 
+                                   required
+                                   maxlength="200"
+                                   value="<%= branch.branch_name %>"
+                                   class="form-input">
                         </div>
                         
-                        <!-- Email -->
+                        <!-- Branch Type -->
                         <div>
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" 
-                                   id="email" 
-                                   name="email"
-                                   value="<%= branch.email || '' %>"
-                                   class="form-input"
-                                   placeholder="branch@example.com">
-                        </div>
-                    </div>
-                    
-                    <!-- Status Notice -->
-                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
-                        <div class="flex">
-                            <div class="flex-shrink-0">
-                                <i class="fas fa-exclamation-triangle text-yellow-400"></i>
-                            </div>
-                            <div class="ml-3">
-                                <p class="text-sm text-yellow-700">
-                                    Status: <strong><%= branch.is_active ? 'Active' : 'Inactive' %></strong>
-                                </p>
-                                <p class="text-sm text-yellow-700 mt-1">
-                                    To change status, use the toggle button on the branch list page.
+                            <label class="form-label">Branch Type</label>
+                            <div class="mt-2 space-y-2">
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" 
+                                           name="is_headquarters" 
+                                           id="is_headquarters"
+                                           <%= branch.is_headquarters ? 'checked' : '' %>
+                                           class="text-primary-600 focus:ring-primary-500 rounded">
+                                    <span class="ml-2 text-sm text-gray-700">This is the headquarters</span>
+                                </label>
+                                <p class="text-sm text-gray-500">
+                                    Check this if this branch is the main headquarters of the company.
+                                    Each company can only have one headquarters.
                                 </p>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Metadata -->
-                    <div class="bg-gray-50 rounded-lg p-4">
-                        <div class="grid grid-cols-2 gap-4 text-sm">
-                            <div>
-                                <span class="text-gray-500">Created:</span>
-                                <span class="text-gray-900 ml-2">
-                                    <%= new Date(branch.created_date).toLocaleString('th-TH') %>
-                                </span>
+                        
+                        <!-- Status Notice -->
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-yellow-700">
+                                        Status: <strong><%= branch.is_active ? 'Active' : 'Inactive' %></strong>
+                                    </p>
+                                    <p class="text-sm text-yellow-700 mt-1">
+                                        To change status, use the toggle button on the branch list page.
+                                    </p>
+                                </div>
                             </div>
-                            <div>
-                                <span class="text-gray-500">Created by:</span>
-                                <span class="text-gray-900 ml-2"><%= branch.created_by %></span>
-                            </div>
-                            <% if (branch.updated_date) { %>
+                        </div>
+                        
+                        <!-- Metadata -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="grid grid-cols-2 gap-4 text-sm">
                                 <div>
-                                    <span class="text-gray-500">Updated:</span>
+                                    <span class="text-gray-500">Created:</span>
                                     <span class="text-gray-900 ml-2">
-                                        <%= new Date(branch.updated_date).toLocaleString('th-TH') %>
+                                        <%= new Date(branch.created_date).toLocaleString('th-TH') %>
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="text-gray-500">Updated by:</span>
-                                    <span class="text-gray-900 ml-2"><%= branch.updated_by %></span>
+                                    <span class="text-gray-500">Created by:</span>
+                                    <span class="text-gray-900 ml-2"><%= branch.created_by %></span>
                                 </div>
-                            <% } %>
+                                <% if (branch.updated_date) { %>
+                                    <div>
+                                        <span class="text-gray-500">Updated:</span>
+                                        <span class="text-gray-900 ml-2">
+                                            <%= new Date(branch.updated_date).toLocaleString('th-TH') %>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-500">Updated by:</span>
+                                        <span class="text-gray-900 ml-2"><%= branch.updated_by %></span>
+                                    </div>
+                                <% } %>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Form Actions -->
-                <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
-                    <a href="/branches" class="btn btn-ghost">
-                        <i class="fas fa-arrow-left mr-2"></i>
-                        Cancel
-                    </a>
                     
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save mr-2"></i>
-                        Update Branch
-                    </button>
-                </div>
-            </form>
+                    <!-- Form Actions -->
+                    <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
+                        <a href="/branches" class="btn btn-ghost">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            Cancel
+                        </a>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save mr-2"></i>
+                            Update Branch
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-    ` 
+</main>
+
+<%- include('../partials/footer', {
+    pageScripts: null
 }) %>

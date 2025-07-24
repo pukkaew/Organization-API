@@ -1,5 +1,4 @@
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="space-y-6">
+    <div class="space-y-6">
             <!-- Page Header -->
             <div class="bg-white shadow-sm rounded-lg p-6">
                 <div class="sm:flex sm:items-center sm:justify-between">
@@ -155,7 +154,7 @@
             <% if (typeof pagination !== 'undefined' && pagination.pages > 1) { %>
                 <%- include('../partials/pagination', { pagination, query: typeof query !== 'undefined' ? query : {} }) %>
             <% } %>
-        </div>
+    </div>
 
 <script>
     // Delete confirmation
@@ -179,4 +178,3 @@
         }
     }
 </script>
-    </div>
