@@ -3,7 +3,7 @@ const sql = require('mssql');
 const logger = require('../utils/logger');
 
 // Check if SQLite should be used
-const USE_SQLITE = process.env.DB_TYPE === 'sqlite' || !process.env.DB_SERVER || process.env.DB_SERVER === 'localhost';
+const USE_SQLITE = process.env.DB_TYPE === 'sqlite';
 
 // Import SQLite adapter if needed
 let sqliteAdapter;
