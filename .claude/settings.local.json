@@ -13,7 +13,12 @@
       "WebFetch(domain:localhost)",
       "Bash(wmic process where:*)",
       "Bash(npm run dev:*)",
-      "Bash(tasklist)"
+      "Bash(tasklist)",
+      "Bash(sc query:*)",
+      "Bash(where sqlcmd)",
+      "Bash(npm install:*)",
+      "Bash(SET PORT=3004)",
+      "Bash(timeout:*)"
     ],
     "deny": []
   }

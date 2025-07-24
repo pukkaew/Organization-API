@@ -9,9 +9,10 @@ const requiredEnvVars = [
 const validateEnv = () => {
     const missing = [];
     
-    // Skip database validation if USE_DATABASE is false
+    // Skip database validation if USE_DATABASE is false or using SQLite
     const dbRequired = process.env.USE_DATABASE !== 'false';
-    const dbVars = ['DB_SERVER', 'DB_DATABASE', 'DB_USER', 'DB_PASSWORD'];
+    const usingSQLite = process.env.DB_TYPE === 'sqlite' || !process.env.DB_SERVER;
+    const dbVars = usingSQLite ? [] : ['DB_SERVER', 'DB_DATABASE', 'DB_USER', 'DB_PASSWORD'];
     
     requiredEnvVars.forEach(varName => {
         if (!process.env[varName]) {

@@ -185,9 +185,29 @@ class Division {
     // Create new division
     async create() {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return this;
+                // Check if division already exists
+                if (this.constructor.mockDivisions.some(d => d.division_code === this.division_code)) {
+                    throw new Error('Division code already exists');
+                }
+                
+                // Add new division to mock data
+                const newDivision = {
+                    division_code: this.division_code,
+                    division_name: this.division_name,
+                    company_code: this.company_code,
+                    branch_code: this.branch_code,
+                    is_active: this.is_active,
+                    created_date: new Date().toISOString(),
+                    created_by: this.created_by,
+                    updated_date: null,
+                    updated_by: null
+                };
+                
+                this.constructor.mockDivisions.push(newDivision);
+                
+                return new Division(newDivision);
             }
             
             const query = `
@@ -222,9 +242,23 @@ class Division {
     // Update division
     async update() {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return this;
+                const divisionIndex = this.constructor.mockDivisions.findIndex(d => d.division_code === this.division_code);
+                if (divisionIndex === -1) {
+                    throw new Error('Division not found');
+                }
+                
+                // Update the division in mock data
+                this.constructor.mockDivisions[divisionIndex] = {
+                    ...this.constructor.mockDivisions[divisionIndex],
+                    division_name: this.division_name,
+                    branch_code: this.branch_code,
+                    updated_date: new Date().toISOString(),
+                    updated_by: this.updated_by
+                };
+                
+                return new Division(this.constructor.mockDivisions[divisionIndex]);
             }
             
             const query = `
@@ -259,9 +293,22 @@ class Division {
     // Update division status
     static async updateStatus(divisionCode, isActive, updatedBy) {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return null;
+                const divisionIndex = this.mockDivisions.findIndex(d => d.division_code === divisionCode);
+                if (divisionIndex === -1) {
+                    throw new Error('Division not found');
+                }
+                
+                // Update the division status in mock data
+                this.mockDivisions[divisionIndex] = {
+                    ...this.mockDivisions[divisionIndex],
+                    is_active: isActive,
+                    updated_date: new Date().toISOString(),
+                    updated_by: updatedBy
+                };
+                
+                return new Division(this.mockDivisions[divisionIndex]);
             }
             
             const query = `
@@ -453,9 +500,22 @@ class Division {
     // Move division to another branch
     static async moveToBranch(divisionCode, newBranchCode, updatedBy) {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return null;
+                const divisionIndex = this.mockDivisions.findIndex(d => d.division_code === divisionCode);
+                if (divisionIndex === -1) {
+                    throw new Error('Division not found');
+                }
+                
+                // Update the division's branch in mock data
+                this.mockDivisions[divisionIndex] = {
+                    ...this.mockDivisions[divisionIndex],
+                    branch_code: newBranchCode,
+                    updated_date: new Date().toISOString(),
+                    updated_by: updatedBy
+                };
+                
+                return new Division(this.mockDivisions[divisionIndex]);
             }
             
             // First check if the division and new branch exist and belong to the same company

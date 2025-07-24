@@ -149,9 +149,42 @@ class Branch {
     // Create new branch
     async create() {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return this;
+                // Check if branch already exists
+                if (this.constructor.mockBranches.some(b => b.branch_code === this.branch_code)) {
+                    throw new Error('Branch code already exists');
+                }
+                
+                // Handle headquarters logic for mock data
+                if (this.is_headquarters) {
+                    // Remove headquarters status from other branches in the same company
+                    this.constructor.mockBranches.forEach(branch => {
+                        if (branch.company_code === this.company_code && branch.is_headquarters) {
+                            branch.is_headquarters = false;
+                            branch.updated_date = new Date().toISOString();
+                            branch.updated_by = this.created_by;
+                        }
+                    });
+                }
+                
+                // Add new branch to mock data
+                const newBranch = {
+                    branch_code: this.branch_code,
+                    branch_name: this.branch_name,
+                    company_code: this.company_code,
+                    is_headquarters: this.is_headquarters,
+                    is_active: this.is_active,
+                    created_date: new Date().toISOString(),
+                    created_by: this.created_by,
+                    updated_date: null,
+                    updated_by: null
+                };
+                
+                this.constructor.mockBranches.push(newBranch);
+                
+                // Return the created branch instance
+                return new Branch(newBranch);
             }
             
             // Check if setting as headquarters
@@ -202,9 +235,37 @@ class Branch {
     // Update branch
     async update() {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return this;
+                const branchIndex = this.constructor.mockBranches.findIndex(b => b.branch_code === this.branch_code);
+                if (branchIndex === -1) {
+                    throw new Error('Branch not found');
+                }
+                
+                // Handle headquarters logic for mock data
+                if (this.is_headquarters) {
+                    // Remove headquarters status from other branches in the same company
+                    this.constructor.mockBranches.forEach((branch, index) => {
+                        if (branch.company_code === this.company_code && 
+                            branch.is_headquarters && 
+                            index !== branchIndex) {
+                            branch.is_headquarters = false;
+                            branch.updated_date = new Date().toISOString();
+                            branch.updated_by = this.updated_by;
+                        }
+                    });
+                }
+                
+                // Update the branch in mock data
+                this.constructor.mockBranches[branchIndex] = {
+                    ...this.constructor.mockBranches[branchIndex],
+                    branch_name: this.branch_name,
+                    is_headquarters: this.is_headquarters,
+                    updated_date: new Date().toISOString(),
+                    updated_by: this.updated_by
+                };
+                
+                return new Branch(this.constructor.mockBranches[branchIndex]);
             }
             
             // Check if setting as headquarters
@@ -258,9 +319,22 @@ class Branch {
     // Update branch status
     static async updateStatus(branchCode, isActive, updatedBy) {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return null;
+                const branchIndex = this.mockBranches.findIndex(b => b.branch_code === branchCode);
+                if (branchIndex === -1) {
+                    throw new Error('Branch not found');
+                }
+                
+                // Update the branch status in mock data
+                this.mockBranches[branchIndex] = {
+                    ...this.mockBranches[branchIndex],
+                    is_active: isActive,
+                    updated_date: new Date().toISOString(),
+                    updated_by: updatedBy
+                };
+                
+                return new Branch(this.mockBranches[branchIndex]);
             }
             
             const query = `
@@ -315,15 +389,40 @@ class Branch {
     // Get branches with pagination
     static async findPaginated(page = 1, limit = 20, filters = {}) {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
+                // Apply filters to mock data
+                let filteredData = this.getMockData().filter(branch => {
+                    if (filters.company_code && branch.company_code !== filters.company_code) {
+                        return false;
+                    }
+                    if (filters.is_active !== undefined && branch.is_active !== filters.is_active) {
+                        return false;
+                    }
+                    if (filters.is_headquarters !== undefined && branch.is_headquarters !== filters.is_headquarters) {
+                        return false;
+                    }
+                    if (filters.search) {
+                        const search = filters.search.toLowerCase();
+                        return branch.branch_name.toLowerCase().includes(search) ||
+                               branch.branch_code.toLowerCase().includes(search);
+                    }
+                    return true;
+                });
+
+                const total = filteredData.length;
+                const offset = (page - 1) * limit;
+                const paginatedData = filteredData.slice(offset, offset + limit);
+
                 return {
-                    data: [],
+                    data: paginatedData,
                     pagination: {
                         page: page,
                         limit: limit,
-                        total: 0,
-                        pages: 0
+                        total: total,
+                        pages: Math.ceil(total / limit),
+                        hasNext: offset + limit < total,
+                        hasPrev: page > 1
                     }
                 };
             }

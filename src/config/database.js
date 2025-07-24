@@ -2,6 +2,15 @@
 const sql = require('mssql');
 const logger = require('../utils/logger');
 
+// Check if SQLite should be used
+const USE_SQLITE = process.env.DB_TYPE === 'sqlite' || !process.env.DB_SERVER || process.env.DB_SERVER === 'localhost';
+
+// Import SQLite adapter if needed
+let sqliteAdapter;
+if (USE_SQLITE) {
+    sqliteAdapter = require('./sqlite');
+}
+
 // Database configuration - Fixed to use correct env variable names
 const config = {
     server: process.env.DB_SERVER || 'localhost',
@@ -37,6 +46,13 @@ async function connectDatabase() {
         return null;
     }
     
+    // Use SQLite if configured
+    if (USE_SQLITE && sqliteAdapter) {
+        await sqliteAdapter.connectDatabase();
+        logger.info('SQLite database connection established');
+        return true;
+    }
+    
     try {
         pool = await sql.connect(config);
         logger.info('Database connection established');
@@ -69,8 +85,13 @@ async function closeDatabase() {
 }
 
 // Execute query
-async function executeQuery(query, inputs = {}) {
+async function executeQuery(query, inputs = {}, paramArray = null) {
     try {
+        // Use SQLite if configured
+        if (USE_SQLITE && sqliteAdapter) {
+            return await sqliteAdapter.executeQuery(query, inputs, paramArray);
+        }
+        
         const pool = getPool();
         const request = pool.request();
         
@@ -113,6 +134,11 @@ async function executeProcedure(procedureName, inputs = {}, outputs = {}) {
 
 // Transaction helper
 async function executeTransaction(callback) {
+    // Use SQLite if configured
+    if (USE_SQLITE && sqliteAdapter) {
+        return await sqliteAdapter.executeTransaction(callback);
+    }
+    
     const pool = getPool();
     const transaction = new sql.Transaction(pool);
     

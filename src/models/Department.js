@@ -166,9 +166,28 @@ class Department {
     // Create new department
     async create() {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return this;
+                // Check if department already exists
+                if (this.constructor.mockDepartments.some(d => d.department_code === this.department_code)) {
+                    throw new Error('Department code already exists');
+                }
+                
+                // Add new department to mock data
+                const newDepartment = {
+                    department_code: this.department_code,
+                    department_name: this.department_name,
+                    division_code: this.division_code,
+                    is_active: this.is_active,
+                    created_date: new Date().toISOString(),
+                    created_by: this.created_by,
+                    updated_date: null,
+                    updated_by: null
+                };
+                
+                this.constructor.mockDepartments.push(newDepartment);
+                
+                return new Department(newDepartment);
             }
             
             const query = `
@@ -202,9 +221,22 @@ class Department {
     // Update department
     async update() {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return this;
+                const departmentIndex = this.constructor.mockDepartments.findIndex(d => d.department_code === this.department_code);
+                if (departmentIndex === -1) {
+                    throw new Error('Department not found');
+                }
+                
+                // Update the department in mock data
+                this.constructor.mockDepartments[departmentIndex] = {
+                    ...this.constructor.mockDepartments[departmentIndex],
+                    department_name: this.department_name,
+                    updated_date: new Date().toISOString(),
+                    updated_by: this.updated_by
+                };
+                
+                return new Department(this.constructor.mockDepartments[departmentIndex]);
             }
             
             const query = `
@@ -237,9 +269,22 @@ class Department {
     // Update department status
     static async updateStatus(departmentCode, isActive, updatedBy) {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return null;
+                const departmentIndex = this.mockDepartments.findIndex(d => d.department_code === departmentCode);
+                if (departmentIndex === -1) {
+                    throw new Error('Department not found');
+                }
+                
+                // Update the department status in mock data
+                this.mockDepartments[departmentIndex] = {
+                    ...this.mockDepartments[departmentIndex],
+                    is_active: isActive,
+                    updated_date: new Date().toISOString(),
+                    updated_by: updatedBy
+                };
+                
+                return new Department(this.mockDepartments[departmentIndex]);
             }
             
             const query = `
@@ -446,9 +491,22 @@ class Department {
     // Move department to another division
     static async moveToDivision(departmentCode, newDivisionCode, updatedBy) {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return null;
+                const departmentIndex = this.mockDepartments.findIndex(d => d.department_code === departmentCode);
+                if (departmentIndex === -1) {
+                    throw new Error('Department not found');
+                }
+                
+                // Update the department's division in mock data
+                this.mockDepartments[departmentIndex] = {
+                    ...this.mockDepartments[departmentIndex],
+                    division_code: newDivisionCode,
+                    updated_date: new Date().toISOString(),
+                    updated_by: updatedBy
+                };
+                
+                return new Department(this.mockDepartments[departmentIndex]);
             }
             
             // Check if the division exists
