@@ -2,6 +2,7 @@ const Division = require('../models/Division');
 const Company = require('../models/Company');
 const Branch = require('../models/Branch');
 const { asyncHandler } = require('../middleware/errorHandler');
+const { sendSuccess, sendPaginated, created, updated, deleted, notFound } = require('../utils/response');
 const { getPaginationParams } = require('../utils/pagination');
 const logger = require('../utils/logger');
 
@@ -156,12 +157,97 @@ const getBranchesByCompany = asyncHandler(async (req, res) => {
     });
 });
 
+// API Controllers
+
+// Get all divisions with pagination
+const getAllDivisions = asyncHandler(async (req, res) => {
+    const { page, limit } = getPaginationParams(req);
+    const filters = {
+        company_code: req.query.company_code,
+        branch_code: req.query.branch_code,
+        is_active: req.query.is_active,
+        search: req.query.search
+    };
+
+    const result = await Division.findPaginated(page, limit, filters);
+    sendPaginated(res, result.data, result.pagination, 'Divisions retrieved successfully');
+});
+
+// Get division by code
+const getDivisionByCode = asyncHandler(async (req, res) => {
+    const division = await Division.findByCode(req.params.code);
+    if (!division) {
+        return notFound(res, 'Division not found');
+    }
+    sendSuccess(res, division, 'Division retrieved successfully');
+});
+
+// Create new division
+const createDivision = asyncHandler(async (req, res) => {
+    const divisionData = {
+        division_code: req.body.division_code,
+        division_name: req.body.division_name,
+        company_code: req.body.company_code,
+        branch_code: req.body.branch_code || null,
+        is_active: req.body.is_active !== undefined ? req.body.is_active : true,
+        created_by: req.apiAuth?.appName || req.user?.username || 'system'
+    };
+
+    const division = new Division(divisionData);
+    const result = await division.create();
+    
+    logger.info(`Division created: ${result.division_code} by ${divisionData.created_by}`);
+    created(res, result, 'Division created successfully');
+});
+
+// Update division
+const updateDivision = asyncHandler(async (req, res) => {
+    const division = await Division.findByCode(req.params.code);
+    if (!division) {
+        return notFound(res, 'Division not found');
+    }
+
+    if (req.body.division_name !== undefined) {
+        division.division_name = req.body.division_name;
+    }
+    if (req.body.branch_code !== undefined) {
+        division.branch_code = req.body.branch_code;
+    }
+    
+    division.updated_by = req.apiAuth?.appName || req.user?.username || 'system';
+    const result = await division.update();
+    
+    logger.info(`Division updated: ${result.division_code} by ${division.updated_by}`);
+    updated(res, result, 'Division updated successfully');
+});
+
+// Delete division
+const deleteDivision = asyncHandler(async (req, res) => {
+    const division = await Division.findByCode(req.params.code);
+    if (!division) {
+        return notFound(res, 'Division not found');
+    }
+    
+    const result = await division.delete();
+    
+    logger.info(`Division deleted: ${req.params.code} by ${req.apiAuth?.appName || req.user?.username || 'system'}`);
+    deleted(res, result, 'Division deleted successfully');
+});
+
 module.exports = {
+    // Web controllers
     showDivisionsPage,
     showCreateDivisionForm,
     showEditDivisionForm,
     handleCreateDivision,
     handleUpdateDivision,
     handleToggleStatus,
-    getBranchesByCompany
+    getBranchesByCompany,
+    
+    // API controllers
+    getAllDivisions,
+    getDivisionByCode,
+    createDivision,
+    updateDivision,
+    deleteDivision
 };

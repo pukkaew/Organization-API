@@ -2,6 +2,7 @@ const Department = require('../models/Department');
 const Division = require('../models/Division');
 const Company = require('../models/Company');
 const { asyncHandler } = require('../middleware/errorHandler');
+const { sendSuccess, sendPaginated, created, updated, deleted, notFound } = require('../utils/response');
 const { getPaginationParams } = require('../utils/pagination');
 const logger = require('../utils/logger');
 
@@ -173,7 +174,82 @@ const getDivisionsByCompany = asyncHandler(async (req, res) => {
     });
 });
 
+// API Controllers
+
+// Get all departments with pagination
+const getAllDepartments = asyncHandler(async (req, res) => {
+    const { page, limit } = getPaginationParams(req);
+    const filters = {
+        division_code: req.query.division_code,
+        company_code: req.query.company_code,
+        branch_code: req.query.branch_code,
+        is_active: req.query.is_active,
+        search: req.query.search
+    };
+
+    const result = await Department.findPaginated(page, limit, filters);
+    sendPaginated(res, result.data, result.pagination, 'Departments retrieved successfully');
+});
+
+// Get department by code
+const getDepartmentByCode = asyncHandler(async (req, res) => {
+    const department = await Department.findByCode(req.params.code);
+    if (!department) {
+        return notFound(res, 'Department not found');
+    }
+    sendSuccess(res, department, 'Department retrieved successfully');
+});
+
+// Create new department
+const createDepartment = asyncHandler(async (req, res) => {
+    const departmentData = {
+        department_code: req.body.department_code,
+        department_name: req.body.department_name,
+        division_code: req.body.division_code,
+        is_active: req.body.is_active !== undefined ? req.body.is_active : true,
+        created_by: req.apiAuth?.appName || req.user?.username || 'system'
+    };
+
+    const department = new Department(departmentData);
+    const result = await department.create();
+    
+    logger.info(`Department created: ${result.department_code} by ${departmentData.created_by}`);
+    created(res, result, 'Department created successfully');
+});
+
+// Update department
+const updateDepartment = asyncHandler(async (req, res) => {
+    const department = await Department.findByCode(req.params.code);
+    if (!department) {
+        return notFound(res, 'Department not found');
+    }
+
+    if (req.body.department_name !== undefined) {
+        department.department_name = req.body.department_name;
+    }
+    
+    department.updated_by = req.apiAuth?.appName || req.user?.username || 'system';
+    const result = await department.update();
+    
+    logger.info(`Department updated: ${result.department_code} by ${department.updated_by}`);
+    updated(res, result, 'Department updated successfully');
+});
+
+// Delete department
+const deleteDepartment = asyncHandler(async (req, res) => {
+    const department = await Department.findByCode(req.params.code);
+    if (!department) {
+        return notFound(res, 'Department not found');
+    }
+    
+    const result = await department.delete();
+    
+    logger.info(`Department deleted: ${req.params.code} by ${req.apiAuth?.appName || req.user?.username || 'system'}`);
+    deleted(res, result, 'Department deleted successfully');
+});
+
 module.exports = {
+    // Web controllers
     showDepartmentsPage,
     showCreateDepartmentForm,
     showEditDepartmentForm,
@@ -181,5 +257,12 @@ module.exports = {
     handleUpdateDepartment,
     handleToggleStatus,
     handleMoveDepartment,
-    getDivisionsByCompany
+    getDivisionsByCompany,
+    
+    // API controllers
+    getAllDepartments,
+    getDepartmentByCode,
+    createDepartment,
+    updateDepartment,
+    deleteDepartment
 };

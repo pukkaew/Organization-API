@@ -266,6 +266,37 @@ class Department {
         }
     }
 
+    // Delete department
+    async delete() {
+        try {
+            // Use mock data if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                const index = this.constructor.mockDepartments.findIndex(item => item.department_code === this.department_code);
+                if (index === -1) {
+                    throw new Error('Department not found');
+                }
+                this.constructor.mockDepartments.splice(index, 1);
+                return { department_code: this.department_code };
+            }
+            
+            const query = `
+                DELETE FROM Departments
+                WHERE department_code = @department_code
+            `;
+            
+            const result = await executeQuery(query, { department_code: this.department_code });
+            
+            if (result.rowsAffected[0] === 0) {
+                throw new Error('Department not found');
+            }
+            
+            return { department_code: this.department_code };
+        } catch (error) {
+            logger.error('Error in Department.delete:', error);
+            throw error;
+        }
+    }
+
     // Update department status
     static async updateStatus(departmentCode, isActive, updatedBy) {
         try {

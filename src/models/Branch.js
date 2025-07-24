@@ -316,6 +316,37 @@ class Branch {
         }
     }
 
+    // Delete branch
+    async delete() {
+        try {
+            // Use mock data if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                const index = this.constructor.mockBranchs.findIndex(item => item.branch_code === this.branch_code);
+                if (index === -1) {
+                    throw new Error('Branch not found');
+                }
+                this.constructor.mockBranchs.splice(index, 1);
+                return { branch_code: this.branch_code };
+            }
+            
+            const query = `
+                DELETE FROM Branches
+                WHERE branch_code = @branch_code
+            `;
+            
+            const result = await executeQuery(query, { branch_code: this.branch_code });
+            
+            if (result.rowsAffected[0] === 0) {
+                throw new Error('Branch not found');
+            }
+            
+            return { branch_code: this.branch_code };
+        } catch (error) {
+            logger.error('Error in Branch.delete:', error);
+            throw error;
+        }
+    }
+
     // Update branch status
     static async updateStatus(branchCode, isActive, updatedBy) {
         try {

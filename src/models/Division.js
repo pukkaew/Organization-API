@@ -290,6 +290,37 @@ class Division {
         }
     }
 
+    // Delete division
+    async delete() {
+        try {
+            // Use mock data if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                const index = this.constructor.mockDivisions.findIndex(item => item.division_code === this.division_code);
+                if (index === -1) {
+                    throw new Error('Division not found');
+                }
+                this.constructor.mockDivisions.splice(index, 1);
+                return { division_code: this.division_code };
+            }
+            
+            const query = `
+                DELETE FROM Divisions
+                WHERE division_code = @division_code
+            `;
+            
+            const result = await executeQuery(query, { division_code: this.division_code });
+            
+            if (result.rowsAffected[0] === 0) {
+                throw new Error('Division not found');
+            }
+            
+            return { division_code: this.division_code };
+        } catch (error) {
+            logger.error('Error in Division.delete:', error);
+            throw error;
+        }
+    }
+
     // Update division status
     static async updateStatus(divisionCode, isActive, updatedBy) {
         try {

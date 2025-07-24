@@ -1,6 +1,7 @@
 const Branch = require('../models/Branch');
 const Company = require('../models/Company');
 const { asyncHandler } = require('../middleware/errorHandler');
+const { sendSuccess, sendPaginated, created, updated, deleted, notFound } = require('../utils/response');
 const { getPaginationParams } = require('../utils/pagination');
 const logger = require('../utils/logger');
 
@@ -140,11 +141,96 @@ const handleToggleStatus = asyncHandler(async (req, res) => {
     }
 });
 
+// API Controllers
+
+// Get all branches with pagination
+const getAllBranches = asyncHandler(async (req, res) => {
+    const { page, limit } = getPaginationParams(req);
+    const filters = {
+        company_code: req.query.company_code,
+        is_active: req.query.is_active,
+        is_headquarters: req.query.is_headquarters,
+        search: req.query.search
+    };
+
+    const result = await Branch.findPaginated(page, limit, filters);
+    sendPaginated(res, result.data, result.pagination, 'Branches retrieved successfully');
+});
+
+// Get branch by code
+const getBranchByCode = asyncHandler(async (req, res) => {
+    const branch = await Branch.findByCode(req.params.code);
+    if (!branch) {
+        return notFound(res, 'Branch not found');
+    }
+    sendSuccess(res, branch, 'Branch retrieved successfully');
+});
+
+// Create new branch
+const createBranch = asyncHandler(async (req, res) => {
+    const branchData = {
+        branch_code: req.body.branch_code,
+        branch_name: req.body.branch_name,
+        company_code: req.body.company_code,
+        is_headquarters: req.body.is_headquarters || false,
+        is_active: req.body.is_active !== undefined ? req.body.is_active : true,
+        created_by: req.apiAuth?.appName || req.user?.username || 'system'
+    };
+
+    const branch = new Branch(branchData);
+    const result = await branch.create();
+    
+    logger.info(`Branch created: ${result.branch_code} by ${branchData.created_by}`);
+    created(res, result, 'Branch created successfully');
+});
+
+// Update branch
+const updateBranch = asyncHandler(async (req, res) => {
+    const branch = await Branch.findByCode(req.params.code);
+    if (!branch) {
+        return notFound(res, 'Branch not found');
+    }
+
+    if (req.body.branch_name !== undefined) {
+        branch.branch_name = req.body.branch_name;
+    }
+    if (req.body.is_headquarters !== undefined) {
+        branch.is_headquarters = req.body.is_headquarters;
+    }
+    
+    branch.updated_by = req.apiAuth?.appName || req.user?.username || 'system';
+    const result = await branch.update();
+    
+    logger.info(`Branch updated: ${result.branch_code} by ${branch.updated_by}`);
+    updated(res, result, 'Branch updated successfully');
+});
+
+// Delete branch
+const deleteBranch = asyncHandler(async (req, res) => {
+    const branch = await Branch.findByCode(req.params.code);
+    if (!branch) {
+        return notFound(res, 'Branch not found');
+    }
+    
+    const result = await branch.delete();
+    
+    logger.info(`Branch deleted: ${req.params.code} by ${req.apiAuth?.appName || req.user?.username || 'system'}`);
+    deleted(res, result, 'Branch deleted successfully');
+});
+
 module.exports = {
+    // Web controllers
     showBranchesPage,
     showCreateBranchForm,
     showEditBranchForm,
     handleCreateBranch,
     handleUpdateBranch,
-    handleToggleStatus
+    handleToggleStatus,
+    
+    // API controllers
+    getAllBranches,
+    getBranchByCode,
+    createBranch,
+    updateBranch,
+    deleteBranch
 };

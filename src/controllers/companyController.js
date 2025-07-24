@@ -1,6 +1,6 @@
 const Company = require('../models/Company');
 const { asyncHandler, businessError } = require('../middleware/errorHandler');
-const { sendSuccess, sendPaginated, created, updated, notFound } = require('../utils/response');
+const { sendSuccess, sendPaginated, created, updated, deleted, notFound } = require('../utils/response');
 const { getPaginationParams } = require('../utils/pagination');
 const logger = require('../utils/logger');
 
@@ -86,6 +86,21 @@ const updateCompanyStatus = asyncHandler(async (req, res) => {
     logger.info(`Company status updated: ${code} to ${is_active ? 'active' : 'inactive'} by ${updatedBy}`);
     
     updated(res, result, `Company ${is_active ? 'activated' : 'deactivated'} successfully`);
+});
+
+// Delete company
+const deleteCompany = asyncHandler(async (req, res) => {
+    const company = await Company.findByCode(req.params.code);
+    
+    if (!company) {
+        return notFound(res, 'Company not found');
+    }
+    
+    const result = await company.delete();
+    
+    logger.info(`Company deleted: ${req.params.code} by ${req.apiAuth?.appName || req.user?.username || 'system'}`);
+    
+    deleted(res, result, 'Company deleted successfully');
 });
 
 // Get company statistics
@@ -224,6 +239,7 @@ module.exports = {
     createCompany,
     updateCompany,
     updateCompanyStatus,
+    deleteCompany,
     getCompanyStatistics,
     
     // Web controllers

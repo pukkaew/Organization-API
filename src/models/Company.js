@@ -219,6 +219,32 @@ class Company {
         }
     }
 
+    // Delete company
+    async delete() {
+        try {
+            // Use mock data if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return await this.deleteMock();
+            }
+            
+            const query = `
+                DELETE FROM Companies
+                WHERE company_code = @company_code
+            `;
+            
+            const result = await executeQuery(query, { company_code: this.company_code });
+            
+            if (result.rowsAffected[0] === 0) {
+                throw new Error('Company not found');
+            }
+            
+            return { company_code: this.company_code };
+        } catch (error) {
+            logger.error('Error in Company.delete:', error);
+            throw error;
+        }
+    }
+
     // Check if company code exists
     static async exists(companyCode) {
         try {
