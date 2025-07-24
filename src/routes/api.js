@@ -38,6 +38,12 @@ const API_VERSION = '/v1';
 // Apply API authentication to all routes
 router.use(apiAuth(['read']));
 
+// Debug middleware to log all requests
+router.use((req, res, next) => {
+    console.log(`API Request: ${req.method} ${req.path}`);
+    next();
+});
+
 // Log all API responses
 router.use((req, res, next) => {
     const originalJson = res.json;
@@ -49,6 +55,15 @@ router.use((req, res, next) => {
 });
 
 // ===== COMPANIES ROUTES =====
+
+// DELETE route first to ensure it's matched
+router.delete(`${API_VERSION}/companies/:code`,
+    apiAuth(['write']),
+    companyValidator.getCompanyByCodeRules(),
+    validate,
+    companyController.deleteCompany
+);
+
 router.get(`${API_VERSION}/companies`, 
     companyValidator.searchCompaniesRules(),
     validate,
@@ -81,13 +96,6 @@ router.patch(`${API_VERSION}/companies/:code/status`,
     companyValidator.updateCompanyStatusRules(),
     validate,
     companyController.updateCompanyStatus
-);
-
-router.delete(`${API_VERSION}/companies/:code`,
-    apiAuth(['write']),
-    companyValidator.getCompanyByCodeRules(),
-    validate,
-    companyController.deleteCompany
 );
 
 // ===== BRANCHES ROUTES =====
