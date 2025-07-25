@@ -46,21 +46,48 @@ const showCreateBranchForm = asyncHandler(async (req, res) => {
 
 // Display edit branch form
 const showEditBranchForm = asyncHandler(async (req, res) => {
-    const branch = await Branch.findByCode(req.params.code);
-    
-    if (!branch) {
-        req.flash('error', 'Branch not found');
-        return res.redirect('/branches');
+    try {
+        logger.info('Fetching branch for edit form:', { code: req.params.code });
+        const branch = await Branch.findByCode(req.params.code);
+        
+        if (!branch) {
+            logger.warn('Branch not found for edit:', { code: req.params.code });
+            req.flash('error', 'Branch not found');
+            return res.redirect('/branches');
+        }
+        
+        const companies = await Company.findAll({ is_active: true });
+        logger.info('Branch and companies data loaded for edit form:', { 
+            branchCode: branch.branch_code, 
+            companiesCount: companies.length 
+        });
+        
+        // Ensure all branch fields have default values to prevent template errors
+        const safeBranch = {
+            branch_code: branch.branch_code || '',
+            branch_name: branch.branch_name || '',
+            company_code: branch.company_code || '',
+            company_name_th: branch.company_name_th || '',
+            company_name_en: branch.company_name_en || '',
+            is_headquarters: branch.is_headquarters !== undefined ? branch.is_headquarters : false,
+            is_active: branch.is_active !== undefined ? branch.is_active : true,
+            created_date: branch.created_date || new Date(),
+            created_by: branch.created_by || 'system',
+            updated_date: branch.updated_date || null,
+            updated_by: branch.updated_by || null
+        };
+        
+        res.render('branches/edit', {
+            title: 'Edit Branch',
+            branch: safeBranch,
+            companies: companies || [],
+            error: req.flash('error')
+        });
+    } catch (error) {
+        logger.error('Error in showEditBranchForm:', error);
+        req.flash('error', 'An error occurred while loading the edit form: ' + error.message);
+        res.redirect('/branches');
     }
-    
-    const companies = await Company.findAll({ is_active: true });
-    
-    res.render('branches/edit', {
-        title: 'Edit Branch',
-        branch: branch,
-        companies: companies,
-        error: req.flash('error')
-    });
 });
 
 // Handle create branch form submission
@@ -71,7 +98,7 @@ const handleCreateBranch = asyncHandler(async (req, res) => {
             branch_name: req.body.branch_name,
             company_code: req.body.company_code,
             is_headquarters: req.body.is_headquarters === 'on',
-            is_active: req.body.is_active === 'on',
+            is_active: req.body.is_active === 'true' || req.body.is_active === 'on',
             created_by: req.user?.username || 'admin'
         };
 
@@ -84,7 +111,7 @@ const handleCreateBranch = asyncHandler(async (req, res) => {
         res.redirect('/branches');
     } catch (error) {
         logger.error('Error creating branch:', error);
-        req.flash('error', error.message);
+        req.flash('error', error.message || 'Failed to create branch');
         res.redirect('/branches/new');
     }
 });
@@ -99,9 +126,18 @@ const handleUpdateBranch = asyncHandler(async (req, res) => {
             return res.redirect('/branches');
         }
         
+        // Validate required fields
+        if (!req.body.branch_name || req.body.branch_name.trim() === '') {
+            req.flash('error', 'Branch name is required');
+            return res.redirect(`/branches/${req.params.code}/edit`);
+        }
+        
         // Update fields
-        branch.branch_name = req.body.branch_name;
+        branch.branch_name = req.body.branch_name.trim();
         branch.is_headquarters = req.body.is_headquarters === 'on';
+        if (req.body.is_active !== undefined) {
+            branch.is_active = req.body.is_active === 'on' || req.body.is_active === true;
+        }
         branch.updated_by = req.user?.username || 'admin';
         
         await branch.update();
@@ -112,7 +148,7 @@ const handleUpdateBranch = asyncHandler(async (req, res) => {
         res.redirect('/branches');
     } catch (error) {
         logger.error('Error updating branch:', error);
-        req.flash('error', error.message);
+        req.flash('error', error.message || 'An error occurred while updating the branch');
         res.redirect(`/branches/${req.params.code}/edit`);
     }
 });
@@ -191,11 +227,21 @@ const updateBranch = asyncHandler(async (req, res) => {
         return notFound(res, 'Branch not found');
     }
 
+    // Validate and update fields
     if (req.body.branch_name !== undefined) {
-        branch.branch_name = req.body.branch_name;
+        if (!req.body.branch_name || req.body.branch_name.trim() === '') {
+            return res.status(400).json({
+                success: false,
+                message: 'Branch name is required'
+            });
+        }
+        branch.branch_name = req.body.branch_name.trim();
     }
     if (req.body.is_headquarters !== undefined) {
         branch.is_headquarters = req.body.is_headquarters;
+    }
+    if (req.body.is_active !== undefined) {
+        branch.is_active = req.body.is_active;
     }
     
     branch.updated_by = req.apiAuth?.appName || req.user?.username || 'system';
