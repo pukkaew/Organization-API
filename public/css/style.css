@@ -1,6 +1,6 @@
 /* Path: /public/css/style.css */
 /* Import CSS Variables */
-@import url('../assets/css/variables.css');
+@import url('./variables.css');
 
 /* Custom scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
