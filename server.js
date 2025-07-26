@@ -13,6 +13,7 @@ const MSSQLStore = require('connect-mssql')(session);
 const flash = require('connect-flash');
 const csrf = require('csurf');
 const mongoSanitize = require('express-mongo-sanitize');
+const methodOverride = require('method-override');
 
 // Import configurations
 const { connectDatabase, getPool } = require('./src/config/database');
@@ -62,6 +63,9 @@ app.use(cors({
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Method override middleware (for PUT/DELETE requests from HTML forms)
+app.use(methodOverride('_method'));
 
 // Sanitize user input
 app.use(mongoSanitize());
@@ -113,13 +117,22 @@ app.use(session(sessionConfig));
 // Flash messages
 app.use(flash());
 
-// CSRF protection (disabled for development)
+// CSRF protection (enabled for production, optional for development)
 const csrfProtection = csrf({ cookie: false });
 app.use((req, res, next) => {
-    // Skip CSRF for development or API routes  
-    if (process.env.NODE_ENV === 'development' || req.path.startsWith('/api/')) {
+    // Skip CSRF for API routes
+    if (req.path.startsWith('/api/')) {
         return next();
     }
+    
+    // For development, make CSRF optional (but still generate tokens for forms)
+    if (process.env.NODE_ENV === 'development') {
+        // Set up CSRF token generation even when protection is disabled
+        req.csrfToken = req.csrfToken || (() => 'dev-csrf-token');
+        return next();
+    }
+    
+    // Enable CSRF for all web routes in production
     csrfProtection(req, res, next);
 });
 
@@ -180,10 +193,20 @@ app.use(errorHandler);
 // Database connection and server startup
 const startServer = async () => {
     try {
-        // Connect to database (optional)
-        await connectDatabase();
+        // Try to connect to database
+        try {
+            await connectDatabase();
+        } catch (dbError) {
+            logger.error('Database connection failed, but server will continue:', dbError.message);
+            
+            if (process.env.USE_DATABASE === 'true') {
+                logger.warn('WARNING: USE_DATABASE is true but database connection failed.');
+                logger.warn('The application will have limited functionality.');
+                logger.warn('Consider setting USE_DATABASE=false in .env to use mock data.');
+            }
+        }
         
-        // Start server
+        // Start server regardless of database connection
         app.listen(PORT, () => {
             logger.info(`Server is running on port ${PORT}`);
             logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);

@@ -97,9 +97,30 @@ class Department {
     // Get department by code
     static async findByCode(departmentCode) {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return null;
+                const mockDepartment = this.mockDepartments.find(d => d.department_code === departmentCode);
+                if (!mockDepartment) return null;
+                
+                // Add related data
+                const Division = require('./Division');
+                const Company = require('./Company');
+                const Branch = require('./Branch');
+                
+                const division = Division.mockDivisions.find(d => d.division_code === mockDepartment.division_code);
+                const company = division ? await Company.findByCode(division.company_code) : null;
+                const branch = division?.branch_code ? 
+                    Branch.mockBranches.find(b => b.branch_code === division.branch_code) : null;
+                
+                return {
+                    ...new Department(mockDepartment),
+                    division_name: division?.division_name || '',
+                    company_code: division?.company_code || '',
+                    branch_code: division?.branch_code || null,
+                    company_name_th: company?.company_name_th || '',
+                    company_name_en: company?.company_name_en || '',
+                    branch_name: branch?.branch_name || null
+                };
             }
             
             const query = `
@@ -141,9 +162,11 @@ class Department {
     // Get departments by division
     static async findByDivision(divisionCode) {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return [];
+                return this.mockDepartments
+                    .filter(d => d.division_code === divisionCode)
+                    .map(data => new Department(data));
             }
             
             const query = `
@@ -372,13 +395,33 @@ class Department {
         try {
             // Skip database if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
+                // Use mock data instead of empty data
+                const allData = this.getMockData().filter(department => {
+                    if (filters.division_code && department.division_code !== filters.division_code) {
+                        return false;
+                    }
+                    if (filters.is_active !== undefined && department.is_active !== filters.is_active) {
+                        return false;
+                    }
+                    if (filters.search) {
+                        const search = filters.search.toLowerCase();
+                        return department.department_name.toLowerCase().includes(search) ||
+                               department.department_code.toLowerCase().includes(search);
+                    }
+                    return true;
+                });
+                
+                const total = allData.length;
+                const offset = (page - 1) * limit;
+                const paginatedData = allData.slice(offset, offset + limit);
+                
                 return {
-                    data: [],
+                    data: paginatedData,
                     pagination: {
                         page: page,
                         limit: limit,
-                        total: 0,
-                        pages: 0
+                        total: total,
+                        pages: Math.ceil(total / limit)
                     }
                 };
             }
@@ -650,55 +693,6 @@ class Department {
         }
     }
 
-    // Mock findByCode method
-    static async findByCode(departmentCode) {
-        if (process.env.USE_DATABASE === 'false') {
-            const department = this.mockDepartments.find(d => d.department_code === departmentCode);
-            return department ? new Department(department) : null;
-        }
-        
-        try {
-            const query = `
-                SELECT department_code, department_name, division_code, 
-                       is_active, created_date, created_by, 
-                       updated_date, updated_by
-                FROM Departments
-                WHERE department_code = @department_code
-            `;
-            
-            const result = await executeQuery(query, { department_code: departmentCode });
-            return result.recordset.length > 0 ? new Department(result.recordset[0]) : null;
-        } catch (error) {
-            logger.error('Error in Department.findByCode:', error);
-            throw error;
-        }
-    }
-
-    // Mock findByDivision method
-    static async findByDivision(divisionCode) {
-        if (process.env.USE_DATABASE === 'false') {
-            return this.mockDepartments
-                .filter(d => d.division_code === divisionCode)
-                .map(d => new Department(d));
-        }
-        
-        try {
-            const query = `
-                SELECT department_code, department_name, division_code, 
-                       is_active, created_date, created_by, 
-                       updated_date, updated_by
-                FROM Departments
-                WHERE division_code = @division_code
-                ORDER BY department_code
-            `;
-            
-            const result = await executeQuery(query, { division_code: divisionCode });
-            return result.recordset.map(row => new Department(row));
-        } catch (error) {
-            logger.error('Error in Department.findByDivision:', error);
-            throw error;
-        }
-    }
 }
 
 module.exports = Department;

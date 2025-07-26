@@ -61,6 +61,7 @@ const showCreateDepartmentForm = asyncHandler(async (req, res) => {
             divisions: divisions,
             companies: companies,
             selectedDivision: req.query.division_code,
+            csrfToken: req.csrfToken ? req.csrfToken() : '',
             error: req.flash('error')
         });
     } catch (error) {
@@ -331,6 +332,30 @@ const deleteDepartment = asyncHandler(async (req, res) => {
     deleted(res, result, 'Department deleted successfully');
 });
 
+// Handle delete department (web)
+const handleDeleteDepartment = asyncHandler(async (req, res) => {
+    try {
+        const department = await Department.findByCode(req.params.code);
+        
+        if (!department) {
+            req.flash('error', 'Department not found');
+            return res.redirect('/departments');
+        }
+        
+        // Delete the department
+        await department.delete();
+        
+        logger.info(`Department deleted: ${req.params.code} by ${req.user?.username || 'system'}`);
+        
+        req.flash('success', 'Department deleted successfully');
+        res.redirect('/departments');
+    } catch (error) {
+        logger.error('Error deleting department:', error);
+        req.flash('error', error.message || 'Failed to delete department');
+        res.redirect('/departments');
+    }
+});
+
 module.exports = {
     // Web controllers
     showDepartmentsPage,
@@ -339,6 +364,7 @@ module.exports = {
     handleCreateDepartment,
     handleUpdateDepartment,
     handleToggleStatus,
+    handleDeleteDepartment,
     handleMoveDepartment,
     getDivisionsByCompany,
     

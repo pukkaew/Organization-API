@@ -1,0 +1,206 @@
+<!-- Path: /views/departments/new.ejs -->
+<%- include('../partials/header', { 
+    title: 'Create Department',
+    includeChartJS: false
+}) %>
+<%- include('../partials/navigation', { 
+    activeMenu: 'departments',
+    user: typeof user !== 'undefined' ? user : null,
+    success: typeof success !== 'undefined' ? success : null,
+    error: typeof error !== 'undefined' ? error : null,
+    warning: typeof warning !== 'undefined' ? warning : null,
+    info: typeof info !== 'undefined' ? info : null
+}) %>
+
+<!-- Main Content -->
+<main class="flex-1 py-8">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto">
+            <div class="bg-white shadow-sm rounded-lg">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-xl font-semibold text-gray-900">Create New Department</h2>
+                        <a href="/departments" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <form method="post" action="/departments" class="p-6">
+                    <% if (typeof csrfToken !== 'undefined') { %>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <% } %>
+                
+                <div class="space-y-6">
+                    <!-- Company Selection -->
+                    <div>
+                        <label for="company_code" class="form-label">
+                            Company <span class="text-red-500">*</span>
+                        </label>
+                        <select id="company_code" 
+                                name="company_code" 
+                                required
+                                class="form-input">
+                            <option value="">Select a company</option>
+                            <% if (typeof companies !== 'undefined' && companies) { %>
+                                <% companies.forEach(function(company) { %>
+                                    <option value="<%= company.company_code %>">
+                                        <%= company.company_code %> - <%= company.company_name_th %>
+                                    </option>
+                                <% }); %>
+                            <% } %>
+                        </select>
+                    </div>
+                    
+                    <!-- Division Selection -->
+                    <div>
+                        <label for="division_code" class="form-label">
+                            Division <span class="text-red-500">*</span>
+                        </label>
+                        <select id="division_code" 
+                                name="division_code" 
+                                required
+                                class="form-input">
+                            <option value="">Select a company first</option>
+                        </select>
+                        <p class="mt-1 text-sm text-gray-500">
+                            Select the division this department belongs to
+                        </p>
+                    </div>
+                    
+                    <!-- Department Code -->
+                    <div>
+                        <label for="department_code" class="form-label">
+                            Department Code <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" 
+                               id="department_code" 
+                               name="department_code" 
+                               required
+                               maxlength="20"
+                               pattern="[A-Z0-9]+"
+                               class="form-input uppercase"
+                               placeholder="e.g., DEPT001">
+                        <p class="mt-1 text-sm text-gray-500">
+                            Use uppercase letters and numbers only. This cannot be changed later.
+                        </p>
+                    </div>
+                    
+                    <!-- Department Name -->
+                    <div>
+                        <label for="department_name" class="form-label">
+                            Department Name <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" 
+                               id="department_name" 
+                               name="department_name" 
+                               required
+                               maxlength="200"
+                               class="form-input"
+                               placeholder="e.g., Recruitment">
+                    </div>
+                    
+                    <!-- Status -->
+                    <div>
+                        <label class="form-label">Status</label>
+                        <div class="flex items-center space-x-6 mt-2">
+                            <label class="inline-flex items-center">
+                                <input type="radio" 
+                                       name="is_active" 
+                                       value="true" 
+                                       checked
+                                       class="text-primary-600 focus:ring-primary-500">
+                                <span class="ml-2 text-sm text-gray-700">Active</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" 
+                                       name="is_active" 
+                                       value="false"
+                                       class="text-primary-600 focus:ring-primary-500">
+                                <span class="ml-2 text-sm text-gray-700">Inactive</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Form Actions -->
+                <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
+                    <a href="/departments" class="btn btn-ghost">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Cancel
+                    </a>
+                    
+                    <div class="flex items-center space-x-3">
+                        <button type="reset" class="btn btn-outline">
+                            <i class="fas fa-redo mr-2"></i>
+                            Reset
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save mr-2"></i>
+                            Create Department
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Help Section -->
+        <div class="mt-6 bg-primary-50 rounded-lg p-4 border border-primary-200">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-info-circle text-primary-400 text-lg"></i>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-primary-800">Guidelines</h3>
+                    <div class="mt-2 text-sm text-primary-700">
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Department code cannot be changed after creation</li>
+                            <li>Department must belong to a division</li>
+                            <li>Department code must be unique across the entire system</li>
+                            <li>All departments start as active by default</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('../partials/footer', {
+    pageScripts: `
+    <script>
+    // Auto uppercase for department code
+    document.getElementById('department_code').addEventListener('input', function(e) {
+        e.target.value = e.target.value.toUpperCase();
+    });
+    
+    // Load divisions when company is selected
+    document.getElementById('company_code').addEventListener('change', function() {
+        const companyCode = this.value;
+        const divisionSelect = document.getElementById('division_code');
+        
+        // Clear division options
+        divisionSelect.innerHTML = '<option value="">Select a division</option>';
+        
+        if (companyCode) {
+            // Fetch divisions for selected company
+            fetch(\`/api/companies/\${companyCode}/divisions\`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.data) {
+                        data.data.forEach(division => {
+                            const option = document.createElement('option');
+                            option.value = division.division_code;
+                            option.textContent = \`\${division.division_code} - \${division.division_name}\`;
+                            divisionSelect.appendChild(option);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading divisions:', error);
+                });
+        }
+    });
+    </script>
+    `
+}) %>

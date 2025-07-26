@@ -9,7 +9,7 @@ console.log('DB_USER:', process.env.DB_USER);
 console.log('DB_PASSWORD:', process.env.DB_PASSWORD ? '***' : 'undefined');
 console.log('USE_DATABASE:', process.env.USE_DATABASE);
 
-const { executeQuery, connectDatabase } = require('./src/config/database');
+const { executeQuery, connectDatabase } = require('../../src/config/database');
 
 async function testDB() {
     try {

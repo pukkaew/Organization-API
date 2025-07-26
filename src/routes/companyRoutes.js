@@ -17,9 +17,14 @@ router.post('/', companyController.handleCreateCompany);
 router.get('/:code/edit', companyController.showEditCompanyForm);
 
 // Update company
-router.post('/:code', companyController.handleUpdateCompany);
+router.put('/:code', companyController.handleUpdateCompany);
+router.post('/:code', companyController.handleUpdateCompany); // Backup for method-override
 
 // Toggle status
 router.post('/:code/toggle-status', companyController.handleToggleStatus);
+
+// Delete company
+router.delete('/:code', companyController.handleDeleteCompany);
+router.post('/:code/delete', companyController.handleDeleteCompany); // Backup for method-override
 
 module.exports = router;

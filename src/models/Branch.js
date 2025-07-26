@@ -88,9 +88,20 @@ class Branch {
     // Get branch by code
     static async findByCode(branchCode) {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return null;
+                const mockBranch = this.mockBranches.find(b => b.branch_code === branchCode);
+                if (!mockBranch) return null;
+                
+                // Add company info from Company model
+                const Company = require('./Company');
+                const company = await Company.findByCode(mockBranch.company_code);
+                
+                return {
+                    ...new Branch(mockBranch),
+                    company_name_th: company?.company_name_th || '',
+                    company_name_en: company?.company_name_en || ''
+                };
             }
             
             const query = `
@@ -124,9 +135,17 @@ class Branch {
     // Get branches by company
     static async findByCompany(companyCode) {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return [];
+                return this.mockBranches
+                    .filter(b => b.company_code === companyCode)
+                    .map(data => new Branch(data))
+                    .sort((a, b) => {
+                        // Sort headquarters first
+                        if (a.is_headquarters && !b.is_headquarters) return -1;
+                        if (!a.is_headquarters && b.is_headquarters) return 1;
+                        return a.branch_code.localeCompare(b.branch_code);
+                    });
             }
             
             const query = `
@@ -321,11 +340,11 @@ class Branch {
         try {
             // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                const index = this.constructor.mockBranchs.findIndex(item => item.branch_code === this.branch_code);
+                const index = this.constructor.mockBranches.findIndex(item => item.branch_code === this.branch_code);
                 if (index === -1) {
                     throw new Error('Branch not found');
                 }
-                this.constructor.mockBranchs.splice(index, 1);
+                this.constructor.mockBranches.splice(index, 1);
                 return { branch_code: this.branch_code };
             }
             
@@ -400,7 +419,7 @@ class Branch {
         try {
             // Skip database if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return false;
+                return this.mockBranches.some(b => b.branch_code === branchCode);
             }
             
             const query = `
@@ -445,8 +464,22 @@ class Branch {
                 const offset = (page - 1) * limit;
                 const paginatedData = filteredData.slice(offset, offset + limit);
 
+                // Add company names to the mock data
+                const Company = require('./Company');
+                const companiesData = await Company.findAll();
+                const companyMap = {};
+                companiesData.forEach(company => {
+                    companyMap[company.company_code] = company;
+                });
+
+                const enrichedData = paginatedData.map(branch => ({
+                    ...branch,
+                    company_name_th: companyMap[branch.company_code]?.company_name_th || '',
+                    company_name_en: companyMap[branch.company_code]?.company_name_en || ''
+                }));
+
                 return {
-                    data: paginatedData,
+                    data: enrichedData,
                     pagination: {
                         page: page,
                         limit: limit,
@@ -624,77 +657,6 @@ class Branch {
 
     static getMockData() {
         return this.mockBranches.map(data => new Branch(data));
-    }
-
-    // Mock exists method
-    static async exists(branchCode) {
-        if (process.env.USE_DATABASE === 'false') {
-            return this.mockBranches.some(b => b.branch_code === branchCode);
-        }
-        
-        try {
-            const query = `
-                SELECT COUNT(*) as count
-                FROM Branches
-                WHERE branch_code = @branch_code
-            `;
-            
-            const result = await executeQuery(query, { branch_code: branchCode });
-            return result.recordset[0].count > 0;
-        } catch (error) {
-            logger.error('Error in Branch.exists:', error);
-            throw error;
-        }
-    }
-
-    // Mock findByCode method
-    static async findByCode(branchCode) {
-        if (process.env.USE_DATABASE === 'false') {
-            const branch = this.mockBranches.find(b => b.branch_code === branchCode);
-            return branch ? new Branch(branch) : null;
-        }
-        
-        try {
-            const query = `
-                SELECT branch_code, branch_name, company_code, 
-                       is_headquarters, is_active, created_date, 
-                       created_by, updated_date, updated_by
-                FROM Branches
-                WHERE branch_code = @branch_code
-            `;
-            
-            const result = await executeQuery(query, { branch_code: branchCode });
-            return result.recordset.length > 0 ? new Branch(result.recordset[0]) : null;
-        } catch (error) {
-            logger.error('Error in Branch.findByCode:', error);
-            throw error;
-        }
-    }
-
-    // Mock findByCompany method
-    static async findByCompany(companyCode) {
-        if (process.env.USE_DATABASE === 'false') {
-            return this.mockBranches
-                .filter(b => b.company_code === companyCode)
-                .map(b => new Branch(b));
-        }
-        
-        try {
-            const query = `
-                SELECT branch_code, branch_name, company_code, 
-                       is_headquarters, is_active, created_date, 
-                       created_by, updated_date, updated_by
-                FROM Branches
-                WHERE company_code = @company_code
-                ORDER BY is_headquarters DESC, branch_code
-            `;
-            
-            const result = await executeQuery(query, { company_code: companyCode });
-            return result.recordset.map(row => new Branch(row));
-        } catch (error) {
-            logger.error('Error in Branch.findByCompany:', error);
-            throw error;
-        }
     }
 }
 

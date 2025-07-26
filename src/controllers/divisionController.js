@@ -54,6 +54,7 @@ const showCreateDivisionForm = asyncHandler(async (req, res) => {
             title: 'Create Division',
             companies: companies,
             selectedCompany: req.query.company_code,
+            csrfToken: req.csrfToken ? req.csrfToken() : '',
             error: req.flash('error')
         });
     } catch (error) {
@@ -301,6 +302,30 @@ const deleteDivision = asyncHandler(async (req, res) => {
     deleted(res, result, 'Division deleted successfully');
 });
 
+// Handle delete division (web)
+const handleDeleteDivision = asyncHandler(async (req, res) => {
+    try {
+        const division = await Division.findByCode(req.params.code);
+        
+        if (!division) {
+            req.flash('error', 'Division not found');
+            return res.redirect('/divisions');
+        }
+        
+        // Delete the division
+        await division.delete();
+        
+        logger.info(`Division deleted: ${req.params.code} by ${req.user?.username || 'system'}`);
+        
+        req.flash('success', 'Division deleted successfully');
+        res.redirect('/divisions');
+    } catch (error) {
+        logger.error('Error deleting division:', error);
+        req.flash('error', error.message || 'Failed to delete division');
+        res.redirect('/divisions');
+    }
+});
+
 module.exports = {
     // Web controllers
     showDivisionsPage,
@@ -309,6 +334,7 @@ module.exports = {
     handleCreateDivision,
     handleUpdateDivision,
     handleToggleStatus,
+    handleDeleteDivision,
     getBranchesByCompany,
     
     // API controllers

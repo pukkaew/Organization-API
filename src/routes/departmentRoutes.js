@@ -17,9 +17,14 @@ router.post('/', departmentController.handleCreateDepartment);
 router.get('/:code/edit', departmentController.showEditDepartmentForm);
 
 // Update department
-router.post('/:code', departmentController.handleUpdateDepartment);
+router.put('/:code', departmentController.handleUpdateDepartment);
+router.post('/:code', departmentController.handleUpdateDepartment); // Backup for method-override
 
 // Toggle status
 router.post('/:code/toggle-status', departmentController.handleToggleStatus);
+
+// Delete department
+router.delete('/:code', departmentController.handleDeleteDepartment);
+router.post('/:code/delete', departmentController.handleDeleteDepartment); // Backup for method-override
 
 module.exports = router;

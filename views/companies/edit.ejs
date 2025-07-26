@@ -29,6 +29,7 @@
                 <% if (typeof csrfToken !== 'undefined') { %>
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <% } %>
+                <input type="hidden" name="_method" value="PUT">
                 
                 <div class="space-y-6">
                     <!-- Company Code (Read-only) -->

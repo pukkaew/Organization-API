@@ -40,6 +40,7 @@ const showCreateBranchForm = asyncHandler(async (req, res) => {
         title: 'Create Branch',
         companies: companies,
         selectedCompany: req.query.company_code,
+        csrfToken: req.csrfToken ? req.csrfToken() : '',
         error: req.flash('error')
     });
 });
@@ -264,6 +265,30 @@ const deleteBranch = asyncHandler(async (req, res) => {
     deleted(res, result, 'Branch deleted successfully');
 });
 
+// Handle delete branch (web)
+const handleDeleteBranch = asyncHandler(async (req, res) => {
+    try {
+        const branch = await Branch.findByCode(req.params.code);
+        
+        if (!branch) {
+            req.flash('error', 'Branch not found');
+            return res.redirect('/branches');
+        }
+        
+        // Delete the branch
+        await branch.delete();
+        
+        logger.info(`Branch deleted: ${req.params.code} by ${req.user?.username || 'system'}`);
+        
+        req.flash('success', 'Branch deleted successfully');
+        res.redirect('/branches');
+    } catch (error) {
+        logger.error('Error deleting branch:', error);
+        req.flash('error', error.message || 'Failed to delete branch');
+        res.redirect('/branches');
+    }
+});
+
 module.exports = {
     // Web controllers
     showBranchesPage,
@@ -272,6 +297,7 @@ module.exports = {
     handleCreateBranch,
     handleUpdateBranch,
     handleToggleStatus,
+    handleDeleteBranch,
     
     // API controllers
     getAllBranches,

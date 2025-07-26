@@ -17,9 +17,14 @@ router.post('/', divisionController.handleCreateDivision);
 router.get('/:code/edit', divisionController.showEditDivisionForm);
 
 // Update division
-router.post('/:code', divisionController.handleUpdateDivision);
+router.put('/:code', divisionController.handleUpdateDivision);
+router.post('/:code', divisionController.handleUpdateDivision); // Backup for method-override
 
 // Toggle status
 router.post('/:code/toggle-status', divisionController.handleToggleStatus);
+
+// Delete division
+router.delete('/:code', divisionController.handleDeleteDivision);
+router.post('/:code/delete', divisionController.handleDeleteDivision); // Backup for method-override
 
 module.exports = router;

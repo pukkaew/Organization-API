@@ -25,7 +25,17 @@ class ApiLogService {
         if (cached) return cached;
 
         try {
-            const query = `
+            // Use SQLite-compatible query if using SQLite
+            const isSQLite = process.env.DB_TYPE === 'sqlite';
+            const query = isSQLite ? `
+                SELECT 
+                    COUNT(*) as todayCalls,
+                    COUNT(DISTINCT api_key_id) as uniqueKeys,
+                    AVG(response_time_ms) as avgResponseTime,
+                    SUM(CASE WHEN response_status >= 400 THEN 1 ELSE 0 END) as errorCount
+                FROM API_Logs
+                WHERE date(created_date) = date('now')
+            ` : `
                 SELECT 
                     COUNT(*) as todayCalls,
                     COUNT(DISTINCT api_key_id) as uniqueKeys,
@@ -61,51 +71,46 @@ class ApiLogService {
      */
     static async getUsageChartData(period = '7days') {
         try {
+            const isSQLite = process.env.DB_TYPE === 'sqlite';
             let query;
             const inputs = {};
-
+            
+            // Determine days based on period
+            let days = 7;
             switch (period) {
-                case '7days':
-                    query = `
-                        SELECT 
-                            CAST(created_date AS DATE) as date,
-                            COUNT(*) as calls,
-                            SUM(CASE WHEN response_status >= 400 THEN 1 ELSE 0 END) as errors
-                        FROM API_Logs
-                        WHERE created_date >= DATEADD(day, -7, GETDATE())
-                        GROUP BY CAST(created_date AS DATE)
-                        ORDER BY date
-                    `;
-                    break;
-                    
-                case '30days':
-                    query = `
-                        SELECT 
-                            CAST(created_date AS DATE) as date,
-                            COUNT(*) as calls,
-                            SUM(CASE WHEN response_status >= 400 THEN 1 ELSE 0 END) as errors
-                        FROM API_Logs
-                        WHERE created_date >= DATEADD(day, -30, GETDATE())
-                        GROUP BY CAST(created_date AS DATE)
-                        ORDER BY date
-                    `;
-                    break;
-                    
-                case '90days':
-                    query = `
-                        SELECT 
-                            CAST(created_date AS DATE) as date,
-                            COUNT(*) as calls,
-                            SUM(CASE WHEN response_status >= 400 THEN 1 ELSE 0 END) as errors
-                        FROM API_Logs
-                        WHERE created_date >= DATEADD(day, -90, GETDATE())
-                        GROUP BY CAST(created_date AS DATE)
-                        ORDER BY date
-                    `;
-                    break;
-                    
-                default:
-                    throw new Error('Invalid period');
+                case '7days': days = 7; break;
+                case '30days': days = 30; break;
+                case '90days': days = 90; break;
+                default: throw new Error('Invalid period');
+            }
+
+            if (isSQLite) {
+                // Use parameterized query
+                const dateFilter = new Date();
+                dateFilter.setDate(dateFilter.getDate() - days);
+                query = `
+                    SELECT 
+                        date(created_date) as date,
+                        COUNT(*) as calls,
+                        SUM(CASE WHEN response_status >= 400 THEN 1 ELSE 0 END) as errors
+                    FROM API_Logs
+                    WHERE created_date >= @dateFilter
+                    GROUP BY date(created_date)
+                    ORDER BY date
+                `;
+                inputs.dateFilter = dateFilter.toISOString();
+            } else {
+                query = `
+                    SELECT 
+                        CAST(created_date AS DATE) as date,
+                        COUNT(*) as calls,
+                        SUM(CASE WHEN response_status >= 400 THEN 1 ELSE 0 END) as errors
+                    FROM API_Logs
+                    WHERE created_date >= DATEADD(day, @days, GETDATE())
+                    GROUP BY CAST(created_date AS DATE)
+                    ORDER BY date
+                `;
+                inputs.days = -days;
             }
 
             const result = await executeQuery(query, inputs);

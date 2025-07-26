@@ -17,9 +17,14 @@ router.post('/', branchController.handleCreateBranch);
 router.get('/:code/edit', branchController.showEditBranchForm);
 
 // Update branch
-router.post('/:code', branchController.handleUpdateBranch);
+router.put('/:code', branchController.handleUpdateBranch);
+router.post('/:code', branchController.handleUpdateBranch); // Backup for method-override
 
 // Toggle status
 router.post('/:code/toggle-status', branchController.handleToggleStatus);
+
+// Delete branch
+router.delete('/:code', branchController.handleDeleteBranch);
+router.post('/:code/delete', branchController.handleDeleteBranch); // Backup for method-override
 
 module.exports = router;

@@ -91,9 +91,25 @@ class Division {
     // Get division by code
     static async findByCode(divisionCode) {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return null;
+                const mockDivision = this.mockDivisions.find(d => d.division_code === divisionCode);
+                if (!mockDivision) return null;
+                
+                // Add company and branch info
+                const Company = require('./Company');
+                const Branch = require('./Branch');
+                
+                const company = await Company.findByCode(mockDivision.company_code);
+                const branch = mockDivision.branch_code ? 
+                    Branch.mockBranches.find(b => b.branch_code === mockDivision.branch_code) : null;
+                
+                return {
+                    ...new Division(mockDivision),
+                    company_name_th: company?.company_name_th || '',
+                    company_name_en: company?.company_name_en || '',
+                    branch_name: branch?.branch_name || null
+                };
             }
             
             const query = `
@@ -130,9 +146,21 @@ class Division {
     // Get divisions by company
     static async findByCompany(companyCode) {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return [];
+                const divisions = this.mockDivisions
+                    .filter(d => d.company_code === companyCode)
+                    .map(data => {
+                        const division = new Division(data);
+                        // Add branch name if available
+                        const Branch = require('./Branch');
+                        const branch = Branch.mockBranches.find(b => b.branch_code === data.branch_code);
+                        return {
+                            ...division,
+                            branch_name: branch ? branch.branch_name : null
+                        };
+                    });
+                return divisions;
             }
             
             const query = `
@@ -160,9 +188,11 @@ class Division {
     // Get divisions by branch
     static async findByBranch(branchCode) {
         try {
-            // Skip database if USE_DATABASE is false
+            // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return [];
+                return this.mockDivisions
+                    .filter(d => d.branch_code === branchCode)
+                    .map(data => new Division(data));
             }
             
             const query = `
@@ -374,7 +404,7 @@ class Division {
         try {
             // Skip database if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
-                return false;
+                return this.mockDivisions.some(d => d.division_code === divisionCode);
             }
             
             const query = `
@@ -396,13 +426,36 @@ class Division {
         try {
             // Skip database if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
+                // Use mock data instead of empty data
+                const allData = this.getMockData().filter(division => {
+                    if (filters.company_code && division.company_code !== filters.company_code) {
+                        return false;
+                    }
+                    if (filters.branch_code && division.branch_code !== filters.branch_code) {
+                        return false;
+                    }
+                    if (filters.is_active !== undefined && division.is_active !== filters.is_active) {
+                        return false;
+                    }
+                    if (filters.search) {
+                        const search = filters.search.toLowerCase();
+                        return division.division_name.toLowerCase().includes(search) ||
+                               division.division_code.toLowerCase().includes(search);
+                    }
+                    return true;
+                });
+                
+                const total = allData.length;
+                const offset = (page - 1) * limit;
+                const paginatedData = allData.slice(offset, offset + limit);
+                
                 return {
-                    data: [],
+                    data: paginatedData,
                     pagination: {
                         page: page,
                         limit: limit,
-                        total: 0,
-                        pages: 0
+                        total: total,
+                        pages: Math.ceil(total / limit)
                     }
                 };
             }
@@ -636,103 +689,6 @@ class Division {
 
     static getMockData() {
         return this.mockDivisions.map(data => new Division(data));
-    }
-
-    // Mock exists method
-    static async exists(divisionCode) {
-        if (process.env.USE_DATABASE === 'false') {
-            return this.mockDivisions.some(d => d.division_code === divisionCode);
-        }
-        
-        try {
-            const query = `
-                SELECT COUNT(*) as count
-                FROM Divisions
-                WHERE division_code = @division_code
-            `;
-            
-            const result = await executeQuery(query, { division_code: divisionCode });
-            return result.recordset[0].count > 0;
-        } catch (error) {
-            logger.error('Error in Division.exists:', error);
-            throw error;
-        }
-    }
-
-    // Mock findByCode method
-    static async findByCode(divisionCode) {
-        if (process.env.USE_DATABASE === 'false') {
-            const division = this.mockDivisions.find(d => d.division_code === divisionCode);
-            return division ? new Division(division) : null;
-        }
-        
-        try {
-            const query = `
-                SELECT division_code, division_name, company_code, 
-                       branch_code, is_active, created_date, 
-                       created_by, updated_date, updated_by
-                FROM Divisions
-                WHERE division_code = @division_code
-            `;
-            
-            const result = await executeQuery(query, { division_code: divisionCode });
-            return result.recordset.length > 0 ? new Division(result.recordset[0]) : null;
-        } catch (error) {
-            logger.error('Error in Division.findByCode:', error);
-            throw error;
-        }
-    }
-
-    // Mock findByBranch method
-    static async findByBranch(branchCode) {
-        if (process.env.USE_DATABASE === 'false') {
-            return this.mockDivisions
-                .filter(d => d.branch_code === branchCode)
-                .map(d => new Division(d));
-        }
-        
-        try {
-            const query = `
-                SELECT division_code, division_name, company_code, 
-                       branch_code, is_active, created_date, 
-                       created_by, updated_date, updated_by
-                FROM Divisions
-                WHERE branch_code = @branch_code
-                ORDER BY division_code
-            `;
-            
-            const result = await executeQuery(query, { branch_code: branchCode });
-            return result.recordset.map(row => new Division(row));
-        } catch (error) {
-            logger.error('Error in Division.findByBranch:', error);
-            throw error;
-        }
-    }
-
-    // Mock findByCompany method
-    static async findByCompany(companyCode) {
-        if (process.env.USE_DATABASE === 'false') {
-            return this.mockDivisions
-                .filter(d => d.company_code === companyCode)
-                .map(d => new Division(d));
-        }
-        
-        try {
-            const query = `
-                SELECT division_code, division_name, company_code, 
-                       branch_code, is_active, created_date, 
-                       created_by, updated_date, updated_by
-                FROM Divisions
-                WHERE company_code = @company_code
-                ORDER BY branch_code, division_code
-            `;
-            
-            const result = await executeQuery(query, { company_code: companyCode });
-            return result.recordset.map(row => new Division(row));
-        } catch (error) {
-            logger.error('Error in Division.findByCompany:', error);
-            throw error;
-        }
     }
 }
 

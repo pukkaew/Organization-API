@@ -152,6 +152,7 @@ const showCompaniesPage = asyncHandler(async (req, res) => {
         search: req.query.search
     };
 
+    logger.debug('Company list request:', { page, limit, filters });
     const result = await Company.findPaginated(page, limit, filters);
     
     res.render('companies/index', {
@@ -169,6 +170,7 @@ const showCompaniesPage = asyncHandler(async (req, res) => {
 const showCreateCompanyForm = asyncHandler(async (req, res) => {
     res.render('companies/create', {
         title: 'Create Company',
+        csrfToken: req.csrfToken ? req.csrfToken() : '',
         error: req.flash('error')
     });
 });
@@ -315,6 +317,30 @@ const handleToggleStatus = asyncHandler(async (req, res) => {
     }
 });
 
+// Handle delete company
+const handleDeleteCompany = asyncHandler(async (req, res) => {
+    try {
+        const company = await Company.findByCode(req.params.code);
+        
+        if (!company) {
+            req.flash('error', 'Company not found');
+            return res.redirect('/companies');
+        }
+        
+        // Delete the company
+        await company.delete();
+        
+        logger.info(`Company deleted: ${req.params.code} by ${req.user?.username || 'system'}`);
+        
+        req.flash('success', 'Company deleted successfully');
+        res.redirect('/companies');
+    } catch (error) {
+        logger.error('Error deleting company:', error);
+        req.flash('error', error.message || 'Failed to delete company');
+        res.redirect('/companies');
+    }
+});
+
 module.exports = {
     // API controllers
     getAllCompanies,
@@ -331,5 +357,6 @@ module.exports = {
     showEditCompanyForm,
     handleCreateCompany,
     handleUpdateCompany,
-    handleToggleStatus
+    handleToggleStatus,
+    handleDeleteCompany
 };
