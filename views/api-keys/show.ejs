@@ -1,8 +1,22 @@
 <!-- Path: /views/api-keys/show.ejs -->
-<%- include('../layouts/main', { 
+<%- include('../partials/header', {
     title: 'API Key Created Successfully',
-    body: ` 
-    <div class="max-w-3xl mx-auto">
+    includeChartJS: false
+}) %>
+
+<%- include('../partials/navigation', {
+    activeMenu: 'api-keys',
+    user: typeof user !== 'undefined' ? user : null,
+    success: typeof success !== 'undefined' ? success : null,
+    error: typeof error !== 'undefined' ? error : null,
+    warning: typeof warning !== 'undefined' ? warning : null,
+    info: typeof info !== 'undefined' ? info : null
+}) %>
+
+<!-- Main Content -->
+<main class="flex-1 py-4 sm:py-8">
+    <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto">
         <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-6">
             <div class="flex">
                 <div class="flex-shrink-0">
@@ -92,7 +106,7 @@
                                        id="apiKeyField" 
                                        value="<%= actualKey %>" 
                                        readonly
-                                       class="flex-1 font-mono text-sm bg-gray-100 p-3 rounded border border-gray-300 select-all">
+                                       class="flex-1 font-mono text-sm bg-gray-100 p-3 rounded border border-gray-300 select-all break-all">
                                 <button type="button"
                                         onclick="copyApiKey()"
                                         class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -145,8 +159,12 @@
                 View API Documentation
             </a>
         </div>
+        </div>
     </div>
-    
+</main>
+
+<%- include('../partials/footer', {
+    pageScripts: `
     <script>
         // Auto-select the API key field when page loads
         document.addEventListener('DOMContentLoaded', function() {
@@ -181,5 +199,5 @@
             });
         }
     </script>
-    ` 
+    `
 }) %>

@@ -3,7 +3,7 @@
 <html lang="th" class="h-full">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Organization Structure Management System">
     <meta name="csrf-token" content="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
     
@@ -11,92 +11,6 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        // Ruxchai Blue
-                        'ruxchai-blue': {
-                            DEFAULT: '#0090D3',
-                            50: '#E6F4FB',
-                            100: '#CCE9F7',
-                            200: '#99D3EE',
-                            300: '#66BDE6',
-                            400: '#33A6DD',
-                            500: '#0090D3',
-                            600: '#0073A9',
-                            700: '#00567F',
-                            800: '#003A54',
-                            900: '#001D2A',
-                            'dark': '#047685',
-                            'medium': '#00B1EF',
-                            'light': '#4DD1FF'
-                        },
-                        // Ruxchai Green
-                        'ruxchai-green': {
-                            DEFAULT: '#3AAA35',
-                            50: '#E8F5E7',
-                            100: '#D1EBCF',
-                            200: '#A3D79F',
-                            300: '#75C36F',
-                            400: '#47AF3F',
-                            500: '#3AAA35',
-                            600: '#2E882A',
-                            700: '#22661F',
-                            800: '#164415',
-                            900: '#0B220A',
-                            'dark': '#258C1F',
-                            'medium': '#24C617',
-                            'light': '#56E04F'
-                        },
-                        // Ruxchai Grey
-                        'ruxchai-grey': {
-                            DEFAULT: '#555452',
-                            50: '#F5F5F5',
-                            100: '#E8E8E7',
-                            200: '#D1D1CF',
-                            300: '#B9B9B7',
-                            400: '#A2A29F',
-                            500: '#555452',
-                            600: '#444342',
-                            700: '#333231',
-                            800: '#222221',
-                            900: '#111110',
-                            'dark': '#161616',
-                            'medium': '#6B6B6B',
-                            'light': '#999999'
-                        },
-                        // Aliases
-                        'primary': {
-                            50: '#E6F4FB',
-                            100: '#CCE9F7',
-                            200: '#99D3EE',
-                            300: '#66BDE6',
-                            400: '#33A6DD',
-                            500: '#0090D3',
-                            600: '#0073A9',
-                            700: '#00567F',
-                            800: '#003A54',
-                            900: '#001D2A',
-                        },
-                        'success': {
-                            50: '#E8F5E7',
-                            100: '#D1EBCF',
-                            200: '#A3D79F',
-                            300: '#75C36F',
-                            400: '#47AF3F',
-                            500: '#3AAA35',
-                            600: '#2E882A',
-                            700: '#22661F',
-                            800: '#164415',
-                            900: '#0B220A',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     
     <!-- CSS Variables (Ruxchai Brand Guidelines) -->
     <link rel="stylesheet" href="/css/variables.css">
@@ -107,73 +21,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" 
           integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" 
           crossorigin="anonymous" referrerpolicy="no-referrer">
-    <!-- Font Awesome Fallback and CSS Fix -->
+    <!-- Responsive CSS -->
     <style>
-        /* Ensure Font Awesome icons display properly */
-        .fas, .far, .fab, .fal, .fad, .fa {
-            font-family: "Font Awesome 6 Free", "Font Awesome 6 Pro", "Font Awesome 5 Free", "FontAwesome" !important;
-            font-weight: 900;
-            font-style: normal;
-            font-variant: normal;
-            text-rendering: auto;
-            line-height: 1;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        .far {
-            font-weight: 400;
-        }
-        .fab {
-            font-weight: 400;
-            font-family: "Font Awesome 6 Brands", "Font Awesome 5 Brands", "FontAwesome" !important;
-        }
-        /* Fix for icon visibility */
-        .fas::before, .far::before, .fab::before {
-            display: inline-block;
+        .fas, .far, .fab { font-family: "Font Awesome 6 Free" !important; }
+        .container { max-width: 100vw; overflow-x: hidden; }
+        .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        @media (max-width: 640px) {
+            .text-3xl { font-size: 1.5rem; }
+            .px-6 { padding-left: 1rem; padding-right: 1rem; }
         }
     </style>
-    <script>
-        // Check if Font Awesome loaded, if not load backup
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() {
-                var testElement = document.createElement('i');
-                testElement.className = 'fas fa-check';
-                testElement.style.position = 'absolute';
-                testElement.style.left = '-9999px';
-                testElement.style.visibility = 'hidden';
-                document.body.appendChild(testElement);
-                
-                var computed = window.getComputedStyle(testElement);
-                var fontFamily = computed.getPropertyValue('font-family');
-                
-                if (fontFamily.indexOf('Font Awesome') === -1) {
-                    console.warn('Font Awesome failed to load, loading backup');
-                    var backup = document.createElement('link');
-                    backup.rel = 'stylesheet';
-                    backup.href = 'https://use.fontawesome.com/releases/v6.5.1/css/all.css';
-                    backup.crossOrigin = 'anonymous';
-                    document.head.appendChild(backup);
-                    
-                    // Also try Kit version as final fallback
-                    setTimeout(function() {
-                        var kit = document.createElement('script');
-                        kit.src = 'https://kit.fontawesome.com/4b9ba14b0f.js';
-                        kit.crossOrigin = 'anonymous';
-                        document.head.appendChild(kit);
-                    }, 1000);
-                } else {
-                    console.log('Font Awesome loaded successfully');
-                }
-                
-                document.body.removeChild(testElement);
-            }, 500);
-        });
-    </script>
     
     <!-- Chart.js for API Keys -->
     <% if (typeof includeChartJS !== 'undefined' && includeChartJS) { %>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <% } %>
 </head>
-<body class="h-full bg-gray-50 custom-scrollbar">
-    <div class="min-h-full flex flex-col">
+<body class="h-full bg-gray-50 overflow-x-hidden">
+    <div class="min-h-full flex flex-col max-w-full">

@@ -1,33 +1,33 @@
 <!-- Path: /views/partials/navigation.ejs -->
 <!-- Navigation -->
-<nav class="bg-white shadow-sm border-b border-gray-200">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<nav class="bg-white shadow-lg border-b border-gray-200">
+    <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
-            <div class="flex items-center">
+            <div class="flex items-center min-w-0">
                 <div class="flex-shrink-0">
-                    <h1 class="text-xl font-bold text-ruxchai-blue">
+                    <h1 class="text-lg sm:text-xl font-bold text-blue-600 truncate">
                         <i class="fas fa-building mr-2"></i>
-                        Organization Management
+                        <span class="hidden sm:inline">Organization</span> Management
                     </h1>
                 </div>
                 <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="/" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'bg-ruxchai-blue-50 text-ruxchai-blue-700' : 'text-ruxchai-grey hover:bg-gray-50' %> rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                    <div class="ml-10 flex items-baseline space-x-1">
+                        <a href="/" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'bg-blue-100 text-blue-700 border-b-2 border-blue-500' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' %> rounded-md px-3 py-2 text-sm font-medium transition-all duration-200">
                             <i class="fas fa-chart-line mr-1"></i> Dashboard
                         </a>
-                        <a href="/companies" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'companies' ? 'bg-ruxchai-blue-50 text-ruxchai-blue-700' : 'text-ruxchai-grey hover:bg-gray-50' %> rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                        <a href="/companies" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'companies' ? 'bg-blue-100 text-blue-700 border-b-2 border-blue-500' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' %> rounded-md px-3 py-2 text-sm font-medium transition-all duration-200">
                             <i class="fas fa-building mr-1"></i> Companies
                         </a>
-                        <a href="/branches" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'branches' ? 'bg-ruxchai-blue-50 text-ruxchai-blue-700' : 'text-ruxchai-grey hover:bg-gray-50' %> rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                        <a href="/branches" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'branches' ? 'bg-blue-100 text-blue-700 border-b-2 border-blue-500' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' %> rounded-md px-3 py-2 text-sm font-medium transition-all duration-200">
                             <i class="fas fa-code-branch mr-1"></i> Branches
                         </a>
-                        <a href="/divisions" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'divisions' ? 'bg-ruxchai-blue-50 text-ruxchai-blue-700' : 'text-ruxchai-grey hover:bg-gray-50' %> rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                        <a href="/divisions" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'divisions' ? 'bg-blue-100 text-blue-700 border-b-2 border-blue-500' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' %> rounded-md px-3 py-2 text-sm font-medium transition-all duration-200">
                             <i class="fas fa-sitemap mr-1"></i> Divisions
                         </a>
-                        <a href="/departments" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'departments' ? 'bg-ruxchai-blue-50 text-ruxchai-blue-700' : 'text-ruxchai-grey hover:bg-gray-50' %> rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                        <a href="/departments" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'departments' ? 'bg-blue-100 text-blue-700 border-b-2 border-blue-500' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' %> rounded-md px-3 py-2 text-sm font-medium transition-all duration-200">
                             <i class="fas fa-users mr-1"></i> Departments
                         </a>
-                        <a href="/api-keys" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'bg-ruxchai-blue-50 text-ruxchai-blue-700' : 'text-ruxchai-grey hover:bg-gray-50' %> rounded-md px-3 py-2 text-sm font-medium transition-colors">
+                        <a href="/api-keys" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'bg-blue-100 text-blue-700 border-b-2 border-blue-500' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900' %> rounded-md px-3 py-2 text-sm font-medium transition-all duration-200">
                             <i class="fas fa-key mr-1"></i> API Keys
                         </a>
                     </div>
@@ -72,37 +72,37 @@
     
     <!-- Mobile menu -->
     <div class="md:hidden hidden" id="mobile-menu">
-        <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-            <a href="/" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> block rounded-md px-3 py-2 text-base font-medium">
-                <i class="fas fa-chart-line mr-1"></i> Dashboard
+        <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3 bg-gray-50">
+            <a href="/" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100' %> block rounded-md px-3 py-2 text-base font-medium transition-colors">
+                <i class="fas fa-chart-line mr-2"></i> Dashboard
             </a>
-            <a href="/companies" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'companies' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> block rounded-md px-3 py-2 text-base font-medium">
-                <i class="fas fa-building mr-1"></i> Companies
+            <a href="/companies" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'companies' ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100' %> block rounded-md px-3 py-2 text-base font-medium transition-colors">
+                <i class="fas fa-building mr-2"></i> Companies
             </a>
-            <a href="/branches" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'branches' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> block rounded-md px-3 py-2 text-base font-medium">
-                <i class="fas fa-code-branch mr-1"></i> Branches
+            <a href="/branches" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'branches' ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100' %> block rounded-md px-3 py-2 text-base font-medium transition-colors">
+                <i class="fas fa-code-branch mr-2"></i> Branches
             </a>
-            <a href="/divisions" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'divisions' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> block rounded-md px-3 py-2 text-base font-medium">
-                <i class="fas fa-sitemap mr-1"></i> Divisions
+            <a href="/divisions" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'divisions' ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100' %> block rounded-md px-3 py-2 text-base font-medium transition-colors">
+                <i class="fas fa-sitemap mr-2"></i> Divisions
             </a>
-            <a href="/departments" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'departments' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> block rounded-md px-3 py-2 text-base font-medium">
-                <i class="fas fa-users mr-1"></i> Departments
+            <a href="/departments" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'departments' ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100' %> block rounded-md px-3 py-2 text-base font-medium transition-colors">
+                <i class="fas fa-users mr-2"></i> Departments
             </a>
-            <a href="/api-keys" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'bg-primary-50 text-primary-700' : 'text-gray-700 hover:bg-gray-50' %> block rounded-md px-3 py-2 text-base font-medium">
-                <i class="fas fa-key mr-1"></i> API Keys
+            <a href="/api-keys" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100' %> block rounded-md px-3 py-2 text-base font-medium transition-colors">
+                <i class="fas fa-key mr-2"></i> API Keys
             </a>
-            <a href="/docs" class="text-gray-700 hover:bg-gray-50 block rounded-md px-3 py-2 text-base font-medium">
-                <i class="fas fa-book mr-1"></i> API Docs
+            <a href="/docs" class="text-gray-700 hover:bg-gray-100 block rounded-md px-3 py-2 text-base font-medium transition-colors">
+                <i class="fas fa-book mr-2"></i> API Docs
             </a>
-            <hr class="my-2 border-gray-200">
+            <hr class="my-3 border-gray-300">
             <% if (typeof user !== 'undefined' && user) { %>
-                <div class="px-3 py-2 text-sm text-gray-500">
+                <div class="px-3 py-2 text-sm font-medium text-gray-600 bg-gray-200 rounded-md">
                     <i class="fas fa-user-circle mr-2"></i>
                     <%= user.username || 'User' %>
                 </div>
             <% } %>
-            <a href="/logout" class="text-gray-700 hover:bg-gray-50 block rounded-md px-3 py-2 text-base font-medium">
-                <i class="fas fa-sign-out-alt mr-1"></i> Logout
+            <a href="/logout" class="text-red-600 hover:bg-red-50 block rounded-md px-3 py-2 text-base font-medium transition-colors">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </a>
         </div>
     </div>
