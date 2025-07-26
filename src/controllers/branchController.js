@@ -289,6 +289,37 @@ const handleDeleteBranch = asyncHandler(async (req, res) => {
     }
 });
 
+// Display branch details
+const show = asyncHandler(async (req, res) => {
+    try {
+        const { branch_code } = req.params;
+
+        // Get branch details
+        const branch = await Branch.findByCode(branch_code);
+        if (!branch) {
+            return res.status(404).render('errors/404', {
+                title: 'Branch Not Found'
+            });
+        }
+
+        // Get related stats
+        const stats = await Branch.getStats(branch_code);
+
+        res.render('branches/show', {
+            title: branch.branch_name,
+            branch,
+            stats,
+            csrfToken: req.csrfToken ? req.csrfToken() : null
+        });
+    } catch (error) {
+        console.error('Show branch error:', error);
+        res.status(500).render('errors/500', {
+            title: 'Server Error',
+            error: process.env.NODE_ENV === 'development' ? error : null
+        });
+    }
+});
+
 module.exports = {
     // Web controllers
     showBranchesPage,
@@ -298,6 +329,7 @@ module.exports = {
     handleUpdateBranch,
     handleToggleStatus,
     handleDeleteBranch,
+    show,
     
     // API controllers
     getAllBranches,

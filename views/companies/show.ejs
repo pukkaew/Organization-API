@@ -1,0 +1,131 @@
+<%- include('../partials/header', {
+    title: company.company_name_th + ' - Company Details',
+    includeChartJS: false
+}) %>
+
+<%- include('../partials/navigation', {
+    activeMenu: 'companies',
+    user: typeof user !== 'undefined' ? user : null,
+    success: typeof success !== 'undefined' ? success : null,
+    error: typeof error !== 'undefined' ? error : null,
+    warning: typeof warning !== 'undefined' ? warning : null,
+    info: typeof info !== 'undefined' ? info : null
+}) %>
+
+<!-- Main Content -->
+<main class="flex-1 py-8">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="bg-white shadow-sm rounded-lg">
+            <!-- Header -->
+            <div class="px-6 py-4 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-semibold text-gray-900"><%= company.company_name_th %></h2>
+                        <p class="mt-1 text-sm text-gray-500"><%= company.company_name_en || '-' %></p>
+                    </div>
+                    <div class="flex space-x-3">
+                        <a href="/companies/<%= company.company_code %>/edit" class="btn btn-primary">
+                            <i class="fas fa-edit mr-2"></i>
+                            Edit
+                        </a>
+                        <a href="/companies" class="btn btn-ghost">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Company Details -->
+            <div class="p-6">
+                <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Company Code</dt>
+                        <dd class="mt-1 text-sm text-gray-900"><%= company.company_code %></dd>
+                    </div>
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Tax ID</dt>
+                        <dd class="mt-1 text-sm text-gray-900"><%= company.tax_id || '-' %></dd>
+                    </div>
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Website</dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                            <% if (company.website) { %>
+                                <a href="<%= company.website %>" target="_blank" class="text-primary-600 hover:text-primary-700">
+                                    <%= company.website %>
+                                </a>
+                            <% } else { %>
+                                -
+                            <% } %>
+                        </dd>
+                    </div>
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Email</dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                            <% if (company.email) { %>
+                                <a href="mailto:<%= company.email %>" class="text-primary-600 hover:text-primary-700">
+                                    <%= company.email %>
+                                </a>
+                            <% } else { %>
+                                -
+                            <% } %>
+                        </dd>
+                    </div>
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Phone</dt>
+                        <dd class="mt-1 text-sm text-gray-900"><%= company.phone || '-' %></dd>
+                    </div>
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Status</dt>
+                        <dd class="mt-1">
+                            <% if (company.is_active) { %>
+                                <span class="badge badge-success">
+                                    <i class="fas fa-check-circle mr-1"></i>
+                                    Active
+                                </span>
+                            <% } else { %>
+                                <span class="badge badge-gray">
+                                    <i class="fas fa-times-circle mr-1"></i>
+                                    Inactive
+                                </span>
+                            <% } %>
+                        </dd>
+                    </div>
+                    
+                    <div class="sm:col-span-2">
+                        <dt class="text-sm font-medium text-gray-500">Address</dt>
+                        <dd class="mt-1 text-sm text-gray-900"><%= company.address || '-' %></dd>
+                    </div>
+                </dl>
+            </div>
+
+            <!-- Related Data -->
+            <div class="px-6 py-4 border-t border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Related Information</h3>
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                    <a href="/branches?company_code=<%= company.company_code %>" class="text-center p-4 border rounded-lg hover:bg-gray-50">
+                        <div class="text-2xl font-semibold text-primary-600"><%= stats.branches || 0 %></div>
+                        <div class="text-sm text-gray-500">Branches</div>
+                    </a>
+                    <a href="/divisions?company_code=<%= company.company_code %>" class="text-center p-4 border rounded-lg hover:bg-gray-50">
+                        <div class="text-2xl font-semibold text-primary-600"><%= stats.divisions || 0 %></div>
+                        <div class="text-sm text-gray-500">Divisions</div>
+                    </a>
+                    <a href="/departments?company_code=<%= company.company_code %>" class="text-center p-4 border rounded-lg hover:bg-gray-50">
+                        <div class="text-2xl font-semibold text-primary-600"><%= stats.departments || 0 %></div>
+                        <div class="text-sm text-gray-500">Departments</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('../partials/footer', {
+    pageScripts: null
+}) %>

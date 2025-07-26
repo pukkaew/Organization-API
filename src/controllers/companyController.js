@@ -341,6 +341,37 @@ const handleDeleteCompany = asyncHandler(async (req, res) => {
     }
 });
 
+// Display company details
+const show = asyncHandler(async (req, res) => {
+    try {
+        const { company_code } = req.params;
+
+        // Get company details
+        const company = await Company.findByCode(company_code);
+        if (!company) {
+            return res.status(404).render('errors/404', {
+                title: 'Company Not Found'
+            });
+        }
+
+        // Get related stats
+        const stats = await Company.getStats(company_code);
+
+        res.render('companies/show', {
+            title: company.company_name_th,
+            company,
+            stats,
+            csrfToken: req.csrfToken ? req.csrfToken() : null
+        });
+    } catch (error) {
+        console.error('Show company error:', error);
+        res.status(500).render('errors/500', {
+            title: 'Server Error',
+            error: process.env.NODE_ENV === 'development' ? error : null
+        });
+    }
+});
+
 module.exports = {
     // API controllers
     getAllCompanies,
@@ -358,5 +389,6 @@ module.exports = {
     handleCreateCompany,
     handleUpdateCompany,
     handleToggleStatus,
-    handleDeleteCompany
+    handleDeleteCompany,
+    show
 };

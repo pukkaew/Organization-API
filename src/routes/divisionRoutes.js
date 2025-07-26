@@ -7,7 +7,12 @@ const divisionController = require('../controllers/divisionController');
 router.get('/', divisionController.showDivisionsPage);
 
 // Display create form (ต้องอยู่ก่อน /:code)
-router.get('/new', divisionController.showCreateDivisionForm);
+router.get('/new', (req, res) => {
+    res.render('divisions/create', { 
+        title: 'Create Division',
+        csrfToken: req.csrfToken ? req.csrfToken() : null
+    });
+});
 router.get('/create', divisionController.showCreateDivisionForm); // เพิ่ม route มาตรฐาน
 
 // Create division

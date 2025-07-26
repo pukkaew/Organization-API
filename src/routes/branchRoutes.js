@@ -13,6 +13,9 @@ router.get('/create', branchController.showCreateBranchForm); // เพิ่ม
 // Create branch
 router.post('/', branchController.handleCreateBranch);
 
+// Show branch details (ใส่ก่อน /:code/edit)
+router.get('/:branch_code', branchController.show);
+
 // Display edit form
 router.get('/:code/edit', branchController.showEditBranchForm);
 

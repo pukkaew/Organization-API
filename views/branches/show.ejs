@@ -1,0 +1,124 @@
+<%- include('../partials/header', {
+    title: branch.branch_name + ' - Branch Details',
+    includeChartJS: false
+}) %>
+
+<%- include('../partials/navigation', {
+    activeMenu: 'branches',
+    user: typeof user !== 'undefined' ? user : null,
+    success: typeof success !== 'undefined' ? success : null,
+    error: typeof error !== 'undefined' ? error : null,
+    warning: typeof warning !== 'undefined' ? warning : null,
+    info: typeof info !== 'undefined' ? info : null
+}) %>
+
+<!-- Main Content -->
+<main class="flex-1 py-8">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="bg-white shadow-sm rounded-lg">
+            <!-- Header -->
+            <div class="px-6 py-4 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-semibold text-gray-900"><%= branch.branch_name %></h2>
+                        <p class="mt-1 text-sm text-gray-500">
+                            <%= branch.company_code %> - <%= branch.company_name_th %>
+                            <% if (branch.is_headquarters) { %>
+                                <span class="ml-2 badge badge-primary">
+                                    <i class="fas fa-building mr-1"></i>
+                                    Headquarters
+                                </span>
+                            <% } %>
+                        </p>
+                    </div>
+                    <div class="flex space-x-3">
+                        <a href="/branches/<%= branch.branch_code %>/edit" class="btn btn-primary">
+                            <i class="fas fa-edit mr-2"></i>
+                            Edit
+                        </a>
+                        <a href="/branches" class="btn btn-ghost">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Branch Details -->
+            <div class="p-6">
+                <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Branch Code</dt>
+                        <dd class="mt-1 text-sm text-gray-900"><%= branch.branch_code %></dd>
+                    </div>
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Branch Type</dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                            <%= branch.is_headquarters ? 'Headquarters' : 'Branch' %>
+                        </dd>
+                    </div>
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Email</dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                            <% if (branch.email) { %>
+                                <a href="mailto:<%= branch.email %>" class="text-primary-600 hover:text-primary-700">
+                                    <%= branch.email %>
+                                </a>
+                            <% } else { %>
+                                -
+                            <% } %>
+                        </dd>
+                    </div>
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Phone</dt>
+                        <dd class="mt-1 text-sm text-gray-900"><%= branch.phone || '-' %></dd>
+                    </div>
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500">Status</dt>
+                        <dd class="mt-1">
+                            <% if (branch.is_active) { %>
+                                <span class="badge badge-success">
+                                    <i class="fas fa-check-circle mr-1"></i>
+                                    Active
+                                </span>
+                            <% } else { %>
+                                <span class="badge badge-gray">
+                                    <i class="fas fa-times-circle mr-1"></i>
+                                    Inactive
+                                </span>
+                            <% } %>
+                        </dd>
+                    </div>
+                    
+                    <div class="sm:col-span-2">
+                        <dt class="text-sm font-medium text-gray-500">Address</dt>
+                        <dd class="mt-1 text-sm text-gray-900"><%= branch.address || '-' %></dd>
+                    </div>
+                </dl>
+            </div>
+
+            <!-- Related Data -->
+            <div class="px-6 py-4 border-t border-gray-200">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">Related Information</h3>
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <a href="/divisions?branch_code=<%= branch.branch_code %>" class="text-center p-4 border rounded-lg hover:bg-gray-50">
+                        <div class="text-2xl font-semibold text-primary-600"><%= stats.divisions || 0 %></div>
+                        <div class="text-sm text-gray-500">Divisions</div>
+                    </a>
+                    <a href="/departments?branch_code=<%= branch.branch_code %>" class="text-center p-4 border rounded-lg hover:bg-gray-50">
+                        <div class="text-2xl font-semibold text-primary-600"><%= stats.departments || 0 %></div>
+                        <div class="text-sm text-gray-500">Departments</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('../partials/footer', {
+    pageScripts: null
+}) %>

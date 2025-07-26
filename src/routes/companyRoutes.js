@@ -13,6 +13,9 @@ router.get('/create', companyController.showCreateCompanyForm); // เพิ่�
 // Create company
 router.post('/', companyController.handleCreateCompany);
 
+// Show company details (ใส่ก่อน /:code/edit)
+router.get('/:company_code', companyController.show);
+
 // Display edit form
 router.get('/:code/edit', companyController.showEditCompanyForm);
 

@@ -7,7 +7,12 @@ const departmentController = require('../controllers/departmentController');
 router.get('/', departmentController.showDepartmentsPage);
 
 // Display create form (ต้องอยู่ก่อน /:code)
-router.get('/new', departmentController.showCreateDepartmentForm);
+router.get('/new', (req, res) => {
+    res.render('departments/create', { 
+        title: 'Create Department',
+        csrfToken: req.csrfToken ? req.csrfToken() : null
+    });
+});
 router.get('/create', departmentController.showCreateDepartmentForm); // เพิ่ม route มาตรฐาน
 
 // Create department
