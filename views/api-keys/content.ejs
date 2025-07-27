@@ -66,44 +66,49 @@
     </div>
     
     <!-- API Keys Table -->
-    <div class="bg-white shadow-sm rounded-lg overflow-hidden">
-        <div class="table-responsive">
+    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+        <div class="overflow-x-auto">
             <div class="table-wrapper">
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead class="bg-gradient-to-r from-gray-700 to-gray-800 text-white">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                App Name
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                <span class="text-base mr-2">📱</span>App Name
                             </th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Description
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                <span class="text-base mr-2">📋</span>Description
                             </th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Permissions
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                <span class="text-base mr-2">🔐</span>Permissions
                             </th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Usage
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                <span class="text-base mr-2">📈</span>Usage
                             </th>
-                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Status
+                            <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                <span class="text-base mr-2">📊</span>Status
                             </th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Created
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
+                                <span class="text-base mr-2">📅</span>Created
                             </th>
-                            <th scope="col" class="relative px-6 py-3">
-                                <span class="sr-only">Actions</span>
+                            <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-white uppercase tracking-wider">
+                                <span class="text-base mr-2">⚙️</span>Actions
                             </th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         <% if (typeof apiKeys !== 'undefined' && apiKeys.length > 0) { %>
-                            <% apiKeys.forEach(function(apiKey) { %>
-                                <tr class="hover:bg-gray-50 transition-colors">
+                            <% apiKeys.forEach(function(apiKey, index) { %>
+                                <tr class="<%= index % 2 === 0 ? 'bg-white' : 'bg-gray-50' %> hover:bg-blue-50 hover:shadow-md transition-all duration-200">
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <a href="/api-keys/<%= apiKey.api_key_id %>" 
-                                           class="text-sm font-medium text-primary-600 hover:text-primary-900">
-                                            <%= apiKey.app_name %>
-                                        </a>
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mr-3">
+                                                <span class="text-white text-sm">🔑</span>
+                                            </div>
+                                            <a href="/api-keys/<%= apiKey.api_key_id %>" 
+                                               class="text-sm font-medium text-primary-600 hover:text-primary-900">
+                                                <%= apiKey.app_name %>
+                                            </a>
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-500 max-w-xs truncate" 
@@ -159,25 +164,27 @@
                                             <%= new Date(apiKey.created_date).toLocaleDateString() %>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <a href="/api-keys/<%= apiKey.api_key_id %>" 
-                                           class="text-primary-600 hover:text-primary-900 mr-3"
-                                           title="View Details">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <form action="/api-keys/<%= apiKey.api_key_id %>/toggle-status" 
-                                              method="POST" 
-                                              class="inline">
-                                            <% if (typeof csrfToken !== 'undefined') { %>
-                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                            <% } %>
-                                            <button type="submit" 
-                                                    class="<%= apiKey.is_active ? 'text-yellow-600 hover:text-yellow-900' : 'text-success-600 hover:text-success-900' %>" 
-                                                    title="<%= apiKey.is_active ? 'Deactivate' : 'Activate' %>"
-                                                    onclick="return confirm('Are you sure you want to <%= apiKey.is_active ? 'deactivate' : 'activate' %> this API key?')">
-                                                <i class="fas fa-power-off"></i>
-                                            </button>
-                                        </form>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center">
+                                        <div class="flex justify-center space-x-2">
+                                            <a href="/api-keys/<%= apiKey.api_key_id %>" 
+                                               class="inline-flex items-center px-2 py-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-md hover:from-blue-600 hover:to-blue-700 transform hover:scale-105 transition-all duration-200 shadow-sm"
+                                               title="View Details">
+                                                <span class="text-sm">👁️</span>
+                                            </a>
+                                            <form action="/api-keys/<%= apiKey.api_key_id %>/toggle-status" 
+                                                  method="POST" 
+                                                  class="inline">
+                                                <% if (typeof csrfToken !== 'undefined') { %>
+                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                <% } %>
+                                                <button type="submit" 
+                                                        class="inline-flex items-center px-2 py-1 bg-gradient-to-r from-<%= apiKey.is_active ? 'yellow-500 to-yellow-600' : 'green-500 to-green-600' %> text-white rounded-md hover:from-<%= apiKey.is_active ? 'yellow-600 to-yellow-700' : 'green-600 to-green-700' %> transform hover:scale-105 transition-all duration-200 shadow-sm" 
+                                                        title="<%= apiKey.is_active ? 'Deactivate' : 'Activate' %>"
+                                                        onclick="return confirm('Are you sure you want to <%= apiKey.is_active ? 'deactivate' : 'activate' %> this API key?')">
+                                                    <span class="text-sm">⚡</span>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             <% }); %>

@@ -2,7 +2,7 @@
 <%- include('../layouts/main', { 
     title: 'API Logs - ' + apiKey.app_name,
     body: ` 
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-full mx-auto">
         <!-- Header -->
         <div class="md:flex md:items-center md:justify-between mb-6">
             <div class="flex-1 min-w-0">
@@ -14,7 +14,7 @@
                 </p>
             </div>
             <div class="mt-4 flex md:mt-0 md:ml-4">
-                <a href="/api-keys/<%= apiKey.api_key_id %>" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <a href="/api-keys/<%= apiKey.api_key_id %>" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none   ">
                     <i class="fas fa-arrow-left mr-2"></i>
                     Back to Details
                 </a>
@@ -29,13 +29,13 @@
                     <label for="endpoint" class="block text-sm font-medium text-gray-700 mb-1">Endpoint</label>
                     <input type="text" name="endpoint" id="endpoint" value="<%= query.endpoint || '' %>" 
                            placeholder="e.g. /api/v1/companies" 
-                           class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                           class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500  sm:text-sm">
                 </div>
                 
                 <!-- Method Filter -->
                 <div>
                     <label for="method" class="block text-sm font-medium text-gray-700 mb-1">Method</label>
-                    <select name="method" id="method" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                    <select name="method" id="method" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500  sm:text-sm">
                         <option value="">All Methods</option>
                         <option value="GET" <%= query.method === 'GET' ? 'selected' : '' %>>GET</option>
                         <option value="POST" <%= query.method === 'POST' ? 'selected' : '' %>>POST</option>
@@ -48,7 +48,7 @@
                 <!-- Status Code Filter -->
                 <div>
                     <label for="status_code" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                    <select name="status_code" id="status_code" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                    <select name="status_code" id="status_code" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500  sm:text-sm">
                         <option value="">All Status</option>
                         <option value="2xx" <%= query.status_code === '2xx' ? 'selected' : '' %>>2xx Success</option>
                         <option value="4xx" <%= query.status_code === '4xx' ? 'selected' : '' %>>4xx Client Error</option>
@@ -61,7 +61,7 @@
                     <label for="date_from" class="block text-sm font-medium text-gray-700 mb-1">From Date</label>
                     <input type="datetime-local" name="date_from" id="date_from" 
                            value="<%= query.date_from ? new Date(query.date_from).toISOString().slice(0, 16) : '' %>"
-                           class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                           class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500  sm:text-sm">
                 </div>
                 
                 <!-- Date To -->
@@ -69,20 +69,20 @@
                     <label for="date_to" class="block text-sm font-medium text-gray-700 mb-1">To Date</label>
                     <input type="datetime-local" name="date_to" id="date_to" 
                            value="<%= query.date_to ? new Date(query.date_to).toISOString().slice(0, 16) : '' %>"
-                           class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                           class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500  sm:text-sm">
                 </div>
                 
                 <!-- Actions -->
                 <div class="col-span-6 md:col-span-6 flex justify-end space-x-2 mt-4 md:mt-0">
-                    <button type="submit" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <button type="submit" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none   ">
                         <i class="fas fa-filter mr-2"></i>
                         Apply Filters
                     </button>
-                    <a href="/api-keys/<%= apiKey.api_key_id %>/logs" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <a href="/api-keys/<%= apiKey.api_key_id %>/logs" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none   ">
                         <i class="fas fa-times mr-2"></i>
                         Clear
                     </a>
-                    <button type="button" onclick="exportLogs()" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    <button type="button" onclick="exportLogs()" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none   ">
                         <i class="fas fa-download mr-2"></i>
                         Export CSV
                     </button>
@@ -294,7 +294,7 @@
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="button" onclick="closeLogDetails()" class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                    <button type="button" onclick="closeLogDetails()" class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none    sm:ml-3 sm:w-auto sm:text-sm">
                         Close
                     </button>
                 </div>

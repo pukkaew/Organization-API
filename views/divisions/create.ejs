@@ -14,14 +14,17 @@
 
 <!-- Main Content -->
 <main class="flex-1 py-8">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mx-auto">
-            <div class="bg-white shadow-sm rounded-lg">
-                <div class="px-6 py-4 border-b border-gray-200">
+            <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl border border-gray-100">
+                <div class="px-6 py-4 bg-gradient-to-r from-orange-600 to-red-700 rounded-t-2xl">
                     <div class="flex items-center justify-between">
-                        <h2 class="text-xl font-semibold text-gray-900">Create New Division</h2>
-                        <a href="/divisions" class="text-gray-500 hover:text-gray-700">
-                            <i class="fas fa-times"></i>
+                        <h2 class="text-xl font-bold text-white flex items-center">
+                            <span class="text-2xl mr-3">🏢</span>
+                            Create New Division
+                        </h2>
+                        <a href="/divisions" class="text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10">
+                            <i class="fas fa-times text-lg"></i>
                         </a>
                     </div>
                 </div>
@@ -34,13 +37,14 @@
                 <div class="space-y-6">
                     <!-- Company Selection -->
                     <div>
-                        <label for="company_code" class="form-label">
+                        <label for="company_code" class="form-label text-gray-800 font-semibold flex items-center">
+                            <span class="text-lg mr-2">🏢</span>
                             Company <span class="text-red-500">*</span>
                         </label>
                         <select id="company_code" 
                                 name="company_code" 
                                 required
-                                class="form-input">
+                                class="form-input focus:ring-2 focus:ring-orange-500 focus:border-orange-500 border-gray-300 transition-all duration-200">
                             <option value="">Select a company</option>
                             <% if (typeof companies !== 'undefined' && companies) { %>
                                 <% companies.forEach(function(company) { %>
@@ -54,12 +58,13 @@
                     
                     <!-- Branch Selection -->
                     <div>
-                        <label for="branch_code" class="form-label">
+                        <label for="branch_code" class="form-label text-gray-800 font-semibold flex items-center">
+                            <span class="text-lg mr-2">🌿</span>
                             Branch
                         </label>
                         <select id="branch_code" 
                                 name="branch_code"
-                                class="form-input">
+                                class="form-input focus:ring-2 focus:ring-orange-500 focus:border-orange-500 border-gray-300 transition-all duration-200">
                             <option value="">Company Level (No Branch)</option>
                         </select>
                         <p class="mt-1 text-sm text-gray-500">
@@ -69,7 +74,8 @@
                     
                     <!-- Division Code -->
                     <div>
-                        <label for="division_code" class="form-label">
+                        <label for="division_code" class="form-label text-gray-800 font-semibold flex items-center">
+                            <span class="text-lg mr-2">🏷️</span>
                             Division Code <span class="text-red-500">*</span>
                         </label>
                         <input type="text" 
@@ -78,7 +84,7 @@
                                required
                                maxlength="20"
                                pattern="[A-Z0-9]+"
-                               class="form-input uppercase"
+                               class="form-input uppercase focus:ring-2 focus:ring-orange-500 focus:border-orange-500 border-gray-300 transition-all duration-200"
                                placeholder="e.g., DIV001">
                         <p class="mt-1 text-sm text-gray-500">
                             Use uppercase letters and numbers only. This cannot be changed later.
@@ -87,7 +93,8 @@
                     
                     <!-- Division Name -->
                     <div>
-                        <label for="division_name" class="form-label">
+                        <label for="division_name" class="form-label text-gray-800 font-semibold flex items-center">
+                            <span class="text-lg mr-2">📁</span>
                             Division Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" 
@@ -95,27 +102,30 @@
                                name="division_name" 
                                required
                                maxlength="200"
-                               class="form-input"
+                               class="form-input focus:ring-2 focus:ring-orange-500 focus:border-orange-500 border-gray-300 transition-all duration-200"
                                placeholder="e.g., Human Resources">
                     </div>
                     
                     <!-- Status -->
                     <div>
-                        <label class="form-label">Status</label>
+                        <label class="form-label text-gray-800 font-semibold flex items-center">
+                            <span class="text-lg mr-2">⚡</span>
+                            Status
+                        </label>
                         <div class="flex items-center space-x-6 mt-2">
                             <label class="inline-flex items-center">
                                 <input type="radio" 
                                        name="is_active" 
                                        value="true" 
                                        checked
-                                       class="text-primary-600 focus:ring-primary-500">
+                                       class="text-primary-600 ">
                                 <span class="ml-2 text-sm text-gray-700">Active</span>
                             </label>
                             <label class="inline-flex items-center">
                                 <input type="radio" 
                                        name="is_active" 
                                        value="false"
-                                       class="text-primary-600 focus:ring-primary-500">
+                                       class="text-primary-600 ">
                                 <span class="ml-2 text-sm text-gray-700">Inactive</span>
                             </label>
                         </div>
@@ -124,19 +134,25 @@
                 
                 <!-- Form Actions -->
                 <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
-                    <a href="/divisions" class="btn btn-ghost">
+                    <a href="/divisions" class="btn btn-ghost hover:bg-gray-100 transition-all duration-200">
                         <i class="fas fa-arrow-left mr-2"></i>
                         Cancel
                     </a>
                     
                     <div class="flex items-center space-x-3">
-                        <button type="reset" class="btn btn-outline">
+                        <button type="reset" class="btn btn-outline border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200">
                             <i class="fas fa-redo mr-2"></i>
                             Reset
                         </button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save mr-2"></i>
-                            Create Division
+                        <button type="submit" id="submit-btn" class="btn bg-gradient-to-r from-orange-600 to-red-700 hover:from-orange-700 hover:to-red-800 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
+                            <span class="btn-text">
+                                <i class="fas fa-save mr-2"></i>
+                                Create Division
+                            </span>
+                            <span class="btn-loading hidden">
+                                <i class="spinner mr-2"></i>
+                                Creating...
+                            </span>
                         </button>
                     </div>
                 </div>
@@ -144,19 +160,34 @@
         </div>
         
         <!-- Help Section -->
-        <div class="mt-6 bg-primary-50 rounded-lg p-4 border border-primary-200">
+        <div class="mt-6 bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl p-6 border border-orange-100 shadow-lg">
             <div class="flex">
                 <div class="flex-shrink-0">
-                    <i class="fas fa-info-circle text-primary-400 text-lg"></i>
+                    <span class="text-2xl">💡</span>
                 </div>
-                <div class="ml-3">
-                    <h3 class="text-sm font-medium text-primary-800">Guidelines</h3>
-                    <div class="mt-2 text-sm text-primary-700">
-                        <ul class="list-disc list-inside space-y-1">
-                            <li>Division code cannot be changed after creation</li>
-                            <li>Division can be at company level or under a specific branch</li>
-                            <li>Division code must be unique across the entire system</li>
-                            <li>All divisions start as active by default</li>
+                <div class="ml-4">
+                    <h3 class="text-lg font-bold text-orange-800 flex items-center">
+                        <span class="mr-2">📖</span>
+                        Guidelines
+                    </h3>
+                    <div class="mt-3 text-sm text-orange-700">
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <span class="text-orange-500 mr-2 mt-0.5">•</span>
+                                Division code cannot be changed after creation
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-orange-500 mr-2 mt-0.5">•</span>
+                                Division can be at company level or under a specific branch
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-orange-500 mr-2 mt-0.5">•</span>
+                                Division code must be unique across the entire system
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-orange-500 mr-2 mt-0.5">•</span>
+                                All divisions start as active by default
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -202,6 +233,17 @@
                     console.error('Error loading branches:', error);
                 });
         }
+    });
+    
+    // Form submission loading state
+    document.querySelector('form').addEventListener('submit', function() {
+        const submitBtn = document.getElementById('submit-btn');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const btnLoading = submitBtn.querySelector('.btn-loading');
+        
+        submitBtn.disabled = true;
+        btnText.classList.add('hidden');
+        btnLoading.classList.remove('hidden');
     });
     </script>
     `

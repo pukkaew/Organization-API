@@ -1,136 +1,147 @@
 <!-- Welcome Section -->
-<div class="bg-white overflow-hidden shadow rounded-lg mb-8">
-    <div class="p-6 bg-gradient-to-r from-blue-600 to-blue-700">
-        <h1 class="text-3xl font-bold text-white">
-            <i class="fas fa-tachometer-alt mr-3"></i>
-            Welcome to Organization Management System
-        </h1>
-        <p class="mt-2 text-blue-100">
-            <i class="fas fa-snowflake mr-2"></i>
-            Manage your organization structure efficiently - Ruxchai Cold Storage
-        </p>
+<div class="relative bg-ruxchai-blue rounded-2xl shadow-2xl mb-8 overflow-hidden">
+    <div class="absolute inset-0 bg-black bg-opacity-10"></div>
+    <div class="relative p-8">
+        <div class="flex items-center space-x-4">
+            <div class="w-16 h-16 bg-white bg-opacity-20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                <span class="text-2xl text-white font-bold">🏢</span>
+            </div>
+            <div>
+                <h1 class="text-4xl font-bold text-white mb-2">
+                    Organization Management
+                </h1>
+                <p class="text-lg text-ruxchai-blue-100">
+                    Efficiently manage your organizational structure
+                </p>
+            </div>
+        </div>
+        <div class="mt-6 text-ruxchai-blue-100">
+            <span class="text-sm bg-white bg-opacity-20 px-3 py-1 rounded-full backdrop-blur-sm">
+                ❄️ Ruxchai Cold Storage Systems
+            </span>
+        </div>
     </div>
 </div>
 
 <!-- Statistics Cards -->
 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 mb-6 sm:mb-8">
     <!-- Companies Card -->
-    <div class="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow duration-200">
-        <div class="p-5">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-building text-xl text-blue-600"></i>
+    <div class="group bg-ruxchai-blue-50 rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300">
+        <div class="p-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-14 h-14 bg-ruxchai-blue rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <span class="text-2xl text-white">🏢</span>
                     </div>
-                </div>
-                <div class="ml-5 w-0 flex-1">
-                    <dl>
-                        <dt class="text-sm font-medium text-gray-500 truncate">
-                            Total Companies
+                    <div>
+                        <dt class="text-sm font-semibold text-ruxchai-blue-700 uppercase tracking-wide">
+                            Companies
                         </dt>
-                        <dd class="text-2xl font-bold text-gray-900">
+                        <dd class="text-3xl font-bold text-ruxchai-blue-900">
                             <%= typeof stats !== 'undefined' && stats.companies ? stats.companies : 0 %>
                         </dd>
-                    </dl>
+                    </div>
+                </div>
+                <div class="text-ruxchai-blue-300 group-hover:text-ruxchai-blue-500 transition-colors">
+                    <span class="text-2xl">📊</span>
                 </div>
             </div>
         </div>
-        <div class="bg-gray-50 px-5 py-3">
-            <div class="text-sm">
-                <a href="/companies" class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
-                    View all <span aria-hidden="true">&rarr;</span>
-                </a>
-            </div>
+        <div class="bg-ruxchai-blue-200 bg-opacity-50 px-6 py-4">
+            <a href="/companies" class="flex items-center justify-between text-ruxchai-blue-700 hover:text-ruxchai-blue-900 font-semibold transition-colors group">
+                <span>View all companies</span>
+                <span class="transform group-hover:translate-x-1 transition-transform duration-200">→</span>
+            </a>
         </div>
     </div>
     
     <!-- Branches Card -->
-    <div class="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow duration-200">
-        <div class="p-5">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-code-branch text-xl text-green-600"></i>
+    <div class="group bg-ruxchai-green-50 rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300">
+        <div class="p-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-14 h-14 bg-ruxchai-green rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <span class="text-2xl text-white">🌿</span>
                     </div>
-                </div>
-                <div class="ml-5 w-0 flex-1">
-                    <dl>
-                        <dt class="text-sm font-medium text-gray-500 truncate">
-                            Total Branches
+                    <div>
+                        <dt class="text-sm font-semibold text-ruxchai-green-700 uppercase tracking-wide">
+                            Branches
                         </dt>
-                        <dd class="text-2xl font-bold text-gray-900">
+                        <dd class="text-3xl font-bold text-ruxchai-green-900">
                             <%= typeof stats !== 'undefined' && stats.branches ? stats.branches : 0 %>
                         </dd>
-                    </dl>
+                    </div>
+                </div>
+                <div class="text-ruxchai-green-300 group-hover:text-ruxchai-green-500 transition-colors">
+                    <span class="text-2xl">🏪</span>
                 </div>
             </div>
         </div>
-        <div class="bg-gray-50 px-5 py-3">
-            <div class="text-sm">
-                <a href="/branches" class="font-medium text-green-600 hover:text-green-500 transition-colors">
-                    View all <span aria-hidden="true">&rarr;</span>
-                </a>
-            </div>
+        <div class="bg-ruxchai-green-200 bg-opacity-50 px-6 py-4">
+            <a href="/branches" class="flex items-center justify-between text-ruxchai-green-700 hover:text-ruxchai-green-900 font-semibold transition-colors group">
+                <span>View all branches</span>
+                <span class="transform group-hover:translate-x-1 transition-transform duration-200">→</span>
+            </a>
         </div>
     </div>
     
     <!-- Divisions Card -->
-    <div class="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow duration-200">
-        <div class="p-5">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-sitemap text-xl text-purple-600"></i>
+    <div class="group bg-ruxchai-blue-50 rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300">
+        <div class="p-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-14 h-14 bg-ruxchai-blue-700 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <span class="text-2xl text-white">🔗</span>
                     </div>
-                </div>
-                <div class="ml-5 w-0 flex-1">
-                    <dl>
-                        <dt class="text-sm font-medium text-gray-500 truncate">
-                            Total Divisions
+                    <div>
+                        <dt class="text-sm font-semibold text-ruxchai-blue-700 uppercase tracking-wide">
+                            Divisions
                         </dt>
-                        <dd class="text-2xl font-bold text-gray-900">
+                        <dd class="text-3xl font-bold text-ruxchai-blue-900">
                             <%= typeof stats !== 'undefined' && stats.divisions ? stats.divisions : 0 %>
                         </dd>
-                    </dl>
+                    </div>
+                </div>
+                <div class="text-ruxchai-blue-300 group-hover:text-ruxchai-blue-500 transition-colors">
+                    <span class="text-2xl">📋</span>
                 </div>
             </div>
         </div>
-        <div class="bg-gray-50 px-5 py-3">
-            <div class="text-sm">
-                <a href="/divisions" class="font-medium text-purple-600 hover:text-purple-500 transition-colors">
-                    View all <span aria-hidden="true">&rarr;</span>
-                </a>
-            </div>
+        <div class="bg-ruxchai-blue-200 bg-opacity-50 px-6 py-4">
+            <a href="/divisions" class="flex items-center justify-between text-ruxchai-blue-700 hover:text-ruxchai-blue-900 font-semibold transition-colors group">
+                <span>View all divisions</span>
+                <span class="transform group-hover:translate-x-1 transition-transform duration-200">→</span>
+            </a>
         </div>
     </div>
     
     <!-- Departments Card -->
-    <div class="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow duration-200">
-        <div class="p-5">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-users text-xl text-orange-600"></i>
+    <div class="group bg-ruxchai-green-50 rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300">
+        <div class="p-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-14 h-14 bg-ruxchai-green-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <span class="text-2xl text-white">👥</span>
                     </div>
-                </div>
-                <div class="ml-5 w-0 flex-1">
-                    <dl>
-                        <dt class="text-sm font-medium text-gray-500 truncate">
-                            Total Departments
+                    <div>
+                        <dt class="text-sm font-semibold text-ruxchai-green-700 uppercase tracking-wide">
+                            Departments
                         </dt>
-                        <dd class="text-2xl font-bold text-gray-900">
+                        <dd class="text-3xl font-bold text-ruxchai-green-900">
                             <%= typeof stats !== 'undefined' && stats.departments ? stats.departments : 0 %>
                         </dd>
-                    </dl>
+                    </div>
+                </div>
+                <div class="text-ruxchai-green-300 group-hover:text-ruxchai-green-500 transition-colors">
+                    <span class="text-2xl">🎯</span>
                 </div>
             </div>
         </div>
-        <div class="bg-gray-50 px-5 py-3">
-            <div class="text-sm">
-                <a href="/departments" class="font-medium text-orange-600 hover:text-orange-500 transition-colors">
-                    View all <span aria-hidden="true">&rarr;</span>
-                </a>
-            </div>
+        <div class="bg-ruxchai-green-200 bg-opacity-50 px-6 py-4">
+            <a href="/departments" class="flex items-center justify-between text-ruxchai-green-700 hover:text-ruxchai-green-900 font-semibold transition-colors group">
+                <span>View all departments</span>
+                <span class="transform group-hover:translate-x-1 transition-transform duration-200">→</span>
+            </a>
         </div>
     </div>
 </div>
@@ -138,62 +149,89 @@
 <!-- Recent Activity & Quick Actions -->
 <div class="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-2">
     <!-- Quick Actions -->
-    <div class="bg-white shadow rounded-lg">
-        <div class="px-6 py-5">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">
-                <i class="fas fa-lightning-bolt mr-2 text-yellow-500"></i>
-                Quick Actions
-            </h3>
-            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <a href="/companies/new" class="inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                    <i class="fas fa-plus mr-2"></i>
-                    Add Company
+    <div class="bg-ruxchai-grey-50 rounded-2xl shadow-xl">
+        <div class="px-8 py-6">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="w-10 h-10 bg-ruxchai-blue rounded-xl flex items-center justify-center">
+                    <span class="text-white text-lg">⚡</span>
+                </div>
+                <h3 class="text-xl font-bold text-ruxchai-grey">
+                    Quick Actions
+                </h3>
+            </div>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <a href="/companies/new" class="group flex items-center space-x-3 p-4 bg-ruxchai-blue text-white rounded-xl hover:bg-ruxchai-blue-600 transform hover:scale-105 transition-all duration-200 shadow-lg">
+                    <span class="text-2xl">🏢</span>
+                    <span class="font-semibold">Add Company</span>
+                    <span class="ml-auto group-hover:translate-x-1 transition-transform">→</span>
                 </a>
-                <a href="/branches/new" class="inline-flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                    <i class="fas fa-plus mr-2"></i>
-                    Add Branch
+                <a href="/branches/new" class="group flex items-center space-x-3 p-4 bg-ruxchai-green text-white rounded-xl hover:bg-ruxchai-green-600 transform hover:scale-105 transition-all duration-200 shadow-lg">
+                    <span class="text-2xl">🌿</span>
+                    <span class="font-semibold">Add Branch</span>
+                    <span class="ml-auto group-hover:translate-x-1 transition-transform">→</span>
                 </a>
-                <a href="/divisions/new" class="inline-flex items-center justify-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
-                    <i class="fas fa-plus mr-2"></i>
-                    Add Division
+                <a href="/divisions/new" class="group flex items-center space-x-3 p-4 bg-ruxchai-blue-700 text-white rounded-xl hover:bg-ruxchai-blue-800 transform hover:scale-105 transition-all duration-200 shadow-lg">
+                    <span class="text-2xl">🔗</span>
+                    <span class="font-semibold">Add Division</span>
+                    <span class="ml-auto group-hover:translate-x-1 transition-transform">→</span>
                 </a>
-                <a href="/departments/new" class="inline-flex items-center justify-center px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors">
-                    <i class="fas fa-plus mr-2"></i>
-                    Add Department
+                <a href="/departments/new" class="group flex items-center space-x-3 p-4 bg-ruxchai-green-600 text-white rounded-xl hover:bg-ruxchai-green-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
+                    <span class="text-2xl">👥</span>
+                    <span class="font-semibold">Add Department</span>
+                    <span class="ml-auto group-hover:translate-x-1 transition-transform">→</span>
                 </a>
             </div>
         </div>
     </div>
     
     <!-- API Usage -->
-    <div class="bg-white shadow rounded-lg">
-        <div class="px-6 py-5">
-            <h3 class="text-lg font-semibold text-gray-900 mb-4">
-                <i class="fas fa-chart-bar mr-2 text-blue-500"></i>
-                API Usage (Last 30 Days)
-            </h3>
-            <dl class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg">
-                    <dt class="text-sm font-medium text-blue-700">
-                        Total API Calls
-                    </dt>
-                    <dd class="mt-1 text-2xl font-bold text-blue-900">
-                        <%= typeof apiStats !== 'undefined' && apiStats.totalCalls ? apiStats.totalCalls.toLocaleString() : 0 %>
-                    </dd>
+    <div class="bg-ruxchai-blue-50 rounded-2xl shadow-xl">
+        <div class="px-8 py-6">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="w-10 h-10 bg-ruxchai-blue-600 rounded-xl flex items-center justify-center">
+                    <span class="text-white text-lg">📊</span>
                 </div>
-                <div class="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg">
-                    <dt class="text-sm font-medium text-green-700">
-                        Active API Keys
-                    </dt>
-                    <dd class="mt-1 text-2xl font-bold text-green-900">
-                        <%= typeof apiStats !== 'undefined' && apiStats.activeKeys ? apiStats.activeKeys : 0 %>
-                    </dd>
+                <h3 class="text-xl font-bold text-ruxchai-grey">
+                    API Usage (30 Days)
+                </h3>
+            </div>
+            <dl class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div class="group bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-ruxchai-blue">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <dt class="text-sm font-semibold text-ruxchai-blue-600 uppercase tracking-wide">
+                                Total API Calls
+                            </dt>
+                            <dd class="mt-2 text-3xl font-bold text-ruxchai-blue-900">
+                                <%= typeof apiStats !== 'undefined' && apiStats.totalCalls ? apiStats.totalCalls.toLocaleString() : 0 %>
+                            </dd>
+                        </div>
+                        <div class="w-12 h-12 bg-ruxchai-blue-100 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <span class="text-xl">📈</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="group bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-ruxchai-green">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <dt class="text-sm font-semibold text-ruxchai-green-600 uppercase tracking-wide">
+                                Active API Keys
+                            </dt>
+                            <dd class="mt-2 text-3xl font-bold text-ruxchai-green-900">
+                                <%= typeof apiStats !== 'undefined' && apiStats.activeKeys ? apiStats.activeKeys : 0 %>
+                            </dd>
+                        </div>
+                        <div class="w-12 h-12 bg-ruxchai-green-100 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <span class="text-xl">🔑</span>
+                        </div>
+                    </div>
                 </div>
             </dl>
-            <div class="mt-4">
-                <a href="/api-keys" class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-500 transition-colors">
-                    <i class="fas fa-key mr-1"></i>
-                    Manage API Keys <span aria-hidden="true" class="ml-1">&rarr;</span>
+            <div class="mt-6">
+                <a href="/api-keys" class="group inline-flex items-center px-6 py-3 bg-ruxchai-blue text-white font-semibold rounded-xl hover:bg-ruxchai-blue-600 transform hover:scale-105 transition-all duration-200 shadow-lg">
+                    <span class="mr-2">🔧</span>
+                    Manage API Keys
+                    <span class="ml-2 group-hover:translate-x-1 transition-transform">→</span>
                 </a>
             </div>
         </div>

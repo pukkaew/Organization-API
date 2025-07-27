@@ -14,14 +14,17 @@
 
 <!-- Main Content -->
 <main class="flex-1 py-8">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mx-auto">
-            <div class="bg-white shadow-sm rounded-lg">
-                <div class="px-6 py-4 border-b border-gray-200">
+            <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl border border-gray-100">
+                <div class="px-6 py-4 bg-gradient-to-r from-cyan-600 to-blue-700 rounded-t-2xl">
                     <div class="flex items-center justify-between">
-                        <h2 class="text-xl font-semibold text-gray-900">Create API Key</h2>
-                        <a href="/api-keys" class="text-gray-500 hover:text-gray-700">
-                            <i class="fas fa-times"></i>
+                        <h2 class="text-xl font-bold text-white flex items-center">
+                            <span class="text-2xl mr-3">🔑</span>
+                            Create API Key
+                        </h2>
+                        <a href="/api-keys" class="text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10">
+                            <i class="fas fa-times text-lg"></i>
                         </a>
                     </div>
                 </div>
@@ -34,7 +37,8 @@
                 <div class="space-y-6">
                     <!-- Application Name -->
                     <div>
-                        <label for="app_name" class="form-label">
+                        <label for="app_name" class="form-label text-gray-800 font-semibold flex items-center">
+                            <span class="text-lg mr-2">📱</span>
                             Application Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" 
@@ -42,7 +46,7 @@
                                name="app_name" 
                                required
                                maxlength="100"
-                               class="form-input"
+                               class="form-input focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 border-gray-300 transition-all duration-200"
                                placeholder="e.g., Mobile App, Web Portal">
                         <p class="mt-1 text-sm text-gray-500">
                             A descriptive name for the application using this API key
@@ -51,20 +55,22 @@
                     
                     <!-- Description -->
                     <div>
-                        <label for="description" class="form-label">
+                        <label for="description" class="form-label text-gray-800 font-semibold flex items-center">
+                            <span class="text-lg mr-2">📝</span>
                             Description
                         </label>
                         <textarea id="description" 
                                   name="description" 
                                   rows="3"
                                   maxlength="500"
-                                  class="form-input"
+                                  class="form-input focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 border-gray-300 transition-all duration-200"
                                   placeholder="Optional description of what this API key is used for"></textarea>
                     </div>
                     
                     <!-- Permissions -->
                     <div>
-                        <label class="form-label">
+                        <label class="form-label text-gray-800 font-semibold flex items-center">
+                            <span class="text-lg mr-2">🔒</span>
                             Permissions <span class="text-red-500">*</span>
                         </label>
                         <div class="mt-2 space-y-4">
@@ -73,7 +79,7 @@
                                        name="permissions" 
                                        value="read" 
                                        required
-                                       class="mt-1 text-primary-600 focus:ring-primary-500">
+                                       class="mt-1 text-primary-600 ">
                                 <div class="ml-3">
                                     <span class="block text-sm font-medium text-gray-700">Read Only</span>
                                     <span class="block text-sm text-gray-500">
@@ -86,7 +92,7 @@
                                 <input type="radio" 
                                        name="permissions" 
                                        value="write"
-                                       class="mt-1 text-primary-600 focus:ring-primary-500">
+                                       class="mt-1 text-primary-600 ">
                                 <div class="ml-3">
                                     <span class="block text-sm font-medium text-gray-700">Write Only</span>
                                     <span class="block text-sm text-gray-500">
@@ -100,7 +106,7 @@
                                        name="permissions" 
                                        value="read_write"
                                        checked
-                                       class="mt-1 text-primary-600 focus:ring-primary-500">
+                                       class="mt-1 text-primary-600 ">
                                 <div class="ml-3">
                                     <span class="block text-sm font-medium text-gray-700">Read & Write</span>
                                     <span class="block text-sm text-gray-500">
@@ -113,14 +119,15 @@
                     
                     <!-- Expiration -->
                     <div>
-                        <label for="expires_date" class="form-label">
+                        <label for="expires_date" class="form-label text-gray-800 font-semibold flex items-center">
+                            <span class="text-lg mr-2">📅</span>
                             Expiration Date
                         </label>
                         <input type="date" 
                                id="expires_date" 
                                name="expires_date"
                                min="<%= new Date().toISOString().split('T')[0] %>"
-                               class="form-input">
+                               class="form-input focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 border-gray-300 transition-all duration-200">
                         <p class="mt-1 text-sm text-gray-500">
                             Leave empty for no expiration
                         </p>
@@ -128,7 +135,8 @@
                     
                     <!-- Rate Limiting -->
                     <div>
-                        <label for="rate_limit" class="form-label">
+                        <label for="rate_limit" class="form-label text-gray-800 font-semibold flex items-center">
+                            <span class="text-lg mr-2">⏱️</span>
                             Rate Limit (requests per hour)
                         </label>
                         <input type="number" 
@@ -137,7 +145,7 @@
                                min="1"
                                max="10000"
                                value="1000"
-                               class="form-input">
+                               class="form-input focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 border-gray-300 transition-all duration-200">
                         <p class="mt-1 text-sm text-gray-500">
                             Maximum number of API requests allowed per hour
                         </p>
@@ -145,13 +153,14 @@
                     
                     <!-- IP Whitelist -->
                     <div>
-                        <label for="ip_whitelist" class="form-label">
+                        <label for="ip_whitelist" class="form-label text-gray-800 font-semibold flex items-center">
+                            <span class="text-lg mr-2">🌐</span>
                             IP Whitelist
                         </label>
                         <textarea id="ip_whitelist" 
                                   name="ip_whitelist" 
                                   rows="3"
-                                  class="form-input"
+                                  class="form-input focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 border-gray-300 transition-all duration-200"
                                   placeholder="192.168.1.1&#10;10.0.0.0/24&#10;(one IP or CIDR per line)"></textarea>
                         <p class="mt-1 text-sm text-gray-500">
                             Optional: Restrict API key usage to specific IP addresses or ranges
@@ -161,42 +170,76 @@
                 
                 <!-- Form Actions -->
                 <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
-                    <a href="/api-keys" class="btn btn-ghost">
+                    <a href="/api-keys" class="btn btn-ghost hover:bg-gray-100 transition-all duration-200">
                         <i class="fas fa-arrow-left mr-2"></i>
                         Cancel
                     </a>
                     
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-key mr-2"></i>
-                        Generate API Key
+                    <button type="submit" id="submit-btn" class="btn bg-gradient-to-r from-cyan-600 to-blue-700 hover:from-cyan-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
+                        <span class="btn-text">
+                            <i class="fas fa-key mr-2"></i>
+                            Generate API Key
+                        </span>
+                        <span class="btn-loading hidden">
+                            <i class="spinner mr-2"></i>
+                            Generating...
+                        </span>
                     </button>
                 </div>
             </form>
         </div>
         
         <!-- Security Notice -->
-        <div class="mt-6 bg-yellow-50 rounded-lg p-4 border border-yellow-200">
+        <div class="mt-6 bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl p-6 border border-cyan-100 shadow-lg">
             <div class="flex">
                 <div class="flex-shrink-0">
-                    <i class="fas fa-shield-alt text-yellow-400 text-lg"></i>
+                    <span class="text-2xl">🔒</span>
                 </div>
-                <div class="ml-3">
-                    <h3 class="text-sm font-medium text-yellow-800">Security Notice</h3>
-                    <div class="mt-2 text-sm text-yellow-700">
-                        <ul class="list-disc list-inside space-y-1">
-                            <li>The API key will only be shown once after creation</li>
-                            <li>Store the API key securely and never expose it in client-side code</li>
-                            <li>Use HTTPS for all API requests</li>
-                            <li>Rotate API keys regularly for better security</li>
+                <div class="ml-4">
+                    <h3 class="text-lg font-bold text-cyan-800 flex items-center">
+                        <span class="mr-2">🛡️</span>
+                        Security Notice
+                    </h3>
+                    <div class="mt-3 text-sm text-cyan-700">
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <span class="text-cyan-500 mr-2 mt-0.5">•</span>
+                                The API key will only be shown once after creation
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyan-500 mr-2 mt-0.5">•</span>
+                                Store the API key securely and never expose it in client-side code
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyan-500 mr-2 mt-0.5">•</span>
+                                Use HTTPS for all API requests
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyan-500 mr-2 mt-0.5">•</span>
+                                Rotate API keys regularly for better security
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
         </div>    
     </div>
 </main>
 
 <%- include('../partials/footer', {
-    pageScripts: null
+    pageScripts: `
+    <script>
+    // Form submission loading state
+    document.querySelector('form').addEventListener('submit', function() {
+        const submitBtn = document.getElementById('submit-btn');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const btnLoading = submitBtn.querySelector('.btn-loading');
+        
+        submitBtn.disabled = true;
+        btnText.classList.add('hidden');
+        btnLoading.classList.remove('hidden');
+    });
+    </script>
+    `
 }) %>

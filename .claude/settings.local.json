@@ -39,7 +39,9 @@
       "Bash(git add:*)",
       "Bash(cp:*)",
       "Bash(copy:*)",
-      "Bash(cmd //c:*)"
+      "Bash(cmd //c:*)",
+      "Bash(npx tailwindcss:*)",
+      "Bash(.node_modules.bintailwindcss -i ./public/css/style.css -o ./public/assets/css/tailwind.min.css --minify)"
     ],
     "deny": []
   }

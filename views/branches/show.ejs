@@ -15,34 +15,39 @@
 <!-- Main Content -->
 <main class="flex-1 py-4 sm:py-8">
     <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
-        <div class="bg-white shadow rounded-lg overflow-hidden">
-            <!-- Header -->
-            <div class="px-4 sm:px-6 py-4 border-b border-gray-200">
+        <div class="bg-white shadow-xl rounded-xl overflow-hidden">
+            <!-- Header with Gradient Background -->
+            <div class="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-700 px-4 sm:px-6 py-8 text-white">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
                     <div class="min-w-0 flex-1">
-                        <h2 class="text-xl sm:text-2xl font-semibold text-gray-900 truncate">
-                            <i class="fas fa-code-branch mr-2 text-green-600"></i>
-                            <%= branch.branch_name %>
-                        </h2>
-                        <div class="mt-1 flex flex-wrap items-center gap-2">
-                            <p class="text-sm text-gray-500 truncate">
-                                <%= branch.company_code %> - <%= branch.company_name_th %>
-                            </p>
-                            <% if (branch.is_headquarters) { %>
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                    <i class="fas fa-building mr-1"></i>
-                                    Headquarters
-                                </span>
-                            <% } %>
+                        <div class="flex items-center mb-3">
+                            <div class="w-16 h-16 bg-white bg-opacity-20 rounded-xl flex items-center justify-center text-3xl mr-4">
+                                🌿
+                            </div>
+                            <div>
+                                <h2 class="text-2xl sm:text-3xl font-bold text-white truncate">
+                                    <%= branch.branch_name %>
+                                </h2>
+                                <div class="mt-2 flex flex-wrap items-center gap-3">
+                                    <p class="text-sm text-teal-100 truncate">
+                                        <%= branch.company_code %> - <%= branch.company_name_th %>
+                                    </p>
+                                    <% if (branch.is_headquarters) { %>
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-blue-400 to-indigo-500 text-white shadow-lg animate-pulse">
+                                            🏢 Headquarters
+                                        </span>
+                                    <% } %>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
-                        <a href="/branches/<%= branch.branch_code %>/edit" class="inline-flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                            <i class="fas fa-edit mr-2"></i>
+                        <a href="/branches/<%= branch.branch_code %>/edit" class="group inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg hover:from-orange-600 hover:to-red-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                            <i class="fas fa-edit mr-2 transition-transform group-hover:rotate-12"></i>
                             Edit
                         </a>
-                        <a href="/branches" class="inline-flex items-center justify-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
-                            <i class="fas fa-arrow-left mr-2"></i>
+                        <a href="/branches" class="group inline-flex items-center justify-center px-6 py-3 bg-white bg-opacity-20 backdrop-blur-sm text-white rounded-lg hover:bg-opacity-30 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border border-white border-opacity-20">
+                            <i class="fas fa-arrow-left mr-2 transition-transform group-hover:-translate-x-1"></i>
                             Back
                         </a>
                     </div>
@@ -50,110 +55,122 @@
             </div>
 
             <!-- Branch Details -->
-            <div class="p-4 sm:p-6">
-                <dl class="grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <dt class="text-sm font-medium text-gray-500 flex items-center">
-                            <i class="fas fa-id-card mr-2 text-green-500"></i>
+            <div class="p-4 sm:p-6 bg-gradient-to-br from-gray-50 to-emerald-50">
+                <dl class="grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <div class="bg-gradient-to-br from-emerald-50 to-teal-100 p-6 rounded-xl shadow-lg border border-emerald-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
+                            <div class="w-8 h-8 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center mr-3">
+                                🆔
+                            </div>
                             Branch Code
                         </dt>
-                        <dd class="mt-1 text-sm font-semibold text-gray-900"><%= branch.branch_code %></dd>
+                        <dd class="text-lg font-bold text-gray-900 bg-white px-3 py-2 rounded-lg shadow-sm"><%= branch.branch_code %></dd>
                     </div>
                     
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <dt class="text-sm font-medium text-gray-500 flex items-center">
-                            <i class="fas fa-sitemap mr-2 text-blue-500"></i>
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-100 p-6 rounded-xl shadow-lg border border-blue-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
+                            <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mr-3">
+                                🏗️
+                            </div>
                             Branch Type
                         </dt>
                         <dd class="mt-1">
                             <% if (branch.is_headquarters) { %>
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                    <i class="fas fa-building mr-1"></i>
-                                    Headquarters
+                                <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-blue-400 to-indigo-500 text-white shadow-lg animate-pulse">
+                                    🏢 Headquarters
                                 </span>
                             <% } else { %>
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
-                                    <i class="fas fa-code-branch mr-1"></i>
-                                    Branch
+                                <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-gray-400 to-gray-500 text-white shadow-lg">
+                                    🌿 Branch
                                 </span>
                             <% } %>
                         </dd>
                     </div>
                     
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <dt class="text-sm font-medium text-gray-500 flex items-center">
-                            <i class="fas fa-toggle-on mr-2 text-purple-500"></i>
+                    <div class="bg-gradient-to-br from-purple-50 to-pink-100 p-6 rounded-xl shadow-lg border border-purple-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
+                            <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center mr-3">
+                                ⚡
+                            </div>
                             Status
                         </dt>
                         <dd class="mt-1">
                             <% if (branch.is_active) { %>
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                    <i class="fas fa-check-circle mr-1"></i>
-                                    Active
+                                <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-green-400 to-emerald-500 text-white shadow-lg animate-pulse">
+                                    ✅ Active
                                 </span>
                             <% } else { %>
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
-                                    <i class="fas fa-times-circle mr-1"></i>
-                                    Inactive
+                                <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-gray-400 to-gray-500 text-white shadow-lg">
+                                    ❌ Inactive
                                 </span>
                             <% } %>
                         </dd>
                     </div>
                     
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <dt class="text-sm font-medium text-gray-500 flex items-center">
-                            <i class="fas fa-envelope mr-2 text-red-500"></i>
+                    <div class="bg-gradient-to-br from-red-50 to-pink-100 p-6 rounded-xl shadow-lg border border-red-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
+                            <div class="w-8 h-8 bg-gradient-to-br from-red-500 to-pink-600 rounded-lg flex items-center justify-center mr-3">
+                                📧
+                            </div>
                             Email
                         </dt>
-                        <dd class="mt-1 text-sm text-gray-900 break-all">
+                        <dd class="text-sm text-gray-900 break-all">
                             <% if (branch.email) { %>
-                                <a href="mailto:<%= branch.email %>" class="text-blue-600 hover:text-blue-700 hover:underline">
+                                <a href="mailto:<%= branch.email %>" class="text-blue-600 hover:text-blue-700 hover:underline bg-white px-3 py-2 rounded-lg shadow-sm block transition-all duration-300 hover:shadow-md">
                                     <%= branch.email %>
                                 </a>
                             <% } else { %>
-                                -
+                                <span class="bg-gray-100 px-3 py-2 rounded-lg shadow-sm block text-gray-500">-</span>
                             <% } %>
                         </dd>
                     </div>
                     
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <dt class="text-sm font-medium text-gray-500 flex items-center">
-                            <i class="fas fa-phone mr-2 text-orange-500"></i>
+                    <div class="bg-gradient-to-br from-orange-50 to-amber-100 p-6 rounded-xl shadow-lg border border-orange-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
+                            <div class="w-8 h-8 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg flex items-center justify-center mr-3">
+                                📞
+                            </div>
                             Phone
                         </dt>
-                        <dd class="mt-1 text-sm font-semibold text-gray-900"><%= branch.phone || '-' %></dd>
+                        <dd class="text-lg font-bold text-gray-900 bg-white px-3 py-2 rounded-lg shadow-sm"><%= branch.phone || '-' %></dd>
                     </div>
                     
-                    <div class="sm:col-span-2 lg:col-span-3 bg-gray-50 p-4 rounded-lg">
-                        <dt class="text-sm font-medium text-gray-500 flex items-center">
-                            <i class="fas fa-map-marker-alt mr-2 text-indigo-500"></i>
+                    <div class="sm:col-span-2 lg:col-span-3 bg-gradient-to-br from-indigo-50 to-violet-100 p-6 rounded-xl shadow-lg border border-indigo-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
+                            <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-lg flex items-center justify-center mr-3">
+                                📍
+                            </div>
                             Address
                         </dt>
-                        <dd class="mt-1 text-sm text-gray-900 break-words"><%= branch.address || '-' %></dd>
+                        <dd class="text-sm text-gray-900 break-words bg-white px-4 py-3 rounded-lg shadow-sm"><%= branch.address || '-' %></dd>
                     </div>
                 </dl>
             </div>
 
             <!-- Related Data -->
-            <div class="px-4 sm:px-6 py-4 border-t border-gray-200 bg-gray-50">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                    <i class="fas fa-chart-bar mr-2 text-green-600"></i>
+            <div class="px-4 sm:px-6 py-8 bg-gradient-to-br from-slate-100 to-gray-200">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center mr-3">
+                        📊
+                    </div>
                     Related Information
                 </h3>
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <a href="/divisions?branch_code=<%= branch.branch_code %>" class="text-center p-4 bg-white border rounded-lg hover:bg-purple-50 hover:border-purple-200 transition-all duration-200 shadow-sm hover:shadow">
-                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <i class="fas fa-sitemap text-purple-600 text-xl"></i>
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <a href="/divisions?branch_code=<%= branch.branch_code %>" class="group text-center p-6 bg-gradient-to-br from-purple-50 to-violet-100 rounded-xl hover:from-purple-100 hover:to-violet-200 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border border-purple-200">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-400 to-violet-500 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl transform group-hover:rotate-12 transition-transform duration-300">
+                            🏗️
                         </div>
-                        <div class="text-2xl font-bold text-purple-600"><%= stats.divisions || 0 %></div>
-                        <div class="text-sm text-gray-600 font-medium">Divisions</div>
+                        <div class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent mb-2"><%= stats.divisions || 0 %></div>
+                        <div class="text-sm text-gray-700 font-semibold">Divisions</div>
+                        <div class="mt-2 text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300">Click to view all</div>
                     </a>
-                    <a href="/departments?branch_code=<%= branch.branch_code %>" class="text-center p-4 bg-white border rounded-lg hover:bg-orange-50 hover:border-orange-200 transition-all duration-200 shadow-sm hover:shadow">
-                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                            <i class="fas fa-users text-orange-600 text-xl"></i>
+                    <a href="/departments?branch_code=<%= branch.branch_code %>" class="group text-center p-6 bg-gradient-to-br from-orange-50 to-amber-100 rounded-xl hover:from-orange-100 hover:to-amber-200 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border border-orange-200">
+                        <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-amber-500 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl transform group-hover:rotate-12 transition-transform duration-300">
+                            👥
                         </div>
-                        <div class="text-2xl font-bold text-orange-600"><%= stats.departments || 0 %></div>
-                        <div class="text-sm text-gray-600 font-medium">Departments</div>
+                        <div class="text-3xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent mb-2"><%= stats.departments || 0 %></div>
+                        <div class="text-sm text-gray-700 font-semibold">Departments</div>
+                        <div class="mt-2 text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300">Click to view all</div>
                     </a>
                 </div>
             </div>
