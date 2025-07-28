@@ -559,6 +559,20 @@ class Branch {
         }
     }
 
+    // Static create method 
+    static async create(branchData, createdBy) {
+        try {
+            const branch = new Branch({
+                ...branchData,
+                created_by: createdBy
+            });
+            return await branch.create();
+        } catch (error) {
+            logger.error('Error in Branch.create:', error);
+            throw error;
+        }
+    }
+
     // Get branch statistics
     static async getStatistics(companyCode = null) {
         try {

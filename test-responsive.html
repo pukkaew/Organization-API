@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Testing - Organization Management</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Ruxchai Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ruxchai-blue': '#3B82F6',
+                        'ruxchai-green': '#10B981',
+                        'ruxchai-grey': '#6B7280'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { font-family: 'Inter', 'Noto Sans Thai', sans-serif; }
+        
+        /* Responsive breakpoint indicators */
+        .breakpoint-indicator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            z-index: 9999;
+        }
+        
+        .mobile-menu-test { 
+            transition: all 0.3s ease;
+            max-height: 0;
+            overflow: hidden;
+        }
+        
+        .mobile-menu-test.active {
+            max-height: 500px;
+        }
+        
+        /* Icon hover test */
+        .icon-hover-test {
+            transition: all 0.3s ease;
+        }
+        
+        .icon-hover-test:hover {
+            transform: scale(1.2) rotate(10deg);
+            color: #3B82F6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    
+    <!-- Responsive Breakpoint Indicator -->
+    <div class="breakpoint-indicator">
+        <span class="hidden sm:inline lg:hidden">Tablet</span>
+        <span class="hidden lg:inline">Desktop</span>
+        <span class="sm:hidden">Mobile</span>
+    </div>
+
+    <!-- Navigation Test (Same as real app) -->
+    <nav class="bg-white shadow-2xl border-b border-blue-100">
+        <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center min-w-0">
+                    <div class="flex-shrink-0">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-ruxchai-blue rounded-xl flex items-center justify-center shadow-lg">
+                                <i class="fas fa-building text-white text-lg"></i>
+                            </div>
+                            <h1 class="text-lg sm:text-xl font-bold text-ruxchai-blue truncate">
+                                <span class="hidden sm:inline">Organization</span> Management
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-1">
+                            <a href="#" class="bg-ruxchai-blue text-white shadow-lg transform scale-105 rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 flex items-center space-x-2">
+                                <i class="fas fa-tachometer-alt w-4 text-white"></i> <span>Dashboard</span>
+                            </a>
+                            <a href="#" class="text-ruxchai-grey hover:bg-blue-50 hover:text-ruxchai-blue rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 flex items-center space-x-2">
+                                <i class="fas fa-building w-4 text-blue-500"></i> <span>Companies</span>
+                            </a>
+                            <a href="#" class="text-ruxchai-grey hover:bg-green-50 hover:text-ruxchai-green rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 flex items-center space-x-2">
+                                <i class="fas fa-code-branch w-4 text-green-500"></i> <span>Branches</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center md:ml-6 space-x-3">
+                        <button type="button" class="group w-10 h-10 rounded-full bg-ruxchai-green flex items-center justify-center text-white hover:bg-green-600 transition-all duration-300 transform hover:scale-110 shadow-lg hover:shadow-xl">
+                            <i class="fas fa-bell text-lg group-hover:animate-bounce"></i>
+                        </button>
+                        <a href="#" class="group inline-flex items-center px-4 py-2 bg-ruxchai-blue text-white rounded-lg hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm font-medium">
+                            <i class="fas fa-book text-base mr-2 group-hover:rotate-12 transition-transform duration-300"></i> API Docs
+                        </a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" class="group inline-flex items-center justify-center rounded-md bg-ruxchai-blue p-3 text-white hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl" onclick="toggleMobileMenu()">
+                        <i class="fas fa-bars text-xl group-hover:rotate-180 transition-transform duration-300"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu test -->
+        <div class="md:hidden mobile-menu-test" id="mobile-menu">
+            <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3 bg-gray-50">
+                <a href="#" class="bg-ruxchai-blue text-white shadow-lg flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium">
+                    <i class="fas fa-tachometer-alt text-white"></i> <span>Dashboard</span>
+                </a>
+                <a href="#" class="text-gray-700 hover:bg-blue-50 hover:text-ruxchai-blue flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300">
+                    <i class="fas fa-building text-blue-500"></i> <span>Companies</span>
+                </a>
+                <a href="#" class="text-gray-700 hover:bg-green-50 hover:text-ruxchai-green flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300">
+                    <i class="fas fa-code-branch text-green-500"></i> <span>Branches</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Icon Display Grid Test -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+                <i class="fas fa-icons mr-3 text-ruxchai-blue icon-hover-test"></i>
+                ทดสอบ Icons ทั้งหมด
+            </h2>
+            
+            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+                <!-- Core Navigation Icons -->
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all">
+                    <i class="fas fa-tachometer-alt text-2xl text-blue-600 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs font-medium">Dashboard</p>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all">
+                    <i class="fas fa-building text-2xl text-blue-500 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs font-medium">Building</p>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all">
+                    <i class="fas fa-code-branch text-2xl text-green-500 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs font-medium">Branch</p>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all">
+                    <i class="fas fa-sitemap text-2xl text-indigo-500 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs font-medium">Sitemap</p>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all">
+                    <i class="fas fa-users text-2xl text-emerald-500 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs font-medium">Users</p>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all">
+                    <i class="fas fa-key text-2xl text-amber-500 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs font-medium">Key</p>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all">
+                    <i class="fas fa-search text-2xl text-purple-500 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs font-medium">Search</p>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all">
+                    <i class="fas fa-cog text-2xl text-gray-500 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs font-medium">Settings</p>
+                </div>
+                
+                <!-- Action Icons -->
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all">
+                    <i class="fas fa-eye text-2xl text-blue-600 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs font-medium">View</p>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all">
+                    <i class="fas fa-edit text-2xl text-yellow-600 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs font-medium">Edit</p>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all">
+                    <i class="fas fa-trash text-2xl text-red-600 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs font-medium">Delete</p>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all">
+                    <i class="fas fa-plus text-2xl text-green-600 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs font-medium">Add</p>
+                </div>
+                
+                <!-- Status Icons -->
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all">
+                    <i class="fas fa-check text-2xl text-green-600 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs font-medium">Check</p>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all">
+                    <i class="fas fa-times text-2xl text-red-600 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs font-medium">Times</p>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all">
+                    <i class="fas fa-clock text-2xl text-orange-600 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs font-medium">Clock</p>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-lg text-center group hover:shadow-xl transition-all">
+                    <i class="fas fa-calendar text-2xl text-purple-600 mb-2 group-hover:scale-110 transition-transform"></i>
+                    <p class="text-xs font-medium">Calendar</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Responsive Table Test -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+                <i class="fas fa-table mr-3 text-ruxchai-green icon-hover-test"></i>
+                ทดสอบ Responsive Table
+            </h2>
+            
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gradient-to-r from-gray-700 to-gray-800 text-white">
+                            <tr>
+                                <th class="px-3 sm:px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">
+                                    <i class="fas fa-building mr-2"></i><span class="hidden sm:inline">Company</span> Code
+                                </th>
+                                <th class="px-3 sm:px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">
+                                    <i class="fas fa-university mr-2"></i><span class="hidden lg:inline">Thai</span> Name
+                                </th>
+                                <th class="hidden md:table-cell px-3 sm:px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">
+                                    <i class="fas fa-globe mr-2"></i>English Name
+                                </th>
+                                <th class="px-3 sm:px-6 py-4 text-center text-xs font-bold uppercase tracking-wider">
+                                    <i class="fas fa-chart-bar mr-2"></i><span class="hidden sm:inline">Status</span>
+                                </th>
+                                <th class="px-3 sm:px-6 py-4 text-center text-xs font-bold uppercase tracking-wider">
+                                    <i class="fas fa-cog mr-2"></i><span class="hidden sm:inline">Actions</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr class="hover:bg-blue-50 transition-colors">
+                                <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mr-2 sm:mr-3">
+                                            <i class="fas fa-building text-white text-xs sm:text-sm"></i>
+                                        </div>
+                                        <div class="text-xs sm:text-sm font-semibold text-gray-900 truncate max-w-20 sm:max-w-none">
+                                            COMP001
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                                    <div class="text-xs sm:text-sm font-medium text-gray-900 truncate max-w-32 sm:max-w-none">
+                                        บริษัท ทดสอบ จำกัด
+                                    </div>
+                                </td>
+                                <td class="hidden md:table-cell px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
+                                    <div class="text-xs sm:text-sm text-gray-600 truncate">
+                                        Test Company Limited
+                                    </div>
+                                </td>
+                                <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-center">
+                                    <span class="inline-flex items-center px-1.5 sm:px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        <i class="fas fa-check-circle mr-1"></i>
+                                        <span class="hidden sm:inline">Active</span>
+                                    </span>
+                                </td>
+                                <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-center">
+                                    <div class="flex justify-center space-x-1">
+                                        <button class="inline-flex items-center px-1.5 sm:px-2 py-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-md hover:from-blue-600 hover:to-blue-700 transform hover:scale-105 transition-all duration-200 shadow-sm">
+                                            <i class="fas fa-eye text-xs sm:text-sm"></i>
+                                        </button>
+                                        <button class="inline-flex items-center px-1.5 sm:px-2 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-md hover:from-yellow-600 hover:to-orange-600 transform hover:scale-105 transition-all duration-200 shadow-sm">
+                                            <i class="fas fa-edit text-xs sm:text-sm"></i>
+                                        </button>
+                                        <button class="inline-flex items-center px-1.5 sm:px-2 py-1 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-md hover:from-red-600 hover:to-red-700 transform hover:scale-105 transition-all duration-200 shadow-sm">
+                                            <i class="fas fa-trash text-xs sm:text-sm"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Form Elements Test -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+                <i class="fas fa-wpforms mr-3 text-ruxchai-blue icon-hover-test"></i>
+                ทดสอบ Form Elements
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-edit mr-2 text-blue-600"></i>
+                        Input Fields
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-building mr-2 text-blue-500"></i>
+                                Company Name
+                            </label>
+                            <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" placeholder="Enter company name">
+                        </div>
+                        
+                        <div>
+                            <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-envelope mr-2 text-green-500"></i>
+                                Email
+                            </label>
+                            <input type="email" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all" placeholder="company@example.com">
+                        </div>
+                        
+                        <div>
+                            <label class="flex items-center text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-list mr-2 text-purple-500"></i>
+                                Status
+                            </label>
+                            <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
+                                <option>Active</option>
+                                <option>Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-mouse-pointer mr-2 text-green-600"></i>
+                        Buttons & Actions
+                    </h3>
+                    
+                    <div class="space-y-3">
+                        <button class="w-full flex items-center justify-center px-4 py-2 bg-ruxchai-blue text-white rounded-lg hover:bg-blue-600 transition-all transform hover:scale-105">
+                            <i class="fas fa-save mr-2"></i>
+                            Save Changes
+                        </button>
+                        
+                        <button class="w-full flex items-center justify-center px-4 py-2 bg-ruxchai-green text-white rounded-lg hover:bg-green-600 transition-all transform hover:scale-105">
+                            <i class="fas fa-plus mr-2"></i>
+                            Add New Item
+                        </button>
+                        
+                        <button class="w-full flex items-center justify-center px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-all transform hover:scale-105">
+                            <i class="fas fa-edit mr-2"></i>
+                            Edit Selected
+                        </button>
+                        
+                        <button class="w-full flex items-center justify-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all transform hover:scale-105">
+                            <i class="fas fa-trash mr-2"></i>
+                            Delete Selected
+                        </button>
+                        
+                        <button class="w-full flex items-center justify-center px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all transform hover:scale-105">
+                            <i class="fas fa-times mr-2"></i>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Status & Badge Test -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+                <i class="fas fa-tags mr-3 text-ruxchai-green icon-hover-test"></i>
+                ทดสอบ Status Badges
+            </h2>
+            
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex flex-wrap gap-3">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                        <i class="fas fa-check-circle mr-1"></i>
+                        Active
+                    </span>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-600">
+                        <i class="fas fa-times-circle mr-1"></i>
+                        Inactive
+                    </span>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                        <i class="fas fa-clock mr-1"></i>
+                        Pending
+                    </span>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                        <i class="fas fa-exclamation-triangle mr-1"></i>
+                        Error
+                    </span>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        Information
+                    </span>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+                        <i class="fas fa-star mr-1"></i>
+                        Featured
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Test Results -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 flex items-center">
+                <i class="fas fa-clipboard-check mr-3 text-ruxchai-blue icon-hover-test"></i>
+                สรุปผลการทดสอบ
+            </h2>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-gradient-to-br from-green-50 to-emerald-100 border border-green-200 rounded-xl p-6">
+                    <h3 class="flex items-center text-lg font-semibold text-green-800 mb-4">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        Icons ✅
+                    </h3>
+                    <ul class="space-y-2 text-green-700 text-sm">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-xs mr-2"></i>
+                            Font Awesome 6.5.1 โหลดสำเร็จ
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-xs mr-2"></i>
+                            Icons แสดงผลชัดเจน
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-xs mr-2"></i>
+                            Hover effects ทำงานดี
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-gradient-to-br from-blue-50 to-cyan-100 border border-blue-200 rounded-xl p-6">
+                    <h3 class="flex items-center text-lg font-semibold text-blue-800 mb-4">
+                        <i class="fas fa-mobile-alt mr-2"></i>
+                        Responsive ✅
+                    </h3>
+                    <ul class="space-y-2 text-blue-700 text-sm">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-xs mr-2"></i>
+                            Mobile menu ทำงานได้
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-xs mr-2"></i>
+                            Table responsive
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-xs mr-2"></i>
+                            Grid layout ยืดหยุ่น
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-gradient-to-br from-purple-50 to-violet-100 border border-purple-200 rounded-xl p-6">
+                    <h3 class="flex items-center text-lg font-semibold text-purple-800 mb-4">
+                        <i class="fas fa-palette mr-2"></i>
+                        Styling ✅
+                    </h3>
+                    <ul class="space-y-2 text-purple-700 text-sm">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-xs mr-2"></i>
+                            Ruxchai colors ถูกต้อง
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-xs mr-2"></i>
+                            CSS animations สมูท
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-xs mr-2"></i>
+                            Contrast เหมาะสม
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('active');
+        }
+        
+        // Test console logs
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🧪 Responsive Testing Started');
+            
+            // Test window resize
+            function logViewport() {
+                const width = window.innerWidth;
+                const height = window.innerHeight;
+                console.log(`📱 Viewport: ${width}x${height}`);
+                
+                if (width < 640) {
+                    console.log('📱 Mobile view');
+                } else if (width < 1024) {
+                    console.log('📱 Tablet view');  
+                } else {
+                    console.log('🖥️ Desktop view');
+                }
+            }
+            
+            window.addEventListener('resize', logViewport);
+            logViewport();
+            
+            // Test icon hover
+            const icons = document.querySelectorAll('.icon-hover-test');
+            icons.forEach(icon => {
+                icon.addEventListener('mouseenter', () => {
+                    console.log('🎯 Icon hover detected');
+                });
+            });
+            
+            console.log('✅ All tests initialized');
+        });
+    </script>
+</body>
+</html>

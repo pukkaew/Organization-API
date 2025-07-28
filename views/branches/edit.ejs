@@ -5,11 +5,7 @@
 }) %>
 <%- include('../partials/navigation', { 
     activeMenu: 'branches',
-    user: typeof user !== 'undefined' ? user : null,
-    success: typeof success !== 'undefined' ? success : null,
-    error: typeof error !== 'undefined' ? error : null,
-    warning: typeof warning !== 'undefined' ? warning : null,
-    info: typeof info !== 'undefined' ? info : null
+    user: typeof user !== 'undefined' ? user : null
 }) %>
 
 <!-- Main Content -->
@@ -20,7 +16,7 @@
                 <div class="px-6 py-4 bg-gradient-to-r from-green-600 to-emerald-700 rounded-t-2xl">
                     <div class="flex items-center justify-between">
                         <h2 class="text-xl font-bold text-white flex items-center">
-                            <span class="text-2xl mr-3">🌿</span>
+                            <span class="text-2xl mr-3"><i class="fas fa-leaf"></i></span>
                             Edit Branch
                         </h2>
                         <a href="/branches" class="text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10">
@@ -39,7 +35,7 @@
                         <!-- Branch Code (Read-only) -->
                         <div>
                             <label for="branch_code" class="form-label text-gray-800 font-semibold flex items-center">
-                                <span class="text-lg mr-2">🏷️</span>
+                                <span class="text-lg mr-2"><i class="fas fa-tag"></i></span>
                                 Branch Code
                             </label>
                             <input type="text" 
@@ -55,7 +51,7 @@
                         <!-- Company (Read-only) -->
                         <div>
                             <label for="company_display" class="form-label text-gray-800 font-semibold flex items-center">
-                                <span class="text-lg mr-2">🏢</span>
+                                <span class="text-lg mr-2"><i class="fas fa-building"></i></span>
                                 Company
                             </label>
                             <input type="text" 
@@ -71,7 +67,7 @@
                         <!-- Branch Name -->
                         <div>
                             <label for="branch_name" class="form-label text-gray-800 font-semibold flex items-center">
-                                <span class="text-lg mr-2">🌿</span>
+                                <span class="text-lg mr-2"><i class="fas fa-leaf"></i></span>
                                 Branch Name <span class="text-red-500">*</span>
                             </label>
                             <input type="text" 

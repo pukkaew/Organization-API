@@ -36,12 +36,9 @@ const showDepartmentsPage = asyncHandler(async (req, res) => {
             divisions: divisions,
             filters: filters,
             query: req.query,
-            success: req.flash('success'),
-            error: req.flash('error')
         });
     } catch (error) {
         logger.error('Error in showDepartmentsPage:', error);
-        req.flash('error', 'An error occurred while loading departments: ' + error.message);
         res.redirect('/');
     }
 });
@@ -62,11 +59,9 @@ const showCreateDepartmentForm = asyncHandler(async (req, res) => {
             companies: companies,
             selectedDivision: req.query.division_code,
             csrfToken: req.csrfToken ? req.csrfToken() : '',
-            error: req.flash('error')
         });
     } catch (error) {
         logger.error('Error in showCreateDepartmentForm:', error);
-        req.flash('error', 'An error occurred while loading the create form: ' + error.message);
         res.redirect('/departments');
     }
 });
@@ -79,7 +74,6 @@ const showEditDepartmentForm = asyncHandler(async (req, res) => {
         
         if (!department) {
             logger.warn('Department not found for edit:', { code: req.params.code });
-            req.flash('error', 'Department not found');
             return res.redirect('/departments');
         }
         
@@ -117,11 +111,9 @@ const showEditDepartmentForm = asyncHandler(async (req, res) => {
             department: safeDepartment,
             divisions: divisions || [],
             companies: companies || [],
-            error: req.flash('error')
         });
     } catch (error) {
         logger.error('Error in showEditDepartmentForm:', error);
-        req.flash('error', 'An error occurred while loading the edit form: ' + error.message);
         res.redirect('/departments');
     }
 });
@@ -142,11 +134,9 @@ const handleCreateDepartment = asyncHandler(async (req, res) => {
         
         logger.info(`Department created: ${department.department_code} by ${departmentData.created_by}`);
         
-        req.flash('success', 'Department created successfully');
         res.redirect('/departments');
     } catch (error) {
         logger.error('Error creating department:', error);
-        req.flash('error', error.message || 'Failed to create department');
         res.redirect('/departments/new');
     }
 });
@@ -157,13 +147,11 @@ const handleUpdateDepartment = asyncHandler(async (req, res) => {
         const department = await Department.findByCode(req.params.code);
         
         if (!department) {
-            req.flash('error', 'Department not found');
             return res.redirect('/departments');
         }
         
         // Validate required fields
         if (!req.body.department_name || req.body.department_name.trim() === '') {
-            req.flash('error', 'Department name is required');
             return res.redirect(`/departments/${req.params.code}/edit`);
         }
         
@@ -181,11 +169,9 @@ const handleUpdateDepartment = asyncHandler(async (req, res) => {
         
         logger.info(`Department updated: ${department.department_code} by ${department.updated_by}`);
         
-        req.flash('success', 'Department updated successfully');
         res.redirect('/departments');
     } catch (error) {
         logger.error('Error updating department:', error);
-        req.flash('error', error.message || 'An error occurred while updating the department');
         res.redirect(`/departments/${req.params.code}/edit`);
     }
 });
@@ -196,7 +182,6 @@ const handleToggleStatus = asyncHandler(async (req, res) => {
         const department = await Department.findByCode(req.params.code);
         
         if (!department) {
-            req.flash('error', 'Department not found');
             return res.redirect('/departments');
         }
         
@@ -205,11 +190,9 @@ const handleToggleStatus = asyncHandler(async (req, res) => {
         
         logger.info(`Department status updated: ${req.params.code} to ${newStatus ? 'active' : 'inactive'}`);
         
-        req.flash('success', `Department ${newStatus ? 'activated' : 'deactivated'} successfully`);
         res.redirect('/departments');
     } catch (error) {
         logger.error('Error toggling department status:', error);
-        req.flash('error', error.message);
         res.redirect('/departments');
     }
 });
@@ -225,11 +208,9 @@ const handleMoveDepartment = asyncHandler(async (req, res) => {
         
         logger.info(`Department ${req.params.code} moved to division ${req.body.division_code}`);
         
-        req.flash('success', 'Department moved successfully');
         res.redirect('/departments');
     } catch (error) {
         logger.error('Error moving department:', error);
-        req.flash('error', error.message);
         res.redirect('/departments');
     }
 });
@@ -338,7 +319,6 @@ const handleDeleteDepartment = asyncHandler(async (req, res) => {
         const department = await Department.findByCode(req.params.code);
         
         if (!department) {
-            req.flash('error', 'Department not found');
             return res.redirect('/departments');
         }
         
@@ -347,11 +327,9 @@ const handleDeleteDepartment = asyncHandler(async (req, res) => {
         
         logger.info(`Department deleted: ${req.params.code} by ${req.user?.username || 'system'}`);
         
-        req.flash('success', 'Department deleted successfully');
         res.redirect('/departments');
     } catch (error) {
         logger.error('Error deleting department:', error);
-        req.flash('error', error.message || 'Failed to delete department');
         res.redirect('/departments');
     }
 });

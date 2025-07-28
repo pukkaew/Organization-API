@@ -2,8 +2,13 @@
 const sql = require('mssql');
 const logger = require('../utils/logger');
 
-// Detect database type
-const usingSQLite = process.env.DB_TYPE === 'sqlite' || !process.env.DB_SERVER;
+// Detect database type - Force MSSQL if FORCE_MSSQL is set
+const usingSQLite = process.env.FORCE_MSSQL === 'true' ? false : 
+    (process.env.DB_TYPE === 'sqlite');
+    
+// Force MSSQL when environment is properly configured
+const usingMSSQL = process.env.FORCE_MSSQL === 'true' || 
+    (process.env.DB_TYPE === 'mssql' && process.env.DB_SERVER);
 
 // Import appropriate database configuration
 const sqliteConfig = usingSQLite ? require('./sqlite') : null;
@@ -35,6 +40,7 @@ if (process.env.DB_TRUSTED_CONNECTION === 'true') {
 
 // Connection pool
 let pool;
+let connectionCount = 0;
 
 // Connect to database
 async function connectDatabase() {
@@ -44,18 +50,20 @@ async function connectDatabase() {
         return null;
     }
     
-    // Use SQLite if configured
-    if (usingSQLite) {
+    // Use SQLite if configured and not forcing MSSQL
+    if (usingSQLite && !usingMSSQL) {
         logger.info('Using SQLite database');
         return await sqliteConfig.connectDatabase();
     }
     
     try {
+        connectionCount++;
         logger.info('Attempting to connect to MSSQL database...', {
             server: config.server,
             port: config.port,
             user: config.user,
-            database: process.env.DB_DATABASE
+            database: process.env.DB_DATABASE,
+            connectionAttempt: connectionCount
         });
         
         pool = await sql.connect(config);
@@ -71,7 +79,10 @@ async function connectDatabase() {
             }
         }
         
-        logger.info('MSSQL database connection established successfully');
+        logger.info('MSSQL database connection established successfully', {
+            connectionId: connectionCount,
+            poolConnected: !!pool.connected
+        });
         return pool;
     } catch (error) {
         logger.error('Database connection failed:', {
@@ -103,6 +114,7 @@ function getPool() {
     }
     
     if (!pool) {
+        logger.error('Database pool is not available. Database connection may have failed during startup.');
         throw new Error('Database not connected. Call connectDatabase() first. Check if the database server is running and credentials are correct.');
     }
     return pool;
@@ -128,6 +140,12 @@ async function closeDatabase() {
 
 // Execute query
 async function executeQuery(query, inputs = {}, paramArray = null) {
+    logger.info('executeQuery called', { 
+        queryStart: query.substring(0, 50) + '...',
+        hasPool: !!pool,
+        inputKeys: Object.keys(inputs)
+    });
+    
     try {
         // Skip database operations if USE_DATABASE is false
         if (process.env.USE_DATABASE === 'false') {
@@ -135,12 +153,41 @@ async function executeQuery(query, inputs = {}, paramArray = null) {
             return { recordset: [], rowsAffected: [0] };
         }
         
-        // Use SQLite if configured
-        if (usingSQLite) {
+        // Use SQLite if configured and not forcing MSSQL
+        if (usingSQLite && !usingMSSQL) {
             return await sqliteConfig.executeQuery(query, inputs);
         }
         
-        const pool = getPool();
+        // Check if pool is available - if not, attempt to reconnect
+        if (!pool) {
+            logger.warn('Database pool not available, attempting to reconnect...');
+            try {
+                await connectDatabase();
+                if (!pool) {
+                    throw new Error('Failed to establish database connection');
+                }
+            } catch (reconnectError) {
+                logger.error('Database reconnection failed:', reconnectError);
+                throw new Error('Database not connected. Database connection failed during startup.');
+            }
+        }
+        
+        // Log pool status
+        logger.debug('Database pool status:', {
+            poolConnected: !!pool.connected,
+            poolConnectionId: connectionCount
+        });
+        
+        // Ensure we're using the correct database before each query
+        if (process.env.DB_DATABASE) {
+            try {
+                await pool.request().query(`USE [${process.env.DB_DATABASE}]`);
+            } catch (dbError) {
+                logger.error(`Could not switch to database ${process.env.DB_DATABASE}:`, dbError);
+                // Don't throw here, as it might just be already using the correct database
+            }
+        }
+        
         const request = pool.request();
         
         // Add inputs

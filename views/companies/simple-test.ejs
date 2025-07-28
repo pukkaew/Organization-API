@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Companies Test</title>
+</head>
+<body>
+    <h1>Companies Test</h1>
+    
+    <p>Companies count: <%= typeof companies !== 'undefined' ? companies.length : 'undefined' %></p>
+    
+    <% if (typeof companies !== 'undefined' && companies.length > 0) { %>
+        <ul>
+        <% companies.forEach(function(company) { %>
+            <li><%= company.company_code %> - <%= company.company_name_th %></li>
+        <% }); %>
+        </ul>
+    <% } else { %>
+        <p>No companies found</p>
+    <% } %>
+    
+    <pre>
+        Pagination: <%= JSON.stringify(pagination || {}, null, 2) %>
+    </pre>
+</body>
+</html>

@@ -38,8 +38,15 @@ const { asyncHandler } = require('../middleware/errorHandler');
 // API Version
 const API_VERSION = '/v1';
 
-// Apply API authentication to all routes
-router.use(apiAuth(['read']));
+// Apply API authentication to all routes except auth endpoints
+router.use((req, res, next) => {
+    // Skip auth for authentication endpoints
+    if (req.path.startsWith('/auth/')) {
+        return next();
+    }
+    // Apply auth middleware for all other routes
+    return apiAuth(['read'])(req, res, next);
+});
 
 // Debug middleware to log all requests
 router.use((req, res, next) => {

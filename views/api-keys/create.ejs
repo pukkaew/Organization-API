@@ -5,11 +5,7 @@
 }) %>
 <%- include('../partials/navigation', { 
     activeMenu: 'api-keys',
-    user: typeof user !== 'undefined' ? user : null,
-    success: typeof success !== 'undefined' ? success : null,
-    error: typeof error !== 'undefined' ? error : null,
-    warning: typeof warning !== 'undefined' ? warning : null,
-    info: typeof info !== 'undefined' ? info : null
+    user: typeof user !== 'undefined' ? user : null
 }) %>
 
 <!-- Main Content -->
@@ -20,7 +16,7 @@
                 <div class="px-6 py-4 bg-gradient-to-r from-cyan-600 to-blue-700 rounded-t-2xl">
                     <div class="flex items-center justify-between">
                         <h2 class="text-xl font-bold text-white flex items-center">
-                            <span class="text-2xl mr-3">🔑</span>
+                            <i class="fas fa-key text-2xl mr-3"></i>
                             Create API Key
                         </h2>
                         <a href="/api-keys" class="text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10">
@@ -38,7 +34,7 @@
                     <!-- Application Name -->
                     <div>
                         <label for="app_name" class="form-label text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">📱</span>
+                            <i class="fas fa-mobile-alt text-lg mr-2"></i>
                             Application Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" 
@@ -56,7 +52,7 @@
                     <!-- Description -->
                     <div>
                         <label for="description" class="form-label text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">📝</span>
+                            <i class="fas fa-file-alt text-lg mr-2"></i>
                             Description
                         </label>
                         <textarea id="description" 
@@ -70,7 +66,7 @@
                     <!-- Permissions -->
                     <div>
                         <label class="form-label text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">🔒</span>
+                            <i class="fas fa-lock text-lg mr-2"></i>
                             Permissions <span class="text-red-500">*</span>
                         </label>
                         <div class="mt-2 space-y-4">
@@ -120,7 +116,7 @@
                     <!-- Expiration -->
                     <div>
                         <label for="expires_date" class="form-label text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">📅</span>
+                            <i class="fas fa-calendar text-lg mr-2"></i>
                             Expiration Date
                         </label>
                         <input type="date" 
@@ -136,7 +132,7 @@
                     <!-- Rate Limiting -->
                     <div>
                         <label for="rate_limit" class="form-label text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">⏱️</span>
+                            <i class="fas fa-clock text-lg mr-2"></i>
                             Rate Limit (requests per hour)
                         </label>
                         <input type="number" 
@@ -154,7 +150,7 @@
                     <!-- IP Whitelist -->
                     <div>
                         <label for="ip_whitelist" class="form-label text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">🌐</span>
+                            <i class="fas fa-globe text-lg mr-2"></i>
                             IP Whitelist
                         </label>
                         <textarea id="ip_whitelist" 
@@ -193,11 +189,11 @@
         <div class="mt-6 bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl p-6 border border-cyan-100 shadow-lg">
             <div class="flex">
                 <div class="flex-shrink-0">
-                    <span class="text-2xl">🔒</span>
+                    <i class="fas fa-lock text-2xl"></i>
                 </div>
                 <div class="ml-4">
                     <h3 class="text-lg font-bold text-cyan-800 flex items-center">
-                        <span class="mr-2">🛡️</span>
+                        <i class="fas fa-shield-alt mr-2"></i>
                         Security Notice
                     </h3>
                     <div class="mt-3 text-sm text-cyan-700">

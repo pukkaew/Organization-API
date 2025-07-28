@@ -269,6 +269,8 @@ class Company {
 
     // Get companies with pagination
     static async findPaginated(page = 1, limit = 20, filters = {}) {
+        let dataQuery = '';
+        let inputs = {};
         try {
             // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
@@ -284,7 +286,7 @@ class Company {
                 WHERE 1=1
             `;
             
-            const inputs = {
+            inputs = {
                 limit: limit,
                 offset: offset
             };
@@ -325,8 +327,11 @@ class Company {
             
             const dataResult = await executeQuery(dataQuery, inputs);
             
+            // Handle different result formats
+            const companies = dataResult?.recordset || dataResult || [];
+            
             return {
-                data: dataResult.recordset.map(row => new Company(row)),
+                data: companies.map(row => new Company(row)),
                 pagination: {
                     page: page,
                     limit: limit,
@@ -335,7 +340,12 @@ class Company {
                 }
             };
         } catch (error) {
-            logger.error('Error in Company.findPaginated:', error);
+            logger.error('Error in Company.findPaginated:', {
+                error: error.message,
+                query: dataQuery || 'unknown',
+                inputs: inputs || {},
+                stack: error.stack
+            });
             throw error;
         }
     }

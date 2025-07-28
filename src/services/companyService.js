@@ -281,12 +281,12 @@ class CompanyService {
         };
 
         switch (format) {
-            case 'json':
-                return JSON.stringify(exportData, null, 2);
-            case 'csv':
-                return this.convertToCSV(exportData);
-            default:
-                throw businessError('Unsupported export format', 'VALIDATION_ERROR', 400);
+        case 'json':
+            return JSON.stringify(exportData, null, 2);
+        case 'csv':
+            return this.convertToCSV(exportData);
+        default:
+            throw businessError('Unsupported export format', 'VALIDATION_ERROR', 400);
         }
     }
 

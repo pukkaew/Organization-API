@@ -78,10 +78,10 @@ class ApiLogService {
             // Determine days based on period
             let days = 7;
             switch (period) {
-                case '7days': days = 7; break;
-                case '30days': days = 30; break;
-                case '90days': days = 90; break;
-                default: throw new Error('Invalid period');
+            case '7days': days = 7; break;
+            case '30days': days = 30; break;
+            case '90days': days = 90; break;
+            default: throw new Error('Invalid period');
             }
 
             if (isSQLite) {

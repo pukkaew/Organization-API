@@ -4,11 +4,7 @@
 }) %>
 <%- include('../partials/navigation', { 
     activeMenu: 'companies',
-    user: typeof user !== 'undefined' ? user : null,
-    success: typeof success !== 'undefined' ? success : null,
-    error: typeof error !== 'undefined' ? error : null,
-    warning: typeof warning !== 'undefined' ? warning : null,
-    info: typeof info !== 'undefined' ? info : null
+    user: typeof user !== 'undefined' ? user : null
 }) %>
 
 <!-- Main Content -->
@@ -19,7 +15,7 @@
             <div class="px-6 py-4 bg-ruxchai-blue rounded-t-2xl">
                 <div class="flex items-center justify-between">
                     <h2 class="text-xl font-bold text-white flex items-center">
-                        <span class="text-2xl mr-3">🏢</span>
+                        <i class="fas fa-building text-2xl mr-3"></i>
                         Edit Company
                     </h2>
                     <a href="/companies" class="text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10">
@@ -38,7 +34,7 @@
                     <!-- Company Code (Read-only) -->
                     <div>
                         <label for="company_code" class="form-label text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">🏷️</span>
+                            <i class="fas fa-tag text-lg mr-2"></i>
                             Company Code
                         </label>
                         <input type="text" 
@@ -54,7 +50,7 @@
                     <!-- Thai Name -->
                     <div>
                         <label for="company_name_th" class="form-label text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">🇹🇭</span>
+                            <i class="fas fa-university text-lg mr-2"></i>
                             Thai Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" 
@@ -69,7 +65,7 @@
                     <!-- English Name -->
                     <div>
                         <label for="company_name_en" class="form-label text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">🇺🇸</span>
+                            <i class="fas fa-globe text-lg mr-2"></i>
                             English Name
                         </label>
                         <input type="text" 
@@ -83,7 +79,7 @@
                     <!-- Tax ID -->
                     <div>
                         <label for="tax_id" class="form-label text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">📋</span>
+                            <i class="fas fa-clipboard text-lg mr-2"></i>
                             Tax ID
                         </label>
                         <input type="text" 
@@ -102,7 +98,7 @@
                     <!-- Website -->
                     <div>
                         <label for="website" class="form-label text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">🌐</span>
+                            <i class="fas fa-globe text-lg mr-2"></i>
                             Website
                         </label>
                         <input type="url" 
@@ -116,7 +112,7 @@
                     <!-- Email -->
                     <div>
                         <label for="email" class="form-label text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">📧</span>
+                            <i class="fas fa-envelope text-lg mr-2"></i>
                             Email
                         </label>
                         <input type="email" 
@@ -130,7 +126,7 @@
                     <!-- Phone -->
                     <div>
                         <label for="phone" class="form-label text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">📞</span>
+                            <i class="fas fa-phone text-lg mr-2"></i>
                             Phone
                         </label>
                         <input type="tel" 
@@ -144,7 +140,7 @@
                     <!-- Address -->
                     <div>
                         <label for="address" class="form-label text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">📍</span>
+                            <i class="fas fa-map-marker-alt text-lg mr-2"></i>
                             Address
                         </label>
                         <textarea id="address" 

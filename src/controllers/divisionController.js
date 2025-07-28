@@ -33,12 +33,11 @@ const showDivisionsPage = asyncHandler(async (req, res) => {
             companies: companies,
             filters: filters,
             query: req.query,
-            success: req.flash('success'),
-            error: req.flash('error')
+            success: null,
+            error: null
         });
     } catch (error) {
         logger.error('Error in showDivisionsPage:', error);
-        req.flash('error', 'An error occurred while loading divisions: ' + error.message);
         res.redirect('/');
     }
 });
@@ -55,11 +54,10 @@ const showCreateDivisionForm = asyncHandler(async (req, res) => {
             companies: companies,
             selectedCompany: req.query.company_code,
             csrfToken: req.csrfToken ? req.csrfToken() : '',
-            error: req.flash('error')
+            error: null
         });
     } catch (error) {
         logger.error('Error in showCreateDivisionForm:', error);
-        req.flash('error', 'An error occurred while loading the create form: ' + error.message);
         res.redirect('/divisions');
     }
 });
@@ -72,7 +70,6 @@ const showEditDivisionForm = asyncHandler(async (req, res) => {
         
         if (!division) {
             logger.warn('Division not found for edit:', { code: req.params.code });
-            req.flash('error', 'Division not found');
             return res.redirect('/divisions');
         }
         
@@ -108,11 +105,10 @@ const showEditDivisionForm = asyncHandler(async (req, res) => {
             division: safeDivision,
             companies: companies || [],
             branches: branches || [],
-            error: req.flash('error')
+            error: null
         });
     } catch (error) {
         logger.error('Error in showEditDivisionForm:', error);
-        req.flash('error', 'An error occurred while loading the edit form: ' + error.message);
         res.redirect('/divisions');
     }
 });
@@ -134,11 +130,9 @@ const handleCreateDivision = asyncHandler(async (req, res) => {
         
         logger.info(`Division created: ${division.division_code} by ${divisionData.created_by}`);
         
-        req.flash('success', 'Division created successfully');
         res.redirect('/divisions');
     } catch (error) {
         logger.error('Error creating division:', error);
-        req.flash('error', error.message || 'Failed to create division');
         res.redirect('/divisions/new');
     }
 });
@@ -149,13 +143,11 @@ const handleUpdateDivision = asyncHandler(async (req, res) => {
         const division = await Division.findByCode(req.params.code);
         
         if (!division) {
-            req.flash('error', 'Division not found');
             return res.redirect('/divisions');
         }
         
         // Validate required fields
         if (!req.body.division_name || req.body.division_name.trim() === '') {
-            req.flash('error', 'Division name is required');
             return res.redirect(`/divisions/${req.params.code}/edit`);
         }
         
@@ -171,11 +163,9 @@ const handleUpdateDivision = asyncHandler(async (req, res) => {
         
         logger.info(`Division updated: ${division.division_code} by ${division.updated_by}`);
         
-        req.flash('success', 'Division updated successfully');
         res.redirect('/divisions');
     } catch (error) {
         logger.error('Error updating division:', error);
-        req.flash('error', error.message || 'An error occurred while updating the division');
         res.redirect(`/divisions/${req.params.code}/edit`);
     }
 });
@@ -186,7 +176,6 @@ const handleToggleStatus = asyncHandler(async (req, res) => {
         const division = await Division.findByCode(req.params.code);
         
         if (!division) {
-            req.flash('error', 'Division not found');
             return res.redirect('/divisions');
         }
         
@@ -195,11 +184,9 @@ const handleToggleStatus = asyncHandler(async (req, res) => {
         
         logger.info(`Division status updated: ${req.params.code} to ${newStatus ? 'active' : 'inactive'}`);
         
-        req.flash('success', `Division ${newStatus ? 'activated' : 'deactivated'} successfully`);
         res.redirect('/divisions');
     } catch (error) {
         logger.error('Error toggling division status:', error);
-        req.flash('error', error.message);
         res.redirect('/divisions');
     }
 });
@@ -308,7 +295,6 @@ const handleDeleteDivision = asyncHandler(async (req, res) => {
         const division = await Division.findByCode(req.params.code);
         
         if (!division) {
-            req.flash('error', 'Division not found');
             return res.redirect('/divisions');
         }
         
@@ -317,11 +303,9 @@ const handleDeleteDivision = asyncHandler(async (req, res) => {
         
         logger.info(`Division deleted: ${req.params.code} by ${req.user?.username || 'system'}`);
         
-        req.flash('success', 'Division deleted successfully');
         res.redirect('/divisions');
     } catch (error) {
         logger.error('Error deleting division:', error);
-        req.flash('error', error.message || 'Failed to delete division');
         res.redirect('/divisions');
     }
 });

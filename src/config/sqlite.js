@@ -87,7 +87,7 @@ async function initializeTables() {
                 logger.info('API_Keys table created/verified');
                 
                 // Check if we need to add a default API key
-                db.get("SELECT COUNT(*) as count FROM API_Keys", [], (err, row) => {
+                db.get('SELECT COUNT(*) as count FROM API_Keys', [], (err, row) => {
                     if (!err && row && row.count === 0) {
                         db.run(`
                             INSERT INTO API_Keys (api_key_id, api_key_hash, app_name, permissions, created_by)
@@ -132,7 +132,7 @@ async function executeQuery(query, inputs = {}) {
             const paramMatches = sqliteQuery.match(/@\w+/g) || [];
             paramMatches.forEach(match => {
                 const paramName = match.substring(1); // Remove @
-                if (!paramOrder.includes(paramName) && inputs.hasOwnProperty(paramName)) {
+                if (!paramOrder.includes(paramName) && Object.prototype.hasOwnProperty.call(inputs, paramName)) {
                     paramOrder.push(paramName);
                 }
             });
@@ -145,7 +145,7 @@ async function executeQuery(query, inputs = {}) {
             });
             
             // Replace GETDATE() with datetime('now')
-            sqliteQuery = sqliteQuery.replace(/GETDATE\(\)/gi, "datetime('now')");
+            sqliteQuery = sqliteQuery.replace(/GETDATE\(\)/gi, 'datetime(\'now\')');
             
             logger.debug('Executing SQLite query:', { 
                 originalQuery: query, 

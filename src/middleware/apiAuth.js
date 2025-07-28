@@ -1,6 +1,7 @@
 const ApiKey = require('../models/ApiKey');
 const ApiLog = require('../models/ApiLog');
 const logger = require('../utils/logger');
+const jwt = require('jsonwebtoken');
 
 // API Authentication Middleware
 const apiAuth = (requiredPermissions = ['read']) => {
@@ -17,11 +18,12 @@ const apiAuth = (requiredPermissions = ['read']) => {
         };
 
         try {
-            // Get API key from header
-            const apiKey = req.headers['x-api-key'] || req.headers['authorization']?.replace('Bearer ', '');
+            // Get API key or JWT token from header
+            const authHeader = req.headers['authorization'];
+            const apiKey = req.headers['x-api-key'];
             
-            if (!apiKey) {
-                const error = 'API key is required';
+            if (!authHeader && !apiKey) {
+                const error = 'Authentication required';
                 logData.response_status = 401;
                 logData.error_message = error;
                 logData.response_time_ms = Date.now() - startTime;
@@ -30,26 +32,48 @@ const apiAuth = (requiredPermissions = ['read']) => {
                 return res.status(401).json({
                     success: false,
                     error: {
-                        code: 'MISSING_API_KEY',
+                        code: 'MISSING_AUTH',
                         message: error
                     }
                 });
             }
 
-            // Authenticate API key
-            const authResult = await ApiKey.authenticate(apiKey);
+            let authResult = { valid: false };
+            
+            // Check if it's a JWT token
+            if (authHeader && authHeader.startsWith('Bearer ')) {
+                try {
+                    const token = authHeader.substring(7);
+                    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'default-jwt-secret-key');
+                    
+                    authResult = {
+                        valid: true,
+                        apiKeyId: 'jwt-' + decoded.username,
+                        appName: decoded.username,
+                        permissions: decoded.permissions || ['read']
+                    };
+                } catch (jwtError) {
+                    authResult = {
+                        valid: false,
+                        reason: 'Invalid or expired token'
+                    };
+                }
+            } else if (apiKey) {
+                // Authenticate API key
+                authResult = await ApiKey.authenticate(apiKey);
+            }
             
             if (!authResult.valid) {
                 logData.response_status = 401;
-                logData.error_message = authResult.reason;
+                logData.error_message = authResult.reason || 'Invalid authentication';
                 logData.response_time_ms = Date.now() - startTime;
                 await ApiLog.create(logData);
                 
                 return res.status(401).json({
                     success: false,
                     error: {
-                        code: 'INVALID_API_KEY',
-                        message: authResult.reason
+                        code: 'INVALID_AUTH',
+                        message: authResult.reason || 'Invalid authentication'
                     }
                 });
             }

@@ -368,27 +368,6 @@ class Department {
         }
     }
 
-    // Check if department code exists
-    static async exists(departmentCode) {
-        try {
-            // Skip database if USE_DATABASE is false
-            if (process.env.USE_DATABASE === 'false') {
-                return false;
-            }
-            
-            const query = `
-                SELECT COUNT(*) as count
-                FROM Departments
-                WHERE department_code = @department_code
-            `;
-            
-            const result = await executeQuery(query, { department_code: departmentCode });
-            return result.recordset[0].count > 0;
-        } catch (error) {
-            logger.error('Error in Department.exists:', error);
-            throw error;
-        }
-    }
 
     // Get departments with pagination
     static async findPaginated(page = 1, limit = 20, filters = {}) {

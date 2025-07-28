@@ -1,0 +1,50 @@
+{
+  "timestamp": "2025-07-27T18:40:48.919Z",
+  "environment": {
+    "baseUrl": "http://localhost:3008"
+  },
+  "tests": [
+    {
+      "module": "Database",
+      "testName": "Connection Test",
+      "status": "FAILED",
+      "timestamp": "2025-07-27T18:40:48.966Z",
+      "error": "Cannot read properties of undefined (reading 'authenticate')"
+    },
+    {
+      "module": "Auth",
+      "testName": "Login Page Load",
+      "status": "PASSED",
+      "timestamp": "2025-07-27T18:40:50.223Z",
+      "url": "http://localhost:3008/login"
+    },
+    {
+      "module": "Auth",
+      "testName": "Login Success",
+      "status": "FAILED",
+      "timestamp": "2025-07-27T18:40:50.720Z",
+      "currentUrl": "http://localhost:3008/favicon.ico"
+    },
+    {
+      "module": "Dashboard",
+      "testName": "Statistics Cards Display",
+      "status": "PASSED",
+      "timestamp": "2025-07-27T18:40:50.741Z",
+      "cardCount": 0
+    },
+    {
+      "module": "WebGUI",
+      "testName": "General Test Error",
+      "status": "FAILED",
+      "timestamp": "2025-07-27T18:40:50.744Z",
+      "error": "No element found for selector: a[href=\"/companies\"]"
+    },
+    {
+      "module": "API",
+      "testName": "General API Error",
+      "status": "FAILED",
+      "timestamp": "2025-07-27T18:40:51.010Z",
+      "error": "Request failed with status code 401"
+    }
+  ]
+}

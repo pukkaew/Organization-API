@@ -37,7 +37,7 @@ const requireAuth = (req, res, next) => {
             });
         }
         
-        req.flash('error', 'Please login to continue');
+        // req.flash('error', 'Please login to continue');
         req.session.returnTo = req.originalUrl;
         return res.redirect('/login');
     }
@@ -76,7 +76,7 @@ const requirePermission = (permission) => {
                 });
             }
             
-            req.flash('error', 'You do not have permission to access this resource');
+            // req.flash('error', 'You do not have permission to access this resource');
             return res.redirect('/');
         }
         
@@ -97,7 +97,7 @@ const requireAnyPermission = (permissions) => {
                 });
             }
             
-            req.flash('error', 'You do not have permission to access this resource');
+            // req.flash('error', 'You do not have permission to access this resource');
             return res.redirect('/');
         }
         
@@ -118,7 +118,7 @@ const requireAllPermissions = (permissions) => {
                 });
             }
             
-            req.flash('error', 'You do not have permission to access this resource');
+            // req.flash('error', 'You do not have permission to access this resource');
             return res.redirect('/');
         }
         
@@ -132,21 +132,21 @@ const login = async (req, res) => {
         const { username, password } = req.body;
         
         if (!username || !password) {
-            req.flash('error', 'Username and password are required');
+            // req.flash('error', 'Username and password are required');
             return res.redirect('/login');
         }
         
         const user = users[username.toLowerCase()];
         if (!user) {
             logger.warn(`Failed login attempt for username: ${username}`);
-            req.flash('error', 'Invalid username or password');
+            // req.flash('error', 'Invalid username or password');
             return res.redirect('/login');
         }
         
         const isValidPassword = await bcrypt.compare(password, user.password);
         if (!isValidPassword) {
             logger.warn(`Failed login attempt for username: ${username}`);
-            req.flash('error', 'Invalid username or password');
+            // req.flash('error', 'Invalid username or password');
             return res.redirect('/login');
         }
         
@@ -154,7 +154,7 @@ const login = async (req, res) => {
         req.session.username = user.username;
         
         logger.info(`User logged in: ${username}`);
-        req.flash('success', 'Welcome back!');
+        // req.flash('success', 'Welcome back!');
         
         const redirectUrl = req.session.returnTo || '/';
         delete req.session.returnTo;
@@ -162,7 +162,7 @@ const login = async (req, res) => {
         
     } catch (error) {
         logger.error('Login error:', error);
-        req.flash('error', 'An error occurred during login');
+        // req.flash('error', 'An error occurred during login');
         res.redirect('/login');
     }
 };
@@ -190,8 +190,8 @@ const showLoginPage = (req, res) => {
     res.render('auth/login', {
         title: 'Login',
         csrfToken: req.csrfToken ? req.csrfToken() : '',
-        error: req.flash('error'),
-        success: req.flash('success')
+        error: null,
+        success: null
     });
 };
 

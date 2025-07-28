@@ -133,16 +133,17 @@ window.OrgSystem = {
 
   // Notification system
   setupNotifications: function() {
-    // Auto-hide flash messages after 5 seconds
-    const alerts = document.querySelectorAll('.alert, .flash-message');
-    alerts.forEach(alert => {
-      setTimeout(() => {
-        alert.style.opacity = '0';
-        alert.style.transform = 'translateY(-10px)';
-        setTimeout(() => {
+    // Flash messages removed - no longer needed
+    
+    // Manual close button
+    document.querySelectorAll('[role="alert"] button').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        const alert = e.target.closest('[role="alert"]');
+        alert.classList.add('animate-fade-out');
+        setTimeout(function() {
           alert.remove();
         }, 300);
-      }, 5000);
+      });
     });
   },
 
@@ -246,26 +247,64 @@ window.OrgSystem = {
     const loader = document.createElement('div');
     loader.className = 'loading-overlay';
     loader.innerHTML = `
-      <div class="flex items-center justify-center">
-        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-ruxchai-blue mr-3"></div>
-        <span class="text-gray-600">${message}</span>
+      <div class="loading-content">
+        <div class="loading-spinner mb-2"></div>
+        <div class="text-sm text-gray-600">${message}</div>
       </div>
-    `;
-    loader.style.cssText = `
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(255, 255, 255, 0.9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
     `;
     
     element.style.position = 'relative';
     element.appendChild(loader);
+  },
+
+  // Show skeleton loader for tables
+  showTableSkeleton: function(tableElement, rows = 5) {
+    const thead = tableElement.querySelector('thead');
+    const tbody = tableElement.querySelector('tbody');
+    
+    if (!tbody) return;
+    
+    const headerCells = thead ? thead.querySelectorAll('th').length : 3;
+    
+    tbody.innerHTML = '';
+    
+    for (let i = 0; i < rows; i++) {
+      const row = document.createElement('tr');
+      row.className = 'skeleton-table';
+      
+      for (let j = 0; j < headerCells; j++) {
+        const cell = document.createElement('td');
+        cell.className = 'px-6 py-4';
+        
+        const skeleton = document.createElement('div');
+        skeleton.className = `skeleton-line ${j === 0 ? 'w-32' : j === headerCells - 1 ? 'w-16' : 'w-24'}`;
+        
+        cell.appendChild(skeleton);
+        row.appendChild(cell);
+      }
+      
+      tbody.appendChild(row);
+    }
+  },
+
+  // Show skeleton for cards
+  showCardSkeleton: function(cardElement) {
+    cardElement.innerHTML = `
+      <div class="p-6 space-y-4">
+        <div class="flex items-center space-x-3">
+          <div class="skeleton-circle w-12 h-12"></div>
+          <div class="flex-1 space-y-2">
+            <div class="skeleton-line w-3/4"></div>
+            <div class="skeleton-line--sm w-1/2"></div>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div class="skeleton-line w-full"></div>
+          <div class="skeleton-line w-4/5"></div>
+          <div class="skeleton-line w-3/5"></div>
+        </div>
+      </div>
+    `;
   },
 
   hideLoading: function(element) {

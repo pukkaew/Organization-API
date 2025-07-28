@@ -7,7 +7,7 @@
                 <div class="flex-shrink-0">
                     <div class="flex items-center space-x-3">
                         <div class="w-10 h-10 bg-ruxchai-blue rounded-xl flex items-center justify-center shadow-lg">
-                            <span class="text-white text-lg">🏢</span>
+                            <i class="fas fa-building text-white text-lg"></i>
                         </div>
                         <h1 class="text-lg sm:text-xl font-bold text-ruxchai-blue truncate">
                             <span class="hidden sm:inline">Organization</span> Management
@@ -17,22 +17,22 @@
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-1">
                         <a href="/" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'bg-ruxchai-blue text-white shadow-lg transform scale-105' : 'text-ruxchai-grey hover:bg-blue-50 hover:text-ruxchai-blue' %> rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 flex items-center space-x-2">
-                            <span class="text-base">📊</span> <span>Dashboard</span>
+                            <i class="fas fa-tachometer-alt w-4 <%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'text-white' : 'text-blue-600' %>"></i> <span>Dashboard</span>
                         </a>
                         <a href="/companies" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'companies' ? 'bg-ruxchai-blue text-white shadow-lg transform scale-105' : 'text-ruxchai-grey hover:bg-blue-50 hover:text-ruxchai-blue' %> rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 flex items-center space-x-2">
-                            <span class="text-base">🏢</span> <span>Companies</span>
+                            <i class="fas fa-building w-4 <%= typeof activeMenu !== 'undefined' && activeMenu === 'companies' ? 'text-white' : 'text-blue-500' %>"></i> <span>Companies</span>
                         </a>
                         <a href="/branches" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'branches' ? 'bg-ruxchai-green text-white shadow-lg transform scale-105' : 'text-ruxchai-grey hover:bg-green-50 hover:text-ruxchai-green' %> rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 flex items-center space-x-2">
-                            <span class="text-base">🌿</span> <span>Branches</span>
+                            <i class="fas fa-code-branch w-4 <%= typeof activeMenu !== 'undefined' && activeMenu === 'branches' ? 'text-white' : 'text-ruxchai-green' %>"></i> <span>Branches</span>
                         </a>
-                        <a href="/divisions" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'divisions' ? 'bg-blue-700 text-white shadow-lg transform scale-105' : 'text-ruxchai-grey hover:bg-blue-50 hover:text-ruxchai-blue' %> rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 flex items-center space-x-2">
-                            <span class="text-base">🔗</span> <span>Divisions</span>
+                        <a href="/divisions" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'divisions' ? 'bg-ruxchai-blue text-white shadow-lg transform scale-105' : 'text-ruxchai-grey hover:bg-blue-50 hover:text-ruxchai-blue' %> rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 flex items-center space-x-2">
+                            <i class="fas fa-sitemap w-4 <%= typeof activeMenu !== 'undefined' && activeMenu === 'divisions' ? 'text-white' : 'text-ruxchai-blue' %>"></i> <span>Divisions</span>
                         </a>
-                        <a href="/departments" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'departments' ? 'bg-green-600 text-white shadow-lg transform scale-105' : 'text-ruxchai-grey hover:bg-green-50 hover:text-ruxchai-green' %> rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 flex items-center space-x-2">
-                            <span class="text-base">👥</span> <span>Departments</span>
+                        <a href="/departments" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'departments' ? 'bg-ruxchai-green text-white shadow-lg transform scale-105' : 'text-ruxchai-grey hover:bg-green-50 hover:text-ruxchai-green' %> rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 flex items-center space-x-2">
+                            <i class="fas fa-users w-4 <%= typeof activeMenu !== 'undefined' && activeMenu === 'departments' ? 'text-white' : 'text-ruxchai-green' %>"></i> <span>Departments</span>
                         </a>
-                        <a href="/api-keys" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'bg-blue-600 text-white shadow-lg transform scale-105' : 'text-ruxchai-grey hover:bg-blue-50 hover:text-ruxchai-blue' %> rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 flex items-center space-x-2">
-                            <span class="text-base">🔑</span> <span>API Keys</span>
+                        <a href="/api-keys" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'bg-ruxchai-blue text-white shadow-lg transform scale-105' : 'text-ruxchai-grey hover:bg-blue-50 hover:text-ruxchai-blue' %> rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 flex items-center space-x-2">
+                            <i class="fas fa-key w-4 <%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'text-white' : 'text-ruxchai-blue' %>"></i> <span>API Keys</span>
                         </a>
                     </div>
                 </div>
@@ -41,20 +41,20 @@
                 <div class="ml-4 flex items-center md:ml-6 space-x-3">
                     <button type="button" class="group w-10 h-10 rounded-full bg-ruxchai-green flex items-center justify-center text-white hover:bg-green-600 transition-all duration-300 transform hover:scale-110 shadow-lg hover:shadow-xl">
                         <span class="sr-only">View notifications</span>
-                        <span class="text-lg group-hover:animate-bounce">🔔</span>
+                        <i class="fas fa-bell text-lg group-hover:animate-bounce"></i>
                     </button>
                     <a href="/docs" class="group inline-flex items-center px-4 py-2 bg-ruxchai-blue text-white rounded-lg hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm font-medium">
-                        <span class="text-base mr-2 group-hover:rotate-12 transition-transform duration-300">📚</span> API Docs
+                        <i class="fas fa-book text-base mr-2 group-hover:rotate-12 transition-transform duration-300"></i> API Docs
                     </a>
                     <div class="flex items-center space-x-3">
                         <% if (typeof user !== 'undefined' && user) { %>
                             <div class="flex items-center px-4 py-2 bg-gray-50 rounded-lg shadow-sm text-sm text-ruxchai-grey">
-                                <span class="text-base mr-2">👤</span>
+                                <i class="fas fa-user text-base mr-2"></i>
                                 <span class="font-medium"><%= user.username || 'User' %></span>
                             </div>
                         <% } %>
                         <a href="/logout" class="group inline-flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm font-medium">
-                            <span class="text-base mr-2 group-hover:rotate-12 transition-transform duration-300">🚪</span> Logout
+                            <i class="fas fa-sign-out-alt text-base mr-2 group-hover:rotate-12 transition-transform duration-300"></i> Logout
                         </a>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
             <div class="-mr-2 flex md:hidden">
                 <button type="button" class="group inline-flex items-center justify-center rounded-md bg-ruxchai-blue p-3 text-white hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl" id="mobile-menu-button">
                     <span class="sr-only">Open main menu</span>
-                    <span class="text-xl group-hover:rotate-180 transition-transform duration-300">☰</span>
+                    <i class="fas fa-bars text-xl group-hover:rotate-180 transition-transform duration-300"></i>
                 </button>
             </div>
         </div>
@@ -72,37 +72,39 @@
     <div class="md:hidden hidden" id="mobile-menu">
         <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3 bg-gray-50">
             <a href="/" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'bg-ruxchai-blue text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-ruxchai-blue' %> flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105">
-                <span class="text-lg">📊</span> <span>Dashboard</span>
+                <i class="fas fa-tachometer-alt <%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'text-white' : 'text-blue-600' %>"></i> <span>Dashboard</span>
             </a>
             <a href="/companies" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'companies' ? 'bg-ruxchai-blue text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-ruxchai-blue' %> flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105">
-                <span class="text-lg">🏢</span> <span>Companies</span>
+                <i class="fas fa-building <%= typeof activeMenu !== 'undefined' && activeMenu === 'companies' ? 'text-white' : 'text-blue-500' %>"></i> <span>Companies</span>
             </a>
             <a href="/branches" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'branches' ? 'bg-ruxchai-green text-white shadow-lg' : 'text-gray-700 hover:bg-green-50 hover:text-ruxchai-green' %> flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105">
-                <span class="text-lg">🌿</span> <span>Branches</span>
+                <i class="fas fa-code-branch <%= typeof activeMenu !== 'undefined' && activeMenu === 'branches' ? 'text-white' : 'text-ruxchai-green' %>"></i> <span>Branches</span>
             </a>
-            <a href="/divisions" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'divisions' ? 'bg-blue-700 text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-ruxchai-blue' %> flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105">
-                <span class="text-lg">🔗</span> <span>Divisions</span>
+            <a href="/divisions" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'divisions' ? 'bg-ruxchai-blue text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-ruxchai-blue' %> flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105">
+                <i class="fas fa-sitemap <%= typeof activeMenu !== 'undefined' && activeMenu === 'divisions' ? 'text-white' : 'text-ruxchai-blue' %>"></i> <span>Divisions</span>
             </a>
-            <a href="/departments" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'departments' ? 'bg-green-600 text-white shadow-lg' : 'text-gray-700 hover:bg-green-50 hover:text-ruxchai-green' %> flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105">
-                <span class="text-lg">👥</span> <span>Departments</span>
+            <a href="/departments" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'departments' ? 'bg-ruxchai-green text-white shadow-lg' : 'text-gray-700 hover:bg-green-50 hover:text-ruxchai-green' %> flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105">
+                <i class="fas fa-users <%= typeof activeMenu !== 'undefined' && activeMenu === 'departments' ? 'text-white' : 'text-ruxchai-green' %>"></i> <span>Departments</span>
             </a>
-            <a href="/api-keys" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-ruxchai-blue' %> flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105">
-                <span class="text-lg">🔑</span> <span>API Keys</span>
+            <a href="/api-keys" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'bg-ruxchai-blue text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-ruxchai-blue' %> flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105">
+                <i class="fas fa-key <%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'text-white' : 'text-ruxchai-blue' %>"></i> <span>API Keys</span>
             </a>
             <a href="/docs" class="text-gray-700 hover:bg-blue-50 hover:text-ruxchai-blue flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105">
-                <span class="text-lg">📚</span> <span>API Docs</span>
+                <i class="fas fa-book text-ruxchai-blue"></i> <span>API Docs</span>
             </a>
             <hr class="my-3 border-gray-300">
             <% if (typeof user !== 'undefined' && user) { %>
                 <div class="px-4 py-3 text-sm font-medium text-ruxchai-grey bg-gray-50 rounded-xl flex items-center space-x-3 shadow-sm">
-                    <span class="text-lg">👤</span>
+                    <i class="fas fa-user text-lg"></i>
                     <span><%= user.username || 'User' %></span>
                 </div>
             <% } %>
             <a href="/logout" class="text-white bg-red-500 hover:bg-red-600 flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                <span class="text-lg">🚪</span> <span>Logout</span>
+                <i class="fas fa-sign-out-alt text-lg mr-2"></i> <span>Logout</span>
             </a>
         </div>
     </div>
 </nav>
+
+
 

@@ -5,11 +5,7 @@
 }) %>
 <%- include('../partials/navigation', { 
     activeMenu: 'divisions',
-    user: typeof user !== 'undefined' ? user : null,
-    success: typeof success !== 'undefined' ? success : null,
-    error: typeof error !== 'undefined' ? error : null,
-    warning: typeof warning !== 'undefined' ? warning : null,
-    info: typeof info !== 'undefined' ? info : null
+    user: typeof user !== 'undefined' ? user : null
 }) %>
 
 <!-- Main Content -->
@@ -59,7 +55,7 @@
                     <!-- Branch Selection -->
                     <div>
                         <label for="branch_code" class="form-label text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">🌿</span>
+                            <span class="text-lg mr-2"><i class="fas fa-leaf"></i></span>
                             Branch
                         </label>
                         <select id="branch_code" 
@@ -163,11 +159,11 @@
         <div class="mt-6 bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl p-6 border border-orange-100 shadow-lg">
             <div class="flex">
                 <div class="flex-shrink-0">
-                    <span class="text-2xl">💡</span>
+                    <span class="text-2xl"><i class="fas fa-lightbulb"></i></span>
                 </div>
                 <div class="ml-4">
                     <h3 class="text-lg font-bold text-orange-800 flex items-center">
-                        <span class="mr-2">📖</span>
+                        <span class="mr-2"><i class="fas fa-book"></i></span>
                         Guidelines
                     </h3>
                     <div class="mt-3 text-sm text-orange-700">

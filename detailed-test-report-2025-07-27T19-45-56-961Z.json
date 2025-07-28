@@ -1,0 +1,185 @@
+{
+  "timestamp": "2025-07-27T19:45:56.697Z",
+  "database": {
+    "type": "MSSQL",
+    "server": "45.136.253.81",
+    "database": "OrgStructureDB"
+  },
+  "modules": {
+    "Auth": [
+      {
+        "test": "Login Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.746Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Login Success",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.748Z",
+        "statusCode": 302,
+        "redirect": "/login"
+      }
+    ],
+    "Dashboard": [
+      {
+        "test": "Access Dashboard",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.753Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Dashboard Content",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.753Z",
+        "contentFound": true,
+        "dataLength": 5036
+      }
+    ],
+    "Companies": [
+      {
+        "test": "List Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.758Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.763Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Item",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.765Z",
+        "statusCode": 302,
+        "redirect": "/login"
+      }
+    ],
+    "Divisions": [
+      {
+        "test": "List Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.771Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.776Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Item",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.778Z",
+        "statusCode": 302,
+        "redirect": "/login"
+      }
+    ],
+    "Departments": [
+      {
+        "test": "List Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.782Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.787Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Item",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.789Z",
+        "statusCode": 302,
+        "redirect": "/login"
+      }
+    ],
+    "Branches": [
+      {
+        "test": "List Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.793Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.798Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Item",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.800Z",
+        "statusCode": 302,
+        "redirect": "/login"
+      }
+    ],
+    "API Keys": [
+      {
+        "test": "List Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.804Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.807Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Item",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.809Z",
+        "statusCode": 302,
+        "redirect": "/login"
+      }
+    ],
+    "API": [
+      {
+        "test": "API Authentication",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:45:56.812Z",
+        "tokenReceived": true
+      },
+      {
+        "test": "Companies API",
+        "status": "FAIL",
+        "timestamp": "2025-07-27T19:45:56.854Z",
+        "error": 500
+      },
+      {
+        "test": "Divisions API",
+        "status": "FAIL",
+        "timestamp": "2025-07-27T19:45:56.882Z",
+        "error": 500
+      },
+      {
+        "test": "Departments API",
+        "status": "FAIL",
+        "timestamp": "2025-07-27T19:45:56.905Z",
+        "error": 500
+      },
+      {
+        "test": "Branches API",
+        "status": "FAIL",
+        "timestamp": "2025-07-27T19:45:56.928Z",
+        "error": 500
+      }
+    ],
+    "Database": [
+      {
+        "test": "CRUD Operations",
+        "status": "FAIL",
+        "timestamp": "2025-07-27T19:45:56.960Z",
+        "error": "Request failed with status code 400"
+      }
+    ]
+  }
+}

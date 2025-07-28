@@ -5,11 +5,7 @@
 }) %>
 <%- include('../partials/navigation', { 
     activeMenu: 'departments',
-    user: typeof user !== 'undefined' ? user : null,
-    success: typeof success !== 'undefined' ? success : null,
-    error: typeof error !== 'undefined' ? error : null,
-    warning: typeof warning !== 'undefined' ? warning : null,
-    info: typeof info !== 'undefined' ? info : null
+    user: typeof user !== 'undefined' ? user : null
 }) %>
 
 <!-- Main Content -->
@@ -20,7 +16,7 @@
                 <div class="px-6 py-4 bg-gradient-to-r from-purple-600 to-violet-700 rounded-t-2xl">
                     <div class="flex items-center justify-between">
                         <h2 class="text-xl font-bold text-white flex items-center">
-                            <span class="text-2xl mr-3">🏢</span>
+                            <span class="text-2xl mr-3"><i class="fas fa-building"></i></span>
                             Create New Department
                         </h2>
                         <a href="/departments" class="text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10">
@@ -38,7 +34,7 @@
                     <!-- Company Selection -->
                     <div>
                         <label for="company_code" class="form-label text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">🏢</span>
+                            <span class="text-lg mr-2"><i class="fas fa-building"></i></span>
                             Company <span class="text-red-500">*</span>
                         </label>
                         <select id="company_code" 
@@ -59,7 +55,7 @@
                     <!-- Division Selection -->
                     <div>
                         <label for="division_code" class="form-label text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">🏢</span>
+                            <span class="text-lg mr-2"><i class="fas fa-building"></i></span>
                             Division <span class="text-red-500">*</span>
                         </label>
                         <select id="division_code" 
@@ -76,7 +72,7 @@
                     <!-- Department Code -->
                     <div>
                         <label for="department_code" class="form-label text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">🏷️</span>
+                            <span class="text-lg mr-2"><i class="fas fa-tag"></i></span>
                             Department Code <span class="text-red-500">*</span>
                         </label>
                         <input type="text" 
@@ -164,11 +160,11 @@
         <div class="mt-6 bg-gradient-to-r from-purple-50 to-violet-50 rounded-2xl p-6 border border-purple-100 shadow-lg">
             <div class="flex">
                 <div class="flex-shrink-0">
-                    <span class="text-2xl">💡</span>
+                    <span class="text-2xl"><i class="fas fa-lightbulb"></i></span>
                 </div>
                 <div class="ml-4">
                     <h3 class="text-lg font-bold text-purple-800 flex items-center">
-                        <span class="mr-2">📖</span>
+                        <span class="mr-2"><i class="fas fa-book"></i></span>
                         Guidelines
                     </h3>
                     <div class="mt-3 text-sm text-purple-700">

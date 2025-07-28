@@ -222,8 +222,8 @@ const getEntityHierarchy = asyncHandler(async (req, res) => {
     const inputs = { code: code };
     
     switch (type) {
-        case 'company':
-            query = `
+    case 'company':
+        query = `
                 SELECT 
                     c.company_code, c.company_name_th, c.company_name_en,
                     COUNT(DISTINCT b.branch_code) as branch_count,
@@ -236,10 +236,10 @@ const getEntityHierarchy = asyncHandler(async (req, res) => {
                 WHERE c.company_code = @code
                 GROUP BY c.company_code, c.company_name_th, c.company_name_en
             `;
-            break;
+        break;
             
-        case 'branch':
-            query = `
+    case 'branch':
+        query = `
                 SELECT 
                     b.branch_code, b.branch_name, b.company_code,
                     c.company_name_th,
@@ -252,10 +252,10 @@ const getEntityHierarchy = asyncHandler(async (req, res) => {
                 WHERE b.branch_code = @code
                 GROUP BY b.branch_code, b.branch_name, b.company_code, c.company_name_th
             `;
-            break;
+        break;
             
-        case 'division':
-            query = `
+    case 'division':
+        query = `
                 SELECT 
                     d.division_code, d.division_name, d.company_code, d.branch_code,
                     c.company_name_th, b.branch_name,
@@ -268,10 +268,10 @@ const getEntityHierarchy = asyncHandler(async (req, res) => {
                 GROUP BY d.division_code, d.division_name, d.company_code, 
                          d.branch_code, c.company_name_th, b.branch_name
             `;
-            break;
+        break;
             
-        case 'department':
-            query = `
+    case 'department':
+        query = `
                 SELECT 
                     dp.department_code, dp.department_name, dp.division_code,
                     d.division_name, d.company_code, d.branch_code,
@@ -282,10 +282,10 @@ const getEntityHierarchy = asyncHandler(async (req, res) => {
                 LEFT JOIN Branches b ON d.branch_code = b.branch_code
                 WHERE dp.department_code = @code
             `;
-            break;
+        break;
             
-        default:
-            return badRequest(res, 'Invalid entity type');
+    default:
+        return badRequest(res, 'Invalid entity type');
     }
     
     const result = await executeQuery(query, inputs);

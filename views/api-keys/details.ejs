@@ -11,7 +11,7 @@
                 <div class="flex-1 min-w-0">
                     <div class="flex items-center mb-3">
                         <div class="w-16 h-16 bg-white bg-opacity-20 rounded-xl flex items-center justify-center text-3xl mr-4">
-                            🔑
+                            <i class="fas fa-key"></i>
                         </div>
                         <div>
                             <h2 class="text-2xl sm:text-3xl font-bold text-white truncate">
@@ -50,7 +50,7 @@
             <div class="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-6 text-white">
                 <div class="flex items-center">
                     <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center text-xl mr-3">
-                        📋
+                        <i class="fas fa-clipboard"></i>
                     </div>
                     <h3 class="text-xl font-bold text-white">
                         API Key Information
@@ -62,7 +62,7 @@
                     <div class="bg-gradient-to-br from-blue-50 to-indigo-100 p-6 rounded-xl shadow-lg border border-blue-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                         <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
                             <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mr-3">
-                                📱
+                                <i class="fas fa-mobile-alt"></i>
                             </div>
                             Application Name
                         </dt>
@@ -74,7 +74,7 @@
                     <div class="bg-gradient-to-br from-emerald-50 to-teal-100 p-6 rounded-xl shadow-lg border border-emerald-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                         <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
                             <div class="w-8 h-8 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center mr-3">
-                                📝
+                                <i class="fas fa-file-alt"></i>
                             </div>
                             Description
                         </dt>
@@ -86,22 +86,22 @@
                     <div class="bg-gradient-to-br from-purple-50 to-pink-100 p-6 rounded-xl shadow-lg border border-purple-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                         <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
                             <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center mr-3">
-                                🛡️
+                                <i class="fas fa-shield-alt"></i>
                             </div>
                             Permissions
                         </dt>
                         <dd class="mt-1">
                             <% if (apiKey.permissions === 'read') { %>
                                 <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-blue-400 to-indigo-500 text-white shadow-lg">
-                                    👁️ Read Only
+                                    <i class="fas fa-eye mr-1"></i> Read Only
                                 </span>
                             <% } else if (apiKey.permissions === 'write') { %>
                                 <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-yellow-400 to-orange-500 text-white shadow-lg">
-                                    ✏️ Write Only
+                                    <i class="fas fa-edit mr-1"></i> Write Only
                                 </span>
                             <% } else { %>
                                 <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-green-400 to-emerald-500 text-white shadow-lg animate-pulse">
-                                    ✅ Read & Write
+                                    <i class="fas fa-check mr-1"></i> Read & Write
                                 </span>
                             <% } %>
                         </dd>
@@ -110,18 +110,18 @@
                     <div class="bg-gradient-to-br from-cyan-50 to-blue-100 p-6 rounded-xl shadow-lg border border-cyan-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                         <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
                             <div class="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center mr-3">
-                                ⚡
+                                <i class="fas fa-bolt"></i>
                             </div>
                             Status
                         </dt>
                         <dd class="mt-1">
                             <% if (apiKey.is_active) { %>
                                 <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-green-400 to-emerald-500 text-white shadow-lg animate-pulse">
-                                    ✅ Active
+                                    <i class="fas fa-check mr-1"></i> Active
                                 </span>
                             <% } else { %>
                                 <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-red-400 to-pink-500 text-white shadow-lg">
-                                    ❌ Inactive
+                                    <i class="fas fa-times mr-1"></i> Inactive
                                 </span>
                             <% } %>
                         </dd>
@@ -130,7 +130,7 @@
                     <div class="bg-gradient-to-br from-yellow-50 to-amber-100 p-6 rounded-xl shadow-lg border border-yellow-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                         <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
                             <div class="w-8 h-8 bg-gradient-to-br from-yellow-500 to-amber-600 rounded-lg flex items-center justify-center mr-3">
-                                📅
+                                <i class="fas fa-calendar"></i>
                             </div>
                             Created
                         </dt>
@@ -145,7 +145,7 @@
                     <div class="bg-gradient-to-br from-orange-50 to-red-100 p-6 rounded-xl shadow-lg border border-orange-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                         <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
                             <div class="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center mr-3">
-                                🕒
+                                <i class="fas fa-clock"></i>
                             </div>
                             Last Used
                         </dt>
@@ -161,7 +161,7 @@
                     <div class="bg-gradient-to-br from-rose-50 to-pink-100 p-6 rounded-xl shadow-lg border border-rose-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                         <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
                             <div class="w-8 h-8 bg-gradient-to-br from-rose-500 to-pink-600 rounded-lg flex items-center justify-center mr-3">
-                                ⏰
+                                <i class="fas fa-clock"></i>
                             </div>
                             Expiration
                         </dt>
@@ -183,7 +183,7 @@
                         <div class="bg-gradient-to-br from-teal-50 to-cyan-100 p-6 rounded-xl shadow-lg border border-teal-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                             <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
                                 <div class="w-8 h-8 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-lg flex items-center justify-center mr-3">
-                                    🚀
+                                    <i class="fas fa-bolt"></i>
                                 </div>
                                 Rate Limit
                             </dt>
@@ -197,7 +197,7 @@
                         <div class="sm:col-span-2 lg:col-span-3 bg-gradient-to-br from-indigo-50 to-violet-100 p-6 rounded-xl shadow-lg border border-indigo-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                             <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
                                 <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-lg flex items-center justify-center mr-3">
-                                    🔒
+                                    <i class="fas fa-lock"></i>
                                 </div>
                                 IP Whitelist
                             </dt>
@@ -223,7 +223,7 @@
                 <div class="bg-gradient-to-br from-blue-50 to-indigo-100 p-6 rounded-xl shadow-lg border border-blue-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                     <div class="flex items-center mb-3">
                         <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mr-3">
-                            📈
+                            <i class="fas fa-chart-bar"></i>
                         </div>
                         <dt class="text-sm font-medium text-gray-600">
                             Last 24 Hours
@@ -248,7 +248,7 @@
                 <div class="bg-gradient-to-br from-emerald-50 to-teal-100 p-6 rounded-xl shadow-lg border border-emerald-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                     <div class="flex items-center mb-3">
                         <div class="w-8 h-8 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center mr-3">
-                            📅
+                            <i class="fas fa-calendar"></i>
                         </div>
                         <dt class="text-sm font-medium text-gray-600">
                             Last 7 Days
@@ -273,7 +273,7 @@
                 <div class="bg-gradient-to-br from-purple-50 to-pink-100 p-6 rounded-xl shadow-lg border border-purple-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                     <div class="flex items-center mb-3">
                         <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center mr-3">
-                            📆
+                            <i class="fas fa-calendar"></i>
                         </div>
                         <dt class="text-sm font-medium text-gray-600">
                             Last 30 Days
@@ -303,7 +303,7 @@
                 <div class="bg-gradient-to-r from-blue-500 to-indigo-600 px-6 py-4 text-white">
                     <div class="flex items-center">
                         <div class="w-8 h-8 bg-white bg-opacity-20 rounded-lg flex items-center justify-center text-lg mr-3">
-                            📊
+                            <i class="fas fa-chart-bar"></i>
                         </div>
                         <h3 class="text-lg font-bold text-white">
                             Hourly Usage (Today)
@@ -322,7 +322,7 @@
                 <div class="bg-gradient-to-r from-emerald-500 to-teal-600 px-6 py-4 text-white">
                     <div class="flex items-center">
                         <div class="w-8 h-8 bg-white bg-opacity-20 rounded-lg flex items-center justify-center text-lg mr-3">
-                            🎯
+                            <i class="fas fa-bullseye"></i>
                         </div>
                         <h3 class="text-lg font-bold text-white">
                             Top Endpoints (Last 7 Days)
@@ -355,12 +355,12 @@
                                                 <span class="ml-3 text-gray-700 font-mono text-sm"><%= endpoint.endpoint %></span>
                                             </p>
                                             <div class="mt-2 flex items-center text-xs bg-gray-100 px-3 py-1 rounded-lg">
-                                                <span class="text-blue-600 font-semibold">📊 <%= endpoint.request_count %> requests</span>
+                                                <span class="text-blue-600 font-semibold"><i class="fas fa-chart-bar mr-1"></i> <%= endpoint.request_count %> requests</span>
                                                 <span class="mx-2 text-gray-400">•</span>
-                                                <span class="text-green-600 font-semibold">⚡ <%= Math.round(endpoint.avg_response_time) %>ms avg</span>
+                                                <span class="text-green-600 font-semibold"><i class="fas fa-bolt mr-1"></i> <%= Math.round(endpoint.avg_response_time) %>ms avg</span>
                                                 <% if (endpoint.error_count > 0) { %>
                                                     <span class="mx-2 text-gray-400">•</span>
-                                                    <span class="text-red-600 font-semibold">❌ <%= endpoint.error_count %> errors</span>
+                                                    <span class="text-red-600 font-semibold"><i class="fas fa-times mr-1"></i> <%= endpoint.error_count %> errors</span>
                                                 <% } %>
                                             </div>
                                         </div>
@@ -369,7 +369,7 @@
                             <% }); %>
                         <% } else { %>
                             <div class="bg-white p-6 rounded-xl shadow-sm text-center">
-                                <div class="text-4xl mb-3">📭</div>
+                                <div class="text-4xl mb-3"><i class="fas fa-folder-open"></i></div>
                                 <p class="text-sm text-gray-500">No endpoint data available</p>
                             </div>
                         <% } %>
@@ -384,7 +384,7 @@
                 <div class="flex justify-between items-center">
                     <div class="flex items-center">
                         <div class="w-10 h-10 bg-white bg-opacity-20 rounded-xl flex items-center justify-center text-xl mr-3">
-                            📝
+                            <i class="fas fa-file-alt"></i>
                         </div>
                         <h3 class="text-xl font-bold text-white">
                             Recent API Logs

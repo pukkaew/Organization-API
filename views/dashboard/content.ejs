@@ -4,7 +4,7 @@
     <div class="relative p-8">
         <div class="flex items-center space-x-4">
             <div class="w-16 h-16 bg-white bg-opacity-20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                <span class="text-2xl text-white font-bold">🏢</span>
+                <i class="fas fa-building text-2xl text-white font-bold"></i>
             </div>
             <div>
                 <h1 class="text-4xl font-bold text-white mb-2">
@@ -17,7 +17,7 @@
         </div>
         <div class="mt-6 text-ruxchai-blue-100">
             <span class="text-sm bg-white bg-opacity-20 px-3 py-1 rounded-full backdrop-blur-sm">
-                ❄️ Ruxchai Cold Storage Systems
+                <i class="fas fa-snowflake mr-1"></i> Ruxchai Cold Storage Systems
             </span>
         </div>
     </div>
@@ -31,19 +31,19 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4">
                     <div class="w-14 h-14 bg-ruxchai-blue rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        <span class="text-2xl text-white">🏢</span>
+                        <span class="text-2xl text-white"><i class="fas fa-building"></i></span>
                     </div>
                     <div>
                         <dt class="text-sm font-semibold text-ruxchai-blue-700 uppercase tracking-wide">
                             Companies
                         </dt>
                         <dd class="text-3xl font-bold text-ruxchai-blue-900">
-                            <%= typeof stats !== 'undefined' && stats.companies ? stats.companies : 0 %>
+                            <%= typeof stats !== 'undefined' && stats.totalCompanies ? stats.totalCompanies : 0 %>
                         </dd>
                     </div>
                 </div>
                 <div class="text-ruxchai-blue-300 group-hover:text-ruxchai-blue-500 transition-colors">
-                    <span class="text-2xl">📊</span>
+                    <span class="text-2xl"><i class="fas fa-chart-bar"></i></span>
                 </div>
             </div>
         </div>
@@ -61,19 +61,19 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4">
                     <div class="w-14 h-14 bg-ruxchai-green rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        <span class="text-2xl text-white">🌿</span>
+                        <span class="text-2xl text-white"><i class="fas fa-leaf"></i></span>
                     </div>
                     <div>
                         <dt class="text-sm font-semibold text-ruxchai-green-700 uppercase tracking-wide">
                             Branches
                         </dt>
                         <dd class="text-3xl font-bold text-ruxchai-green-900">
-                            <%= typeof stats !== 'undefined' && stats.branches ? stats.branches : 0 %>
+                            <%= typeof stats !== 'undefined' && stats.totalBranches ? stats.totalBranches : 0 %>
                         </dd>
                     </div>
                 </div>
                 <div class="text-ruxchai-green-300 group-hover:text-ruxchai-green-500 transition-colors">
-                    <span class="text-2xl">🏪</span>
+                    <span class="text-2xl"><i class="fas fa-building"></i></span>
                 </div>
             </div>
         </div>
@@ -91,19 +91,19 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4">
                     <div class="w-14 h-14 bg-ruxchai-blue-700 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        <span class="text-2xl text-white">🔗</span>
+                        <span class="text-2xl text-white"><i class="fas fa-link"></i></span>
                     </div>
                     <div>
                         <dt class="text-sm font-semibold text-ruxchai-blue-700 uppercase tracking-wide">
                             Divisions
                         </dt>
                         <dd class="text-3xl font-bold text-ruxchai-blue-900">
-                            <%= typeof stats !== 'undefined' && stats.divisions ? stats.divisions : 0 %>
+                            <%= typeof stats !== 'undefined' && stats.totalDivisions ? stats.totalDivisions : 0 %>
                         </dd>
                     </div>
                 </div>
                 <div class="text-ruxchai-blue-300 group-hover:text-ruxchai-blue-500 transition-colors">
-                    <span class="text-2xl">📋</span>
+                    <span class="text-2xl"><i class="fas fa-clipboard"></i></span>
                 </div>
             </div>
         </div>
@@ -121,19 +121,19 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4">
                     <div class="w-14 h-14 bg-ruxchai-green-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-                        <span class="text-2xl text-white">👥</span>
+                        <span class="text-2xl text-white"><i class="fas fa-users"></i></span>
                     </div>
                     <div>
                         <dt class="text-sm font-semibold text-ruxchai-green-700 uppercase tracking-wide">
                             Departments
                         </dt>
                         <dd class="text-3xl font-bold text-ruxchai-green-900">
-                            <%= typeof stats !== 'undefined' && stats.departments ? stats.departments : 0 %>
+                            <%= typeof stats !== 'undefined' && stats.totalDepartments ? stats.totalDepartments : 0 %>
                         </dd>
                     </div>
                 </div>
                 <div class="text-ruxchai-green-300 group-hover:text-ruxchai-green-500 transition-colors">
-                    <span class="text-2xl">🎯</span>
+                    <span class="text-2xl"><i class="fas fa-bullseye"></i></span>
                 </div>
             </div>
         </div>
@@ -153,7 +153,7 @@
         <div class="px-8 py-6">
             <div class="flex items-center space-x-3 mb-6">
                 <div class="w-10 h-10 bg-ruxchai-blue rounded-xl flex items-center justify-center">
-                    <span class="text-white text-lg">⚡</span>
+                    <span class="text-white text-lg"><i class="fas fa-bolt"></i></span>
                 </div>
                 <h3 class="text-xl font-bold text-ruxchai-grey">
                     Quick Actions
@@ -161,22 +161,22 @@
             </div>
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <a href="/companies/new" class="group flex items-center space-x-3 p-4 bg-ruxchai-blue text-white rounded-xl hover:bg-ruxchai-blue-600 transform hover:scale-105 transition-all duration-200 shadow-lg">
-                    <span class="text-2xl">🏢</span>
+                    <span class="text-2xl"><i class="fas fa-building"></i></span>
                     <span class="font-semibold">Add Company</span>
                     <span class="ml-auto group-hover:translate-x-1 transition-transform">→</span>
                 </a>
                 <a href="/branches/new" class="group flex items-center space-x-3 p-4 bg-ruxchai-green text-white rounded-xl hover:bg-ruxchai-green-600 transform hover:scale-105 transition-all duration-200 shadow-lg">
-                    <span class="text-2xl">🌿</span>
+                    <span class="text-2xl"><i class="fas fa-leaf"></i></span>
                     <span class="font-semibold">Add Branch</span>
                     <span class="ml-auto group-hover:translate-x-1 transition-transform">→</span>
                 </a>
                 <a href="/divisions/new" class="group flex items-center space-x-3 p-4 bg-ruxchai-blue-700 text-white rounded-xl hover:bg-ruxchai-blue-800 transform hover:scale-105 transition-all duration-200 shadow-lg">
-                    <span class="text-2xl">🔗</span>
+                    <span class="text-2xl"><i class="fas fa-link"></i></span>
                     <span class="font-semibold">Add Division</span>
                     <span class="ml-auto group-hover:translate-x-1 transition-transform">→</span>
                 </a>
                 <a href="/departments/new" class="group flex items-center space-x-3 p-4 bg-ruxchai-green-600 text-white rounded-xl hover:bg-ruxchai-green-700 transform hover:scale-105 transition-all duration-200 shadow-lg">
-                    <span class="text-2xl">👥</span>
+                    <span class="text-2xl"><i class="fas fa-users"></i></span>
                     <span class="font-semibold">Add Department</span>
                     <span class="ml-auto group-hover:translate-x-1 transition-transform">→</span>
                 </a>
@@ -189,7 +189,7 @@
         <div class="px-8 py-6">
             <div class="flex items-center space-x-3 mb-6">
                 <div class="w-10 h-10 bg-ruxchai-blue-600 rounded-xl flex items-center justify-center">
-                    <span class="text-white text-lg">📊</span>
+                    <span class="text-white text-lg"><i class="fas fa-chart-bar"></i></span>
                 </div>
                 <h3 class="text-xl font-bold text-ruxchai-grey">
                     API Usage (30 Days)
@@ -207,7 +207,7 @@
                             </dd>
                         </div>
                         <div class="w-12 h-12 bg-ruxchai-blue-100 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <span class="text-xl">📈</span>
+                            <span class="text-xl"><i class="fas fa-chart-bar"></i></span>
                         </div>
                     </div>
                 </div>
@@ -222,14 +222,14 @@
                             </dd>
                         </div>
                         <div class="w-12 h-12 bg-ruxchai-green-100 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <span class="text-xl">🔑</span>
+                            <span class="text-xl"><i class="fas fa-key"></i></span>
                         </div>
                     </div>
                 </div>
             </dl>
             <div class="mt-6">
                 <a href="/api-keys" class="group inline-flex items-center px-6 py-3 bg-ruxchai-blue text-white font-semibold rounded-xl hover:bg-ruxchai-blue-600 transform hover:scale-105 transition-all duration-200 shadow-lg">
-                    <span class="mr-2">🔧</span>
+                    <span class="mr-2"><i class="fas fa-wrench"></i></span>
                     Manage API Keys
                     <span class="ml-2 group-hover:translate-x-1 transition-transform">→</span>
                 </a>

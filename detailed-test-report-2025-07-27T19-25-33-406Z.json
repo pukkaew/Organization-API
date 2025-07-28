@@ -1,0 +1,161 @@
+{
+  "timestamp": "2025-07-27T19:25:33.281Z",
+  "database": {
+    "type": "MSSQL",
+    "server": "45.136.253.81",
+    "database": "OrgStructureDB"
+  },
+  "modules": {
+    "Auth": [
+      {
+        "test": "Login Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.333Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Login Success",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.336Z",
+        "statusCode": 302,
+        "redirect": "/login"
+      }
+    ],
+    "Dashboard": [
+      {
+        "test": "Access Dashboard",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.342Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Dashboard Content",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.342Z",
+        "contentFound": true,
+        "dataLength": 5036
+      }
+    ],
+    "Companies": [
+      {
+        "test": "List Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.347Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.352Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Item",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.354Z",
+        "statusCode": 302,
+        "redirect": "/login"
+      }
+    ],
+    "Divisions": [
+      {
+        "test": "List Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.359Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.365Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Item",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.367Z",
+        "statusCode": 302,
+        "redirect": "/login"
+      }
+    ],
+    "Departments": [
+      {
+        "test": "List Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.371Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.376Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Item",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.378Z",
+        "statusCode": 302,
+        "redirect": "/login"
+      }
+    ],
+    "Branches": [
+      {
+        "test": "List Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.384Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.388Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Item",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.390Z",
+        "statusCode": 302,
+        "redirect": "/login"
+      }
+    ],
+    "API Keys": [
+      {
+        "test": "List Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.394Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Page Access",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.399Z",
+        "statusCode": 200
+      },
+      {
+        "test": "Create Item",
+        "status": "PASS",
+        "timestamp": "2025-07-27T19:25:33.401Z",
+        "statusCode": 302,
+        "redirect": "/login"
+      }
+    ],
+    "API": [
+      {
+        "test": "API Test",
+        "status": "FAIL",
+        "timestamp": "2025-07-27T19:25:33.403Z",
+        "error": "Request failed with status code 401"
+      }
+    ],
+    "Database": [
+      {
+        "test": "CRUD Operations",
+        "status": "FAIL",
+        "timestamp": "2025-07-27T19:25:33.405Z",
+        "error": "Request failed with status code 401"
+      }
+    ]
+  }
+}

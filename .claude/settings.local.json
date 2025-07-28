@@ -41,7 +41,17 @@
       "Bash(copy:*)",
       "Bash(cmd //c:*)",
       "Bash(npx tailwindcss:*)",
-      "Bash(.node_modules.bintailwindcss -i ./public/css/style.css -o ./public/assets/css/tailwind.min.css --minify)"
+      "Bash(.node_modules.bintailwindcss -i ./public/css/style.css -o ./public/assets/css/tailwind.min.css --minify)",
+      "Bash(tasklist:*)",
+      "Bash(start test-gui-icons.html)",
+      "Bash(start test-report-2025-07-27T18-43-30-376Z.html)",
+      "Bash(explorer:*)",
+      "Bash(npm run lint)",
+      "Bash(npm init:*)",
+      "Bash(npm run lint:*)",
+      "Bash(cmd /c:*)",
+      "Bash(set PORT=3009)",
+      "Bash(kill-server.bat)"
     ],
     "deny": []
   }

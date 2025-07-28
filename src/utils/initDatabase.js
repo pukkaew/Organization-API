@@ -54,7 +54,7 @@ async function initializeSQLiteTables() {
                 logger.info('API_Keys table created/verified');
                 
                 // Add default API key if none exists
-                db.get("SELECT COUNT(*) as count FROM API_Keys", [], (err, row) => {
+                db.get('SELECT COUNT(*) as count FROM API_Keys', [], (err, row) => {
                     if (err) {
                         logger.error('Failed to check API_Keys:', err);
                     } else if (row.count === 0) {

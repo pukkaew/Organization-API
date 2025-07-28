@@ -41,8 +41,8 @@ const showApiKeysPage = asyncHandler(async (req, res) => {
         pagination: result.pagination,
         filters: filters,
         query: req.query,
-        success: req.flash('success'),
-        error: req.flash('error')
+        success: null,
+        error: null
     });
 });
 
@@ -50,7 +50,7 @@ const showApiKeysPage = asyncHandler(async (req, res) => {
 const showCreateApiKeyForm = asyncHandler(async (req, res) => {
     res.render('api-keys/create', {
         title: 'Create API Key',
-        error: req.flash('error')
+        error: null
     });
 });
 
@@ -73,12 +73,12 @@ const handleCreateApiKey = asyncHandler(async (req, res) => {
         
         // Store the API key temporarily in session to show it once
         req.session.newApiKey = result.api_key;
-        req.flash('success', 'API Key created successfully. Make sure to copy it now!');
+        // req.flash('success', 'API Key created successfully. Make sure to copy it now!');
         
         res.redirect(`/api-keys/${result.api_key_id}/show`);
     } catch (error) {
         logger.error('Error creating API key:', error);
-        req.flash('error', error.message);
+        // req.flash('error', error.message);
         res.redirect('/api-keys/new');
     }
 });
@@ -88,7 +88,7 @@ const showNewApiKey = asyncHandler(async (req, res) => {
     const apiKey = await ApiKey.findById(req.params.id);
     
     if (!apiKey) {
-        req.flash('error', 'API Key not found');
+        // req.flash('error', 'API Key not found');
         return res.redirect('/api-keys');
     }
     
@@ -97,7 +97,7 @@ const showNewApiKey = asyncHandler(async (req, res) => {
     delete req.session.newApiKey;
     
     if (!actualKey) {
-        req.flash('error', 'API Key has already been viewed');
+        // req.flash('error', 'API Key has already been viewed');
         return res.redirect('/api-keys');
     }
     
@@ -113,7 +113,7 @@ const showApiKeyDetails = asyncHandler(async (req, res) => {
     const apiKey = await ApiKey.findById(req.params.id);
     
     if (!apiKey) {
-        req.flash('error', 'API Key not found');
+        // req.flash('error', 'API Key not found');
         return res.redirect('/api-keys');
     }
     
@@ -160,8 +160,8 @@ const showApiKeyDetails = asyncHandler(async (req, res) => {
         recentLogs: recentLogs.data,
         endpointStats,
         hourlyStats: JSON.stringify(hourlyStats),
-        success: req.flash('success'),
-        error: req.flash('error')
+        success: null,
+        error: null
     });
 });
 
@@ -170,14 +170,14 @@ const showEditApiKeyForm = asyncHandler(async (req, res) => {
     const apiKey = await ApiKey.findById(req.params.id);
     
     if (!apiKey) {
-        req.flash('error', 'API Key not found');
+        // req.flash('error', 'API Key not found');
         return res.redirect('/api-keys');
     }
     
     res.render('api-keys/edit', {
         title: 'Edit API Key',
         apiKey: apiKey,
-        error: req.flash('error')
+        error: null
     });
 });
 
@@ -187,7 +187,7 @@ const handleUpdateApiKey = asyncHandler(async (req, res) => {
         const apiKey = await ApiKey.findById(req.params.id);
         
         if (!apiKey) {
-            req.flash('error', 'API Key not found');
+            // req.flash('error', 'API Key not found');
             return res.redirect('/api-keys');
         }
         
@@ -202,11 +202,11 @@ const handleUpdateApiKey = asyncHandler(async (req, res) => {
         
         logger.info(`API Key updated: ${apiKey.app_name} by ${apiKey.updated_by}`);
         
-        req.flash('success', 'API Key updated successfully');
+        // req.flash('success', 'API Key updated successfully');
         res.redirect(`/api-keys/${apiKey.api_key_id}`);
     } catch (error) {
         logger.error('Error updating API key:', error);
-        req.flash('error', error.message);
+        // req.flash('error', error.message);
         res.redirect(`/api-keys/${req.params.id}/edit`);
     }
 });
@@ -217,7 +217,7 @@ const handleToggleStatus = asyncHandler(async (req, res) => {
         const apiKey = await ApiKey.findById(req.params.id);
         
         if (!apiKey) {
-            req.flash('error', 'API Key not found');
+            // req.flash('error', 'API Key not found');
             return res.redirect('/api-keys');
         }
         
@@ -226,11 +226,11 @@ const handleToggleStatus = asyncHandler(async (req, res) => {
         
         logger.info(`API Key ${apiKey.app_name} ${newStatus ? 'activated' : 'deactivated'} by ${req.user?.username || 'admin'}`);
         
-        req.flash('success', `API Key ${newStatus ? 'activated' : 'deactivated'} successfully`);
+        // req.flash('success', `API Key ${newStatus ? 'activated' : 'deactivated'} successfully`);
         res.redirect('/api-keys');
     } catch (error) {
         logger.error('Error toggling API key status:', error);
-        req.flash('error', error.message);
+        // req.flash('error', error.message);
         res.redirect('/api-keys');
     }
 });
@@ -241,7 +241,7 @@ const handleRegenerateApiKey = asyncHandler(async (req, res) => {
         const oldApiKey = await ApiKey.findById(req.params.id);
         
         if (!oldApiKey) {
-            req.flash('error', 'API Key not found');
+            // req.flash('error', 'API Key not found');
             return res.redirect('/api-keys');
         }
         
@@ -265,12 +265,12 @@ const handleRegenerateApiKey = asyncHandler(async (req, res) => {
         
         // Store the API key temporarily in session to show it once
         req.session.newApiKey = result.api_key;
-        req.flash('success', 'API Key regenerated successfully. The old key has been deactivated.');
+        // req.flash('success', 'API Key regenerated successfully. The old key has been deactivated.');
         
         res.redirect(`/api-keys/${result.api_key_id}/show`);
     } catch (error) {
         logger.error('Error regenerating API key:', error);
-        req.flash('error', error.message);
+        // req.flash('error', error.message);
         res.redirect('/api-keys');
     }
 });
@@ -280,7 +280,7 @@ const showApiLogs = asyncHandler(async (req, res) => {
     const apiKey = await ApiKey.findById(req.params.id);
     
     if (!apiKey) {
-        req.flash('error', 'API Key not found');
+        // req.flash('error', 'API Key not found');
         return res.redirect('/api-keys');
     }
     

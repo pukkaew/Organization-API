@@ -37,10 +37,10 @@ const index = asyncHandler(async (req, res) => {
             title: 'Dashboard',
             activeMenu: 'dashboard',
             stats: {
-                companies: 0,
-                branches: 0,
-                divisions: 0,
-                departments: 0,
+                totalCompanies: 0,
+                totalBranches: 0,
+                totalDivisions: 0,
+                totalDepartments: 0,
                 active_divisions: 0,
                 headquarters_count: 0
             },
@@ -60,14 +60,14 @@ const getChartData = asyncHandler(async (req, res) => {
     
     let data;
     switch (type) {
-        case 'organization':
-            data = await organizationService.getOrganizationChartData();
-            break;
-        case 'api':
-            data = await apiLogService.getUsageChartData(period);
-            break;
-        default:
-            return res.status(400).json({ error: 'Invalid chart type' });
+    case 'organization':
+        data = await organizationService.getOrganizationChartData();
+        break;
+    case 'api':
+        data = await apiLogService.getUsageChartData(period);
+        break;
+    default:
+        return res.status(400).json({ error: 'Invalid chart type' });
     }
     
     res.json({ success: true, data });

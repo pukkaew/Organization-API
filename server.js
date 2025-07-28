@@ -10,7 +10,6 @@ const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const session = require('express-session');
 const MSSQLStore = require('connect-mssql')(session);
-const flash = require('connect-flash');
 const csrf = require('csurf');
 const mongoSanitize = require('express-mongo-sanitize');
 const methodOverride = require('method-override');
@@ -23,6 +22,7 @@ const { validateEnv } = require('./src/config/validateEnv');
 // Import routes
 const webRoutes = require('./src/routes/web');
 const apiRoutes = require('./src/routes/api');
+const authApiRoutes = require('./src/routes/authApi');
 
 // Import middleware - Fixed destructuring
 const { errorHandler } = require('./src/middleware/errorHandler');
@@ -114,8 +114,6 @@ if (process.env.NODE_ENV === 'production' && process.env.DB_SERVER && process.en
 
 app.use(session(sessionConfig));
 
-// Flash messages
-app.use(flash());
 
 // CSRF protection (enabled for production, optional for development)
 const csrfProtection = csrf({ cookie: false });
@@ -165,7 +163,30 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 // Routes - API routes must come first to avoid web auth middleware
+app.use('/api/auth', authApiRoutes);
 app.use('/api', apiRoutes);
+
+// Test route (before web routes to avoid auth)  
+app.get('/debug/test-companies', async (req, res) => {
+    try {
+        const Company = require('./src/models/Company');
+        const result = await Company.findPaginated(1, 5, {});
+        
+        res.json({
+            success: true,
+            data: result.data,
+            pagination: result.pagination
+        });
+        
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message,
+            stack: error.stack
+        });
+    }
+});
+
 app.use('/', webRoutes);
 
 // 404 handler

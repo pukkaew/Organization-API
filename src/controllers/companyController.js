@@ -153,7 +153,19 @@ const showCompaniesPage = asyncHandler(async (req, res) => {
     };
 
     logger.debug('Company list request:', { page, limit, filters });
-    const result = await Company.findPaginated(page, limit, filters);
+    logger.info('About to call Company.findPaginated');
+    
+    let result;
+    try {
+        result = await Company.findPaginated(page, limit, filters);
+        logger.info('Company.findPaginated successful:', { resultDataLength: result.data.length });
+    } catch (error) {
+        logger.error('Company.findPaginated failed:', { 
+            message: error.message,
+            stack: error.stack 
+        });
+        throw error;
+    }
     
     res.render('companies/index', {
         title: 'Companies',
@@ -161,8 +173,6 @@ const showCompaniesPage = asyncHandler(async (req, res) => {
         pagination: result.pagination,
         filters: filters,
         query: req.query,
-        success: req.flash('success'),
-        error: req.flash('error')
     });
 });
 
@@ -170,8 +180,7 @@ const showCompaniesPage = asyncHandler(async (req, res) => {
 const showCreateCompanyForm = asyncHandler(async (req, res) => {
     res.render('companies/create', {
         title: 'Create Company',
-        csrfToken: req.csrfToken ? req.csrfToken() : '',
-        error: req.flash('error')
+        csrfToken: req.csrfToken ? req.csrfToken() : ''
     });
 });
 
@@ -183,7 +192,6 @@ const showEditCompanyForm = asyncHandler(async (req, res) => {
         
         if (!company) {
             logger.warn('Company not found for edit:', { code: req.params.code });
-            req.flash('error', 'Company not found');
             return res.redirect('/companies');
         }
         
@@ -209,11 +217,9 @@ const showEditCompanyForm = asyncHandler(async (req, res) => {
         res.render('companies/edit', {
             title: 'Edit Company',
             company: safeCompany,
-            error: req.flash('error')
         });
     } catch (error) {
         logger.error('Error in showEditCompanyForm:', error);
-        req.flash('error', 'An error occurred while loading the edit form: ' + error.message);
         res.redirect('/companies');
     }
 });
@@ -235,11 +241,9 @@ const handleCreateCompany = asyncHandler(async (req, res) => {
         const company = new Company(companyData);
         await company.create();
         
-        req.flash('success', 'Company created successfully');
         res.redirect('/companies');
     } catch (error) {
         logger.error('Error creating company:', error);
-        req.flash('error', error.message);
         res.redirect('/companies/new');
     }
 });
@@ -250,13 +254,11 @@ const handleUpdateCompany = asyncHandler(async (req, res) => {
         const company = await Company.findByCode(req.params.code);
         
         if (!company) {
-            req.flash('error', 'Company not found');
             return res.redirect('/companies');
         }
         
         // Validate required fields
         if (!req.body.company_name_th || req.body.company_name_th.trim() === '') {
-            req.flash('error', 'Thai company name is required');
             return res.redirect(`/companies/${req.params.code}/edit`);
         }
         
@@ -264,7 +266,6 @@ const handleUpdateCompany = asyncHandler(async (req, res) => {
         if (req.body.tax_id && req.body.tax_id.trim() !== '') {
             const taxId = req.body.tax_id.trim();
             if (!/^[0-9]{13}$/.test(taxId)) {
-                req.flash('error', 'Tax ID must be exactly 13 digits');
                 return res.redirect(`/companies/${req.params.code}/edit`);
             }
         }
@@ -286,11 +287,9 @@ const handleUpdateCompany = asyncHandler(async (req, res) => {
         
         logger.info(`Company updated: ${company.company_code} by ${company.updated_by}`);
         
-        req.flash('success', 'Company updated successfully');
         res.redirect('/companies');
     } catch (error) {
         logger.error('Error updating company:', error);
-        req.flash('error', error.message || 'An error occurred while updating the company');
         res.redirect(`/companies/${req.params.code}/edit`);
     }
 });
@@ -301,18 +300,15 @@ const handleToggleStatus = asyncHandler(async (req, res) => {
         const company = await Company.findByCode(req.params.code);
         
         if (!company) {
-            req.flash('error', 'Company not found');
             return res.redirect('/companies');
         }
         
         const newStatus = !company.is_active;
         await Company.updateStatus(req.params.code, newStatus, req.user?.username || 'admin');
         
-        req.flash('success', `Company ${newStatus ? 'activated' : 'deactivated'} successfully`);
         res.redirect('/companies');
     } catch (error) {
         logger.error('Error toggling company status:', error);
-        req.flash('error', error.message);
         res.redirect('/companies');
     }
 });
@@ -323,7 +319,6 @@ const handleDeleteCompany = asyncHandler(async (req, res) => {
         const company = await Company.findByCode(req.params.code);
         
         if (!company) {
-            req.flash('error', 'Company not found');
             return res.redirect('/companies');
         }
         
@@ -332,11 +327,9 @@ const handleDeleteCompany = asyncHandler(async (req, res) => {
         
         logger.info(`Company deleted: ${req.params.code} by ${req.user?.username || 'system'}`);
         
-        req.flash('success', 'Company deleted successfully');
         res.redirect('/companies');
     } catch (error) {
         logger.error('Error deleting company:', error);
-        req.flash('error', error.message || 'Failed to delete company');
         res.redirect('/companies');
     }
 });

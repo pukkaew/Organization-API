@@ -17,8 +17,14 @@ describe('Branch Model', () => {
                     branch_code: 'ABC-HQ',
                     branch_name: 'สำนักงานใหญ่',
                     company_code: 'ABC',
-                    company_name: 'บริษัท เอบีซี จำกัด',
-                    is_headquarters: true
+                    company_name_th: 'บริษัท เอบีซี จำกัด',
+                    company_name_en: 'ABC Company Limited',
+                    is_headquarters: true,
+                    is_active: true,
+                    created_date: undefined,
+                    created_by: undefined,
+                    updated_date: undefined,
+                    updated_by: undefined
                 }
             ];
 

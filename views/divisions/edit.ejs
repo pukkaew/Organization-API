@@ -5,11 +5,7 @@
 }) %>
 <%- include('../partials/navigation', { 
     activeMenu: 'divisions',
-    user: typeof user !== 'undefined' ? user : null,
-    success: typeof success !== 'undefined' ? success : null,
-    error: typeof error !== 'undefined' ? error : null,
-    warning: typeof warning !== 'undefined' ? warning : null,
-    info: typeof info !== 'undefined' ? info : null
+    user: typeof user !== 'undefined' ? user : null
 }) %>
 
 <!-- Main Content -->
@@ -86,7 +82,7 @@
                         <!-- Branch -->
                         <div>
                             <label for="branch_code" class="form-label text-gray-800 font-semibold flex items-center">
-                                <span class="text-lg mr-2">🌿</span>
+                                <span class="text-lg mr-2"><i class="fas fa-leaf"></i></span>
                                 Branch
                             </label>
                             <select id="branch_code" 

@@ -27,8 +27,6 @@ const showBranchesPage = asyncHandler(async (req, res) => {
         companies: companies,
         filters: filters,
         query: req.query,
-        success: req.flash('success'),
-        error: req.flash('error')
     });
 });
 
@@ -41,7 +39,6 @@ const showCreateBranchForm = asyncHandler(async (req, res) => {
         companies: companies,
         selectedCompany: req.query.company_code,
         csrfToken: req.csrfToken ? req.csrfToken() : '',
-        error: req.flash('error')
     });
 });
 
@@ -53,7 +50,6 @@ const showEditBranchForm = asyncHandler(async (req, res) => {
         
         if (!branch) {
             logger.warn('Branch not found for edit:', { code: req.params.code });
-            req.flash('error', 'Branch not found');
             return res.redirect('/branches');
         }
         
@@ -82,11 +78,9 @@ const showEditBranchForm = asyncHandler(async (req, res) => {
             title: 'Edit Branch',
             branch: safeBranch,
             companies: companies || [],
-            error: req.flash('error')
         });
     } catch (error) {
         logger.error('Error in showEditBranchForm:', error);
-        req.flash('error', 'An error occurred while loading the edit form: ' + error.message);
         res.redirect('/branches');
     }
 });
@@ -108,11 +102,9 @@ const handleCreateBranch = asyncHandler(async (req, res) => {
         
         logger.info(`Branch created: ${branch.branch_code} by ${branchData.created_by}`);
         
-        req.flash('success', 'Branch created successfully');
         res.redirect('/branches');
     } catch (error) {
         logger.error('Error creating branch:', error);
-        req.flash('error', error.message || 'Failed to create branch');
         res.redirect('/branches/new');
     }
 });
@@ -123,13 +115,11 @@ const handleUpdateBranch = asyncHandler(async (req, res) => {
         const branch = await Branch.findByCode(req.params.code);
         
         if (!branch) {
-            req.flash('error', 'Branch not found');
             return res.redirect('/branches');
         }
         
         // Validate required fields
         if (!req.body.branch_name || req.body.branch_name.trim() === '') {
-            req.flash('error', 'Branch name is required');
             return res.redirect(`/branches/${req.params.code}/edit`);
         }
         
@@ -145,11 +135,9 @@ const handleUpdateBranch = asyncHandler(async (req, res) => {
         
         logger.info(`Branch updated: ${branch.branch_code} by ${branch.updated_by}`);
         
-        req.flash('success', 'Branch updated successfully');
         res.redirect('/branches');
     } catch (error) {
         logger.error('Error updating branch:', error);
-        req.flash('error', error.message || 'An error occurred while updating the branch');
         res.redirect(`/branches/${req.params.code}/edit`);
     }
 });
@@ -160,7 +148,6 @@ const handleToggleStatus = asyncHandler(async (req, res) => {
         const branch = await Branch.findByCode(req.params.code);
         
         if (!branch) {
-            req.flash('error', 'Branch not found');
             return res.redirect('/branches');
         }
         
@@ -169,11 +156,9 @@ const handleToggleStatus = asyncHandler(async (req, res) => {
         
         logger.info(`Branch status updated: ${req.params.code} to ${newStatus ? 'active' : 'inactive'}`);
         
-        req.flash('success', `Branch ${newStatus ? 'activated' : 'deactivated'} successfully`);
         res.redirect('/branches');
     } catch (error) {
         logger.error('Error toggling branch status:', error);
-        req.flash('error', error.message);
         res.redirect('/branches');
     }
 });
@@ -271,7 +256,6 @@ const handleDeleteBranch = asyncHandler(async (req, res) => {
         const branch = await Branch.findByCode(req.params.code);
         
         if (!branch) {
-            req.flash('error', 'Branch not found');
             return res.redirect('/branches');
         }
         
@@ -280,11 +264,9 @@ const handleDeleteBranch = asyncHandler(async (req, res) => {
         
         logger.info(`Branch deleted: ${req.params.code} by ${req.user?.username || 'system'}`);
         
-        req.flash('success', 'Branch deleted successfully');
         res.redirect('/branches');
     } catch (error) {
         logger.error('Error deleting branch:', error);
-        req.flash('error', error.message || 'Failed to delete branch');
         res.redirect('/branches');
     }
 });

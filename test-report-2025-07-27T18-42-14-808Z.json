@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-07-27T18:42:14.808Z",
+  "environment": {
+    "url": "http://localhost:3008",
+    "database": "MSSQL",
+    "server": "45.136.253.81"
+  },
+  "summary": {
+    "passed": 1,
+    "failed": 0,
+    "errors": 1,
+    "total": 2
+  },
+  "results": [
+    {
+      "test": "Server Check",
+      "status": "PASS",
+      "details": "Server is running",
+      "time": "2025-07-27T18:41:41.156Z"
+    },
+    {
+      "test": "Browser Test",
+      "status": "ERROR",
+      "details": "Navigation timeout of 30000 ms exceeded",
+      "time": "2025-07-27T18:42:11.573Z"
+    }
+  ]
+}
