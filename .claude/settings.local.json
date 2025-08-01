@@ -78,7 +78,8 @@
       "Bash(tskill:*)",
       "Bash(git rm:*)",
       "Bash(pgrep:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(del:*)"
     ],
     "deny": []
   }
