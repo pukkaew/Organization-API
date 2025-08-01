@@ -1,0 +1,204 @@
+/* Performance Optimized CSS for Ruxchai Cold Storage */
+/* ============================================== */
+
+/* CSS Performance Optimizations */
+
+/* 1. Use transform instead of changing layout properties */
+.fast-hover {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  will-change: transform;
+}
+
+.fast-hover:hover {
+  transform: translateY(-1px);
+}
+
+/* 2. Simplified button animations */
+.btn-fast {
+  transition: all 0.15s ease;
+  will-change: transform, box-shadow;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.btn-fast:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-fast:active {
+  transform: translateY(0);
+  transition: transform 0.05s ease;
+}
+
+/* 3. GPU-accelerated animations */
+.gpu-optimized {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* 4. Reduced motion for performance */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 5. Optimized loading states */
+.loading-fast {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer-fast 1s infinite ease-in-out;
+}
+
+@keyframes shimmer-fast {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* 6. Fast fade effects */
+.fade-fast {
+  transition: opacity 0.15s ease;
+}
+
+.fade-fast.hidden {
+  opacity: 0;
+}
+
+/* 7. Simple scale effects */
+.scale-fast {
+  transition: transform 0.1s ease;
+  will-change: transform;
+}
+
+.scale-fast:hover {
+  transform: scale(1.02);
+}
+
+.scale-fast:active {
+  transform: scale(0.98);
+}
+
+/* 8. Optimized shadows */
+.shadow-fast {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.15s ease;
+}
+
+.shadow-fast:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 9. Performance-focused table styles */
+.table-fast {
+  contain: layout style;
+}
+
+.table-fast tr {
+  transition: background-color 0.1s ease;
+}
+
+.table-fast tr:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+/* 10. Fast navigation animations */
+.nav-fast {
+  transition: all 0.1s ease;
+  will-change: transform, background-color;
+}
+
+.nav-fast:hover {
+  transform: translateY(-1px);
+  background-color: rgba(0, 144, 211, 0.1);
+}
+
+/* 11. Simplified mobile animations */
+@media (max-width: 768px) {
+  .btn, .nav-item, .card {
+    transition: all 0.1s ease !important;
+  }
+  
+  .btn:hover, .nav-item:hover, .card:hover {
+    transform: none !important;
+  }
+}
+
+/* 12. Container queries for better performance */
+.container-optimized {
+  contain: layout style paint;
+}
+
+/* 13. Debounced scroll effects */
+.scroll-optimized {
+  transform: translateZ(0);
+  will-change: scroll-position;
+}
+
+/* 14. Fast icon transitions */
+.icon-fast {
+  transition: transform 0.1s ease;
+  will-change: transform;
+}
+
+.icon-fast:hover {
+  transform: scale(1.1);
+}
+
+/* 15. Performance CSS Variables */
+:root {
+  --fast-transition: 0.15s ease;
+  --instant-transition: 0.05s ease;
+  --slow-transition: 0.3s ease;
+}
+
+/* Usage Classes */
+.use-fast { transition: all var(--fast-transition); }
+.use-instant { transition: all var(--instant-transition); }
+.use-slow { transition: all var(--slow-transition); }
+
+/* Critical Path CSS - Above the fold */
+.critical-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: 0.625rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  will-change: transform;
+}
+
+.critical-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* Non-critical animations - can be loaded later */
+.non-critical-animation {
+  animation: none;
+}
+
+@media (min-width: 768px) {
+  .non-critical-animation {
+    animation: fadeIn 0.3s ease;
+  }
+}
+
+/* Reduce paint operations */
+.no-paint {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Optimize for mobile */
+@media (max-width: 480px) {
+  * {
+    transition-duration: 0.1s !important;
+    animation-duration: 0.2s !important;
+  }
+}

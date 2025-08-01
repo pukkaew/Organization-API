@@ -1,110 +1,308 @@
-<!-- Path: /views/partials/navigation.ejs -->
-<!-- Navigation -->
-<nav class="bg-white shadow-2xl border-b border-blue-100">
-    <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
-        <div class="flex h-16 items-center justify-between">
-            <div class="flex items-center min-w-0">
-                <div class="flex-shrink-0">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-ruxchai-blue rounded-xl flex items-center justify-center shadow-lg">
-                            <i class="fas fa-building text-white text-lg"></i>
+<!-- Modern Navigation Bar -->
+<nav class="bg-white shadow-lg sticky top-0 z-50 border-b border-gray-100">
+    <div class="container mx-auto px-4 lg:px-6">
+        <div class="flex items-center h-16 justify-between">
+            <!-- Logo & Brand -->
+            <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-gradient-ruxchai rounded-xl flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                    <span class="text-white text-xl font-bold">🏢</span>
+                </div>
+                <div class="hidden sm:block">
+                    <h1 class="text-xl font-bold text-ruxchai-blue leading-tight">Ruxchai Cold Storage</h1>
+                    <p class="text-sm text-ruxchai-grey">ระบบจัดการโครงสร้างองค์กร</p>
+                </div>
+            </div>
+
+            <!-- Main Navigation Menu -->
+            <div class="hidden lg:flex items-center space-x-2 ml-8 fast-nav">
+                <a href="/" class="nav-item fast-nav <%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'active' : '' %>">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <a href="/companies" class="nav-item fast-nav <%= typeof activeMenu !== 'undefined' && activeMenu === 'companies' ? 'active' : '' %>">
+                    <span class="nav-icon">🏢</span>
+                    <span class="nav-text">บริษัท</span>
+                </a>
+                <a href="/branches" class="nav-item fast-nav <%= typeof activeMenu !== 'undefined' && activeMenu === 'branches' ? 'active' : '' %>">
+                    <span class="nav-icon">🏪</span>
+                    <span class="nav-text">สาขา</span>
+                </a>
+                <a href="/divisions" class="nav-item fast-nav <%= typeof activeMenu !== 'undefined' && activeMenu === 'divisions' ? 'active' : '' %>">
+                    <span class="nav-icon">🏛️</span>
+                    <span class="nav-text">ฝ่าย</span>
+                </a>
+                <a href="/departments" class="nav-item fast-nav <%= typeof activeMenu !== 'undefined' && activeMenu === 'departments' ? 'active' : '' %>">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-text">แผนก</span>
+                </a>
+                <a href="/api-keys" class="nav-item fast-nav <%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'active' : '' %>">
+                    <span class="nav-icon">🔐</span>
+                    <span class="nav-text">API Keys</span>
+                </a>
+            </div>
+
+            <!-- User Info & Actions -->
+            <div class="flex items-center space-x-3">
+                <% if (typeof user !== 'undefined' && user) { %>
+                    <div class="hidden md:flex items-center space-x-3 bg-gradient-to-r from-blue-50 to-indigo-50 px-4 py-2 rounded-full border border-blue-200">
+                        <div class="w-8 h-8 bg-ruxchai-blue rounded-full flex items-center justify-center">
+                            <span class="text-white text-sm font-bold">👤</span>
                         </div>
-                        <h1 class="text-lg sm:text-xl font-bold text-ruxchai-blue truncate">
-                            <span class="hidden sm:inline">Organization</span> Management
-                        </h1>
+                        <div class="hidden lg:block">
+                            <p class="text-sm font-semibold text-gray-800"><%= user.username || 'User' %></p>
+                            <p class="text-xs text-gray-500"><%= user.role === 'admin' ? 'ผู้ดูแลระบบ' : 'ผู้ใช้งาน' %></p>
+                        </div>
                     </div>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-1">
-                        <a href="/" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'bg-ruxchai-blue text-white shadow-lg transform scale-105' : 'text-ruxchai-grey hover:bg-blue-50 hover:text-ruxchai-blue' %> rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 flex items-center space-x-2">
-                            <i class="fas fa-tachometer-alt w-4 <%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'text-white' : 'text-blue-600' %>"></i> <span>Dashboard</span>
-                        </a>
-                        <a href="/companies" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'companies' ? 'bg-ruxchai-blue text-white shadow-lg transform scale-105' : 'text-ruxchai-grey hover:bg-blue-50 hover:text-ruxchai-blue' %> rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 flex items-center space-x-2">
-                            <i class="fas fa-building w-4 <%= typeof activeMenu !== 'undefined' && activeMenu === 'companies' ? 'text-white' : 'text-blue-500' %>"></i> <span>Companies</span>
-                        </a>
-                        <a href="/branches" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'branches' ? 'bg-ruxchai-green text-white shadow-lg transform scale-105' : 'text-ruxchai-grey hover:bg-green-50 hover:text-ruxchai-green' %> rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 flex items-center space-x-2">
-                            <i class="fas fa-code-branch w-4 <%= typeof activeMenu !== 'undefined' && activeMenu === 'branches' ? 'text-white' : 'text-ruxchai-green' %>"></i> <span>Branches</span>
-                        </a>
-                        <a href="/divisions" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'divisions' ? 'bg-ruxchai-blue text-white shadow-lg transform scale-105' : 'text-ruxchai-grey hover:bg-blue-50 hover:text-ruxchai-blue' %> rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 flex items-center space-x-2">
-                            <i class="fas fa-sitemap w-4 <%= typeof activeMenu !== 'undefined' && activeMenu === 'divisions' ? 'text-white' : 'text-ruxchai-blue' %>"></i> <span>Divisions</span>
-                        </a>
-                        <a href="/departments" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'departments' ? 'bg-ruxchai-green text-white shadow-lg transform scale-105' : 'text-ruxchai-grey hover:bg-green-50 hover:text-ruxchai-green' %> rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 flex items-center space-x-2">
-                            <i class="fas fa-users w-4 <%= typeof activeMenu !== 'undefined' && activeMenu === 'departments' ? 'text-white' : 'text-ruxchai-green' %>"></i> <span>Departments</span>
-                        </a>
-                        <a href="/api-keys" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'bg-ruxchai-blue text-white shadow-lg transform scale-105' : 'text-ruxchai-grey hover:bg-blue-50 hover:text-ruxchai-blue' %> rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-300 flex items-center space-x-2">
-                            <i class="fas fa-key w-4 <%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'text-white' : 'text-ruxchai-blue' %>"></i> <span>API Keys</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="hidden md:block">
-                <div class="ml-4 flex items-center md:ml-6 space-x-3">
-                    <button type="button" class="group w-10 h-10 rounded-full bg-ruxchai-green flex items-center justify-center text-white hover:bg-green-600 transition-all duration-300 transform hover:scale-110 shadow-lg hover:shadow-xl">
-                        <span class="sr-only">View notifications</span>
-                        <i class="fas fa-bell text-lg group-hover:animate-bounce"></i>
-                    </button>
-                    <a href="/docs" class="group inline-flex items-center px-4 py-2 bg-ruxchai-blue text-white rounded-lg hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm font-medium">
-                        <i class="fas fa-book text-base mr-2 group-hover:rotate-12 transition-transform duration-300"></i> API Docs
-                    </a>
-                    <div class="flex items-center space-x-3">
-                        <% if (typeof user !== 'undefined' && user) { %>
-                            <div class="flex items-center px-4 py-2 bg-gray-50 rounded-lg shadow-sm text-sm text-ruxchai-grey">
-                                <i class="fas fa-user text-base mr-2"></i>
-                                <span class="font-medium"><%= user.username || 'User' %></span>
-                            </div>
-                        <% } %>
-                        <a href="/logout" class="group inline-flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-sm font-medium">
-                            <i class="fas fa-sign-out-alt text-base mr-2 group-hover:rotate-12 transition-transform duration-300"></i> Logout
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="-mr-2 flex md:hidden">
-                <button type="button" class="group inline-flex items-center justify-center rounded-md bg-ruxchai-blue p-3 text-white hover:bg-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl" id="mobile-menu-button">
-                    <span class="sr-only">Open main menu</span>
-                    <i class="fas fa-bars text-xl group-hover:rotate-180 transition-transform duration-300"></i>
+                <% } %>
+                
+                <a href="/logout" class="logout-btn">
+                    <span class="logout-icon">🚪</span>
+                    <span class="hidden md:inline logout-text">ออกจากระบบ</span>
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button type="button" class="lg:hidden mobile-menu-btn" id="mobile-menu-button">
+                    <span class="hamburger-icon">☰</span>
                 </button>
             </div>
         </div>
     </div>
     
     <!-- Mobile menu -->
-    <div class="md:hidden hidden" id="mobile-menu">
-        <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3 bg-gray-50">
-            <a href="/" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'bg-ruxchai-blue text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-ruxchai-blue' %> flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105">
-                <i class="fas fa-tachometer-alt <%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'text-white' : 'text-blue-600' %>"></i> <span>Dashboard</span>
+    <div class="lg:hidden hidden" id="mobile-menu">
+        <div class="px-4 pt-4 pb-4 space-y-2 bg-gradient-to-br from-gray-50 to-gray-100 border-t border-gray-200">
+            <a href="/" class="mobile-nav-item fast-nav <%= typeof activeMenu !== 'undefined' && activeMenu === 'dashboard' ? 'active' : '' %>">
+                <span class="mobile-nav-icon">📊</span>
+                <span class="mobile-nav-text">Dashboard</span>
             </a>
-            <a href="/companies" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'companies' ? 'bg-ruxchai-blue text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-ruxchai-blue' %> flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105">
-                <i class="fas fa-building <%= typeof activeMenu !== 'undefined' && activeMenu === 'companies' ? 'text-white' : 'text-blue-500' %>"></i> <span>Companies</span>
+            <a href="/companies" class="mobile-nav-item fast-nav <%= typeof activeMenu !== 'undefined' && activeMenu === 'companies' ? 'active' : '' %>">
+                <span class="mobile-nav-icon">🏢</span>
+                <span class="mobile-nav-text">บริษัท</span>
             </a>
-            <a href="/branches" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'branches' ? 'bg-ruxchai-green text-white shadow-lg' : 'text-gray-700 hover:bg-green-50 hover:text-ruxchai-green' %> flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105">
-                <i class="fas fa-code-branch <%= typeof activeMenu !== 'undefined' && activeMenu === 'branches' ? 'text-white' : 'text-ruxchai-green' %>"></i> <span>Branches</span>
+            <a href="/branches" class="mobile-nav-item fast-nav <%= typeof activeMenu !== 'undefined' && activeMenu === 'branches' ? 'active' : '' %>">
+                <span class="mobile-nav-icon">🏪</span>
+                <span class="mobile-nav-text">สาขา</span>
             </a>
-            <a href="/divisions" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'divisions' ? 'bg-ruxchai-blue text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-ruxchai-blue' %> flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105">
-                <i class="fas fa-sitemap <%= typeof activeMenu !== 'undefined' && activeMenu === 'divisions' ? 'text-white' : 'text-ruxchai-blue' %>"></i> <span>Divisions</span>
+            <a href="/divisions" class="mobile-nav-item fast-nav <%= typeof activeMenu !== 'undefined' && activeMenu === 'divisions' ? 'active' : '' %>">
+                <span class="mobile-nav-icon">🏛️</span>
+                <span class="mobile-nav-text">ฝ่าย</span>
             </a>
-            <a href="/departments" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'departments' ? 'bg-ruxchai-green text-white shadow-lg' : 'text-gray-700 hover:bg-green-50 hover:text-ruxchai-green' %> flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105">
-                <i class="fas fa-users <%= typeof activeMenu !== 'undefined' && activeMenu === 'departments' ? 'text-white' : 'text-ruxchai-green' %>"></i> <span>Departments</span>
+            <a href="/departments" class="mobile-nav-item fast-nav <%= typeof activeMenu !== 'undefined' && activeMenu === 'departments' ? 'active' : '' %>">
+                <span class="mobile-nav-icon">👥</span>
+                <span class="mobile-nav-text">แผนก</span>
             </a>
-            <a href="/api-keys" class="<%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'bg-ruxchai-blue text-white shadow-lg' : 'text-gray-700 hover:bg-blue-50 hover:text-ruxchai-blue' %> flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105">
-                <i class="fas fa-key <%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'text-white' : 'text-ruxchai-blue' %>"></i> <span>API Keys</span>
+            <a href="/api-keys" class="mobile-nav-item fast-nav <%= typeof activeMenu !== 'undefined' && activeMenu === 'api-keys' ? 'active' : '' %>">
+                <span class="mobile-nav-icon">🔐</span>
+                <span class="mobile-nav-text">API Keys</span>
             </a>
-            <a href="/docs" class="text-gray-700 hover:bg-blue-50 hover:text-ruxchai-blue flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105">
-                <i class="fas fa-book text-ruxchai-blue"></i> <span>API Docs</span>
-            </a>
-            <hr class="my-3 border-gray-300">
-            <% if (typeof user !== 'undefined' && user) { %>
-                <div class="px-4 py-3 text-sm font-medium text-ruxchai-grey bg-gray-50 rounded-xl flex items-center space-x-3 shadow-sm">
-                    <i class="fas fa-user text-lg"></i>
-                    <span><%= user.username || 'User' %></span>
-                </div>
-            <% } %>
-            <a href="/logout" class="text-white bg-red-500 hover:bg-red-600 flex items-center space-x-3 rounded-xl px-4 py-3 text-base font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                <i class="fas fa-sign-out-alt text-lg mr-2"></i> <span>Logout</span>
-            </a>
+            
+            <div class="border-t border-gray-300 pt-4 mt-4">
+                <% if (typeof user !== 'undefined' && user) { %>
+                    <div class="flex items-center space-x-3 px-4 py-3 mb-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200">
+                        <div class="w-10 h-10 bg-ruxchai-blue rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold">👤</span>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800"><%= user.username || 'User' %></p>
+                            <p class="text-xs text-gray-500"><%= user.role === 'admin' ? 'ผู้ดูแลระบบ' : 'ผู้ใช้งาน' %></p>
+                        </div>
+                    </div>
+                <% } %>
+                <a href="/logout" class="mobile-logout-item">
+                    <span class="mobile-logout-icon">🚪</span>
+                    <span class="mobile-logout-text">ออกจากระบบ</span>
+                </a>
+            </div>
         </div>
     </div>
 </nav>
+
+<style>
+    /* Navigation Styles */
+    .nav-item {
+        display: flex;
+        align-items: center;
+        space-x: 2;
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        transition: all 0.15s ease;
+        text-decoration: none;
+        color: #6b7280;
+        font-weight: 500;
+        font-size: 0.875rem;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .nav-item:hover {
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        color: #0090D3;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 144, 211, 0.15);
+    }
+    
+    .nav-item.active {
+        background: linear-gradient(135deg, #0090D3 0%, #047685 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(0, 144, 211, 0.4);
+    }
+    
+    .nav-item.active:hover {
+        background: linear-gradient(135deg, #0080c7 0%, #036975 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(0, 144, 211, 0.5);
+    }
+    
+    .nav-icon {
+        font-size: 1.125rem;
+        margin-right: 0.5rem;
+    }
+    
+    .nav-text {
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+    
+    /* Logout Button */
+    .logout-btn {
+        display: flex;
+        align-items: center;
+        space-x: 2;
+        padding: 0.5rem 1rem;
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: white;
+        border-radius: 0.75rem;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+    }
+    
+    .logout-btn:hover {
+        background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+        color: white;
+    }
+    
+    .logout-icon {
+        font-size: 1rem;
+        margin-right: 0.25rem;
+    }
+    
+    .logout-text {
+        font-size: 0.875rem;
+    }
+    
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+        padding: 0.5rem;
+        background: #f3f4f6;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+    }
+    
+    .mobile-menu-btn:hover {
+        background: #e5e7eb;
+        border-color: #d1d5db;
+    }
+    
+    .hamburger-icon {
+        font-size: 1.25rem;
+        color: #374151;
+    }
+    
+    /* Mobile Navigation Items */
+    .mobile-nav-item {
+        display: flex;
+        align-items: center;
+        space-x: 3;
+        padding: 0.875rem 1rem;
+        background: white;
+        border-radius: 0.75rem;
+        text-decoration: none;
+        color: #374151;
+        font-weight: 500;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+        border: 1px solid #e5e7eb;
+        margin-bottom: 0.5rem;
+    }
+    
+    .mobile-nav-item:hover {
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        color: #0090D3;
+        border-color: #0090D3;
+        transform: translateX(4px);
+    }
+    
+    .mobile-nav-item.active {
+        background: linear-gradient(135deg, #0090D3 0%, #047685 100%);
+        color: white;
+        border-color: #0090D3;
+        box-shadow: 0 4px 12px rgba(0, 144, 211, 0.3);
+    }
+    
+    .mobile-nav-icon {
+        font-size: 1.25rem;
+        margin-right: 0.75rem;
+    }
+    
+    .mobile-nav-text {
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+    
+    /* Mobile Logout */
+    .mobile-logout-item {
+        display: flex;
+        align-items: center;
+        space-x: 3;
+        padding: 0.875rem 1rem;
+        background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        border: 1px solid #fecaca;
+        border-radius: 0.75rem;
+        text-decoration: none;
+        color: #dc2626;
+        font-weight: 500;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+    }
+    
+    .mobile-logout-item:hover {
+        background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+        color: white;
+        border-color: #dc2626;
+        transform: translateX(4px);
+    }
+    
+    .mobile-logout-icon {
+        font-size: 1.25rem;
+        margin-right: 0.75rem;
+    }
+    
+    .mobile-logout-text {
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+    
+    /* Animation for mobile menu */
+    #mobile-menu {
+        transition: all 0.3s ease;
+    }
+    
+    #mobile-menu.hidden {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    
+    #mobile-menu:not(.hidden) {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
 
 
 

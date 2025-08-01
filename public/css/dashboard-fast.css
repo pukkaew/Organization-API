@@ -1,0 +1,153 @@
+/* Dashboard-Specific Performance Optimizations */
+/* =========================================== */
+
+/* Disable all dashboard animations */
+.dashboard-page * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Fast dashboard cards */
+.dashboard-card {
+  transition: box-shadow 0.1s ease !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+.dashboard-card:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  transform: none !important;
+}
+
+/* Remove gradient animations */
+.dashboard-page .bg-gradient-ruxchai,
+.dashboard-page .bg-gradient-green,
+.dashboard-page .bg-gradient-to-r,
+.dashboard-page .bg-gradient-to-br {
+  background-image: none !important;
+}
+
+.dashboard-page .bg-gradient-ruxchai {
+  background: #0090D3 !important;
+}
+
+.dashboard-page .bg-gradient-green {
+  background: #3AAA35 !important;
+}
+
+/* Simplify hover states */
+.dashboard-page a:hover {
+  opacity: 0.9;
+  transition: opacity 0.1s ease !important;
+}
+
+/* Remove pulse animations */
+.dashboard-page .animate-pulse {
+  animation: none !important;
+}
+
+/* Optimize stat cards */
+.stat-card {
+  contain: layout style;
+  will-change: auto !important;
+}
+
+/* Fast loading states */
+.dashboard-loading {
+  background: #f5f5f5;
+  animation: none !important;
+}
+
+/* Disable icon animations */
+.dashboard-page .icon {
+  transition: none !important;
+  transform: none !important;
+}
+
+/* Optimize grid layout */
+.dashboard-grid {
+  contain: layout;
+  will-change: auto;
+}
+
+/* Fast button states */
+.dashboard-page .btn {
+  transition: background-color 0.1s ease !important;
+}
+
+.dashboard-page .btn:hover {
+  transform: none !important;
+}
+
+/* Remove shadow transitions */
+.dashboard-page .shadow-sm,
+.dashboard-page .shadow-md,
+.dashboard-page .shadow-lg {
+  transition: none !important;
+}
+
+/* Optimize API stats rendering */
+.api-stats {
+  contain: layout style;
+}
+
+/* Fast system status indicators */
+.status-indicator {
+  animation: none !important;
+}
+
+/* Lazy load non-critical sections */
+.dashboard-lazy {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 300px;
+}
+
+/* Critical CSS for above-the-fold */
+.dashboard-critical {
+  contain: none;
+  will-change: auto;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .dashboard-page * {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+  
+  .dashboard-card {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  }
+}
+
+/* Force GPU optimization off for better CPU performance */
+.dashboard-page {
+  transform: none !important;
+  will-change: auto !important;
+  backface-visibility: visible !important;
+  perspective: none !important;
+}
+
+/* Instant interactions */
+.dashboard-instant {
+  transition: all 0.01ms !important;
+}
+
+/* Debug slow elements */
+.dashboard-slow {
+  outline: 2px solid red !important;
+}
+
+/* Additional performance fixes */
+.dashboard-page .group:hover * {
+  transform: none !important;
+}
+
+.dashboard-page .hover\:shadow-lg:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.dashboard-page .hover\:-translate-y-1:hover {
+  transform: none !important;
+}

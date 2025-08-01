@@ -31,20 +31,49 @@ const getCompanyByCode = asyncHandler(async (req, res) => {
 // Create new company
 const createCompany = asyncHandler(async (req, res) => {
     const companyData = {
-        company_code: req.body.company_code,
-        company_name_th: req.body.company_name_th,
-        company_name_en: req.body.company_name_en,
-        tax_id: req.body.tax_id,
+        company_code: req.body.company_code?.trim(),
+        company_name_th: req.body.company_name_th?.trim(),
+        company_name_en: req.body.company_name_en?.trim(),
+        tax_id: req.body.tax_id?.trim(),
         is_active: req.body.is_active !== undefined ? req.body.is_active : true,
         created_by: req.user?.username || 'system'
     };
 
-    const company = new Company(companyData);
-    const result = await company.create();
-    
-    logger.info(`Company created: ${result.company_code} by ${companyData.created_by}`);
-    
-    created(res, result, 'Company created successfully');
+    try {
+        const company = new Company(companyData);
+        const result = await company.create();
+        
+        logger.info(`Company created: ${result.company_code} by ${companyData.created_by}`);
+        
+        // For web requests, redirect to list page
+        if (req.headers.accept && req.headers.accept.includes('text/html')) {
+            req.flash && req.flash('success', 'บริษัทถูกสร้างเรียบร้อยแล้ว');
+            return res.redirect('/companies');
+        }
+        
+        created(res, result, 'Company created successfully');
+    } catch (error) {
+        if (error.statusCode === 400 && error.validationErrors) {
+            // For web requests, render form with errors
+            if (req.headers.accept && req.headers.accept.includes('text/html')) {
+                return res.render('companies/create', {
+                    title: 'Create Company',
+                    activeMenu: 'companies',
+                    error: error.message,
+                    validationErrors: error.validationErrors,
+                    formData: companyData
+                });
+            }
+            
+            // For API requests, return JSON error
+            return res.status(400).json({
+                success: false,
+                error: error.message,
+                validationErrors: error.validationErrors
+            });
+        }
+        throw error;
+    }
 });
 
 // Update company
@@ -173,6 +202,7 @@ const showCompaniesPage = asyncHandler(async (req, res) => {
         pagination: result.pagination,
         filters: filters,
         query: req.query,
+        csrfToken: req.csrfToken ? req.csrfToken() : ''
     });
 });
 
@@ -226,24 +256,39 @@ const showEditCompanyForm = asyncHandler(async (req, res) => {
 
 // Handle create company form submission
 const handleCreateCompany = asyncHandler(async (req, res) => {
-    try {
-        logger.info('Form data received:', req.body);
-        
-        const companyData = {
-            company_code: req.body.company_code,
-            company_name_th: req.body.company_name_th,
-            company_name_en: req.body.company_name_en,
-            tax_id: req.body.tax_id,
-            is_active: req.body.is_active === 'true',
-            created_by: req.user?.username || 'admin'
-        };
+    const companyData = {
+        company_code: req.body.company_code?.trim()?.toUpperCase(),
+        company_name_th: req.body.company_name_th?.trim(),
+        company_name_en: req.body.company_name_en?.trim(),
+        tax_id: req.body.tax_id?.trim(),
+        is_active: req.body.is_active !== undefined ? req.body.is_active === 'true' : true,
+        created_by: req.user?.username || 'admin'
+    };
 
-        const company = new Company(companyData);
-        await company.create();
+    try {
+        logger.info('Creating company with data:', companyData);
         
+        const company = new Company(companyData);
+        const result = await company.create();
+        
+        logger.info(`Company created successfully: ${result.company_code} by ${companyData.created_by}`);
         res.redirect('/companies');
     } catch (error) {
         logger.error('Error creating company:', error);
+        
+        if (error.statusCode === 400 && error.validationErrors) {
+            // Render form with validation errors
+            return res.render('companies/create', {
+                title: 'Create Company',
+                activeMenu: 'companies',
+                user: req.user,
+                error: error.message,
+                validationErrors: error.validationErrors,
+                formData: companyData
+            });
+        }
+        
+        // Other errors - redirect back to form
         res.redirect('/companies/new');
     }
 });

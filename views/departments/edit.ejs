@@ -25,16 +25,16 @@
                     </div>
                 </div>
                 
-                <form method="post" action="/departments/<%= department.department_code %>" class="p-6">
+                <form method="post" action="/departments/<%= department.department_code %>" class="form-section">
                     <% if (typeof csrfToken !== 'undefined') { %>
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <% } %>
                     <input type="hidden" name="_method" value="PUT">
                     
-                    <div class="space-y-6">
+                    <div class="space-y-4">
                         <!-- Department Code (Read-only) -->
-                        <div>
-                            <label for="department_code" class="form-label text-gray-800 font-semibold flex items-center">
+                        <div class="form-group-enhanced">
+                            <label for="department_code" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
                                 <span class="text-lg mr-2"><i class="fas fa-tag"></i></span>
                                 Department Code
                             </label>
@@ -42,15 +42,15 @@
                                    id="department_code" 
                                    value="<%= department.department_code %>" 
                                    disabled
-                                   class="form-input bg-gray-100 cursor-not-allowed">
+                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed">
                             <p class="mt-1 text-sm text-gray-500">
                                 Department code cannot be changed
                             </p>
                         </div>
                         
                         <!-- Division (Read-only) -->
-                        <div>
-                            <label for="division_display" class="form-label text-gray-800 font-semibold flex items-center">
+                        <div class="form-group-enhanced">
+                            <label for="division_display" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
                                 <span class="text-lg mr-2"><i class="fas fa-building"></i></span>
                                 Division
                             </label>
@@ -58,15 +58,15 @@
                                    id="division_display" 
                                    value="<%= department.division_code %>" 
                                    disabled
-                                   class="form-input bg-gray-100 cursor-not-allowed">
+                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed">
                             <p class="mt-1 text-sm text-gray-500">
                                 Division cannot be changed
                             </p>
                         </div>
                         
                         <!-- Department Name -->
-                        <div>
-                            <label for="department_name" class="form-label text-gray-800 font-semibold flex items-center">
+                        <div class="form-group-enhanced">
+                            <label for="department_name" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
                                 <span class="text-lg mr-2">💼</span>
                                 Department Name <span class="text-red-500">*</span>
                             </label>
@@ -76,7 +76,7 @@
                                    required
                                    maxlength="200"
                                    value="<%= department.department_name %>"
-                                   class="form-input focus:ring-2 focus:ring-purple-500 focus:border-purple-500 border-gray-300 transition-all duration-200">
+                                   class="form-input-enhanced">
                         </div>
                         
                         <!-- Status Notice -->
@@ -127,7 +127,7 @@
                     
                     <!-- Form Actions -->
                     <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
-                        <a href="/departments" class="btn btn-ghost hover:bg-gray-100 transition-all duration-200">
+                        <a href="/departments" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:bg-gray-100 transition-all duration-200">
                             <i class="fas fa-arrow-left mr-2"></i>
                             Cancel
                         </a>

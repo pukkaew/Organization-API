@@ -49,34 +49,135 @@ window.OrgSystem = {
 
   // Setup animations and transitions
   setupAnimations: function() {
-    // Add fade-in animation to cards on page load
-    const cards = document.querySelectorAll('.bg-gradient-to-br, .bg-white');
-    cards.forEach((card, index) => {
-      if (card.classList.contains('rounded-xl') || card.classList.contains('rounded-lg')) {
-        setTimeout(() => {
-          card.style.opacity = '0';
-          card.style.transform = 'translateY(20px)';
-          card.style.transition = 'all 0.6s ease';
-          
-          setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-          }, 50);
-        }, index * 100);
-      }
-    });
+    // Enhanced page load animations with staggered effect
+    this.animateCardsOnLoad();
+    this.setupInteractiveHovers();
+    this.setupScrollAnimations();
+    this.setupCounters();
+    this.setupGlowEffects();
+  },
 
-    // Enhanced hover effects for interactive elements
-    const interactiveElements = document.querySelectorAll('button, a[href], .cursor-pointer');
+  // Animate cards on page load
+  animateCardsOnLoad: function() {
+    const cards = document.querySelectorAll('.bg-white, .card, [class*="rounded-"]');
+    cards.forEach((card, index) => {
+      if (card.closest('nav') || card.closest('footer')) return; // Skip nav and footer elements
+      
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(30px)';
+      card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+      
+      setTimeout(() => {
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0)';
+        card.classList.add('animate-slideUp');
+      }, index * 100 + 200); // Start after 200ms
+    });
+  },
+
+  // Enhanced interactive hover effects
+  setupInteractiveHovers: function() {
+    // Buttons and links
+    const interactiveElements = document.querySelectorAll('button, a[href], .btn, .nav-link');
     interactiveElements.forEach(element => {
       element.addEventListener('mouseenter', function() {
-        if (!this.style.transform.includes('scale')) {
-          this.style.transform = 'translateY(-2px) scale(1.02)';
+        if (!this.classList.contains('no-hover')) {
+          this.style.transform = 'translateY(-2px)';
+          this.style.transition = 'all 0.2s ease';
         }
       });
       
       element.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(0) scale(1)';
+        this.style.transform = 'translateY(0)';
+      });
+    });
+
+    // Cards with special hover effects
+    const hoverCards = document.querySelectorAll('.card, .bg-white');
+    hoverCards.forEach(card => {
+      if (card.closest('nav') || card.closest('footer')) return;
+      
+      card.addEventListener('mouseenter', function() {
+        if (!this.classList.contains('no-hover')) {
+          this.style.transform = 'translateY(-5px)';
+          this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
+          this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        }
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+        this.style.boxShadow = '';
+      });
+    });
+  },
+
+  // Scroll-triggered animations
+  setupScrollAnimations: function() {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-fadeIn');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Observe elements that should animate on scroll
+    const animateOnScroll = document.querySelectorAll('.stats-card, .quick-action, .api-stat');
+    animateOnScroll.forEach(el => observer.observe(el));
+  },
+
+  // Animated counters for numbers
+  setupCounters: function() {
+    const counters = document.querySelectorAll('[data-counter]');
+    counters.forEach(counter => {
+      const target = parseInt(counter.getAttribute('data-counter') || counter.textContent);
+      const duration = 2000;
+      const start = 0;
+      const increment = target / (duration / 16);
+      let current = start;
+
+      const updateCounter = () => {
+        current += increment;
+        if (current >= target) {
+          counter.textContent = target;
+          counter.classList.add('animate-countUp');
+        } else {
+          counter.textContent = Math.floor(current);
+          requestAnimationFrame(updateCounter);
+        }
+      };
+
+      // Start counter when element comes into view
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            updateCounter();
+            observer.unobserve(entry.target);
+          }
+        });
+      });
+      observer.observe(counter);
+    });
+  },
+
+  // Glow effects for important elements
+  setupGlowEffects: function() {
+    const glowElements = document.querySelectorAll('.btn-primary, .nav-link.active');
+    glowElements.forEach(element => {
+      element.addEventListener('mouseenter', function() {
+        this.style.boxShadow = '0 0 20px rgba(0, 144, 211, 0.5)';
+        this.style.transition = 'all 0.3s ease';
+      });
+      
+      element.addEventListener('mouseleave', function() {
+        this.style.boxShadow = '';
       });
     });
   },

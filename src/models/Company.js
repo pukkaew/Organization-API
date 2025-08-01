@@ -96,8 +96,48 @@ class Company {
     }
 
     // Create new company
+    // Validate company data
+    validate() {
+        const errors = [];
+
+        // Required fields validation
+        if (!this.company_code || this.company_code.trim() === '') {
+            errors.push('รหัสบริษัทเป็นข้อมูลที่จำเป็น');
+        }
+        if (!this.company_name_th || this.company_name_th.trim() === '') {
+            errors.push('ชื่อบริษัท (ไทย) เป็นข้อมูลที่จำเป็น');
+        }
+
+        // Format validation
+        if (this.company_code && !/^[A-Z0-9]{2,20}$/.test(this.company_code)) {
+            errors.push('รหัสบริษัทต้องเป็นตัวอักษรภาษาอังกฤษหรือตัวเลข 2-20 ตัวอักษร');
+        }
+        if (this.tax_id && !/^\d{13}$/.test(this.tax_id)) {
+            errors.push('เลขประจำตัวผู้เสียภาษีต้องเป็นตัวเลข 13 หลัก');
+        }
+
+        // Length validation
+        if (this.company_name_th && this.company_name_th.length > 255) {
+            errors.push('ชื่อบริษัท (ไทย) ต้องไม่เกิน 255 ตัวอักษร');
+        }
+        if (this.company_name_en && this.company_name_en.length > 255) {
+            errors.push('ชื่อบริษัท (อังกฤษ) ต้องไม่เกิน 255 ตัวอักษร');
+        }
+
+        return errors;
+    }
+
     async create() {
         try {
+            // Validate data first
+            const validationErrors = this.validate();
+            if (validationErrors.length > 0) {
+                const error = new Error(validationErrors.join(', '));
+                error.statusCode = 400;
+                error.validationErrors = validationErrors;
+                throw error;
+            }
+
             // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
                 return await Company.createMock({
@@ -143,6 +183,15 @@ class Company {
     // Update company
     async update() {
         try {
+            // Validate data first
+            const validationErrors = this.validate();
+            if (validationErrors.length > 0) {
+                const error = new Error(validationErrors.join(', '));
+                error.statusCode = 400;
+                error.validationErrors = validationErrors;
+                throw error;
+            }
+
             // Use mock data if USE_DATABASE is false
             if (process.env.USE_DATABASE === 'false') {
                 return await Company.updateMock(this.company_code, {
@@ -227,18 +276,36 @@ class Company {
                 return await this.deleteMock();
             }
             
-            const query = `
-                DELETE FROM Companies
-                WHERE company_code = @company_code
-            `;
-            
-            const result = await executeQuery(query, { company_code: this.company_code });
-            
-            if (result.rowsAffected[0] === 0) {
-                throw new Error('Company not found');
-            }
-            
-            return { company_code: this.company_code };
+            // Use transaction to delete in correct order
+            return await executeTransaction(async (transaction) => {
+                // Delete departments first (they depend on divisions)
+                await executeQuery(`
+                    DELETE d FROM Departments d
+                    INNER JOIN Divisions div ON d.division_code = div.division_code
+                    WHERE div.company_code = @company_code
+                `, { company_code: this.company_code }, transaction);
+                
+                // Delete divisions (they depend on company)
+                await executeQuery(`
+                    DELETE FROM Divisions WHERE company_code = @company_code
+                `, { company_code: this.company_code }, transaction);
+                
+                // Delete branches (they depend on company)
+                await executeQuery(`
+                    DELETE FROM Branches WHERE company_code = @company_code
+                `, { company_code: this.company_code }, transaction);
+                
+                // Finally delete the company
+                const result = await executeQuery(`
+                    DELETE FROM Companies WHERE company_code = @company_code
+                `, { company_code: this.company_code }, transaction);
+                
+                if (result.rowsAffected[0] === 0) {
+                    throw new Error('Company not found');
+                }
+                
+                return { company_code: this.company_code };
+            });
         } catch (error) {
             logger.error('Error in Company.delete:', error);
             throw error;
@@ -509,6 +576,47 @@ class Company {
             active_companies: companies.filter(c => c.is_active).length,
             inactive_companies: companies.filter(c => !c.is_active).length
         };
+    }
+
+    // Get company stats (for specific company)
+    static async getStats(companyCode) {
+        try {
+            // Use mock data if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return {
+                    branches: 0,
+                    divisions: 0,
+                    departments: 0,
+                    active_branches: 0,
+                    active_divisions: 0,
+                    active_departments: 0
+                };
+            }
+            
+            const query = `
+                SELECT 
+                    (SELECT COUNT(*) FROM Branches WHERE company_code = @company_code) as branches,
+                    (SELECT COUNT(*) FROM Divisions WHERE company_code = @company_code) as divisions,
+                    (SELECT COUNT(*) FROM Departments d INNER JOIN Divisions div ON d.division_code = div.division_code WHERE div.company_code = @company_code) as departments,
+                    (SELECT COUNT(*) FROM Branches WHERE company_code = @company_code AND is_active = 1) as active_branches,
+                    (SELECT COUNT(*) FROM Divisions WHERE company_code = @company_code AND is_active = 1) as active_divisions,
+                    (SELECT COUNT(*) FROM Departments d INNER JOIN Divisions div ON d.division_code = div.division_code WHERE div.company_code = @company_code AND d.is_active = 1 AND div.is_active = 1) as active_departments
+            `;
+            
+            const result = await executeQuery(query, { company_code: companyCode });
+            return result.recordset[0];
+        } catch (error) {
+            logger.error('Error in Company.getStats:', error);
+            // Return empty stats on error
+            return {
+                branches: 0,
+                divisions: 0,
+                departments: 0,
+                active_branches: 0,
+                active_divisions: 0,
+                active_departments: 0
+            };
+        }
     }
 }
 

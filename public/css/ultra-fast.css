@@ -1,0 +1,222 @@
+/* Ultra Fast Performance CSS for Ruxchai Cold Storage */
+/* ================================================== */
+/* การปรับปรุงประสิทธิภาพสำหรับ View ที่ทำงานช้า */
+
+/* ปิด transition และ animation ที่ไม่จำเป็น */
+:root {
+  --ultra-fast: 0.05s ease;
+  --no-transition: none;
+}
+
+/* ปิด animation ทั้งหมดในโหมดประสิทธิภาพสูง */
+.performance-mode * {
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+  will-change: auto !important;
+  backface-visibility: visible !important;
+}
+
+/* เก็บเฉพาะ transition ที่จำเป็นสำหรับ UX */
+.performance-mode .btn:hover {
+  transition: background-color 0.05s ease !important;
+}
+
+.performance-mode .form-input-enhanced:focus {
+  transition: border-color 0.05s ease !important;
+}
+
+/* ลด GPU usage */
+.no-gpu {
+  transform: none !important;
+  will-change: auto !important;
+  backface-visibility: visible !important;
+  perspective: none !important;
+}
+
+/* ปิด shadow effects ที่หนัก */
+.no-shadow {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+.no-shadow:hover {
+  box-shadow: none !important;
+}
+
+/* ปิด gradient backgrounds ที่หนัก */
+.no-gradient {
+  background: #0090D3 !important;
+  background-image: none !important;
+}
+
+.no-gradient.btn-success {
+  background: #3AAA35 !important;
+}
+
+.no-gradient.btn-secondary {
+  background: #6B7280 !important;
+}
+
+/* Table performance optimization */
+.fast-table {
+  contain: layout style;
+  table-layout: fixed;
+}
+
+.fast-table tr {
+  transition: none !important;
+}
+
+.fast-table tr:hover {
+  background-color: #F0F8FF;
+  transition: none !important;
+}
+
+/* ปิด icon animations */
+.fast-icon {
+  transition: none !important;
+  transform: none !important;
+}
+
+.fast-icon:hover {
+  transform: none !important;
+}
+
+/* Navigation performance */
+.fast-nav {
+  transition: none !important;
+}
+
+.fast-nav:hover {
+  background-color: #F0F8FF;
+  transition: none !important;
+}
+
+/* Form performance */
+.fast-form input,
+.fast-form select,
+.fast-form textarea {
+  transition: border-color 0.05s ease;
+}
+
+.fast-form input:focus,
+.fast-form select:focus,
+.fast-form textarea:focus {
+  border-color: #0090D3;
+  box-shadow: 0 0 0 2px rgba(0, 144, 211, 0.2);
+}
+
+/* Card performance */
+.fast-card {
+  transition: none !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+.fast-card:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: none !important;
+}
+
+/* Dropdown performance */
+.fast-dropdown {
+  transition: none !important;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .mobile-fast * {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    will-change: auto !important;
+  }
+}
+
+/* Critical performance mode - เมื่อต้องการความเร็วสูงสุด */
+.critical-performance * {
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+  will-change: auto !important;
+  backface-visibility: visible !important;
+  perspective: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+  background-image: none !important;
+}
+
+.critical-performance .btn-primary {
+  background: #0090D3 !important;
+  color: white !important;
+  border: 1px solid #0090D3 !important;
+}
+
+.critical-performance .btn-success {
+  background: #3AAA35 !important;
+  color: white !important;
+  border: 1px solid #3AAA35 !important;
+}
+
+.critical-performance .form-input-enhanced:focus {
+  border-color: #0090D3 !important;
+  box-shadow: 0 0 0 2px rgba(0, 144, 211, 0.2) !important;
+}
+
+/* Lazy loading placeholders */
+.lazy-placeholder {
+  background: #f5f5f5;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+
+/* Disable expensive operations */
+.no-blur {
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.no-clip {
+  clip-path: none !important;
+}
+
+/* Simple loading state */
+.simple-loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Fast scrolling */
+.fast-scroll {
+  scroll-behavior: auto !important;
+  overflow-anchor: none;
+}
+
+/* Performance utilities */
+.instant { transition: all 0.01s !important; }
+.ultra-fast { transition: all 0.05s ease !important; }
+.very-fast { transition: all 0.1s ease !important; }
+.normal-speed { transition: all 0.15s ease !important; }
+
+/* Debug performance */
+.perf-debug {
+  outline: 1px solid red;
+}
+
+.perf-debug::before {
+  content: "SLOW";
+  position: absolute;
+  top: -20px;
+  left: 0;
+  background: red;
+  color: white;
+  padding: 2px 4px;
+  font-size: 10px;
+  z-index: 9999;
+}

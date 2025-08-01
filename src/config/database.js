@@ -17,8 +17,7 @@ const sqliteConfig = usingSQLite ? require('./sqlite') : null;
 const config = {
     server: process.env.DB_SERVER || 'localhost',
     port: parseInt(process.env.DB_PORT) || 1433,
-    // Remove database from initial connection to avoid login issues
-    // database: process.env.DB_DATABASE || 'OrgStructureDB', 
+    database: process.env.DB_DATABASE || 'OrgStructureDB', 
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     pool: {
@@ -29,7 +28,9 @@ const config = {
     options: {
         encrypt: process.env.DB_ENCRYPT === 'true',
         trustServerCertificate: process.env.DB_TRUST_SERVER_CERTIFICATE === 'true',
-        enableArithAbort: true
+        enableArithAbort: true,
+        charset: 'utf8',
+        useUTC: false
     }
 };
 

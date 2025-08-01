@@ -16,7 +16,7 @@
                 <div class="px-6 py-4 bg-gradient-to-r from-orange-600 to-red-700 rounded-t-2xl">
                     <div class="flex items-center justify-between">
                         <h2 class="text-xl font-bold text-white flex items-center">
-                            <span class="text-2xl mr-3">🏢</span>
+                            <span class="text-2xl mr-3"><i class="fas fa-sitemap"></i></span>
                             Edit Division
                         </h2>
                         <a href="/divisions" class="text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10">
@@ -25,16 +25,16 @@
                     </div>
                 </div>
                 
-                <form method="post" action="/divisions/<%= division.division_code %>" class="p-6">
+                <form method="post" action="/divisions/<%= division.division_code %>" class="form-section">
                     <% if (typeof csrfToken !== 'undefined') { %>
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <% } %>
                     <input type="hidden" name="_method" value="PUT">
                     
-                    <div class="space-y-6">
+                    <div class="space-y-4">
                         <!-- Division Code (Read-only) -->
-                        <div>
-                            <label for="division_code" class="form-label text-gray-800 font-semibold flex items-center">
+                        <div class="form-group-enhanced">
+                            <label for="division_code" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
                                 <span class="text-lg mr-2">🏷️</span>
                                 Division Code
                             </label>
@@ -42,15 +42,15 @@
                                    id="division_code" 
                                    value="<%= division.division_code %>" 
                                    disabled
-                                   class="form-input bg-gray-100 cursor-not-allowed">
+                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed">
                             <p class="mt-1 text-sm text-gray-500">
                                 Division code cannot be changed
                             </p>
                         </div>
                         
                         <!-- Company (Read-only) -->
-                        <div>
-                            <label for="company_display" class="form-label text-gray-800 font-semibold flex items-center">
+                        <div class="form-group-enhanced">
+                            <label for="company_display" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
                                 <span class="text-lg mr-2">🏢</span>
                                 Company
                             </label>
@@ -58,15 +58,15 @@
                                    id="company_display" 
                                    value="<%= division.company_code %>" 
                                    disabled
-                                   class="form-input bg-gray-100 cursor-not-allowed">
+                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed">
                             <p class="mt-1 text-sm text-gray-500">
                                 Company cannot be changed
                             </p>
                         </div>
                         
                         <!-- Division Name -->
-                        <div>
-                            <label for="division_name" class="form-label text-gray-800 font-semibold flex items-center">
+                        <div class="form-group-enhanced">
+                            <label for="division_name" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
                                 <span class="text-lg mr-2">📁</span>
                                 Division Name <span class="text-red-500">*</span>
                             </label>
@@ -76,18 +76,18 @@
                                    required
                                    maxlength="200"
                                    value="<%= division.division_name %>"
-                                   class="form-input focus:ring-2 focus:ring-orange-500 focus:border-orange-500 border-gray-300 transition-all duration-200">
+                                   class="form-input-enhanced">
                         </div>
                         
                         <!-- Branch -->
-                        <div>
-                            <label for="branch_code" class="form-label text-gray-800 font-semibold flex items-center">
-                                <span class="text-lg mr-2"><i class="fas fa-leaf"></i></span>
+                        <div class="form-group-enhanced">
+                            <label for="branch_code" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
+                                <span class="text-lg mr-2"><i class="fas fa-sitemap"></i></span>
                                 Branch
                             </label>
                             <select id="branch_code" 
                                     name="branch_code" 
-                                    class="form-input focus:ring-2 focus:ring-orange-500 focus:border-orange-500 border-gray-300 transition-all duration-200">
+                                    class="form-input-enhanced">
                                 <option value="">Select Branch (Optional)</option>
                                 <% if (typeof branches !== 'undefined' && branches) { %>
                                     <% branches.forEach(branch => { %>
@@ -151,7 +151,7 @@
                     
                     <!-- Form Actions -->
                     <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
-                        <a href="/divisions" class="btn btn-ghost hover:bg-gray-100 transition-all duration-200">
+                        <a href="/divisions" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:bg-gray-100 transition-all duration-200">
                             <i class="fas fa-arrow-left mr-2"></i>
                             Cancel
                         </a>

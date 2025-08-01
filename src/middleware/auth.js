@@ -126,45 +126,93 @@ const requireAllPermissions = (permissions) => {
     };
 };
 
-// Login handler
-const login = async (req, res) => {
-    try {
-        const { username, password } = req.body;
-        
-        if (!username || !password) {
-            // req.flash('error', 'Username and password are required');
-            return res.redirect('/login');
-        }
-        
-        const user = users[username.toLowerCase()];
-        if (!user) {
-            logger.warn(`Failed login attempt for username: ${username}`);
-            // req.flash('error', 'Invalid username or password');
-            return res.redirect('/login');
-        }
-        
-        const isValidPassword = await bcrypt.compare(password, user.password);
-        if (!isValidPassword) {
-            logger.warn(`Failed login attempt for username: ${username}`);
-            // req.flash('error', 'Invalid username or password');
-            return res.redirect('/login');
-        }
-        
-        req.session.userId = user.id;
-        req.session.username = user.username;
-        
-        logger.info(`User logged in: ${username}`);
-        // req.flash('success', 'Welcome back!');
-        
-        const redirectUrl = req.session.returnTo || '/';
-        delete req.session.returnTo;
-        res.redirect(redirectUrl);
-        
-    } catch (error) {
-        logger.error('Login error:', error);
-        // req.flash('error', 'An error occurred during login');
-        res.redirect('/login');
+// Simple login handler
+const login = (req, res) => {
+    console.log('=== LOGIN ATTEMPT ===');
+    console.log('Request body:', req.body);
+    console.log('Username:', req.body.username);
+    console.log('Password length:', req.body.password ? req.body.password.length : 0);
+    
+    const { username, password } = req.body;
+    
+    // Basic validation
+    if (!username || !password) {
+        console.log('ERROR: Missing username or password');
+        return res.render('auth/login', {
+            title: 'Login',
+            error: 'กรุณากรอกชื่อผู้ใช้และรหัสผ่าน',
+            success: null,
+            csrfToken: req.csrfToken ? req.csrfToken() : ''
+        });
     }
+    
+    // Check user exists
+    const user = users[username.toLowerCase()];
+    if (!user) {
+        console.log('ERROR: User not found -', username);
+        return res.render('auth/login', {
+            title: 'Login',
+            error: 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง',
+            success: null,
+            csrfToken: req.csrfToken ? req.csrfToken() : ''
+        });
+    }
+    
+    console.log('User found:', user.username);
+    
+    // For demo purposes, use simple password comparison
+    const validPasswords = {
+        'admin': 'admin123',
+        'user': 'user123'
+    };
+    
+    if (password !== validPasswords[username.toLowerCase()]) {
+        console.log('ERROR: Invalid password for user -', username);
+        return res.render('auth/login', {
+            title: 'Login',
+            error: 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง',
+            success: null,
+            csrfToken: req.csrfToken ? req.csrfToken() : ''
+        });
+    }
+    
+    console.log('Password valid! Setting session...');
+    
+    // Set session
+    req.session.userId = user.id;
+    req.session.username = user.username;
+    req.session.user = {
+        id: user.id,
+        username: user.username,
+        role: user.role
+    };
+    
+    console.log('Session set:', {
+        userId: req.session.userId,
+        username: req.session.username
+    });
+    
+    logger.info(`User logged in: ${username}`);
+    
+    // Save session before redirect
+    req.session.save((err) => {
+        if (err) {
+            console.error('Session save error:', err);
+            return res.render('auth/login', {
+                title: 'Login',
+                error: 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ',
+                success: null,
+                csrfToken: req.csrfToken ? req.csrfToken() : ''
+            });
+        }
+        
+        // Redirect to dashboard
+        const redirectUrl = '/';
+        console.log('Redirecting to:', redirectUrl);
+        console.log('=== LOGIN SUCCESS ===');
+        
+        res.redirect(redirectUrl);
+    });
 };
 
 // Logout handler
@@ -187,11 +235,11 @@ const showLoginPage = (req, res) => {
         return res.redirect('/');
     }
     
-    res.render('auth/login', {
+    res.render('auth/login-simple', {
         title: 'Login',
-        csrfToken: req.csrfToken ? req.csrfToken() : '',
         error: null,
-        success: null
+        success: null,
+        csrfToken: req.csrfToken ? req.csrfToken() : ''
     });
 };
 

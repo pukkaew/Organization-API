@@ -1,6 +1,10 @@
 /* Path: /public/css/style.css */
 /* Import CSS Variables */
 @import url('./variables.css');
+/* Import Performance Optimizations */
+@import url('./performance.css');
+/* Import Contrast Improvements */
+@import url('./contrast-fix.css');
 
 /* Base Layout & Typography */
 * {
@@ -11,7 +15,7 @@ body {
   font-family: 'Inter', 'Noto Sans Thai', sans-serif;
   line-height: 1.6;
   color: var(--text-primary);
-  background-color: var(--bg-primary);
+  background-color: var(--bg-secondary);
 }
 
 .container {
@@ -43,22 +47,24 @@ body {
 
 /* Cards and Layout */
 .card {
-  background: white;
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-md);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  transition: all 0.2s ease;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  border: 1.5px solid var(--border-light);
+  transition: all 0.15s ease;
 }
 
 .card:hover {
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-2px);
+  box-shadow: var(--shadow-elevated);
+  transform: translateY(-1px);
+  border-color: var(--border-accent);
 }
 
 .card-header {
   padding: 1.5rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+  border-bottom: 1.5px solid var(--border-lighter);
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .card-body {
@@ -67,9 +73,9 @@ body {
 
 .card-footer {
   padding: 1rem 1.5rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
-  background: rgba(0, 0, 0, 0.02);
+  border-top: 1.5px solid var(--border-lighter);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  background: var(--bg-tertiary);
 }
 
 /* Enhanced Variables */
@@ -151,21 +157,53 @@ body {
   outline: none;
 }
 
-/* Enhanced Buttons */
+/* Ruxchai Icon System */
+.ruxchai-icon {
+  font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', emoji;
+  font-size: 1.125rem;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  display: inline-block;
+  line-height: 1;
+}
+
+/* Icon Mappings for Consistency */
+.ruxchai-icon-dashboard::before { content: "📊"; }
+.ruxchai-icon-company::before { content: "🏢"; }
+.ruxchai-icon-branch::before { content: "🏪"; }
+.ruxchai-icon-division::before { content: "🏛️"; }
+.ruxchai-icon-department::before { content: "👥"; }
+.ruxchai-icon-apikey::before { content: "🔐"; }
+.ruxchai-icon-user::before { content: "👤"; }
+.ruxchai-icon-logout::before { content: "🚪"; }
+.ruxchai-icon-add::before { content: "➕"; }
+.ruxchai-icon-save::before { content: "💾"; }
+.ruxchai-icon-edit::before { content: "✏️"; }
+.ruxchai-icon-delete::before { content: "🗑️"; }
+.ruxchai-icon-view::before { content: "👁️"; }
+.ruxchai-icon-search::before { content: "🔍"; }
+.ruxchai-icon-key::before { content: "🔑"; }
+
+/* Enhanced Buttons - Ruxchai CI Style */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--btn-padding-y) var(--btn-padding-x);
+  padding: 0.625rem 1.25rem;
   border: none;
-  font-size: var(--font-size-sm);
-  font-weight: var(--btn-font-weight);
-  border-radius: var(--btn-radius);
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 0.625rem;
   text-decoration: none;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: var(--shadow-sm);
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   line-height: 1.25;
+  position: relative;
+  overflow: hidden;
+  text-transform: none;
+  letter-spacing: 0.025em;
+  will-change: transform;
 }
 
 .btn:hover {
@@ -183,21 +221,43 @@ body {
 }
 
 .btn-primary {
-  color: var(--text-white);
-  background-color: var(--color-primary);
+  color: white;
+  background: linear-gradient(135deg, #0090D3 0%, #047685 100%);
+  border: 1px solid rgba(0, 144, 211, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 144, 211, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 }
 
 .btn-primary:hover {
-  background-color: var(--color-blue-dark);
+  background: linear-gradient(135deg, #00A0E3 0%, #057695 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 144, 211, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(0, 144, 211, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(1);
+  box-shadow: 0 2px 8px rgba(0, 144, 211, 0.3);
 }
 
 .btn-secondary {
-  color: var(--text-white);
-  background-color: var(--color-secondary-grey);
+  color: white;
+  background: linear-gradient(135deg, #6B7280 0%, #4B5563 100%);
+  border: 1px solid rgba(107, 114, 128, 0.3);
+  box-shadow: 0 4px 15px rgba(107, 114, 128, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  font-weight: 600;
 }
 
 .btn-secondary:hover {
-  background-color: var(--color-grey-dark);
+  background: linear-gradient(135deg, #7B8290 0%, #5B6573 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn-secondary:active {
+  transform: translateY(0) scale(1);
+  box-shadow: 0 2px 8px rgba(107, 114, 128, 0.2);
 }
 
 .btn-ghost {
@@ -291,26 +351,63 @@ tr:hover {
 }
 
 .btn-success {
-  color: var(--text-white);
-  background-color: var(--color-success);
+  color: white;
+  background: linear-gradient(135deg, #3AAA35 0%, #2e8b29 100%);
+  border: 1px solid rgba(58, 170, 53, 0.3);
+  box-shadow: 0 4px 15px rgba(58, 170, 53, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.btn-success:hover {
+  background: linear-gradient(135deg, #42BA3F 0%, #2e9b29 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(58, 170, 53, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(58, 170, 53, 0.4);
+}
+
+.btn-success:active {
+  transform: translateY(0) scale(1);
+  box-shadow: 0 2px 8px rgba(58, 170, 53, 0.3);
 }
 
 .btn-warning {
-  color: var(--text-black);
-  background-color: #fbbf24;
+  color: #1F2937;
+  background: linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  font-weight: 600;
 }
 
 .btn-warning:hover {
-  background-color: #f59e0b;
+  background: linear-gradient(135deg, #FDE68A 0%, #F59E0B 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.btn-warning:active {
+  transform: translateY(0) scale(1);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
 }
 
 .btn-danger {
-  color: var(--text-white);
-  background-color: #ef4444;
+  color: white;
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 }
 
 .btn-danger:hover {
-  background-color: #dc2626;
+  background: linear-gradient(135deg, #F87171 0%, #EF4444 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn-danger:active {
+  transform: translateY(0) scale(1);
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
 }
 
 /* Badge Components */

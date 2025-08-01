@@ -56,6 +56,28 @@ backup/
 *.backup
 *.sql.backup
 
+# Testing files (generated during development)
+*test*.js
+*debug*.js
+*manual*.js
+*crud*.js
+*real*.html
+*debug*.html
+test-*.json
+test-*.html
+*-test-report-*.json
+*-test-report-*.txt
+*-gui-test-*.json
+technical-validation*.json
+final-ui-test.*
+comprehensive-test-suite.*
+clear-cache-and-test.*
+clear-database.*
+optimize-css.*
+save-real-dashboard.*
+simple-post-test.*
+cookies*.txt
+
 # API Keys (never commit these!)
 api-keys.txt
 secrets.json

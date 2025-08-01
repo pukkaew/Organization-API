@@ -17,7 +17,7 @@
             <div class="flex items-center">
                 <div class="flex-shrink-0">
                     <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center text-2xl">
-                        <i class="fas fa-check-circle"></i>
+                        <span class="text-white text-2xl">✅</span>
                     </div>
                 </div>
                 <div class="ml-4">
@@ -36,7 +36,7 @@
             <div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-700 px-6 py-8 text-white">
                 <div class="flex items-center">
                     <div class="w-16 h-16 bg-white bg-opacity-20 rounded-xl flex items-center justify-center text-3xl mr-4">
-                        <i class="fas fa-key"></i>
+                        <span class="text-white text-3xl drop-shadow-lg">🔑</span>
                     </div>
                     <div>
                         <h3 class="text-2xl font-bold text-white">
@@ -53,7 +53,9 @@
                     <div class="bg-gradient-to-br from-blue-50 to-indigo-100 p-6 rounded-xl shadow-lg border border-blue-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                         <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
                             <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mr-3">
-                                <i class="fas fa-mobile-alt"></i>
+                                <div class="w-8 h-8 bg-gradient-to-br from-purple-400 to-purple-600 rounded-lg flex items-center justify-center shadow-md">
+                                    <span class="text-white text-sm">📱</span>
+                                </div>
                             </div>
                             Application Name
                         </dt>
@@ -65,7 +67,9 @@
                     <div class="bg-gradient-to-br from-emerald-50 to-teal-100 p-6 rounded-xl shadow-lg border border-emerald-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                         <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
                             <div class="w-8 h-8 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center mr-3">
-                                <i class="fas fa-file-alt"></i>
+                                <div class="w-8 h-8 bg-gradient-to-br from-purple-400 to-purple-600 rounded-lg flex items-center justify-center shadow-md">
+                                    <span class="text-white text-sm">📝</span>
+                                </div>
                             </div>
                             Description
                         </dt>
@@ -77,22 +81,24 @@
                     <div class="bg-gradient-to-br from-purple-50 to-pink-100 p-6 rounded-xl shadow-lg border border-purple-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                         <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
                             <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center mr-3">
-                                <i class="fas fa-shield-alt"></i>
+                                <div class="w-8 h-8 bg-gradient-to-br from-purple-400 to-purple-600 rounded-lg flex items-center justify-center shadow-md">
+                                    <span class="text-white text-sm">🛡️</span>
+                                </div>
                             </div>
                             Permissions
                         </dt>
                         <dd class="mt-1">
                             <% if (apiKey.permissions === 'read') { %>
                                 <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-blue-400 to-indigo-500 text-white shadow-lg">
-                                    <i class="fas fa-eye mr-1"></i> Read Only
+                                    <span class="mr-2">👁️</span>Read Only
                                 </span>
                             <% } else if (apiKey.permissions === 'write') { %>
                                 <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-yellow-400 to-orange-500 text-white shadow-lg">
-                                    <i class="fas fa-edit mr-1"></i> Write Only
+                                    <span class="mr-2">✏️</span>Write Only
                                 </span>
                             <% } else { %>
                                 <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-green-400 to-emerald-500 text-white shadow-lg animate-pulse">
-                                    <i class="fas fa-check mr-1"></i> Read & Write
+                                    <span class="mr-2">✅</span>Read & Write
                                 </span>
                             <% } %>
                         </dd>
@@ -101,7 +107,9 @@
                     <div class="bg-gradient-to-br from-orange-50 to-amber-100 p-6 rounded-xl shadow-lg border border-orange-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                         <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
                             <div class="w-8 h-8 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg flex items-center justify-center mr-3">
-                                <i class="fas fa-clock"></i>
+                                <div class="w-8 h-8 bg-gradient-to-br from-purple-400 to-purple-600 rounded-lg flex items-center justify-center shadow-md">
+                                    <span class="text-white text-sm">⏰</span>
+                                </div>
                             </div>
                             Expires
                         </dt>
@@ -119,7 +127,9 @@
                 <div class="mt-8 bg-gradient-to-br from-red-50 to-pink-100 p-6 rounded-xl shadow-lg border border-red-200">
                     <div class="text-sm font-medium text-gray-600 flex items-center mb-4">
                         <div class="w-8 h-8 bg-gradient-to-br from-red-500 to-pink-600 rounded-lg flex items-center justify-center mr-3">
-                            <i class="fas fa-lock"></i>
+                            <div class="w-8 h-8 bg-gradient-to-br from-red-400 to-red-600 rounded-lg flex items-center justify-center shadow-md">
+                                <span class="text-white text-sm">🔒</span>
+                            </div>
                         </div>
                         API Key (Copy and save this now!)
                     </div>
@@ -133,13 +143,13 @@
                             <button type="button"
                                     onclick="copyApiKey()"
                                     class="group inline-flex items-center px-6 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                                <i class="fas fa-copy mr-2 transition-transform group-hover:rotate-12"></i>
+                                <span class="mr-2 transition-transform group-hover:rotate-12">📋</span>
                                 Copy
                             </button>
                         </div>
                         <div class="mt-4 p-4 bg-gradient-to-r from-red-100 to-pink-100 rounded-lg border border-red-200">
                             <p class="text-sm text-red-700 flex items-center">
-                                <i class="fas fa-exclamation-triangle text-lg mr-2"></i>
+                                <span class="text-lg mr-2">⚠️</span>
                                 This is your secret API key. Keep it secure and never share it publicly or commit it to version control.
                             </p>
                         </div>
@@ -152,7 +162,7 @@
             <div class="flex items-start">
                 <div class="flex-shrink-0">
                     <div class="w-10 h-10 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-xl flex items-center justify-center text-xl">
-                        <i class="fas fa-lightbulb"></i>
+                        <span>💡</span>
                     </div>
                 </div>
                 <div class="ml-4 flex-1">
@@ -177,11 +187,11 @@
     
         <div class="mt-8 flex flex-col sm:flex-row gap-4 sm:justify-between">
             <a href="/api-keys" class="group inline-flex items-center justify-center px-6 py-3 bg-white bg-opacity-20 backdrop-blur-sm text-gray-700 rounded-lg hover:bg-gray-50 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border border-gray-200">
-                <i class="fas fa-arrow-left mr-2 transition-transform group-hover:-translate-x-1"></i>
+                <span class="mr-2 transition-transform group-hover:-translate-x-1">←</span>
                 Back to API Keys
             </a>
             <a href="/docs" class="group inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                <i class="fas fa-book mr-2 transition-transform group-hover:rotate-12"></i>
+                <span class="mr-2 transition-transform group-hover:rotate-12">📚</span>
                 View API Documentation
             </a>
         </div>
@@ -210,7 +220,7 @@
             
             navigator.clipboard.writeText(apiKeyField.value).then(() => {
                 const originalHTML = button.innerHTML;
-                button.innerHTML = '<i class="fas fa-check mr-2"></i>Copied!';
+                button.innerHTML = '<span class="mr-2">✅</span>Copied!';
                 button.classList.add('bg-green-600', 'hover:bg-green-700');
                 button.classList.remove('bg-blue-600', 'hover:bg-blue-700');
                 

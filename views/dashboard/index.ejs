@@ -1,15 +1,24 @@
 <%- include('../partials/header', { 
     title: typeof title !== 'undefined' ? title : 'Dashboard',
-    includeChartJS: true
+    includeChartJS: false
 }) %>
+
+<!-- Dashboard Fast CSS -->
+<link rel="stylesheet" href="/css/dashboard-fast.css">
+
+<script>
+    // Add dashboard-page class to body for specific optimizations
+    document.body.classList.add('dashboard-page');
+</script>
+
 <%- include('../partials/navigation', { 
     activeMenu: typeof activeMenu !== 'undefined' ? activeMenu : 'dashboard',
     user: typeof user !== 'undefined' ? user : null
 }) %>
 
 <!-- Main Content -->
-<main class="flex-1 py-4 sm:py-8">
-    <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
+<main class="flex-1 py-4 sm:py-8 performance-mode">
+    <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8 fast-scroll">
         <%- include('./content') %>
     </div>
 </main>

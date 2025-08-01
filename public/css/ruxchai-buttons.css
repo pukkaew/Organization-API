@@ -1,0 +1,266 @@
+/* Ruxchai Cold Storage - Button Style Guide */
+/* ============================================ */
+
+/* CI Colors Definition */
+:root {
+  /* Primary - Ruxchai Blue */
+  --ruxchai-blue: #0090D3;
+  --ruxchai-blue-dark: #047685;
+  --ruxchai-blue-light: #00A0E3;
+  
+  /* Secondary - Ruxchai Green */
+  --ruxchai-green: #3AAA35;
+  --ruxchai-green-dark: #2e8b29;
+  --ruxchai-green-light: #42BA3F;
+  
+  /* Supporting Colors */
+  --ruxchai-grey: #5B6C77;
+  --ruxchai-red: #EF4444;
+  --ruxchai-yellow: #FCD34D;
+}
+
+/* Icon Standards */
+.btn-icon {
+  font-size: 1.125rem;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  display: inline-block;
+  line-height: 1;
+}
+
+/* Standardized Button Icons */
+.icon-add::before { content: "➕"; }
+.icon-save::before { content: "💾"; }
+.icon-edit::before { content: "✏️"; }
+.icon-delete::before { content: "🗑️"; }
+.icon-view::before { content: "👁️"; }
+.icon-search::before { content: "🔍"; }
+.icon-refresh::before { content: "🔄"; }
+.icon-back::before { content: "⬅️"; }
+.icon-forward::before { content: "➡️"; }
+.icon-logout::before { content: "🚪"; }
+.icon-user::before { content: "👤"; }
+.icon-settings::before { content: "⚙️"; }
+.icon-key::before { content: "🔑"; }
+.icon-lock::before { content: "🔒"; }
+.icon-unlock::before { content: "🔓"; }
+.icon-success::before { content: "✅"; }
+.icon-error::before { content: "❌"; }
+.icon-warning::before { content: "⚠️"; }
+.icon-info::before { content: "ℹ️"; }
+
+/* Button Sizes */
+.btn-sm {
+  padding: 0.375rem 0.875rem;
+  font-size: 0.8125rem;
+}
+
+.btn-sm .btn-icon {
+  font-size: 0.875rem;
+}
+
+.btn-lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+.btn-lg .btn-icon {
+  font-size: 1.25rem;
+}
+
+/* Button States */
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 144, 211, 0.25);
+}
+
+/* Loading State */
+.btn-loading {
+  color: transparent;
+  position: relative;
+}
+
+.btn-loading::after {
+  content: "";
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  top: 50%;
+  left: 50%;
+  margin-left: -0.5rem;
+  margin-top: -0.5rem;
+  border: 2px solid transparent;
+  border-top-color: white;
+  border-radius: 50%;
+  animation: button-loading-spinner 0.8s linear infinite;
+}
+
+@keyframes button-loading-spinner {
+  from { transform: rotate(0turn); }
+  to { transform: rotate(1turn); }
+}
+
+/* Icon-only Buttons */
+.btn-icon-only {
+  padding: 0.625rem;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.btn-icon-only .btn-icon {
+  margin: 0;
+}
+
+/* Button Groups */
+.btn-group {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.btn-group > .btn:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-right: -1px;
+}
+
+.btn-group > .btn:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* Outline Variants */
+.btn-outline-primary {
+  color: var(--ruxchai-blue);
+  background: white;
+  border: 2px solid var(--ruxchai-blue);
+  box-shadow: 0 2px 8px rgba(0, 144, 211, 0.15);
+}
+
+.btn-outline-primary:hover {
+  color: white;
+  background: var(--ruxchai-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 144, 211, 0.3);
+}
+
+.btn-outline-success {
+  color: var(--ruxchai-green);
+  background: white;
+  border: 2px solid var(--ruxchai-green);
+  box-shadow: 0 2px 8px rgba(58, 170, 53, 0.15);
+}
+
+.btn-outline-success:hover {
+  color: white;
+  background: var(--ruxchai-green);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(58, 170, 53, 0.3);
+}
+
+/* Action Button Standards */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.action-btn {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.action-btn-view {
+  background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+  color: white;
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+}
+
+.action-btn-view:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4);
+}
+
+.action-btn-edit {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  color: white;
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
+}
+
+.action-btn-edit:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(245, 158, 11, 0.4);
+}
+
+.action-btn-delete {
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+  color: white;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
+}
+
+.action-btn-delete:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
+}
+
+/* Form Submit Buttons Standard */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #E5E7EB;
+}
+
+.form-actions-left {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.form-actions-right {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* Usage Examples */
+/*
+<button class="btn btn-primary">
+  <span class="btn-icon icon-add"></span>
+  เพิ่มข้อมูล
+</button>
+
+<button class="btn btn-success">
+  <span class="btn-icon icon-save"></span>
+  บันทึก
+</button>
+
+<a href="#" class="btn btn-outline-primary">
+  <span class="btn-icon icon-back"></span>
+  ย้อนกลับ
+</a>
+
+<div class="action-buttons">
+  <button class="action-btn action-btn-view" title="ดูรายละเอียด">
+    <span class="icon-view"></span>
+  </button>
+  <button class="action-btn action-btn-edit" title="แก้ไข">
+    <span class="icon-edit"></span>
+  </button>
+  <button class="action-btn action-btn-delete" title="ลบ">
+    <span class="icon-delete"></span>
+  </button>
+</div>
+*/

@@ -13,28 +13,32 @@
     <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mx-auto">
             <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl border border-gray-100">
-                <div class="px-6 py-4 bg-gradient-to-r from-cyan-600 to-blue-700 rounded-t-2xl">
+                <div class="px-6 py-4 bg-gradient-to-r from-purple-600 to-purple-700 rounded-t-2xl">
                     <div class="flex items-center justify-between">
                         <h2 class="text-xl font-bold text-white flex items-center">
-                            <i class="fas fa-key text-2xl mr-3"></i>
+                            <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center mr-3 shadow-lg">
+                                <span class="text-white text-xl">🔑</span>
+                            </div>
                             Create API Key
                         </h2>
                         <a href="/api-keys" class="text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10">
-                            <i class="fas fa-times text-lg"></i>
+                            <span class="text-lg">❌</span>
                         </a>
                     </div>
                 </div>
                 
-                <form method="post" action="/api-keys" class="p-6">
+                <form method="post" action="/api-keys" class="form-section">
                     <% if (typeof csrfToken !== 'undefined') { %>
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <% } %>
                 
-                <div class="space-y-6">
+                <div class="space-y-4">
                     <!-- Application Name -->
-                    <div>
-                        <label for="app_name" class="form-label text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-mobile-alt text-lg mr-2"></i>
+                    <div class="form-group-enhanced">
+                        <label for="app_name" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
+                            <div class="w-6 h-6 bg-gradient-to-br from-purple-400 to-purple-600 rounded-lg flex items-center justify-center mr-2 shadow-sm">
+                                <span class="text-white text-xs">📱</span>
+                            </div>
                             Application Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" 
@@ -42,7 +46,7 @@
                                name="app_name" 
                                required
                                maxlength="100"
-                               class="form-input focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 border-gray-300 transition-all duration-200"
+                               class="form-input-enhanced"
                                placeholder="e.g., Mobile App, Web Portal">
                         <p class="mt-1 text-sm text-gray-500">
                             A descriptive name for the application using this API key
@@ -50,23 +54,27 @@
                     </div>
                     
                     <!-- Description -->
-                    <div>
-                        <label for="description" class="form-label text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-file-alt text-lg mr-2"></i>
+                    <div class="form-group-enhanced">
+                        <label for="description" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
+                            <div class="w-6 h-6 bg-gradient-to-br from-purple-400 to-purple-600 rounded-lg flex items-center justify-center mr-2 shadow-sm">
+                                <span class="text-white text-xs">📝</span>
+                            </div>
                             Description
                         </label>
                         <textarea id="description" 
                                   name="description" 
                                   rows="3"
                                   maxlength="500"
-                                  class="form-input focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 border-gray-300 transition-all duration-200"
+                                  class="form-input-enhanced"
                                   placeholder="Optional description of what this API key is used for"></textarea>
                     </div>
                     
                     <!-- Permissions -->
-                    <div>
-                        <label class="form-label text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-lock text-lg mr-2"></i>
+                    <div class="form-group-enhanced">
+                        <label class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
+                            <div class="w-6 h-6 bg-gradient-to-br from-purple-400 to-purple-600 rounded-lg flex items-center justify-center mr-2 shadow-sm">
+                                <span class="text-white text-xs">🔒</span>
+                            </div>
                             Permissions <span class="text-red-500">*</span>
                         </label>
                         <div class="mt-2 space-y-4">
@@ -114,25 +122,29 @@
                     </div>
                     
                     <!-- Expiration -->
-                    <div>
-                        <label for="expires_date" class="form-label text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-calendar text-lg mr-2"></i>
+                    <div class="form-group-enhanced">
+                        <label for="expires_date" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
+                            <div class="w-6 h-6 bg-gradient-to-br from-purple-400 to-purple-600 rounded-lg flex items-center justify-center mr-2 shadow-sm">
+                                <span class="text-white text-xs">📅</span>
+                            </div>
                             Expiration Date
                         </label>
                         <input type="date" 
                                id="expires_date" 
                                name="expires_date"
                                min="<%= new Date().toISOString().split('T')[0] %>"
-                               class="form-input focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 border-gray-300 transition-all duration-200">
+                               class="form-input-enhanced">
                         <p class="mt-1 text-sm text-gray-500">
                             Leave empty for no expiration
                         </p>
                     </div>
                     
                     <!-- Rate Limiting -->
-                    <div>
-                        <label for="rate_limit" class="form-label text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-clock text-lg mr-2"></i>
+                    <div class="form-group-enhanced">
+                        <label for="rate_limit" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
+                            <div class="w-6 h-6 bg-gradient-to-br from-purple-400 to-purple-600 rounded-lg flex items-center justify-center mr-2 shadow-sm">
+                                <span class="text-white text-xs">⏰</span>
+                            </div>
                             Rate Limit (requests per hour)
                         </label>
                         <input type="number" 
@@ -141,22 +153,24 @@
                                min="1"
                                max="10000"
                                value="1000"
-                               class="form-input focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 border-gray-300 transition-all duration-200">
+                               class="form-input-enhanced">
                         <p class="mt-1 text-sm text-gray-500">
                             Maximum number of API requests allowed per hour
                         </p>
                     </div>
                     
                     <!-- IP Whitelist -->
-                    <div>
-                        <label for="ip_whitelist" class="form-label text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-globe text-lg mr-2"></i>
+                    <div class="form-group-enhanced">
+                        <label for="ip_whitelist" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
+                            <div class="w-6 h-6 bg-gradient-to-br from-purple-400 to-purple-600 rounded-lg flex items-center justify-center mr-2 shadow-sm">
+                                <span class="text-white text-xs">🌍</span>
+                            </div>
                             IP Whitelist
                         </label>
                         <textarea id="ip_whitelist" 
                                   name="ip_whitelist" 
                                   rows="3"
-                                  class="form-input focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 border-gray-300 transition-all duration-200"
+                                  class="form-input-enhanced"
                                   placeholder="192.168.1.1&#10;10.0.0.0/24&#10;(one IP or CIDR per line)"></textarea>
                         <p class="mt-1 text-sm text-gray-500">
                             Optional: Restrict API key usage to specific IP addresses or ranges
@@ -166,19 +180,19 @@
                 
                 <!-- Form Actions -->
                 <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
-                    <a href="/api-keys" class="btn btn-ghost hover:bg-gray-100 transition-all duration-200">
-                        <i class="fas fa-arrow-left mr-2"></i>
+                    <a href="/api-keys" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:bg-gray-100 transition-all duration-200">
+                        <span class="mr-2">←</span>
                         Cancel
                     </a>
                     
-                    <button type="submit" id="submit-btn" class="btn bg-gradient-to-r from-cyan-600 to-blue-700 hover:from-cyan-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
+                    <button type="submit" id="submit-btn" class="btn btn-primary">
                         <span class="btn-text">
-                            <i class="fas fa-key mr-2"></i>
-                            Generate API Key
+                            <span style="font-size: 1rem; margin-right: 0.5rem;">🔑</span>
+                            สร้าง API Key
                         </span>
                         <span class="btn-loading hidden">
-                            <i class="spinner mr-2"></i>
-                            Generating...
+                            <span class="spinner mr-2"></span>
+                            กำลังสร้าง...
                         </span>
                     </button>
                 </div>
@@ -189,11 +203,11 @@
         <div class="mt-6 bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl p-6 border border-cyan-100 shadow-lg">
             <div class="flex">
                 <div class="flex-shrink-0">
-                    <i class="fas fa-lock text-2xl"></i>
+                    <span class="text-2xl">🔒</span>
                 </div>
                 <div class="ml-4">
                     <h3 class="text-lg font-bold text-cyan-800 flex items-center">
-                        <i class="fas fa-shield-alt mr-2"></i>
+                        <span class="mr-2">🛡️</span>
                         Security Notice
                     </h3>
                     <div class="mt-3 text-sm text-cyan-700">

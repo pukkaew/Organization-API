@@ -22,7 +22,6 @@ const { validateEnv } = require('./src/config/validateEnv');
 // Import routes
 const webRoutes = require('./src/routes/web');
 const apiRoutes = require('./src/routes/api');
-const authApiRoutes = require('./src/routes/authApi');
 
 // Import middleware - Fixed destructuring
 const { errorHandler } = require('./src/middleware/errorHandler');
@@ -44,10 +43,11 @@ app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
-            styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.tailwindcss.com", "https://cdnjs.cloudflare.com"],
-            scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdn.tailwindcss.com", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
-            imgSrc: ["'self'", "data:", "https:"],
-            fontSrc: ["'self'", "https://cdnjs.cloudflare.com"],
+            styleSrc: ["'self'", "'unsafe-inline'"],
+            scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+            imgSrc: ["'self'", "data:"],
+            fontSrc: ["'self'", "data:"],
+            connectSrc: ["'self'"],
         },
     },
 }));
@@ -89,10 +89,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Session configuration
 const sessionConfig = {
     secret: process.env.SESSION_SECRET || 'your-secret-key-change-this-in-production',
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     cookie: {
-        secure: process.env.NODE_ENV === 'production',
+        secure: false, // Always false for development
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
@@ -115,23 +115,11 @@ if (process.env.NODE_ENV === 'production' && process.env.DB_SERVER && process.en
 app.use(session(sessionConfig));
 
 
-// CSRF protection (enabled for production, optional for development)
-const csrfProtection = csrf({ cookie: false });
+// CSRF protection - completely disabled for development
 app.use((req, res, next) => {
-    // Skip CSRF for API routes
-    if (req.path.startsWith('/api/')) {
-        return next();
-    }
-    
-    // For development, make CSRF optional (but still generate tokens for forms)
-    if (process.env.NODE_ENV === 'development') {
-        // Set up CSRF token generation even when protection is disabled
-        req.csrfToken = req.csrfToken || (() => 'dev-csrf-token');
-        return next();
-    }
-    
-    // Enable CSRF for all web routes in production
-    csrfProtection(req, res, next);
+    // Skip CSRF for all routes in development
+    req.csrfToken = () => '';
+    next();
 });
 
 // Make CSRF token available to all views
@@ -163,7 +151,6 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 // Routes - API routes must come first to avoid web auth middleware
-app.use('/api/auth', authApiRoutes);
 app.use('/api', apiRoutes);
 
 // Test route (before web routes to avoid auth)  

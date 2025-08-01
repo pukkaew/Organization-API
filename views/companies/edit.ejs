@@ -11,11 +11,13 @@
 <main class="flex-1 py-8">
     <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8"> 
     <div class="max-w-3xl mx-auto">
-        <div class="bg-white rounded-2xl shadow-2xl border border-ruxchai-grey-100">
-            <div class="px-6 py-4 bg-ruxchai-blue rounded-t-2xl">
+        <div class="bg-white rounded-2xl shadow-2xl border border-gray-100">
+            <div class="px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-t-2xl">
                 <div class="flex items-center justify-between">
                     <h2 class="text-xl font-bold text-white flex items-center">
-                        <i class="fas fa-building text-2xl mr-3"></i>
+                        <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center mr-3 shadow-lg">
+                            <i class="fas fa-building text-white text-2xl drop-shadow-lg"></i>
+                        </div>
                         Edit Company
                     </h2>
                     <a href="/companies" class="text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10">
@@ -24,16 +26,16 @@
                 </div>
             </div>
             
-            <form method="post" action="/companies/<%= company.company_code %>" class="p-6">
+            <form method="post" action="/companies/<%= company.company_code %>" class="form-section">
                 <% if (typeof csrfToken !== 'undefined') { %>
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <% } %>
                 <input type="hidden" name="_method" value="PUT">
                 
-                <div class="space-y-6">
+                <div class="space-y-4">
                     <!-- Company Code (Read-only) -->
-                    <div>
-                        <label for="company_code" class="form-label text-gray-800 font-semibold flex items-center">
+                    <div class="form-group-enhanced">
+                        <label for="company_code" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
                             <i class="fas fa-tag text-lg mr-2"></i>
                             Company Code
                         </label>
@@ -41,15 +43,15 @@
                                id="company_code" 
                                value="<%= company.company_code %>" 
                                disabled
-                               class="form-input bg-gray-100 cursor-not-allowed">
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed">
                         <p class="mt-1 text-sm text-gray-500">
                             Company code cannot be changed
                         </p>
                     </div>
                     
                     <!-- Thai Name -->
-                    <div>
-                        <label for="company_name_th" class="form-label text-gray-800 font-semibold flex items-center">
+                    <div class="form-group-enhanced">
+                        <label for="company_name_th" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
                             <i class="fas fa-university text-lg mr-2"></i>
                             Thai Name <span class="text-red-500">*</span>
                         </label>
@@ -59,12 +61,12 @@
                                required
                                maxlength="200"
                                value="<%= company.company_name_th %>"
-                               class="form-input focus:ring-2 focus:ring-ruxchai-blue focus:border-ruxchai-blue border-ruxchai-grey-300 transition-all duration-200">
+                               class="form-input-enhanced">
                     </div>
                     
                     <!-- English Name -->
-                    <div>
-                        <label for="company_name_en" class="form-label text-gray-800 font-semibold flex items-center">
+                    <div class="form-group-enhanced">
+                        <label for="company_name_en" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
                             <i class="fas fa-globe text-lg mr-2"></i>
                             English Name
                         </label>
@@ -73,12 +75,12 @@
                                name="company_name_en" 
                                maxlength="200"
                                value="<%= company.company_name_en || '' %>"
-                               class="form-input focus:ring-2 focus:ring-ruxchai-blue focus:border-ruxchai-blue border-ruxchai-grey-300 transition-all duration-200">
+                               class="form-input-enhanced">
                     </div>
                     
                     <!-- Tax ID -->
-                    <div>
-                        <label for="tax_id" class="form-label text-gray-800 font-semibold flex items-center">
+                    <div class="form-group-enhanced">
+                        <label for="tax_id" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
                             <i class="fas fa-clipboard text-lg mr-2"></i>
                             Tax ID
                         </label>
@@ -88,7 +90,7 @@
                                maxlength="13"
                                pattern="[0-9]{13}"
                                value="<%= company.tax_id || '' %>"
-                               class="form-input focus:ring-2 focus:ring-blue-500 focus:border-blue-500 border-gray-300 transition-all duration-200"
+                               class="form-input-enhanced"
                                placeholder="13-digit tax ID">
                         <p class="mt-1 text-sm text-gray-500">
                             Enter 13-digit tax identification number
@@ -96,8 +98,8 @@
                     </div>
                     
                     <!-- Website -->
-                    <div>
-                        <label for="website" class="form-label text-gray-800 font-semibold flex items-center">
+                    <div class="form-group-enhanced">
+                        <label for="website" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
                             <i class="fas fa-globe text-lg mr-2"></i>
                             Website
                         </label>
@@ -105,13 +107,13 @@
                                id="website" 
                                name="website"
                                value="<%= company.website || '' %>"
-                               class="form-input focus:ring-2 focus:ring-blue-500 focus:border-blue-500 border-gray-300 transition-all duration-200"
+                               class="form-input-enhanced"
                                placeholder="https://www.example.com">
                     </div>
                     
                     <!-- Email -->
-                    <div>
-                        <label for="email" class="form-label text-gray-800 font-semibold flex items-center">
+                    <div class="form-group-enhanced">
+                        <label for="email" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
                             <i class="fas fa-envelope text-lg mr-2"></i>
                             Email
                         </label>
@@ -119,13 +121,13 @@
                                id="email" 
                                name="email"
                                value="<%= company.email || '' %>"
-                               class="form-input focus:ring-2 focus:ring-blue-500 focus:border-blue-500 border-gray-300 transition-all duration-200"
+                               class="form-input-enhanced"
                                placeholder="contact@example.com">
                     </div>
                     
                     <!-- Phone -->
-                    <div>
-                        <label for="phone" class="form-label text-gray-800 font-semibold flex items-center">
+                    <div class="form-group-enhanced">
+                        <label for="phone" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
                             <i class="fas fa-phone text-lg mr-2"></i>
                             Phone
                         </label>
@@ -133,20 +135,20 @@
                                id="phone" 
                                name="phone"
                                value="<%= company.phone || '' %>"
-                               class="form-input focus:ring-2 focus:ring-blue-500 focus:border-blue-500 border-gray-300 transition-all duration-200"
+                               class="form-input-enhanced"
                                placeholder="02-123-4567">
                     </div>
                     
                     <!-- Address -->
-                    <div>
-                        <label for="address" class="form-label text-gray-800 font-semibold flex items-center">
+                    <div class="form-group-enhanced">
+                        <label for="address" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
                             <i class="fas fa-map-marker-alt text-lg mr-2"></i>
                             Address
                         </label>
                         <textarea id="address" 
                                   name="address" 
                                   rows="3"
-                                  class="form-input focus:ring-2 focus:ring-ruxchai-blue focus:border-ruxchai-blue border-ruxchai-grey-300 transition-all duration-200"><%= company.address || '' %></textarea>
+                                  class="form-input-enhanced"><%= company.address || '' %></textarea>
                     </div>
                     
                     <!-- Status Notice -->
@@ -170,25 +172,25 @@
                     <div class="bg-ruxchai-grey-50 border border-ruxchai-grey-200 rounded-lg p-4">
                         <div class="grid grid-cols-2 gap-4 text-sm">
                             <div>
-                                <span class="text-ruxchai-grey-500">Created:</span>
-                                <span class="text-ruxchai-grey-900 ml-2">
+                                <span class="text-gray-500">Created:</span>
+                                <span class="text-gray-900 ml-2">
                                     <%= new Date(company.created_date).toLocaleString('th-TH') %>
                                 </span>
                             </div>
                             <div>
-                                <span class="text-ruxchai-grey-500">Created by:</span>
-                                <span class="text-ruxchai-grey-900 ml-2"><%= company.created_by %></span>
+                                <span class="text-gray-500">Created by:</span>
+                                <span class="text-gray-900 ml-2"><%= company.created_by %></span>
                             </div>
                             <% if (company.updated_date) { %>
                                 <div>
-                                    <span class="text-ruxchai-grey-500">Updated:</span>
-                                    <span class="text-ruxchai-grey-900 ml-2">
+                                    <span class="text-gray-500">Updated:</span>
+                                    <span class="text-gray-900 ml-2">
                                         <%= new Date(company.updated_date).toLocaleString('th-TH') %>
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="text-ruxchai-grey-500">Updated by:</span>
-                                    <span class="text-ruxchai-grey-900 ml-2"><%= company.updated_by %></span>
+                                    <span class="text-gray-500">Updated by:</span>
+                                    <span class="text-gray-900 ml-2"><%= company.updated_by %></span>
                                 </div>
                             <% } %>
                         </div>
@@ -197,7 +199,7 @@
                 
                 <!-- Form Actions -->
                 <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
-                    <a href="/companies" class="btn btn-ghost hover:bg-gray-100 transition-all duration-200">
+                    <a href="/companies" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:bg-gray-100 transition-all duration-200">
                         <i class="fas fa-arrow-left mr-2"></i>
                         Cancel
                     </a>

@@ -21,9 +21,19 @@
             </div>
         </div>
 
-        <!-- Filters -->
-        <div class="bg-white shadow rounded-lg p-4 mb-6">
-            <form method="get" action="/api-keys/<%= apiKey.api_key_id %>/logs" class="space-y-4 md:space-y-0 md:grid md:grid-cols-6 md:gap-4">
+        <!-- Filters Section -->
+        <div class="card-elevated fast-card mb-6">
+            <div class="p-6">
+                <div class="flex items-center space-x-3 mb-4">
+                    <span class="text-xl">🔍</span>
+                    <h2 class="text-lg font-semibold text-gray-900">
+                        Search & Filter
+                    </h2>
+                </div>
+            <form method="get" action="/api-keys/<%= apiKey.api_key_id %>/logs" class="fast-form space-y-4 md:space-y-0 md:grid md:grid-cols-6 md:gap-4">
+                <% if (typeof csrfToken !== 'undefined' && csrfToken) { %>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <% } %>
                 <!-- Endpoint Filter -->
                 <div class="col-span-2">
                     <label for="endpoint" class="block text-sm font-medium text-gray-700 mb-1">Endpoint</label>
@@ -74,8 +84,8 @@
                 
                 <!-- Actions -->
                 <div class="col-span-6 md:col-span-6 flex justify-end space-x-2 mt-4 md:mt-0">
-                    <button type="submit" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none   ">
-                        <i class="fas fa-filter mr-2"></i>
+                    <button type="submit" class="btn btn-primary w-full">
+                        <span style="font-size: 0.875rem; margin-right: 0.5rem;">🔍</span>
                         Apply Filters
                     </button>
                     <a href="/api-keys/<%= apiKey.api_key_id %>/logs" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none   ">
@@ -88,6 +98,7 @@
                     </button>
                 </div>
             </form>
+            </div>
         </div>
 
         <!-- Quick Stats -->

@@ -21,7 +21,10 @@ router.use(storeReturnTo);
 
 // Public routes (no auth required)
 router.get('/login', showLoginPage);
-router.post('/login', login);
+router.post('/login', (req, res, next) => {
+    console.log('POST /login route hit with body:', req.body);
+    login(req, res, next);
+});
 router.get('/logout', logout);
 
 // Health check route (public)
@@ -60,7 +63,14 @@ router.use('/divisions', divisionRoutes);
 router.use('/departments', departmentRoutes);
 
 // API Key management routes
-router.use('/api-keys', apiKeyRoutes);
+router.use('/api-keys', (req, res, next) => {
+    console.log('=== API KEYS MAIN ROUTE ===');
+    console.log('Method:', req.method);
+    console.log('Path:', req.path);
+    console.log('OriginalUrl:', req.originalUrl);
+    console.log('User:', req.user || req.session?.user);
+    next();
+}, apiKeyRoutes);
 
 // Documentation route
 router.get('/docs', (req, res) => {
