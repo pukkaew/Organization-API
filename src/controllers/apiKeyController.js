@@ -263,26 +263,17 @@ const showApiKeyDetails = asyncHandler(async (req, res) => {
             }
         ];
 
-        // For now, return JSON response to ensure 100% pass rate
-        // Template can be fixed later - this ensures the endpoint works
-        res.json({
-            success: true,
-            message: 'API Key Details Retrieved Successfully',
-            data: {
-                apiKey: mockApiKey,
-                stats: mockStats,
-                recentLogs: mockRecentLogs,
-                endpoint: `/api-keys/${req.params.id}`,
-                timestamp: new Date().toISOString(),
-                note: 'This endpoint is working - template will be added in next version'
-            }
+        res.render('api-keys/details', {
+            title: `API Key Details: ${mockApiKey.app_name}`,
+            apiKey: mockApiKey,
+            stats: mockStats,
+            recentLogs: mockRecentLogs
         });
     } catch (error) {
         console.error('Error in showApiKeyDetails:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Error retrieving API key details',
-            error: error.message
+        res.status(500).render('errors/500', {
+            title: 'Error',
+            error: 'Unable to load API key details'
         });
     }
 });
@@ -304,7 +295,7 @@ const showEditApiKeyForm = asyncHandler(async (req, res) => {
         created_by: 'admin'
     };
     
-    res.render('api-keys/edit-working', {
+    res.render('api-keys/edit', {
         title: 'Edit API Key',
         apiKey: mockApiKey,
         error: null,
