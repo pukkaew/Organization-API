@@ -1,24 +1,29 @@
 <!-- Path: /views/api-keys/edit.ejs -->
-<%- include('../layouts/main', { 
-    title: 'Edit API Key - ' + apiKey.app_name,
-    body: ` 
-    <div class="max-w-2xl mx-auto">
-        <div class="md:flex md:items-center md:justify-between">
-            <div class="flex-1 min-w-0">
-                <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-                    Edit API Key
-                </h2>
-                <p class="mt-1 text-sm text-gray-500">
-                    Update API key settings for <%= apiKey.app_name %>
-                </p>
-            </div>
-            <div class="mt-4 flex md:mt-0 md:ml-4">
-                <a href="/api-keys/<%= apiKey.api_key_id %>" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none   ">
-                    <span class="mr-2">←</span>
-                    Back to Details
-                </a>
-            </div>
-        </div>
+<%- include('../partials/header', { 
+    title: 'Edit API Key',
+    includeChartJS: false
+}) %>
+<%- include('../partials/navigation', { 
+    activeMenu: 'api-keys',
+    user: typeof user !== 'undefined' ? user : null
+}) %>
+
+<!-- Main Content -->
+<main class="flex-1 py-8">
+    <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto">
+            <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl border border-gray-100">
+                <%- include('../partials/form-header', { 
+                    title: 'Edit API Key',
+                    icon: 'key',
+                    iconColor: 'purple',
+                    backUrl: '/api-keys/' + apiKey.api_key_id
+                }) %>
+                
+                <%- include('../partials/form-errors', { 
+                    error: typeof error !== 'undefined' ? error : null,
+                    validationErrors: typeof validationErrors !== 'undefined' ? validationErrors : null
+                }) %>
     
         <form method="post" action="/api-keys/<%= apiKey.api_key_id %>" class="form-section mt-8 space-y-4">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -166,9 +171,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-    
-            <!-- Security Notice -->
+                    
+                    <!-- Security Notice -->
             <div class="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl border border-cyan-100 shadow-lg p-4">
                 <div class="flex">
                     <div class="flex-shrink-0">
@@ -184,9 +188,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-    
-            <!-- Form Actions -->
+                    
+                    <!-- Form Actions -->
             <div class="flex justify-end">
                 <a href="/api-keys/<%= apiKey.api_key_id %>" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none   ">
                     Cancel
@@ -195,10 +198,9 @@
                     <span class="mr-2">💾</span>
                     Update API Key
                 </button>
-            </div>
-        </form>
-
-        <!-- Danger Zone -->
+                </form>
+                
+                <!-- Danger Zone -->
         <div class="mt-8 bg-red-50 border border-red-200 rounded-lg p-6">
             <h3 class="text-lg font-medium text-red-900 mb-4">
                 Danger Zone
@@ -213,15 +215,17 @@
                             Generate a new API key. The current key will be immediately deactivated.
                         </p>
                     </div>
-                    <form method="POST" action="/api-keys/<%= apiKey.api_key_id %>/regenerate" class="inline">
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <form method="POST" action="/api-keys/<%= apiKey.api_key_id %>/regenerate" class="inline">
+                                <% if (typeof csrfToken !== 'undefined') { %>
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <% } %>
                         <button type="submit" 
                                 onclick="return confirm('Are you sure you want to regenerate this API key? The current key will be immediately deactivated and cannot be recovered.')"
-                                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none   ">
-                            <span class="mr-2">🔄</span>
+                                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                    <i class="fas fa-sync-alt mr-2"></i>
                             Regenerate Key
-                        </button>
-                    </form>
+                                </button>
+                            </form>
                 </div>
 
                 <!-- Toggle Status -->
@@ -236,20 +240,24 @@
                                 : 'This will allow the API key to be used again.' %>
                         </p>
                     </div>
-                    <form method="POST" action="/api-keys/<%= apiKey.api_key_id %>/toggle-status" class="inline">
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <form method="POST" action="/api-keys/<%= apiKey.api_key_id %>/toggle-status" class="inline">
+                                <% if (typeof csrfToken !== 'undefined') { %>
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <% } %>
                         <button type="submit" 
                                 onclick="return confirm('Are you sure you want to <%= apiKey.is_active ? 'deactivate' : 'activate' %> this API key?')"
                                 class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white 
-                                       <%= apiKey.is_active ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700' %> 
-                                       focus:outline-none   <%= apiKey.is_active ? 'red' : 'green' %>-500">
-                            <span class="mr-2"><%= apiKey.is_active ? '⏸️' : '▶️' %></span>
+                                               <%= apiKey.is_active ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700' %> 
+                                               focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-<%= apiKey.is_active ? 'red' : 'green' %>-500">
+                                    <i class="fas fa-<%= apiKey.is_active ? 'pause' : 'play' %> mr-2"></i>
                             <%= apiKey.is_active ? 'Deactivate' : 'Activate' %> Key
-                        </button>
-                    </form>
+                                </button>
+                            </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    ` 
-}) %>
+</main>
+
+<%- include('../partials/footer') %>

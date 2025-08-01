@@ -1,0 +1,16 @@
+<%# Status Badge Partial %>
+<%# Usage: include('../partials/status-badge', { isActive: company.is_active }) %>
+
+<% if (isActive) { %>
+    <span class="status-badge status-badge-active">
+        <i class="fas fa-check-circle" aria-hidden="true"></i>
+        <span class="hidden sm:inline">Active</span>
+        <span class="sm:hidden">On</span>
+    </span>
+<% } else { %>
+    <span class="status-badge status-badge-inactive">
+        <i class="fas fa-times-circle" aria-hidden="true"></i>
+        <span class="hidden sm:inline">Inactive</span>
+        <span class="sm:hidden">Off</span>
+    </span>
+<% } %>

@@ -5,8 +5,8 @@
     includeChartJS: true,
     body: ` 
     <div class="max-w-full mx-auto">
-        <!-- Header with Gradient Background -->
-        <div class="bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-700 rounded-xl p-8 text-white mb-8 shadow-xl">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-violet-600 to-indigo-700 rounded-xl p-8 text-white mb-8 shadow-xl">
             <div class="md:flex md:items-center md:justify-between">
                 <div class="flex-1 min-w-0">
                     <div class="flex items-center mb-3">
@@ -24,21 +24,21 @@
                     </div>
                 </div>
                 <div class="mt-4 flex flex-col sm:flex-row md:mt-0 md:ml-4 space-y-2 sm:space-y-0 sm:space-x-3">
-                    <a href="/api-keys/<%= apiKey.api_key_id %>/edit" class="group inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg hover:from-emerald-600 hover:to-teal-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                        <span class="mr-2 transition-transform group-hover:rotate-12">✏️</span>
+                    <a href="/api-keys/<%= apiKey.api_key_id %>/edit" class="btn btn-emerald">
+                        <i class="fas fa-edit mr-2"></i>
                         Edit
                     </a>
                     <form method="POST" action="/api-keys/<%= apiKey.api_key_id %>/regenerate" class="inline">
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <button type="submit" 
                                 onclick="return confirm('Are you sure you want to regenerate this API key? The current key will be deactivated.')"
-                                class="group inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-600 text-white rounded-lg hover:from-yellow-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                            <i class="fas fa-sync mr-2 transition-transform group-hover:rotate-180"></i>
+                                class="btn btn-yellow">
+                            <i class="fas fa-sync mr-2"></i>
                             Regenerate Key
                         </button>
                     </form>
-                    <a href="/api-keys" class="group inline-flex items-center justify-center px-6 py-3 bg-white bg-opacity-20 backdrop-blur-sm text-white rounded-lg hover:bg-opacity-30 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border border-white border-opacity-20">
-                        <i class="fas fa-arrow-left mr-2 transition-transform group-hover:-translate-x-1"></i>
+                    <a href="/api-keys" class="btn btn-white-transparent">
+                        <i class="fas fa-arrow-left mr-2"></i>
                         Back to List
                     </a>
                 </div>
@@ -59,82 +59,74 @@
             </div>
             <div class="p-6 bg-gradient-to-br from-gray-50 to-purple-50">
                 <dl class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    <div class="bg-gradient-to-br from-blue-50 to-indigo-100 p-6 rounded-xl shadow-lg border border-blue-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
-                            <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mr-3">
+                    <div class="detail-card detail-card-blue">
+                        <dt class="detail-label">
+                            <div class="detail-icon detail-icon-blue">
                                 <i class="fas fa-mobile-alt"></i>
                             </div>
                             Application Name
                         </dt>
-                        <dd class="text-lg font-bold text-gray-900 bg-white px-3 py-2 rounded-lg shadow-sm">
+                        <dd class="detail-value">
                             <%= apiKey.app_name %>
                         </dd>
                     </div>
                     
-                    <div class="bg-gradient-to-br from-emerald-50 to-teal-100 p-6 rounded-xl shadow-lg border border-emerald-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
-                            <div class="w-8 h-8 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center mr-3">
+                    <div class="detail-card detail-card-emerald">
+                        <dt class="detail-label">
+                            <div class="detail-icon detail-icon-emerald">
                                 <i class="fas fa-file-alt"></i>
                             </div>
                             Description
                         </dt>
-                        <dd class="text-sm text-gray-900 bg-white px-3 py-2 rounded-lg shadow-sm">
+                        <dd class="detail-value">
                             <%= apiKey.description || '-' %>
                         </dd>
                     </div>
                     
-                    <div class="bg-gradient-to-br from-purple-50 to-pink-100 p-6 rounded-xl shadow-lg border border-purple-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
-                            <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center mr-3">
+                    <div class="detail-card detail-card-purple">
+                        <dt class="detail-label">
+                            <div class="detail-icon detail-icon-purple">
                                 <i class="fas fa-shield-alt"></i>
                             </div>
                             Permissions
                         </dt>
                         <dd class="mt-1">
                             <% if (apiKey.permissions === 'read') { %>
-                                <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-blue-400 to-indigo-500 text-white shadow-lg">
+                                <span class="status-badge status-badge-blue">
                                     <i class="fas fa-eye mr-2"></i>Read Only
                                 </span>
                             <% } else if (apiKey.permissions === 'write') { %>
-                                <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-yellow-400 to-orange-500 text-white shadow-lg">
+                                <span class="status-badge status-badge-yellow">
                                     <i class="fas fa-edit mr-2"></i>Write Only
                                 </span>
                             <% } else { %>
-                                <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-green-400 to-emerald-500 text-white shadow-lg animate-pulse">
+                                <span class="status-badge status-badge-green">
                                     <i class="fas fa-check mr-2"></i>Read & Write
                                 </span>
                             <% } %>
                         </dd>
                     </div>
                     
-                    <div class="bg-gradient-to-br from-cyan-50 to-blue-100 p-6 rounded-xl shadow-lg border border-cyan-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
-                            <div class="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center mr-3">
+                    <div class="detail-card detail-card-cyan">
+                        <dt class="detail-label">
+                            <div class="detail-icon detail-icon-cyan">
                                 <i class="fas fa-bolt"></i>
                             </div>
                             Status
                         </dt>
                         <dd class="mt-1">
-                            <% if (apiKey.is_active) { %>
-                                <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-green-400 to-emerald-500 text-white shadow-lg animate-pulse">
-                                    <i class="fas fa-check mr-2"></i>Active
-                                </span>
-                            <% } else { %>
-                                <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-red-400 to-pink-500 text-white shadow-lg">
-                                    <i class="fas fa-times mr-2"></i>Inactive
-                                </span>
-                            <% } %>
+                            <%- include('../partials/status-badge', { isActive: apiKey.is_active }) %>
                         </dd>
                     </div>
                     
-                    <div class="bg-gradient-to-br from-yellow-50 to-amber-100 p-6 rounded-xl shadow-lg border border-yellow-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
-                            <div class="w-8 h-8 bg-gradient-to-br from-yellow-500 to-amber-600 rounded-lg flex items-center justify-center mr-3">
+                    <div class="detail-card detail-card-yellow">
+                        <dt class="detail-label">
+                            <div class="detail-icon detail-icon-yellow">
                                 <i class="fas fa-calendar"></i>
                             </div>
                             Created
                         </dt>
-                        <dd class="text-sm text-gray-900 bg-white px-3 py-2 rounded-lg shadow-sm">
+                        <dd class="detail-value">
                             <%= new Date(apiKey.created_date).toLocaleString() %>
                             <% if (apiKey.created_by) { %>
                                 <br><span class="text-xs text-gray-600">by <%= apiKey.created_by %></span>
@@ -142,14 +134,14 @@
                         </dd>
                     </div>
                     
-                    <div class="bg-gradient-to-br from-orange-50 to-red-100 p-6 rounded-xl shadow-lg border border-orange-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
-                            <div class="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center mr-3">
+                    <div class="detail-card detail-card-orange">
+                        <dt class="detail-label">
+                            <div class="detail-icon detail-icon-orange">
                                 <i class="fas fa-clock"></i>
                             </div>
                             Last Used
                         </dt>
-                        <dd class="text-sm text-gray-900 bg-white px-3 py-2 rounded-lg shadow-sm">
+                        <dd class="detail-value">
                             <% if (apiKey.last_used_date) { %>
                                 <%= new Date(apiKey.last_used_date).toLocaleString() %>
                             <% } else { %>
@@ -158,18 +150,18 @@
                         </dd>
                     </div>
                     
-                    <div class="bg-gradient-to-br from-rose-50 to-pink-100 p-6 rounded-xl shadow-lg border border-rose-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
-                            <div class="w-8 h-8 bg-gradient-to-br from-rose-500 to-pink-600 rounded-lg flex items-center justify-center mr-3">
+                    <div class="detail-card detail-card-rose">
+                        <dt class="detail-label">
+                            <div class="detail-icon detail-icon-rose">
                                 <i class="fas fa-clock"></i>
                             </div>
                             Expiration
                         </dt>
-                        <dd class="text-sm text-gray-900 bg-white px-3 py-2 rounded-lg shadow-sm">
+                        <dd class="detail-value">
                             <% if (apiKey.expires_date) { %>
                                 <%= new Date(apiKey.expires_date).toLocaleDateString() %>
                                 <% if (new Date(apiKey.expires_date) < new Date()) { %>
-                                    <br><span class="inline-flex items-center px-2 py-1 rounded-lg text-xs font-bold bg-gradient-to-r from-red-400 to-pink-500 text-white shadow-lg mt-1">
+                                    <br><span class="status-badge status-badge-red mt-1">
                                         Expired
                                     </span>
                                 <% } %>
@@ -180,28 +172,28 @@
                     </div>
                     
                     <% if (apiKey.rate_limit) { %>
-                        <div class="bg-gradient-to-br from-teal-50 to-cyan-100 p-6 rounded-xl shadow-lg border border-teal-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                            <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
-                                <div class="w-8 h-8 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-lg flex items-center justify-center mr-3">
+                        <div class="detail-card detail-card-teal">
+                            <dt class="detail-label">
+                                <div class="detail-icon detail-icon-teal">
                                     <i class="fas fa-bolt"></i>
                                 </div>
                                 Rate Limit
                             </dt>
-                            <dd class="text-sm text-gray-900 bg-white px-3 py-2 rounded-lg shadow-sm">
+                            <dd class="detail-value">
                                 <%= apiKey.rate_limit %> requests per hour
                             </dd>
                         </div>
                     <% } %>
                     
                     <% if (apiKey.ip_whitelist) { %>
-                        <div class="sm:col-span-2 lg:col-span-3 bg-gradient-to-br from-indigo-50 to-violet-100 p-6 rounded-xl shadow-lg border border-indigo-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                            <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
-                                <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-lg flex items-center justify-center mr-3">
+                        <div class="sm:col-span-2 lg:col-span-3 detail-card detail-card-indigo">
+                            <dt class="detail-label">
+                                <div class="detail-icon detail-icon-indigo">
                                     <i class="fas fa-lock"></i>
                                 </div>
                                 IP Whitelist
                             </dt>
-                            <dd class="text-xs font-mono bg-white p-4 rounded-lg shadow-sm">
+                            <dd class="detail-value font-mono text-xs">
                                 <%- apiKey.ip_whitelist.split('\n').join('<br>') %>
                             </dd>
                         </div>
@@ -213,85 +205,58 @@
         <!-- Usage Statistics -->
         <div class="mb-8">
             <div class="flex items-center mb-6">
-                <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center mr-3">
-                    📊
+                <div class="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center mr-3">
+                    <i class="fas fa-chart-bar text-white"></i>
                 </div>
                 <h3 class="text-2xl font-bold text-gray-900">Usage Statistics</h3>
             </div>
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
                 <!-- Last 24 Hours -->
-                <div class="bg-gradient-to-br from-blue-50 to-indigo-100 p-6 rounded-xl shadow-lg border border-blue-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="flex items-center mb-3">
-                        <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mr-3">
-                            <i class="fas fa-chart-bar"></i>
-                        </div>
-                        <dt class="text-sm font-medium text-gray-600">
-                            Last 24 Hours
-                        </dt>
+                <div class="stats-card stats-card-blue">
+                    <div class="stats-icon stats-icon-blue">
+                        <i class="fas fa-chart-bar text-white"></i>
                     </div>
-                    <dd class="mt-3">
-                        <div class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                            <%= stats.last24Hours.total_requests || 0 %>
-                        </div>
-                        <p class="text-sm text-gray-600 mt-1 bg-white px-2 py-1 rounded-lg shadow-sm">
-                            requests • 
-                            <% if (stats.last24Hours.total_requests > 0) { %>
-                                <span class="text-green-600 font-semibold"><%= ((stats.last24Hours.successful_requests / stats.last24Hours.total_requests) * 100).toFixed(1) %>% success</span>
-                            <% } else { %>
-                                <span class="text-gray-500">- success</span>
-                            <% } %>
-                        </p>
-                    </dd>
+                    <div class="stats-number"><%= stats.last24Hours.total_requests || 0 %></div>
+                    <div class="stats-label">Last 24 Hours</div>
+                    <div class="stats-meta">
+                        <% if (stats.last24Hours.total_requests > 0) { %>
+                            <%= ((stats.last24Hours.successful_requests / stats.last24Hours.total_requests) * 100).toFixed(1) %>% success
+                        <% } else { %>
+                            No requests
+                        <% } %>
+                    </div>
                 </div>
 
                 <!-- Last 7 Days -->
-                <div class="bg-gradient-to-br from-emerald-50 to-teal-100 p-6 rounded-xl shadow-lg border border-emerald-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="flex items-center mb-3">
-                        <div class="w-8 h-8 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center mr-3">
-                            <i class="fas fa-calendar"></i>
-                        </div>
-                        <dt class="text-sm font-medium text-gray-600">
-                            Last 7 Days
-                        </dt>
+                <div class="stats-card stats-card-emerald">
+                    <div class="stats-icon stats-icon-emerald">
+                        <i class="fas fa-calendar text-white"></i>
                     </div>
-                    <dd class="mt-3">
-                        <div class="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                            <%= stats.last7Days.total_requests || 0 %>
-                        </div>
-                        <p class="text-sm text-gray-600 mt-1 bg-white px-2 py-1 rounded-lg shadow-sm">
-                            requests • 
-                            <% if (stats.last7Days.total_requests > 0) { %>
-                                <span class="text-blue-600 font-semibold"><%= Math.round(stats.last7Days.avg_response_time) %>ms avg</span>
-                            <% } else { %>
-                                <span class="text-gray-500">- avg</span>
-                            <% } %>
-                        </p>
-                    </dd>
+                    <div class="stats-number"><%= stats.last7Days.total_requests || 0 %></div>
+                    <div class="stats-label">Last 7 Days</div>
+                    <div class="stats-meta">
+                        <% if (stats.last7Days.total_requests > 0) { %>
+                            <%= Math.round(stats.last7Days.avg_response_time) %>ms avg
+                        <% } else { %>
+                            No requests
+                        <% } %>
+                    </div>
                 </div>
 
                 <!-- Last 30 Days -->
-                <div class="bg-gradient-to-br from-purple-50 to-pink-100 p-6 rounded-xl shadow-lg border border-purple-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="flex items-center mb-3">
-                        <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center mr-3">
-                            <i class="fas fa-calendar"></i>
-                        </div>
-                        <dt class="text-sm font-medium text-gray-600">
-                            Last 30 Days
-                        </dt>
+                <div class="stats-card stats-card-purple">
+                    <div class="stats-icon stats-icon-purple">
+                        <i class="fas fa-calendar text-white"></i>
                     </div>
-                    <dd class="mt-3">
-                        <div class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                            <%= stats.last30Days.total_requests || 0 %>
-                        </div>
-                        <p class="text-sm text-gray-600 mt-1 bg-white px-2 py-1 rounded-lg shadow-sm">
-                            requests • 
-                            <% if (stats.last30Days.server_errors > 0) { %>
-                                <span class="text-red-600 font-semibold"><%= stats.last30Days.server_errors %> errors</span>
-                            <% } else { %>
-                                <span class="text-green-600 font-semibold">no errors</span>
-                            <% } %>
-                        </p>
-                    </dd>
+                    <div class="stats-number"><%= stats.last30Days.total_requests || 0 %></div>
+                    <div class="stats-label">Last 30 Days</div>
+                    <div class="stats-meta">
+                        <% if (stats.last30Days.server_errors > 0) { %>
+                            <%= stats.last30Days.server_errors %> errors
+                        <% } else { %>
+                            No errors
+                        <% } %>
+                    </div>
                 </div>
             </div>
         </div>
@@ -390,8 +355,8 @@
                             Recent API Logs
                         </h3>
                     </div>
-                    <a href="/api-keys/<%= apiKey.api_key_id %>/logs" class="group inline-flex items-center px-4 py-2 bg-white bg-opacity-20 backdrop-blur-sm text-white rounded-lg hover:bg-opacity-30 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border border-white border-opacity-20">
-                        View all logs <i class="fas fa-arrow-right ml-1 transition-transform group-hover:translate-x-1"></i>
+                    <a href="/api-keys/<%= apiKey.api_key_id %>/logs" class="btn btn-white-transparent">
+                        View all logs <i class="fas fa-arrow-right ml-1"></i>
                     </a>
                 </div>
             </div>

@@ -12,12 +12,12 @@
                         </p>
                     </div>
                     <div class="flex items-center justify-center space-x-6">
-                        <a href="/docs" class="group inline-flex items-center px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg text-sm font-medium">
-                            <i class="fas fa-book text-base mr-2 group-hover:rotate-12 transition-transform duration-300"></i>
+                        <a href="/docs" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-colors duration-200 shadow-md text-sm font-medium">
+                            <i class="fas fa-book text-base mr-2" aria-hidden="true"></i>
                             API Documentation
                         </a>
-                        <a href="mailto:support@orgmanagement.com" class="group inline-flex items-center px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg hover:from-emerald-600 hover:to-teal-700 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg text-sm font-medium">
-                            <i class="fas fa-envelope text-base mr-2 group-hover:bounce transition-transform duration-300"></i>
+                        <a href="mailto:support@orgmanagement.com" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg hover:from-emerald-600 hover:to-teal-700 transition-colors duration-200 shadow-md text-sm font-medium">
+                            <i class="fas fa-envelope text-base mr-2" aria-hidden="true"></i>
                             Support
                         </a>
                     </div>
@@ -32,7 +32,7 @@
     <!-- Performance Toggle -->
     <script src="/assets/js/performance-toggle.js"></script>
     
-    <!-- Enhanced interactions and animations -->
+    <!-- Essential interactions -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Mobile menu toggle
@@ -42,85 +42,15 @@
             if (mobileMenuButton && mobileMenu) {
                 mobileMenuButton.addEventListener('click', function() {
                     mobileMenu.classList.toggle('hidden');
-                    
-                    // Add animation classes
-                    if (!mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('animate-slide-up');
-                    }
                 });
             }
             
-            // Add staggered animations to cards and lists
-            const cards = document.querySelectorAll('.bg-gradient-to-br, .bg-white');
-            cards.forEach((card, index) => {
-                if (card.classList.contains('rounded-xl') || card.classList.contains('rounded-lg')) {
-                    card.style.animationDelay = `${index * 0.1}s`;
-                    card.classList.add('animate-slide-up');
-                }
-            });
-            
-            // Add reveal on scroll animations
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('revealed');
-                    }
-                });
-            }, observerOptions);
-            
-            // Observe elements for reveal animations
-            const revealElements = document.querySelectorAll('.bg-gradient-to-br');
-            revealElements.forEach(el => {
-                el.classList.add('reveal-on-scroll');
-                observer.observe(el);
-            });
-            
-            // Add loading shimmer to tables while they load
+            // Remove loading placeholder from tables
             const tables = document.querySelectorAll('table');
             tables.forEach(table => {
-                // Remove loading class after content loads
                 setTimeout(() => {
                     table.classList.remove('loading-placeholder');
-                }, 500);
-            });
-            
-            // Enhanced button interactions
-            const buttons = document.querySelectorAll('button, .btn, a[href]');
-            buttons.forEach(button => {
-                button.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-2px)';
-                });
-                
-                button.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-                
-                button.addEventListener('mousedown', function() {
-                    this.style.transform = 'translateY(0) scale(0.98)';
-                });
-                
-                button.addEventListener('mouseup', function() {
-                    this.style.transform = 'translateY(-2px) scale(1)';
-                });
-            });
-            
-            // Add page load animation
-            document.body.classList.add('animate-fade-in');
-            
-            // Add gradient animation to headers
-            const gradientHeaders = document.querySelectorAll('.bg-gradient-to-r');
-            gradientHeaders.forEach(header => {
-                if (header.classList.contains('from-blue-600') || 
-                    header.classList.contains('from-emerald-600') ||
-                    header.classList.contains('from-purple-600') ||
-                    header.classList.contains('from-violet-600')) {
-                    header.classList.add('animate-gradient');
-                }
+                }, 300);
             });
         });
     </script>

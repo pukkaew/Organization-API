@@ -1,0 +1,92 @@
+<%# Logs Filter Card Partial %>
+<%# Usage: include('../partials/logs-filter-card', { 
+    action: '/api-keys/' + apiKey.api_key_id + '/logs',
+    query: query || {},
+    apiKeyId: apiKey.api_key_id,
+    csrfToken: csrfToken
+}) %>
+
+<div class="filter-card">
+    <div class="filter-card-content">
+        <div class="filter-card-header">
+            <i class="fas fa-search text-xl" aria-hidden="true"></i>
+            <h2 class="filter-card-title">Search & Filter</h2>
+        </div>
+        <form method="get" action="<%= action %>" class="space-y-4 md:space-y-0 md:grid md:grid-cols-6 md:gap-4">
+            <% if (typeof csrfToken !== 'undefined' && csrfToken) { %>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <% } %>
+            
+            <!-- Endpoint Filter -->
+            <div class="col-span-2">
+                <label for="endpoint" class="block text-sm font-medium text-gray-700 mb-1">Endpoint</label>
+                <input type="text" 
+                       name="endpoint" 
+                       id="endpoint" 
+                       value="<%= query.endpoint || '' %>" 
+                       placeholder="e.g. /api/v1/companies" 
+                       class="form-input-enhanced">
+            </div>
+            
+            <!-- Method Filter -->
+            <div>
+                <label for="method" class="block text-sm font-medium text-gray-700 mb-1">Method</label>
+                <select name="method" id="method" class="form-input-enhanced">
+                    <option value="">All Methods</option>
+                    <option value="GET" <%= query.method === 'GET' ? 'selected' : '' %>>GET</option>
+                    <option value="POST" <%= query.method === 'POST' ? 'selected' : '' %>>POST</option>
+                    <option value="PUT" <%= query.method === 'PUT' ? 'selected' : '' %>>PUT</option>
+                    <option value="PATCH" <%= query.method === 'PATCH' ? 'selected' : '' %>>PATCH</option>
+                    <option value="DELETE" <%= query.method === 'DELETE' ? 'selected' : '' %>>DELETE</option>
+                </select>
+            </div>
+            
+            <!-- Status Code Filter -->
+            <div>
+                <label for="status_code" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                <select name="status_code" id="status_code" class="form-input-enhanced">
+                    <option value="">All Status</option>
+                    <option value="2xx" <%= query.status_code === '2xx' ? 'selected' : '' %>>2xx Success</option>
+                    <option value="4xx" <%= query.status_code === '4xx' ? 'selected' : '' %>>4xx Client Error</option>
+                    <option value="5xx" <%= query.status_code === '5xx' ? 'selected' : '' %>>5xx Server Error</option>
+                </select>
+            </div>
+            
+            <!-- Date From -->
+            <div>
+                <label for="date_from" class="block text-sm font-medium text-gray-700 mb-1">From Date</label>
+                <input type="datetime-local" 
+                       name="date_from" 
+                       id="date_from" 
+                       value="<%= query.date_from ? new Date(query.date_from).toISOString().slice(0, 16) : '' %>"
+                       class="form-input-enhanced">
+            </div>
+            
+            <!-- Date To -->
+            <div>
+                <label for="date_to" class="block text-sm font-medium text-gray-700 mb-1">To Date</label>
+                <input type="datetime-local" 
+                       name="date_to" 
+                       id="date_to" 
+                       value="<%= query.date_to ? new Date(query.date_to).toISOString().slice(0, 16) : '' %>"
+                       class="form-input-enhanced">
+            </div>
+            
+            <!-- Actions -->
+            <div class="col-span-6 md:col-span-6 flex justify-end space-x-2 mt-4 md:mt-0">
+                <button type="submit" class="btn btn-primary flex-1 md:flex-none">
+                    <i class="fas fa-search mr-2" aria-hidden="true"></i>
+                    Apply Filters
+                </button>
+                <a href="/api-keys/<%= apiKeyId %>/logs" class="btn bg-gray-500 text-white hover:bg-gray-600">
+                    <i class="fas fa-times mr-2" aria-hidden="true"></i>
+                    Clear
+                </a>
+                <button type="button" onclick="exportLogs()" class="btn btn-success">
+                    <i class="fas fa-download mr-2" aria-hidden="true"></i>
+                    Export CSV
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

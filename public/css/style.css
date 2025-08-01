@@ -14,8 +14,8 @@
 body {
   font-family: 'Inter', 'Noto Sans Thai', sans-serif;
   line-height: 1.6;
-  color: var(--text-primary);
-  background-color: var(--bg-secondary);
+  color: #161616;
+  background-color: #F1F5F9;
 }
 
 .container {

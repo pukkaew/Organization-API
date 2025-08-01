@@ -1,72 +1,20 @@
     <div class="space-y-6">
-            <!-- Page Header -->
-            <div class="card-elevated fast-card mb-6">
-                <div class="p-6">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-700 rounded-2xl flex items-center justify-center shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:rotate-2 border border-blue-400/20">
-                                <i class="fas fa-building text-white text-3xl drop-shadow-xl filter brightness-110"></i>
-                            </div>
-                            <div>
-                                <h1 class="text-2xl font-bold text-gray-900">
-                                    Companies
-                                </h1>
-                                <p class="text-gray-600">Manage all companies in your organization</p>
-                            </div>
-                        </div>
-                        <div>
-                            <a href="/companies/new" class="btn btn-primary">
-                                <span style="font-size: 1.125rem; margin-right: 0.5rem;">➕</span>
-                                เพิ่มบริษัทใหม่
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Page Header -->
+        <%- include('../partials/page-header', { 
+            title: 'Companies',
+            description: 'Manage all companies in your organization',
+            icon: 'building',
+            iconColor: 'blue',
+            addUrl: '/companies/new',
+            addText: 'เพิ่มบริษัทใหม่'
+        }) %>
             
-    <!-- Filters Section -->
-    <div class="card-elevated fast-card mb-6">
-        <div class="p-6">
-            <div class="flex items-center space-x-3 mb-4">
-                <span class="text-xl">🔍</span>
-                <h2 class="text-lg font-semibold text-gray-900">
-                    Search & Filter
-                </h2>
-            </div>
-            <form method="get" action="/companies" class="fast-form grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <div>
-                    <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fas fa-search text-gray-400"></i>
-                        </div>
-                        <input type="text" 
-                               name="search" 
-                               id="search" 
-                               value="<%= typeof filters !== 'undefined' && filters.search || '' %>"
-                               placeholder="Search by code or name..."
-                               class="form-input-enhanced w-full pl-10">
-                    </div>
-                </div>
-                
-                <div>
-                    <label for="is_active" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                    <select name="is_active" id="is_active" class="form-input-enhanced w-full">
-                        <option value="">All Status</option>
-                        <option value="true" <%= typeof filters !== 'undefined' && filters.is_active === 'true' ? 'selected' : '' %>>Active</option>
-                        <option value="false" <%= typeof filters !== 'undefined' && filters.is_active === 'false' ? 'selected' : '' %>>Inactive</option>
-                    </select>
-                </div>
-                
-                <div class="sm:col-span-2 lg:col-span-3 flex items-end">
-                    <button type="submit" class="btn btn-primary no-gradient w-full">
-                        <span style="font-size: 0.875rem; margin-right: 0.5rem;">🔍</span>
-                        Apply Filters
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+        <!-- Filters Section -->
+        <%- include('../partials/filter-card', { 
+            action: '/companies',
+            filters: typeof filters !== 'undefined' ? filters : {},
+            entityType: 'companies'
+        }) %>
             
             <!-- Companies Table -->
             <div class="table-container fast-table">
@@ -106,8 +54,8 @@
                                     <tr class="table-row">
                                         <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap">
                                             <div class="flex items-center">
-                                                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center mr-3 sm:mr-4 shadow-md hover:shadow-lg transition-all duration-200">
-                                                    <i class="fas fa-building text-white text-sm sm:text-base drop-shadow-sm"></i>
+                                                <div class="table-icon table-icon-blue">
+                                                    <i class="fas fa-building" aria-hidden="true"></i>
                                                 </div>
                                                 <div class="min-w-0 flex-1">
                                                     <div class="text-sm sm:text-base font-bold text-gray-900 truncate">
@@ -142,66 +90,15 @@
                                             </div>
                                         </td>
                                         <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-center">
-                                            <% if (company.is_active) { %>
-                                                <span class="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
-                                                    <i class="fas fa-check-circle mr-1"></i>
-                                                    <span class="hidden sm:inline">Active</span>
-                                                    <span class="sm:hidden">On</span>
-                                                </span>
-                                            <% } else { %>
-                                                <span class="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-gray-100 text-gray-700 border border-gray-200">
-                                                    <i class="fas fa-times-circle mr-1"></i>
-                                                    <span class="hidden sm:inline">Inactive</span>
-                                                    <span class="sm:hidden">Off</span>
-                                                </span>
-                                            <% } %>
+                                            <%- include('../partials/status-badge', { isActive: company.is_active }) %>
                                         </td>
                                         <td class="px-3 sm:px-6 py-3 sm:py-4 whitespace-nowrap text-center">
-                                            <div class="flex justify-center space-x-1 sm:space-x-2">
-                                                <!-- View Button -->
-                                                <a href="/companies/<%= company.company_code %>" 
-                                                   class="group relative inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:ring-2 focus:ring-blue-300 focus:outline-none transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105"
-                                                   title="View Details"
-                                                   aria-label="View company details for <%= company.company_code %>">
-                                                    <i class="fas fa-eye text-xs sm:text-sm group-hover:scale-110 transition-transform"></i>
-                                                </a>
-                                                
-                                                <!-- Edit Button -->
-                                                <a href="/companies/<%= company.company_code %>/edit" 
-                                                   class="group relative inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-amber-500 text-white rounded-lg hover:bg-amber-600 focus:ring-2 focus:ring-amber-300 focus:outline-none transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105"
-                                                   title="Edit Company"
-                                                   aria-label="Edit company <%= company.company_code %>">
-                                                    <i class="fas fa-edit text-xs sm:text-sm group-hover:scale-110 transition-transform"></i>
-                                                </a>
-                                                
-                                                <!-- Toggle Status Button -->
-                                                <form action="/companies/<%= company.company_code %>/toggle-status" 
-                                                      method="POST" 
-                                                      class="inline-block">
-                                                    <% if (typeof csrfToken !== 'undefined') { %>
-                                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                                    <% } %>
-                                                    <button type="submit" 
-                                                            class="group relative inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-<%= company.is_active ? 'orange-500 hover:bg-orange-600 focus:ring-orange-300' : 'emerald-500 hover:bg-emerald-600 focus:ring-emerald-300' %> text-white rounded-lg focus:ring-2 focus:outline-none transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105" 
-                                                            title="<%= company.is_active ? 'Deactivate Company' : 'Activate Company' %>"
-                                                            aria-label="<%= company.is_active ? 'Deactivate' : 'Activate' %> company <%= company.company_code %>"
-                                                            onclick="return confirm('Are you sure you want to <%= company.is_active ? 'deactivate' : 'activate' %> company <%= company.company_code %>?')">
-                                                        <i class="fas fa-<%= company.is_active ? 'pause' : 'play' %> text-xs sm:text-sm group-hover:scale-110 transition-transform"></i>
-                                                    </button>
-                                                </form>
-                                                
-                                                <!-- Delete Button -->
-                                                <form method="POST" action="/companies/<%= company.company_code %>/delete" class="inline-block">
-                                                    <input type="hidden" name="dev-csrf-token" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : 'dev-csrf-token' %>">
-                                                    <button type="submit" 
-                                                            class="group relative inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:ring-2 focus:ring-red-300 focus:outline-none transition-all duration-200 shadow-sm hover:shadow-md transform hover:scale-105"
-                                                            title="Delete Company"
-                                                            aria-label="Delete company <%= company.company_code %>"
-                                                            onclick="return confirm('WARNING: Delete Company <%= company.company_code %>?\n\nThis action CANNOT be undone!\n\nThis will permanently delete ALL related data:\n• All Branches under this company\n• All Divisions in those branches\n• All Departments in those divisions\n\nType \"DELETE\" to confirm you understand the consequences.')">
-                                                        <i class="fas fa-trash-alt text-xs sm:text-sm group-hover:scale-110 transition-transform"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
+                                            <%- include('../partials/action-buttons', { 
+                                                entity: 'companies', 
+                                                code: company.company_code, 
+                                                isActive: company.is_active,
+                                                csrfToken: typeof csrfToken !== 'undefined' ? csrfToken : null
+                                            }) %>
                                         </td>
                                     </tr>
                                 <% }); %>

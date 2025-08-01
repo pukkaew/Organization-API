@@ -36,27 +36,27 @@
     --color-danger: #DC3545;
 
     /* ===== BACKGROUND COLORS ===== */
-    --bg-primary: var(--color-primary);
+    --bg-primary: #0090D3;
     --bg-secondary: #F1F5F9;
     --bg-tertiary: #E2E8F0;
-    --bg-dark: var(--color-grey-dark);
+    --bg-dark: #161616;
     --bg-light: #FFFFFF;
     --bg-surface: #FEFEFE;
     --bg-card: #FFFFFF;
 
     /* ===== TEXT COLORS ===== */
-    --text-primary: var(--color-grey-dark);
-    --text-secondary: var(--color-grey-medium);
-    --text-light: var(--color-grey-light);
+    --text-primary: #161616;
+    --text-secondary: #6B6B6B;
+    --text-light: #999999;
     --text-white: #FFFFFF;
     --text-muted: #6C757D;
 
     /* ===== BORDER COLORS ===== */
-    --border-primary: var(--color-primary);
+    --border-primary: #0090D3;
     --border-secondary: #CBD5E1;
     --border-light: #E2E8F0;
     --border-lighter: #F1F5F9;
-    --border-dark: var(--color-grey-medium);
+    --border-dark: #6B6B6B;
     --border-accent: rgba(0, 144, 211, 0.2);
 
     /* ===== SPACING ===== */
@@ -193,18 +193,51 @@
 
 /* Status Badges */
 .badge-success {
-    background-color: var(--color-secondary-green);
-    color: var(--text-white);
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background-color: rgba(var(--color-secondary-green-rgb), 0.1);
+    color: var(--color-green-dark);
+    border: 1px solid var(--color-secondary-green);
 }
 
 .badge-primary {
-    background-color: var(--color-primary);
-    color: var(--text-white);
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background-color: rgba(var(--color-primary-rgb), 0.1);
+    color: var(--color-blue-dark);
+    border: 1px solid var(--color-primary);
 }
 
 .badge-secondary {
-    background-color: var(--color-secondary-grey);
-    color: var(--text-white);
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background-color: rgba(var(--color-secondary-grey-rgb), 0.1);
+    color: var(--color-secondary-grey);
+    border: 1px solid var(--color-secondary-grey);
+}
+
+.badge-warning {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #856404;
+    border: 1px solid var(--color-warning);
 }
 
 /* Navigation Styles */

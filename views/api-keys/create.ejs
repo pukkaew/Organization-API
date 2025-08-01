@@ -13,19 +13,17 @@
     <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mx-auto">
             <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl border border-gray-100">
-                <div class="px-6 py-4 bg-gradient-to-r from-purple-600 to-purple-700 rounded-t-2xl">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-xl font-bold text-white flex items-center">
-                            <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center mr-3 shadow-lg">
-                                <span class="text-white text-xl">🔑</span>
-                            </div>
-                            Create API Key
-                        </h2>
-                        <a href="/api-keys" class="text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10">
-                            <span class="text-lg">❌</span>
-                        </a>
-                    </div>
-                </div>
+                <%- include('../partials/form-header', { 
+                    title: 'Create API Key',
+                    icon: 'key',
+                    iconColor: 'purple',
+                    backUrl: '/api-keys'
+                }) %>
+                
+                <%- include('../partials/form-errors', { 
+                    error: typeof error !== 'undefined' ? error : null,
+                    validationErrors: typeof validationErrors !== 'undefined' ? validationErrors : null
+                }) %>
                 
                 <form method="post" action="/api-keys" class="form-section">
                     <% if (typeof csrfToken !== 'undefined') { %>

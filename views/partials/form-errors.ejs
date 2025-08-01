@@ -1,0 +1,26 @@
+<%# Form Errors Partial %>
+<%# Usage: include('../partials/form-errors', { 
+    error: error,
+    validationErrors: validationErrors 
+}) %>
+
+<% if (typeof error !== 'undefined' && error) { %>
+    <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+        <div class="flex items-center">
+            <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center mr-3">
+                <i class="fas fa-exclamation-triangle text-red-600" aria-hidden="true"></i>
+            </div>
+            <div>
+                <h3 class="text-sm font-semibold text-red-800">ข้อมูลไม่ถูกต้อง</h3>
+                <p class="text-sm text-red-600 mt-1"><%= error %></p>
+                <% if (typeof validationErrors !== 'undefined' && validationErrors && validationErrors.length > 0) { %>
+                    <ul class="text-sm text-red-600 mt-2 list-disc list-inside">
+                        <% validationErrors.forEach(err => { %>
+                            <li><%= err %></li>
+                        <% }); %>
+                    </ul>
+                <% } %>
+            </div>
+        </div>
+    </div>
+<% } %>

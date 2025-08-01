@@ -1,0 +1,32 @@
+<%# Page Header Partial %>
+<%# Usage: include('../partials/page-header', { 
+    title: 'Companies',
+    description: 'Manage all companies in your organization',
+    icon: 'building',
+    iconColor: 'blue',
+    addUrl: '/companies/new',
+    addText: 'เพิ่มบริษัทใหม่'
+}) %>
+
+<div class="page-header">
+    <div class="page-header-content">
+        <div class="page-header-title">
+            <div class="page-header-info">
+                <div class="page-header-icon bg-gradient-to-br from-<%= iconColor %>-500 to-<%= iconColor %>-700">
+                    <i class="fas fa-<%= icon %>" aria-hidden="true"></i>
+                </div>
+                <div class="page-header-text">
+                    <h1><%= title %></h1>
+                    <p><%= description %></p>
+                </div>
+            </div>
+            <% if (typeof addUrl !== 'undefined' && addUrl) { %>
+                <div>
+                    <a href="<%= addUrl %>" class="btn btn-primary">
+                        ➕ <%= addText || 'Add New' %>
+                    </a>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>

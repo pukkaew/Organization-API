@@ -13,17 +13,17 @@
     <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mx-auto">
             <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl border border-gray-100">
-                <div class="px-6 py-4 bg-gradient-to-r from-green-600 to-emerald-700 rounded-t-2xl">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-xl font-bold text-white flex items-center">
-                            <span class="text-2xl mr-3"><i class="fas fa-code-branch"></i></span>
-                            Edit Branch
-                        </h2>
-                        <a href="/branches" class="text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10">
-                            <i class="fas fa-times text-lg"></i>
-                        </a>
-                    </div>
-                </div>
+                <%- include('../partials/form-header', { 
+                    title: 'Edit Branch',
+                    icon: 'code-branch',
+                    iconColor: 'green',
+                    backUrl: '/branches'
+                }) %>
+                
+                <%- include('../partials/form-errors', { 
+                    error: typeof error !== 'undefined' ? error : null,
+                    validationErrors: typeof validationErrors !== 'undefined' ? validationErrors : null
+                }) %>
                 
                 <form method="post" action="/branches/<%= branch.branch_code %>" class="form-section">
                     <% if (typeof csrfToken !== 'undefined') { %>

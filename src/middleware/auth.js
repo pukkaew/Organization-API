@@ -235,7 +235,7 @@ const showLoginPage = (req, res) => {
         return res.redirect('/');
     }
     
-    res.render('auth/login-simple', {
+    res.render('auth/login', {
         title: 'Login',
         error: null,
         success: null,

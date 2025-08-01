@@ -1,0 +1,23 @@
+<%# Form Header Partial %>
+<%# Usage: include('../partials/form-header', { 
+    title: 'Create New Company',
+    icon: 'building',
+    iconColor: 'blue',
+    backUrl: '/companies'
+}) %>
+
+<div class="px-6 py-4 bg-gradient-to-r from-<%= iconColor %>-600 to-<%= iconColor %>-700 rounded-t-2xl">
+    <div class="flex items-center justify-between">
+        <h2 class="text-xl font-bold text-white flex items-center">
+            <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center mr-3 shadow-lg">
+                <i class="fas fa-<%= icon %> text-white text-xl drop-shadow-lg" aria-hidden="true"></i>
+            </div>
+            <%= title %>
+        </h2>
+        <% if (typeof backUrl !== 'undefined' && backUrl) { %>
+            <a href="<%= backUrl %>" class="text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10">
+                <i class="fas fa-times text-lg" aria-hidden="true"></i>
+            </a>
+        <% } %>
+    </div>
+</div>

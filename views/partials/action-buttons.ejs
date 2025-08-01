@@ -1,0 +1,68 @@
+<%# Action Buttons Partial %>
+<%# Usage: include('../partials/action-buttons', { 
+    entity: 'companies', 
+    code: company.company_code, 
+    isActive: company.is_active,
+    csrfToken: csrfToken 
+}) %>
+
+<div class="flex justify-center space-x-1 sm:space-x-2">
+    <!-- View Button -->
+    <a href="/<%= entity %>/<%= code %>" 
+       class="action-btn action-btn-blue" 
+       title="View Details" 
+       aria-label="View <%= entity.slice(0, -1) %> details for <%= code %>">
+        <i class="fas fa-eye" aria-hidden="true"></i>
+    </a>
+    
+    <!-- Edit Button -->
+    <a href="/<%= entity %>/<%= code %>/edit" 
+       class="action-btn action-btn-amber" 
+       title="Edit <%= entity.slice(0, -1).charAt(0).toUpperCase() + entity.slice(0, -1).slice(1) %>" 
+       aria-label="Edit <%= entity.slice(0, -1) %> <%= code %>">
+        <i class="fas fa-edit" aria-hidden="true"></i>
+    </a>
+    
+    <!-- Toggle Status Button -->
+    <form action="/<%= entity %>/<%= code %>/toggle-status" method="POST" class="inline-block">
+        <% if (typeof csrfToken !== 'undefined' && csrfToken) { %>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <% } %>
+        <button type="submit" 
+                class="action-btn <%= isActive ? 'action-btn-orange' : 'action-btn-emerald' %>" 
+                title="<%= isActive ? 'Deactivate' : 'Activate' %> <%= entity.slice(0, -1).charAt(0).toUpperCase() + entity.slice(0, -1).slice(1) %>" 
+                aria-label="<%= isActive ? 'Deactivate' : 'Activate' %> <%= entity.slice(0, -1) %> <%= code %>"
+                onclick="return confirm('Are you sure you want to <%= isActive ? 'deactivate' : 'activate' %> <%= entity.slice(0, -1) %> <%= code %>?')">
+            <i class="fas fa-<%= isActive ? 'pause' : 'play' %>" aria-hidden="true"></i>
+        </button>
+    </form>
+    
+    <!-- Delete Button -->
+    <form method="POST" action="/<%= entity %>/<%= code %>/delete" class="inline-block">
+        <input type="hidden" name="dev-csrf-token" value="<%= typeof csrfToken !== 'undefined' && csrfToken ? csrfToken : 'dev-csrf-token' %>">
+        <button type="submit" 
+                class="action-btn action-btn-red" 
+                title="Delete <%= entity.slice(0, -1).charAt(0).toUpperCase() + entity.slice(0, -1).slice(1) %>" 
+                aria-label="Delete <%= entity.slice(0, -1) %> <%= code %>"
+                onclick="return confirmDelete('<%= code %>', '<%= entity.slice(0, -1) %>')">
+            <i class="fas fa-trash-alt" aria-hidden="true"></i>
+        </button>
+    </form>
+</div>
+
+<script>
+if (typeof confirmDelete === 'undefined') {
+    function confirmDelete(code, entityType) {
+        const entityName = entityType.charAt(0).toUpperCase() + entityType.slice(1);
+        return confirm(`WARNING: Delete ${entityName} ${code}?
+
+This action CANNOT be undone!
+
+This will permanently delete ALL related data:
+• All related records under this ${entityType}
+• All associated data and relationships
+
+Type "DELETE" to confirm you understand the consequences.`);
+    }
+}
+</script>

@@ -12,8 +12,8 @@
 <main class="flex-1 py-4 sm:py-8">
     <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
         <div class="bg-white shadow-xl rounded-xl overflow-hidden">
-            <!-- Header with Gradient Background -->
-            <div class="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 px-4 sm:px-6 py-8 text-white">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-700 px-4 sm:px-6 py-8 text-white">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center mb-3">
@@ -29,12 +29,12 @@
                         </div>
                     </div>
                     <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
-                        <a href="/companies/<%= company.company_code %>/edit" class="group inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg hover:from-emerald-600 hover:to-teal-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                            <i class="fas fa-edit mr-2 transition-transform group-hover:scale-110"></i>
+                        <a href="/companies/<%= company.company_code %>/edit" class="btn btn-emerald">
+                            <i class="fas fa-edit mr-2"></i>
                             Edit
                         </a>
-                        <a href="/companies" class="group inline-flex items-center justify-center px-6 py-3 bg-white bg-opacity-20 backdrop-blur-sm text-white rounded-lg hover:bg-opacity-30 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border border-white border-opacity-20">
-                            <i class="fas fa-arrow-left mr-2 transition-transform group-hover:-translate-x-1"></i>
+                        <a href="/companies" class="btn btn-white-transparent">
+                            <i class="fas fa-arrow-left mr-2"></i>
                             Back
                         </a>
                     </div>
@@ -44,100 +44,92 @@
             <!-- Company Details -->
             <div class="p-4 sm:p-6 bg-gradient-to-br from-gray-50 to-blue-50">
                 <dl class="grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
-                    <div class="bg-gradient-to-br from-blue-50 to-indigo-100 p-6 rounded-xl shadow-lg border border-blue-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
-                            <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mr-3 shadow-md">
-                                <i class="fas fa-id-card text-white text-sm"></i>
+                    <div class="detail-card detail-card-blue">
+                        <dt class="detail-label">
+                            <div class="detail-icon detail-icon-blue">
+                                <i class="fas fa-id-card"></i>
                             </div>
                             Company Code
                         </dt>
-                        <dd class="text-lg font-bold text-gray-900 bg-white px-3 py-2 rounded-lg shadow-sm"><%= company.company_code %></dd>
+                        <dd class="detail-value"><%= company.company_code %></dd>
                     </div>
                     
-                    <div class="bg-gradient-to-br from-emerald-50 to-teal-100 p-6 rounded-xl shadow-lg border border-emerald-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
-                            <div class="w-8 h-8 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-lg flex items-center justify-center mr-3 shadow-md">
-                                <i class="fas fa-id-card text-white text-sm"></i>
+                    <div class="detail-card detail-card-emerald">
+                        <dt class="detail-label">
+                            <div class="detail-icon detail-icon-emerald">
+                                <i class="fas fa-id-card"></i>
                             </div>
                             Tax ID
                         </dt>
-                        <dd class="text-lg font-bold text-gray-900 font-mono bg-white px-3 py-2 rounded-lg shadow-sm"><%= company.tax_id || '-' %></dd>
+                        <dd class="detail-value font-mono"><%= company.tax_id || '-' %></dd>
                     </div>
                     
-                    <div class="bg-gradient-to-br from-purple-50 to-pink-100 p-6 rounded-xl shadow-lg border border-purple-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
-                            <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center mr-3 shadow-md">
-                                <i class="fas fa-toggle-on text-white text-sm"></i>
+                    <div class="detail-card detail-card-purple">
+                        <dt class="detail-label">
+                            <div class="detail-icon detail-icon-purple">
+                                <i class="fas fa-toggle-on"></i>
                             </div>
                             Status
                         </dt>
                         <dd class="mt-1">
-                            <% if (company.is_active) { %>
-                                <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-green-400 to-emerald-500 text-white shadow-lg animate-pulse">
-                                    <i class="fas fa-check-circle mr-2"></i>Active
-                                </span>
-                            <% } else { %>
-                                <span class="inline-flex items-center px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-gray-400 to-gray-500 text-white shadow-lg">
-                                    <i class="fas fa-times-circle mr-2"></i>Inactive
-                                </span>
-                            <% } %>
+                            <%- include('../partials/status-badge', { isActive: company.is_active }) %>
                         </dd>
                     </div>
                     
-                    <div class="bg-gradient-to-br from-cyan-50 to-blue-100 p-6 rounded-xl shadow-lg border border-cyan-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
-                            <div class="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center mr-3 shadow-md">
-                                <i class="fas fa-globe text-white text-sm"></i>
+                    <div class="detail-card detail-card-cyan">
+                        <dt class="detail-label">
+                            <div class="detail-icon detail-icon-cyan">
+                                <i class="fas fa-globe"></i>
                             </div>
                             Website
                         </dt>
                         <dd class="text-sm text-gray-900 break-all">
                             <% if (company.website) { %>
-                                <a href="<%= company.website %>" target="_blank" class="text-blue-600 hover:text-blue-700 hover:underline bg-white px-3 py-2 rounded-lg shadow-sm block transition-all duration-300 hover:shadow-md">
+                                <a href="<%= company.website %>" target="_blank" class="detail-value-link">
                                     <%= company.website %>
                                 </a>
                             <% } else { %>
-                                <span class="bg-gray-100 px-3 py-2 rounded-lg shadow-sm block text-gray-500">-</span>
+                                <span class="detail-value text-gray-500">-</span>
                             <% } %>
                         </dd>
                     </div>
                     
-                    <div class="bg-gradient-to-br from-red-50 to-pink-100 p-6 rounded-xl shadow-lg border border-red-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
-                            <div class="w-8 h-8 bg-gradient-to-br from-red-500 to-pink-600 rounded-lg flex items-center justify-center mr-3 shadow-md">
-                                <i class="fas fa-envelope text-white text-sm"></i>
+                    <div class="detail-card detail-card-red">
+                        <dt class="detail-label">
+                            <div class="detail-icon detail-icon-red">
+                                <i class="fas fa-envelope"></i>
                             </div>
                             Email
                         </dt>
                         <dd class="text-sm text-gray-900 break-all">
                             <% if (company.email) { %>
-                                <a href="mailto:<%= company.email %>" class="text-blue-600 hover:text-blue-700 hover:underline bg-white px-3 py-2 rounded-lg shadow-sm block transition-all duration-300 hover:shadow-md">
+                                <a href="mailto:<%= company.email %>" class="detail-value-link">
                                     <%= company.email %>
                                 </a>
                             <% } else { %>
-                                <span class="bg-gray-100 px-3 py-2 rounded-lg shadow-sm block text-gray-500">-</span>
+                                <span class="detail-value text-gray-500">-</span>
                             <% } %>
                         </dd>
                     </div>
                     
-                    <div class="bg-gradient-to-br from-orange-50 to-amber-100 p-6 rounded-xl shadow-lg border border-orange-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
-                            <div class="w-8 h-8 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg flex items-center justify-center mr-3 shadow-md">
-                                <i class="fas fa-phone text-white text-sm"></i>
+                    <div class="detail-card detail-card-orange">
+                        <dt class="detail-label">
+                            <div class="detail-icon detail-icon-orange">
+                                <i class="fas fa-phone"></i>
                             </div>
                             Phone
                         </dt>
-                        <dd class="text-lg font-bold text-gray-900 bg-white px-3 py-2 rounded-lg shadow-sm"><%= company.phone || '-' %></dd>
+                        <dd class="detail-value"><%= company.phone || '-' %></dd>
                     </div>
                     
-                    <div class="sm:col-span-2 lg:col-span-3 bg-gradient-to-br from-indigo-50 to-violet-100 p-6 rounded-xl shadow-lg border border-indigo-200 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        <dt class="text-sm font-medium text-gray-600 flex items-center mb-3">
-                            <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-lg flex items-center justify-center mr-3 shadow-md">
-                                <i class="fas fa-map-marker-alt text-white text-sm"></i>
+                    <div class="sm:col-span-2 lg:col-span-3 detail-card detail-card-indigo">
+                        <dt class="detail-label">
+                            <div class="detail-icon detail-icon-indigo">
+                                <i class="fas fa-map-marker-alt"></i>
                             </div>
                             Address
                         </dt>
-                        <dd class="text-sm text-gray-900 break-words bg-white px-4 py-3 rounded-lg shadow-sm"><%= company.address || '-' %></dd>
+                        <dd class="detail-value break-words"><%= company.address || '-' %></dd>
                     </div>
                 </dl>
             </div>
@@ -145,35 +137,32 @@
             <!-- Related Data -->
             <div class="px-4 sm:px-6 py-8 bg-gradient-to-br from-slate-100 to-gray-200">
                 <h3 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mr-3 shadow-md">
+                    <div class="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center mr-3">
                         <i class="fas fa-chart-bar text-white text-lg"></i>
                     </div>
                     Related Information
                 </h3>
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
-                    <a href="/branches?company_code=<%= company.company_code %>" class="group text-center p-6 bg-gradient-to-br from-emerald-50 to-teal-100 rounded-xl hover:from-emerald-100 hover:to-teal-200 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border border-emerald-200">
-                        <div class="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl transform group-hover:rotate-12 transition-transform duration-300 shadow-lg">
-                            <span class="text-white">🌳</span>
+                    <a href="/branches?company_code=<%= company.company_code %>" class="stats-card stats-card-emerald">
+                        <div class="stats-icon stats-icon-emerald">
+                            <i class="fas fa-code-branch text-white"></i>
                         </div>
-                        <div class="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-2"><%= stats.branches || 0 %></div>
-                        <div class="text-sm text-gray-700 font-semibold">Branches</div>
-                        <div class="mt-2 text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300">Click to view all</div>
+                        <div class="stats-number"><%= stats.branches || 0 %></div>
+                        <div class="stats-label">Branches</div>
                     </a>
-                    <a href="/divisions?company_code=<%= company.company_code %>" class="group text-center p-6 bg-gradient-to-br from-purple-50 to-violet-100 rounded-xl hover:from-purple-100 hover:to-violet-200 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border border-purple-200">
-                        <div class="w-16 h-16 bg-gradient-to-br from-purple-400 to-violet-500 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl transform group-hover:rotate-12 transition-transform duration-300 shadow-lg">
-                            <span class="text-white">📁</span>
+                    <a href="/divisions?company_code=<%= company.company_code %>" class="stats-card stats-card-purple">
+                        <div class="stats-icon stats-icon-purple">
+                            <i class="fas fa-sitemap text-white"></i>
                         </div>
-                        <div class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent mb-2"><%= stats.divisions || 0 %></div>
-                        <div class="text-sm text-gray-700 font-semibold">Divisions</div>
-                        <div class="mt-2 text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300">Click to view all</div>
+                        <div class="stats-number"><%= stats.divisions || 0 %></div>
+                        <div class="stats-label">Divisions</div>
                     </a>
-                    <a href="/departments?company_code=<%= company.company_code %>" class="group text-center p-6 bg-gradient-to-br from-orange-50 to-amber-100 rounded-xl hover:from-orange-100 hover:to-amber-200 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl border border-orange-200">
-                        <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-amber-500 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl transform group-hover:rotate-12 transition-transform duration-300 shadow-lg">
-                            <span class="text-white">👥</span>
+                    <a href="/departments?company_code=<%= company.company_code %>" class="stats-card stats-card-orange">
+                        <div class="stats-icon stats-icon-orange">
+                            <i class="fas fa-users text-white"></i>
                         </div>
-                        <div class="text-3xl font-bold bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent mb-2"><%= stats.departments || 0 %></div>
-                        <div class="text-sm text-gray-700 font-semibold">Departments</div>
-                        <div class="mt-2 text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300">Click to view all</div>
+                        <div class="stats-number"><%= stats.departments || 0 %></div>
+                        <div class="stats-label">Departments</div>
                     </a>
                 </div>
             </div>
