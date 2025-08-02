@@ -1,0 +1,271 @@
+/* Ruxchai CI Colors */
+:root {
+    --ruxchai-blue: #0090D3;
+    --ruxchai-blue-dark: #007AB8;
+    --ruxchai-blue-light: #33A3DC;
+    --ruxchai-green: #20C67A;
+    --ruxchai-green-dark: #1BA666;
+    --ruxchai-green-light: #4DD194;
+}
+
+/* Ruxchai Blue Classes */
+.bg-ruxchai-blue { background-color: var(--ruxchai-blue) !important; }
+.bg-ruxchai-blue-dark { background-color: var(--ruxchai-blue-dark) !important; }
+.bg-ruxchai-blue-light { background-color: var(--ruxchai-blue-light) !important; }
+
+.text-ruxchai-blue { color: var(--ruxchai-blue) !important; }
+.text-ruxchai-blue-dark { color: var(--ruxchai-blue-dark) !important; }
+.text-ruxchai-blue-light { color: var(--ruxchai-blue-light) !important; }
+
+.border-ruxchai-blue { border-color: var(--ruxchai-blue) !important; }
+.border-ruxchai-blue-dark { border-color: var(--ruxchai-blue-dark) !important; }
+.border-ruxchai-blue-light { border-color: var(--ruxchai-blue-light) !important; }
+
+/* Ruxchai Green Classes */
+.bg-ruxchai-green { background-color: var(--ruxchai-green) !important; }
+.bg-ruxchai-green-dark { background-color: var(--ruxchai-green-dark) !important; }
+.bg-ruxchai-green-light { background-color: var(--ruxchai-green-light) !important; }
+
+.text-ruxchai-green { color: var(--ruxchai-green) !important; }
+.text-ruxchai-green-dark { color: var(--ruxchai-green-dark) !important; }
+.text-ruxchai-green-light { color: var(--ruxchai-green-light) !important; }
+
+.border-ruxchai-green { border-color: var(--ruxchai-green) !important; }
+.border-ruxchai-green-dark { border-color: var(--ruxchai-green-dark) !important; }
+.border-ruxchai-green-light { border-color: var(--ruxchai-green-light) !important; }
+
+/* Ruxchai Gradients */
+.bg-gradient-ruxchai-blue {
+    background: linear-gradient(135deg, var(--ruxchai-blue), var(--ruxchai-blue-dark)) !important;
+}
+
+.bg-gradient-ruxchai-green {
+    background: linear-gradient(135deg, var(--ruxchai-green), var(--ruxchai-green-dark)) !important;
+}
+
+.bg-gradient-to-r-ruxchai-blue {
+    background: linear-gradient(to right, var(--ruxchai-blue), var(--ruxchai-blue-dark)) !important;
+}
+
+.bg-gradient-to-r-ruxchai-green {
+    background: linear-gradient(to right, var(--ruxchai-green), var(--ruxchai-green-dark)) !important;
+}
+
+.bg-gradient-to-br-ruxchai-blue {
+    background: linear-gradient(to bottom right, var(--ruxchai-blue), var(--ruxchai-blue-dark)) !important;
+}
+
+.bg-gradient-to-br-ruxchai-green {
+    background: linear-gradient(to bottom right, var(--ruxchai-green), var(--ruxchai-green-dark)) !important;
+}
+
+/* Button styles with Ruxchai colors */
+.btn-ruxchai-blue {
+    background: linear-gradient(135deg, var(--ruxchai-blue), var(--ruxchai-blue-dark));
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-ruxchai-blue:hover {
+    background: linear-gradient(135deg, var(--ruxchai-blue-dark), var(--ruxchai-blue));
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 144, 211, 0.3);
+}
+
+.btn-ruxchai-green {
+    background: linear-gradient(135deg, var(--ruxchai-green), var(--ruxchai-green-dark));
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-ruxchai-green:hover {
+    background: linear-gradient(135deg, var(--ruxchai-green-dark), var(--ruxchai-green));
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(32, 198, 122, 0.3);
+}
+
+/* Focus states with Ruxchai colors */
+.focus\:ring-ruxchai-blue:focus {
+    box-shadow: 0 0 0 3px rgba(0, 144, 211, 0.1);
+}
+
+.focus\:ring-ruxchai-green:focus {
+    box-shadow: 0 0 0 3px rgba(32, 198, 122, 0.1);
+}
+
+/* Override specific Tailwind classes for consistency */
+.text-blue-600 { color: var(--ruxchai-blue) !important; }
+.text-blue-700 { color: var(--ruxchai-blue-dark) !important; }
+.text-blue-500 { color: var(--ruxchai-blue-light) !important; }
+
+.bg-blue-600 { background-color: var(--ruxchai-blue) !important; }
+.bg-blue-700 { background-color: var(--ruxchai-blue-dark) !important; }
+.bg-blue-500 { background-color: var(--ruxchai-blue-light) !important; }
+
+.text-green-600 { color: var(--ruxchai-green) !important; }
+.text-green-700 { color: var(--ruxchai-green-dark) !important; }
+.text-green-500 { color: var(--ruxchai-green-light) !important; }
+
+.bg-green-600 { background-color: var(--ruxchai-green) !important; }
+.bg-green-700 { background-color: var(--ruxchai-green-dark) !important; }
+.bg-green-500 { background-color: var(--ruxchai-green-light) !important; }
+
+.border-blue-600 { border-color: var(--ruxchai-blue) !important; }
+.border-blue-700 { border-color: var(--ruxchai-blue-dark) !important; }
+.border-blue-500 { border-color: var(--ruxechai-blue-light) !important; }
+
+.border-green-600 { border-color: var(--ruxchai-green) !important; }
+.border-green-700 { border-color: var(--ruxchai-green-dark) !important; }
+.border-green-500 { border-color: var(--ruxchai-green-light) !important; }
+
+/* Primary button override to use Ruxchai blue */
+.btn-primary {
+    background: linear-gradient(135deg, var(--ruxchai-blue), var(--ruxchai-blue-dark)) !important;
+    border-color: var(--ruxchai-blue) !important;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--ruxchai-blue-dark), var(--ruxchai-blue)) !important;
+    border-color: var(--ruxchai-blue-dark) !important;
+}
+
+/* Success/green elements override */
+.text-green-600,
+.text-emerald-600 {
+    color: var(--ruxchai-green) !important;
+}
+
+.bg-green-600,
+.bg-emerald-600 {
+    background-color: var(--ruxchai-green) !important;
+}
+
+.border-green-600,
+.border-emerald-600 {
+    border-color: var(--ruxchai-green) !important;
+}
+
+/* Mobile Responsive Enhancements */
+@media (max-width: 640px) {
+    /* Improved form layouts on mobile */
+    .form-section {
+        padding: 1rem !important;
+    }
+    
+    .form-group-enhanced {
+        margin-bottom: 1.5rem !important;
+    }
+    
+    /* Better button spacing on mobile */
+    .action-btn {
+        padding: 0.5rem !important;
+        min-width: 2.5rem !important;
+        min-height: 2.5rem !important;
+    }
+    
+    /* Mobile-friendly table improvements */
+    .table-responsive {
+        font-size: 0.875rem !important;
+    }
+    
+    .table-responsive th,
+    .table-responsive td {
+        padding: 0.5rem 0.25rem !important;
+        min-width: 80px !important;
+    }
+    
+    /* Stack form actions vertically on mobile */
+    .form-actions-mobile {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+    }
+    
+    .form-actions-mobile .btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+    
+    /* Improve card spacing on mobile */
+    .card {
+        margin: 0.5rem !important;
+        border-radius: 1rem !important;
+    }
+    
+    /* Better mobile navigation */
+    .mobile-menu-item {
+        padding: 0.75rem 1rem !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+}
+
+/* Table scroll indicators */
+.overflow-x-auto {
+    position: relative;
+}
+
+.overflow-x-auto.scroll-left::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(to right, rgba(0,0,0,0.1), transparent);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.overflow-x-auto.scroll-right::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: linear-gradient(to left, rgba(0,0,0,0.1), transparent);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Enhanced mobile form improvements */
+@media (max-width: 768px) {
+    /* Stack label and input vertically with better spacing */
+    .form-group-enhanced label {
+        margin-bottom: 0.5rem !important;
+        display: block !important;
+    }
+    
+    /* Larger touch targets for mobile */
+    .form-input-enhanced,
+    .btn,
+    .action-btn {
+        min-height: 44px !important;
+        touch-action: manipulation;
+    }
+    
+    /* Better modal sizing on mobile */
+    .modal-content {
+        margin: 1rem !important;
+        max-height: calc(100vh - 2rem) !important;
+        overflow-y: auto !important;
+    }
+    
+    /* Responsive page headers */
+    .page-header-title {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 1rem !important;
+    }
+    
+    .page-header-info {
+        width: 100% !important;
+    }
+    
+    /* Mobile-optimized dropdowns */
+    select.form-input-enhanced {
+        background-size: 20px !important;
+        padding-right: 2.5rem !important;
+    }
+}

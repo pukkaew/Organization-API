@@ -41,7 +41,9 @@
     
     <!-- Delete Button -->
     <form method="POST" action="/api-keys/<%= apiKeyId %>/delete" class="inline-block delete-form" data-api-key-id="<%= apiKeyId %>">
-        <input type="hidden" name="dev-csrf-token" value="<%= typeof csrfToken !== 'undefined' && csrfToken ? csrfToken : 'dev-csrf-token' %>">
+        <% if (typeof csrfToken !== 'undefined' && csrfToken) { %>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <% } %>
         <button type="submit" 
                 class="action-btn action-btn-red delete-button" 
                 title="Delete API Key" 

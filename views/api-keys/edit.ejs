@@ -32,7 +32,7 @@
                 <div class="md:grid md:grid-cols-3 md:gap-6">
                     <div class="md:col-span-1">
                         <h3 class="text-lg font-bold text-gray-900 flex items-center">
-                            <span class="text-xl mr-2">🔑</span>
+                            <i class="fas fa-key text-xl mr-2" aria-hidden="true"></i>
                             API Key Information
                         </h3>
                         <p class="mt-1 text-sm text-gray-500">
@@ -44,7 +44,7 @@
                             <!-- API Key ID (Read-only) -->
                             <div class="col-span-6 form-group-enhanced">
                                 <label class="block text-sm font-semibold text-gray-800 flex items-center">
-                                    <span class="text-lg mr-2">🔑</span>
+                                    <i class="fas fa-key text-lg mr-2" aria-hidden="true"></i>
                                     API Key ID
                                 </label>
                                 <input type="text" value="<%= apiKey.api_key_id %>" disabled
@@ -55,7 +55,7 @@
                             <!-- Application Name -->
                             <div class="col-span-6 form-group-enhanced">
                                 <label for="app_name" class="block text-sm font-semibold text-gray-800 flex items-center">
-                                    <span class="text-lg mr-2">📱</span>
+                                    <i class="fas fa-mobile-alt text-lg mr-2" aria-hidden="true"></i>
                                     Application Name <span class="text-red-500">*</span>
                                 </label>
                                 <input type="text" name="app_name" id="app_name" required
@@ -69,7 +69,7 @@
                             <!-- Description -->
                             <div class="col-span-6 form-group-enhanced">
                                 <label for="description" class="block text-sm font-semibold text-gray-800 flex items-center">
-                                    <span class="text-lg mr-2">📝</span>
+                                    <i class="fas fa-edit text-lg mr-2" aria-hidden="true"></i>
                                     Description
                                 </label>
                                 <textarea name="description" id="description" rows="3"
@@ -81,7 +81,7 @@
                             <!-- Permissions -->
                             <div class="col-span-6 form-group-enhanced">
                                 <label for="permissions" class="block text-sm font-semibold text-gray-800 flex items-center">
-                                    <span class="text-lg mr-2">🔒</span>
+                                    <i class="fas fa-lock text-lg mr-2" aria-hidden="true"></i>
                                     Permissions <span class="text-red-500">*</span>
                                 </label>
                                 <select name="permissions" id="permissions" required
@@ -102,7 +102,7 @@
                             <!-- Expiration Date -->
                             <div class="col-span-6 sm:col-span-3 form-group-enhanced">
                                 <label for="expires_date" class="block text-sm font-semibold text-gray-800 flex items-center">
-                                    <span class="text-lg mr-2">📅</span>
+                                    <i class="fas fa-calendar text-lg mr-2" aria-hidden="true"></i>
                                     Expiration Date
                                 </label>
                                 <input type="date" name="expires_date" id="expires_date"
@@ -117,7 +117,7 @@
                                 <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg p-4">
                                     <div class="flex">
                                         <div class="flex-shrink-0">
-                                            <span class="text-yellow-400">ℹ️</span>
+                                            <i class="fas fa-info-circle text-yellow-400" aria-hidden="true"></i>
                                         </div>
                                         <div class="ml-3">
                                             <p class="text-sm text-yellow-700">
@@ -176,11 +176,11 @@
             <div class="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl border border-cyan-100 shadow-lg p-4">
                 <div class="flex">
                     <div class="flex-shrink-0">
-                        <span class="text-blue-400">🛡️</span>
+                        <i class="fas fa-shield-alt text-blue-400" aria-hidden="true"></i>
                     </div>
                     <div class="ml-3">
                         <h3 class="text-lg font-bold text-cyan-800 flex items-center">
-                            <span class="mr-2">🛡️</span>
+                            <i class="fas fa-shield-alt mr-2" aria-hidden="true"></i>
                             Security Note
                         </h3>
                         <div class="mt-2 text-sm text-cyan-700">

@@ -8,11 +8,50 @@
     addText: 'เพิ่มบริษัทใหม่'
 }) %>
 
+<%
+// Map สีตาม Ruxchai CI และสีสำรอง
+const iconStyles = {
+    blue: {
+        gradient: 'from-[#0090D3] to-[#007AB8]',
+        bg: 'bg-gradient-to-br from-[#0090D3] to-[#007AB8]'
+    },
+    green: {
+        gradient: 'from-[#20C67A] to-[#1BA666]',
+        bg: 'bg-gradient-to-br from-[#20C67A] to-[#1BA666]'
+    },
+    orange: {
+        gradient: 'from-orange-500 to-orange-700',
+        bg: 'bg-gradient-to-br from-orange-500 to-orange-700'
+    },
+    purple: {
+        gradient: 'from-purple-500 to-purple-700',
+        bg: 'bg-gradient-to-br from-purple-500 to-purple-700'
+    },
+    indigo: {
+        gradient: 'from-indigo-500 to-indigo-700',
+        bg: 'bg-gradient-to-br from-indigo-500 to-indigo-700'
+    },
+    emerald: {
+        gradient: 'from-emerald-500 to-emerald-700',
+        bg: 'bg-gradient-to-br from-emerald-500 to-emerald-700'
+    },
+    amber: {
+        gradient: 'from-amber-500 to-amber-700',
+        bg: 'bg-gradient-to-br from-amber-500 to-amber-700'
+    },
+    red: {
+        gradient: 'from-red-500 to-red-700',
+        bg: 'bg-gradient-to-br from-red-500 to-red-700'
+    }
+};
+const currentStyle = iconStyles[iconColor] || iconStyles.blue;
+%>
+
 <div class="page-header">
     <div class="page-header-content">
         <div class="page-header-title">
             <div class="page-header-info">
-                <div class="page-header-icon bg-gradient-to-br from-<%= iconColor %>-500 to-<%= iconColor %>-700">
+                <div class="page-header-icon <%= currentStyle.bg %>">
                     <i class="fas fa-<%= icon %>" aria-hidden="true"></i>
                 </div>
                 <div class="page-header-text">
@@ -23,7 +62,8 @@
             <% if (typeof addUrl !== 'undefined' && addUrl) { %>
                 <div>
                     <a href="<%= addUrl %>" class="btn btn-primary">
-                        ➕ <%= addText || 'Add New' %>
+                        <i class="fas fa-plus mr-2"></i>
+                        <%= addText || 'เพิ่มใหม่' %>
                     </a>
                 </div>
             <% } %>

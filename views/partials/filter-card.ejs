@@ -22,17 +22,17 @@
                            name="search" 
                            id="search" 
                            value="<%= filters.search || '' %>"
-                           placeholder="Search by code or name..."
+                           placeholder="ค้นหาด้วยรหัสหรือชื่อ..."
                            class="form-input-enhanced pl-10">
                 </div>
             </div>
             
             <div>
-                <label for="is_active" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                <label for="is_active" class="block text-sm font-medium text-gray-700 mb-1">สถานะ</label>
                 <select name="is_active" id="is_active" class="form-input-enhanced">
-                    <option value="">All Status</option>
-                    <option value="true" <%= filters.is_active === 'true' ? 'selected' : '' %>>Active</option>
-                    <option value="false" <%= filters.is_active === 'false' ? 'selected' : '' %>>Inactive</option>
+                    <option value="">ทั้งหมด</option>
+                    <option value="true" <%= filters.is_active === 'true' ? 'selected' : '' %>>ใช้งาน</option>
+                    <option value="false" <%= filters.is_active === 'false' ? 'selected' : '' %>>ไม่ใช้งาน</option>
                 </select>
             </div>
             
