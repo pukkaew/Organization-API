@@ -1,6 +1,25 @@
 // Global JavaScript for Organization Management System
 // Using event delegation to avoid duplicate function definitions
 
+// Entity Names Mapping (Thai)
+const entityNames = {
+    'company': 'บริษัท',
+    'branch': 'สาขา',
+    'division': 'ฝ่าย',
+    'department': 'แผนก',
+    'api-key': 'API Key'
+};
+
+// Confirm Delete Function as per PDF Report
+function confirmDelete(code, entityType) {
+    const entityName = entityNames[entityType] || entityType;
+    
+    if (confirm(`คุณแน่ใจหรือไม่ที่ต้องการลบ${entityName} ${code}?\n\nการดำเนินการนี้ไม่สามารถยกเลิกได้`)) {
+        return true;
+    }
+    return false;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Confirm Delete Handler using Event Delegation
     document.addEventListener('click', function(e) {
@@ -17,11 +36,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (match) {
                 const code = match[1];
                 const entityType = match[2];
-                const entityName = entityType.charAt(0).toUpperCase() + entityType.slice(1);
                 
-                const userInput = prompt(`คำเตือน: ลบ ${entityName} ${code}?\n\nการกระทำนี้ไม่สามารถย้อนกลับได้!\n\nจะทำการลบข้อมูลที่เกี่ยวข้องทั้งหมด:\n• ข้อมูลทั้งหมดภายใต้ ${entityType} นี้\n• ข้อมูลและความสัมพันธ์ที่เชื่อมโยง\n\nพิมพ์ "DELETE" เพื่อยืนยันว่าเข้าใจผลที่ตามมา`);
-                
-                if (userInput === 'DELETE') {
+                if (confirmDelete(code, entityType)) {
                     form.submit();
                 }
             }

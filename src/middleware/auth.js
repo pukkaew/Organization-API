@@ -286,7 +286,6 @@ async function generatePasswordHash(password) {
 module.exports = {
     requireAuth,
     requirePermission,
-    requireAnyPermission,
     requireAllPermissions,
     login,
     logout,

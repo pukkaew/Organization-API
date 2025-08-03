@@ -256,64 +256,143 @@ const showEditCompanyForm = asyncHandler(async (req, res) => {
 
 // Handle create company form submission
 const handleCreateCompany = asyncHandler(async (req, res) => {
-    const companyData = {
-        company_code: req.body.company_code?.trim()?.toUpperCase(),
-        company_name_th: req.body.company_name_th?.trim(),
-        company_name_en: req.body.company_name_en?.trim(),
-        tax_id: req.body.tax_id?.trim(),
-        is_active: req.body.is_active !== undefined ? req.body.is_active === 'true' : true,
-        created_by: req.user?.username || 'admin'
-    };
-
     try {
-        logger.info('Creating company with data:', companyData);
+        console.log('=== CREATE COMPANY DEBUG ===');
+        console.log('Method:', req.method);
+        console.log('Body:', req.body);
+        console.log('User:', req.user);
+        
+        const companyData = {
+            company_code: req.body.company_code?.trim()?.toUpperCase(),
+            company_name_th: req.body.company_name_th?.trim(),
+            company_name_en: req.body.company_name_en?.trim(),
+            tax_id: req.body.tax_id?.trim(),
+            website: req.body.website?.trim(),
+            email: req.body.email?.trim(),
+            phone: req.body.phone?.trim(),
+            address: req.body.address?.trim(),
+            is_active: req.body.is_active !== undefined ? req.body.is_active === 'true' : true,
+            created_by: req.user?.username || 'admin'
+        };
+
+        console.log('Company data to create:', companyData);
+        
+        // Validate required fields
+        if (!companyData.company_code || companyData.company_code === '') {
+            console.log('Validation failed: company_code is required');
+            return res.render('companies/create', {
+                title: 'สร้างบริษัทใหม่',
+                error: 'รหัสบริษัทจำเป็นต้องกรอก',
+                validationErrors: null,
+                formData: companyData
+            });
+        }
+        
+        if (!companyData.company_name_th || companyData.company_name_th === '') {
+            console.log('Validation failed: company_name_th is required');
+            return res.render('companies/create', {
+                title: 'สร้างบริษัทใหม่',
+                error: 'ชื่อบริษัท (ภาษาไทย) จำเป็นต้องกรอก',
+                validationErrors: null,
+                formData: companyData
+            });
+        }
+        
+        // Validate tax ID format if provided
+        if (companyData.tax_id && companyData.tax_id !== '') {
+            if (!/^[0-9]{13}$/.test(companyData.tax_id)) {
+                console.log('Validation failed: invalid tax_id format');
+                return res.render('companies/create', {
+                    title: 'สร้างบริษัทใหม่',
+                    error: 'เลขประจำตัวผู้เสียภาษีต้องเป็นตัวเลข 13 หลัก',
+                    validationErrors: null,
+                    formData: companyData
+                });
+            }
+        }
+        
+        console.log('Validation passed, creating company...');
         
         const company = new Company(companyData);
         const result = await company.create();
         
+        console.log('Create result:', result);
         logger.info(`Company created successfully: ${result.company_code} by ${companyData.created_by}`);
+        
+        console.log('Redirecting to /companies');
         res.redirect('/companies');
     } catch (error) {
+        console.error('Error in handleCreateCompany:', error);
         logger.error('Error creating company:', error);
         
         if (error.statusCode === 400 && error.validationErrors) {
             // Render form with validation errors
             return res.render('companies/create', {
-                title: 'Create Company',
-                activeMenu: 'companies',
-                user: req.user,
+                title: 'สร้างบริษัทใหม่',
                 error: error.message,
                 validationErrors: error.validationErrors,
-                formData: companyData
+                formData: req.body
             });
         }
         
-        // Other errors - redirect back to form
-        res.redirect('/companies/new');
+        // Other errors - render form with generic error
+        return res.render('companies/create', {
+            title: 'สร้างบริษัทใหม่',
+            error: 'เกิดข้อผิดพลาดในการสร้างบริษัท กรุณาลองใหม่อีกครั้ง',
+            validationErrors: null,
+            formData: req.body
+        });
     }
 });
 
 // Handle update company form submission
 const handleUpdateCompany = asyncHandler(async (req, res) => {
     try {
+        console.log('=== UPDATE COMPANY DEBUG ===');
+        console.log('Method:', req.method);
+        console.log('Params:', req.params);
+        console.log('Body:', req.body);
+        
         const company = await Company.findByCode(req.params.code);
         
         if (!company) {
-            return res.redirect('/companies');
+            console.log('Company not found:', req.params.code);
+            return res.status(404).render('error', {
+                title: 'Company Not Found',
+                statusCode: 404,
+                message: 'บริษัทที่ต้องการแก้ไขไม่พบในระบบ',
+                error: null
+            });
         }
+        
+        console.log('Found company:', company.company_code);
         
         // Validate required fields
         if (!req.body.company_name_th || req.body.company_name_th.trim() === '') {
-            return res.redirect(`/companies/${req.params.code}/edit`);
+            console.log('Validation failed: company_name_th is required');
+            return res.render('companies/edit', {
+                title: 'แก้ไขบริษัท',
+                company: company,
+                error: 'ชื่อบริษัท (ภาษาไทย) จำเป็นต้องกรอก',
+                validationErrors: null
+            });
         }
         
         // Validate tax ID format if provided
         if (req.body.tax_id && req.body.tax_id.trim() !== '') {
             const taxId = req.body.tax_id.trim();
             if (!/^[0-9]{13}$/.test(taxId)) {
-                return res.redirect(`/companies/${req.params.code}/edit`);
+                console.log('Validation failed: invalid tax_id format');
+                return res.render('companies/edit', {
+                    title: 'แก้ไขบริษัท',
+                    company: company,
+                    error: 'เลขประจำตัวผู้เสียภาษีต้องเป็นตัวเลข 13 หลัก',
+                    validationErrors: null
+                });
             }
         }
+        
+        console.log('Validation passed, updating company...');
         
         // Update fields
         company.company_name_th = req.body.company_name_th.trim();
@@ -328,14 +407,29 @@ const handleUpdateCompany = asyncHandler(async (req, res) => {
         }
         company.updated_by = req.user?.username || 'admin';
         
-        await company.update();
+        const result = await company.update();
+        console.log('Update result:', result);
         
         logger.info(`Company updated: ${company.company_code} by ${company.updated_by}`);
         
+        console.log('Redirecting to /companies');
         res.redirect('/companies');
     } catch (error) {
+        console.error('Error in handleUpdateCompany:', error);
         logger.error('Error updating company:', error);
-        res.redirect(`/companies/${req.params.code}/edit`);
+        
+        // Try to get company data for re-rendering the form
+        try {
+            const company = await Company.findByCode(req.params.code);
+            return res.render('companies/edit', {
+                title: 'แก้ไขบริษัท',
+                company: company,
+                error: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล กรุณาลองใหม่อีกครั้ง',
+                validationErrors: null
+            });
+        } catch (findError) {
+            return res.redirect('/companies');
+        }
     }
 });
 

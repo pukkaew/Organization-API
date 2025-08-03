@@ -55,7 +55,10 @@ const currentStyle = iconStyles[iconColor] || iconStyles.blue;
                     <i class="fas fa-<%= icon %>" aria-hidden="true"></i>
                 </div>
                 <div class="page-header-text">
-                    <h1><%= title %></h1>
+                    <h1 class="page-title-<%= iconColor %>">
+                        <i class="fas fa-<%= icon %>" aria-hidden="true"></i>
+                        <%= title %>
+                    </h1>
                     <p><%= description %></p>
                 </div>
             </div>

@@ -12,13 +12,24 @@
 <main class="flex-1 py-8">
     <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mx-auto">
-            <div class="form-section">
-                <%- include('../partials/form-header', { 
-                    title: 'Create New Branch',
-                    icon: 'code-branch',
-                    iconColor: 'green',
-                    backUrl: '/branches'
-                }) %>
+            <div class="bg-white rounded-xl shadow-lg border border-gray-200">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-ruxchai-green rounded-lg flex items-center justify-center">
+                                <i class="fas fa-code-branch text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h1 class="text-2xl font-bold text-gray-900">สร้างสาขาใหม่</h1>
+                                <p class="text-gray-600">เพิ่มข้อมูลสาขาในระบบ</p>
+                            </div>
+                        </div>
+                        <a href="/branches" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors font-medium">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            ย้อนกลับ
+                        </a>
+                    </div>
+                </div>
                 
                 <%- include('../partials/form-errors', { 
                     error: typeof error !== 'undefined' ? error : null,
@@ -249,11 +260,7 @@
             </div>
         </div>
         </div>
-    </div>
-</main>
-
-<%- include('../partials/footer', {
-    pageScripts: `
+    
     <script>
     // Auto uppercase for branch code
     document.getElementById('branch_code').addEventListener('input', function(e) {
@@ -271,5 +278,9 @@
         btnLoading.classList.remove('hidden');
     });
     </script>
-    `
+    </div>
+</main>
+
+<%- include('../partials/footer', {
+    pageScripts: null
 }) %>

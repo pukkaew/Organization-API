@@ -13,24 +13,24 @@
     <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
         <div class="bg-white shadow-xl rounded-xl overflow-hidden">
             <!-- Header -->
-            <div class="bg-gradient-to-r from-emerald-600 to-cyan-700 px-4 sm:px-6 py-8 text-white">
+            <div class="bg-gradient-to-r from-ruxchai-green to-green-700 px-4 sm:px-6 py-8 text-white">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center mb-3">
                             <div class="w-16 h-16 bg-white bg-opacity-20 rounded-xl flex items-center justify-center text-3xl mr-4">
-                                <i class="fas fa-code-branch"></i>
+                                <i class="fas fa-code-branch text-white text-3xl drop-shadow-lg"></i>
                             </div>
                             <div>
                                 <h2 class="text-2xl sm:text-3xl font-bold text-white truncate">
                                     <%= branch.branch_name %>
                                 </h2>
                                 <div class="mt-2 flex flex-wrap items-center gap-3">
-                                    <p class="text-sm text-teal-100 truncate">
+                                    <p class="text-sm text-green-100 truncate">
                                         <%= branch.company_code %> - <%= branch.company_name_th %>
                                     </p>
                                     <% if (branch.is_headquarters) { %>
-                                        <span class="status-badge status-badge-small status-badge-blue">
-                                            <i class="fas fa-building mr-1"></i>HQ
+                                        <span class="bg-white bg-opacity-20 text-white px-2 py-1 rounded-lg text-xs font-medium">
+                                            <i class="fas fa-building mr-1"></i>สำนักงานใหญ่
                                         </span>
                                     <% } %>
                                 </div>
@@ -38,13 +38,13 @@
                         </div>
                     </div>
                     <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
-                        <a href="/branches/<%= branch.branch_code %>/edit" class="btn btn-orange">
+                        <a href="/branches/<%= branch.branch_code %>/edit" class="bg-ruxchai-green text-white px-4 py-2 rounded-lg hover:bg-ruxchai-green-dark transition-colors font-medium">
                             <i class="fas fa-edit mr-2"></i>
-                            Edit
+                            แก้ไข
                         </a>
-                        <a href="/branches" class="btn btn-white-transparent">
+                        <a href="/branches" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors font-medium">
                             <i class="fas fa-arrow-left mr-2"></i>
-                            Back
+                            ย้อนกลับ
                         </a>
                     </div>
                 </div>

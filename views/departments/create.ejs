@@ -12,36 +12,48 @@
 <main class="flex-1 py-8">
     <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mx-auto">
-            <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl border border-gray-100">
-                <%- include('../partials/form-header', { 
-                    title: 'Create New Department',
-                    icon: 'users-cog',
-                    iconColor: 'green',
-                    backUrl: '/departments'
-                }) %>
+            <div class="bg-white rounded-xl shadow-lg border border-gray-200">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-ruxchai-green rounded-lg flex items-center justify-center">
+                                <i class="fas fa-users text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h1 class="text-2xl font-bold text-gray-900">สร้างแผนกใหม่</h1>
+                                <p class="text-gray-600">เพิ่มข้อมูลแผนกในระบบ</p>
+                            </div>
+                        </div>
+                        <a href="/departments" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors font-medium">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            ย้อนกลับ
+                        </a>
+                    </div>
+                </div>
                 
-                <%- include('../partials/form-errors', { 
-                    error: typeof error !== 'undefined' ? error : null,
-                    validationErrors: typeof validationErrors !== 'undefined' ? validationErrors : null
-                }) %>
-                
-                <form method="post" action="/departments" class="form-section">
+                <form method="post" action="/departments" class="p-6">
                     <% if (typeof csrfToken !== 'undefined') { %>
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <% } %>
+                    
+                    <!-- Error Messages -->
+                    <%- include('../partials/form-errors', { 
+                        error: typeof error !== 'undefined' ? error : null,
+                        validationErrors: typeof validationErrors !== 'undefined' ? validationErrors : null
+                    }) %>
                 
                 <div class="space-y-4">
                     <!-- Company Selection -->
-                    <div class="form-group-enhanced">
-                        <label for="company_code" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-building text-lg mr-2"></i>
-                            Company <span class="text-red-500">*</span>
+                    <div class="mb-6">
+                        <label for="company_code" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-building mr-2 text-ruxchai-green"></i>
+                            บริษัท <span class="text-red-500">*</span>
                         </label>
                         <select id="company_code" 
                                 name="company_code" 
                                 required
-                                class="form-input-enhanced">
-                            <option value="">Select a company</option>
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-green focus:border-ruxchai-green">
+                            <option value="">เลือกบริษัท</option>
                             <% if (typeof companies !== 'undefined' && companies) { %>
                                 <% companies.forEach(function(company) { %>
                                     <option value="<%= company.company_code %>">
@@ -53,27 +65,27 @@
                     </div>
                     
                     <!-- Division Selection -->
-                    <div class="form-group-enhanced">
-                        <label for="division_code" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2"><i class="fas fa-building"></i></span>
-                            Division <span class="text-red-500">*</span>
+                    <div class="mb-6">
+                        <label for="division_code" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-sitemap mr-2 text-ruxchai-green"></i>
+                            ฝ่าย <span class="text-red-500">*</span>
                         </label>
                         <select id="division_code" 
                                 name="division_code" 
                                 required
-                                class="form-input-enhanced">
-                            <option value="">Select a company first</option>
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-green focus:border-ruxchai-green">
+                            <option value="">เลือกบริษัทก่อน</option>
                         </select>
                         <p class="mt-1 text-sm text-gray-500">
-                            Select the division this department belongs to
+                            เลือกฝ่ายที่แผนกนี้สังกัดอยู่
                         </p>
                     </div>
                     
                     <!-- Department Code -->
-                    <div class="form-group-enhanced">
-                        <label for="department_code" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2"><i class="fas fa-tag"></i></span>
-                            Department Code <span class="text-red-500">*</span>
+                    <div class="mb-6">
+                        <label for="department_code" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-tag mr-2 text-ruxchai-green"></i>
+                            รหัสแผนก <span class="text-red-500">*</span>
                         </label>
                         <input type="text" 
                                id="department_code" 
@@ -81,33 +93,33 @@
                                required
                                maxlength="20"
                                pattern="[A-Z0-9]+"
-                               class="form-input-enhanced uppercase"
-                               placeholder="e.g., DEPT001">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-green focus:border-ruxchai-green uppercase"
+                               placeholder="เช่น DEPT001">
                         <p class="mt-1 text-sm text-gray-500">
-                            Use uppercase letters and numbers only. This cannot be changed later.
+                            ใช้ตัวอักษรพิมพ์ใหญ่และตัวเลขเท่านั้น ไม่สามารถเปลี่ยนแปลงได้ภายหลัง
                         </p>
                     </div>
                     
                     <!-- Department Name -->
-                    <div class="form-group-enhanced">
-                        <label for="department_name" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-briefcase text-lg mr-2" aria-hidden="true"></i>
-                            Department Name <span class="text-red-500">*</span>
+                    <div class="mb-6">
+                        <label for="department_name" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-users mr-2 text-ruxchai-green"></i>
+                            ชื่อแผนก <span class="text-red-500">*</span>
                         </label>
                         <input type="text" 
                                id="department_name" 
                                name="department_name" 
                                required
                                maxlength="200"
-                               class="form-input-enhanced"
-                               placeholder="e.g., Recruitment">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-green focus:border-ruxchai-green"
+                               placeholder="เช่น แผนกสรรหาบุคคล">
                     </div>
                     
                     <!-- Status -->
-                    <div class="form-group-enhanced">
-                        <label class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-power-off text-lg mr-2" aria-hidden="true"></i>
-                            Status
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-toggle-on mr-2 text-ruxchai-green"></i>
+                            สถานะ
                         </label>
                         <div class="flex items-center space-x-6 mt-2">
                             <label class="inline-flex items-center">
@@ -115,15 +127,15 @@
                                        name="is_active" 
                                        value="true" 
                                        checked
-                                       class="text-primary-600 ">
-                                <span class="ml-2 text-sm text-gray-700">Active</span>
+                                       class="text-ruxchai-green">
+                                <span class="ml-2 text-sm text-gray-700">ใช้งาน</span>
                             </label>
                             <label class="inline-flex items-center">
                                 <input type="radio" 
                                        name="is_active" 
                                        value="false"
-                                       class="text-primary-600 ">
-                                <span class="ml-2 text-sm text-gray-700">Inactive</span>
+                                       class="text-ruxchai-green">
+                                <span class="ml-2 text-sm text-gray-700">ไม่ใช้งาน</span>
                             </label>
                         </div>
                     </div>
@@ -131,23 +143,23 @@
                 
                 <!-- Form Actions -->
                 <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
-                    <a href="/departments" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:bg-gray-100 transition-all duration-200">
+                    <a href="/departments" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors font-medium">
                         <i class="fas fa-arrow-left mr-2"></i>
-                        Cancel
+                        ยกเลิก
                     </a>
                     
                     <div class="flex items-center space-x-3">
-                        <button type="reset" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200">
-                            <i class="fas fa-redo mr-2"></i>
-                            Reset
+                        <button type="reset" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition-colors font-medium">
+                            <i class="fas fa-sync-alt mr-2"></i>
+                            รีเซ็ต
                         </button>
-                        <button type="submit" id="submit-btn" class="btn btn-success">
+                        <button type="submit" class="bg-ruxchai-green text-white px-4 py-2 rounded-lg hover:bg-ruxchai-green-dark transition-colors font-medium" id="submit-btn">
                             <span class="btn-text">
-                                <span style="font-size: 1rem; margin-right: 0.5rem;">💾</span>
+                                <i class="fas fa-save mr-2"></i>
                                 บันทึกแผนก
                             </span>
                             <span class="btn-loading hidden">
-                                <span class="spinner mr-2"></span>
+                                <i class="fas fa-spinner fa-spin mr-2"></i>
                                 กำลังบันทึก...
                             </span>
                         </button>
@@ -157,33 +169,35 @@
         </div>
         
         <!-- Help Section -->
-        <div class="mt-6 bg-gradient-to-r from-purple-50 to-violet-50 rounded-2xl p-6 border border-purple-100 shadow-lg">
+        <div class="mt-6 bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
             <div class="flex">
                 <div class="flex-shrink-0">
-                    <span class="text-2xl"><i class="fas fa-lightbulb"></i></span>
+                    <div class="w-10 h-10 bg-ruxchai-green rounded-lg flex items-center justify-center">
+                        <i class="fas fa-lightbulb text-white text-xl"></i>
+                    </div>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-lg font-bold text-purple-800 flex items-center">
-                        <span class="mr-2"><i class="fas fa-book"></i></span>
-                        Guidelines
+                    <h3 class="text-lg font-bold text-gray-900 flex items-center">
+                        <i class="fas fa-info-circle mr-2 text-ruxchai-green"></i>
+                        คำแนะนำ
                     </h3>
-                    <div class="mt-3 text-sm text-purple-700">
+                    <div class="mt-3 text-sm text-gray-600">
                         <ul class="space-y-2">
                             <li class="flex items-start">
-                                <span class="text-purple-500 mr-2 mt-0.5">•</span>
-                                Department code cannot be changed after creation
+                                <span class="text-ruxchai-green mr-2 mt-0.5">•</span>
+                                รหัสแผนกไม่สามารถเปลี่ยนแปลงได้หลังจากสร้างแล้ว
                             </li>
                             <li class="flex items-start">
-                                <span class="text-purple-500 mr-2 mt-0.5">•</span>
-                                Department must belong to a division
+                                <span class="text-ruxchai-green mr-2 mt-0.5">•</span>
+                                แผนกต้องสังกัดอยู่ภายใต้ฝ่าย
                             </li>
                             <li class="flex items-start">
-                                <span class="text-purple-500 mr-2 mt-0.5">•</span>
-                                Department code must be unique across the entire system
+                                <span class="text-ruxchai-green mr-2 mt-0.5">•</span>
+                                รหัสแผนกต้องไม่ซ้ำกันในทั้งระบบ
                             </li>
                             <li class="flex items-start">
-                                <span class="text-purple-500 mr-2 mt-0.5">•</span>
-                                All departments start as active by default
+                                <span class="text-ruxchai-green mr-2 mt-0.5">•</span>
+                                แผนกทุกแห่งจะเริ่มต้นเป็น "ใช้งาน" เป็นค่าเริ่มต้น
                             </li>
                         </ul>
                     </div>

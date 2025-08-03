@@ -1,0 +1,435 @@
+/* ==========================================================================
+   UTILITY CLASSES - Fixed without @apply directives
+   ========================================================================== */
+
+/* Action Buttons - Fixed without @apply */
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    color: white;
+    border-radius: 0.5rem;
+    transition: all 0.15s ease-in-out;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    border: none;
+    cursor: pointer;
+}
+
+@media (min-width: 640px) {
+    .action-btn {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+}
+
+.action-btn:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.action-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.action-btn i {
+    font-size: 0.75rem;
+}
+
+@media (min-width: 640px) {
+    .action-btn i {
+        font-size: 0.875rem;
+    }
+}
+
+/* Action Button Variants */
+.action-btn-blue {
+    background-color: #3b82f6;
+}
+
+.action-btn-blue:hover {
+    background-color: #2563eb;
+}
+
+.action-btn-blue:focus {
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.action-btn-amber {
+    background-color: #f59e0b;
+}
+
+.action-btn-amber:hover {
+    background-color: #d97706;
+}
+
+.action-btn-amber:focus {
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3);
+}
+
+.action-btn-emerald {
+    background-color: #10b981;
+}
+
+.action-btn-emerald:hover {
+    background-color: #059669;
+}
+
+.action-btn-emerald:focus {
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+}
+
+.action-btn-orange {
+    background-color: #f97316;
+}
+
+.action-btn-orange:hover {
+    background-color: #ea580c;
+}
+
+.action-btn-orange:focus {
+    box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.3);
+}
+
+.action-btn-red {
+    background-color: #ef4444;
+}
+
+.action-btn-red:hover {
+    background-color: #dc2626;
+}
+
+.action-btn-red:focus {
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
+}
+
+/* Status Badges - Fixed without @apply */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid;
+}
+
+@media (min-width: 640px) {
+    .status-badge {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+    }
+}
+
+.status-badge-active {
+    background-color: #d1fae5;
+    color: #065f46;
+    border-color: #10b981;
+}
+
+.status-badge-inactive {
+    background-color: #f3f4f6;
+    color: #374151;
+    border-color: #d1d5db;
+}
+
+.status-badge i {
+    margin-right: 0.25rem;
+}
+
+/* Table Icons - Fixed without @apply */
+.table-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.15s ease-in-out;
+}
+
+@media (min-width: 640px) {
+    .table-icon {
+        width: 3rem;
+        height: 3rem;
+        margin-right: 1rem;
+    }
+}
+
+.table-icon:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.table-icon i {
+    color: white;
+    font-size: 0.875rem;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+}
+
+@media (min-width: 640px) {
+    .table-icon i {
+        font-size: 1rem;
+    }
+}
+
+.table-icon-blue {
+    background: linear-gradient(to bottom right, #3b82f6, #1d4ed8);
+}
+
+.table-icon-green {
+    background: linear-gradient(to bottom right, #10b981, #047857);
+}
+
+.table-icon-purple {
+    background: linear-gradient(to bottom right, #8b5cf6, #6d28d9);
+}
+
+.table-icon-orange {
+    background: linear-gradient(to bottom right, #f97316, #ea580c);
+}
+
+/* Page Headers - Fixed without @apply */
+.page-header {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    margin-bottom: 1.5rem;
+}
+
+.page-header-content {
+    padding: 1.5rem;
+}
+
+.page-header-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.page-header-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.page-header-icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.15s ease-in-out;
+}
+
+.page-header-icon:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.page-header-icon i {
+    color: white;
+    font-size: 1.875rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.page-header-text h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.page-header-text p {
+    color: #6b7280;
+    margin-top: 0.25rem;
+}
+
+/* Filter Cards - Fixed without @apply */
+.filter-card {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    margin-bottom: 1.5rem;
+}
+
+.filter-card-content {
+    padding: 1.5rem;
+}
+
+.filter-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.filter-card-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+/* Form Enhancements - Fixed without @apply */
+.form-input-enhanced {
+    display: block;
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid #d1d5db;
+    padding: 0.75rem;
+    color: #111827;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-input-enhanced::placeholder {
+    color: #6b7280;
+}
+
+.form-input-enhanced:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 1px #3b82f6;
+}
+
+/* Table Enhancements - Fixed without @apply */
+.table-container {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+}
+
+.table-row {
+    transition: background-color 0.15s ease-in-out;
+}
+
+.table-row:hover {
+    background-color: #f9fafb;
+}
+
+/* Button Variants - Fixed without @apply */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.15s ease-in-out;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.btn-primary {
+    background-color: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+    color: white;
+    text-decoration: none;
+}
+
+.btn-primary:focus {
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+}
+
+.btn-success {
+    background-color: #059669;
+    color: white;
+    border-color: #059669;
+}
+
+.btn-success:hover {
+    background-color: #047857;
+    color: white;
+    text-decoration: none;
+}
+
+.btn-success:focus {
+    box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.3);
+}
+
+.btn-danger {
+    background-color: #dc2626;
+    color: white;
+    border-color: #dc2626;
+}
+
+.btn-danger:hover {
+    background-color: #b91c1c;
+    color: white;
+    text-decoration: none;
+}
+
+.btn-danger:focus {
+    box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.3);
+}
+
+/* Utility Classes */
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.card-elevated {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+}
+
+.fast-card {
+    transition: box-shadow 0.15s ease-in-out;
+}
+
+.fast-card:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+    .action-btn {
+        width: 2rem;
+        height: 2rem;
+    }
+    
+    .action-btn i {
+        font-size: 0.75rem;
+    }
+    
+    .table-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    
+    .page-header-icon {
+        width: 3rem;
+        height: 3rem;
+    }
+    
+    .page-header-icon i {
+        font-size: 1.5rem;
+    }
+    
+    .page-header-title {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

@@ -33,18 +33,30 @@
     
         <div class="bg-white shadow-xl rounded-xl overflow-hidden">
             <!-- Header -->
-            <div class="bg-gradient-to-r from-indigo-600 to-pink-700 px-6 py-8 text-white">
-                <div class="flex items-center">
-                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-xl flex items-center justify-center text-3xl mr-4">
-                        <i class="fas fa-key text-white text-3xl drop-shadow-lg" aria-hidden="true"></i>
+            <div class="bg-gradient-to-r from-ruxchai-blue to-blue-700 px-6 py-8 text-white">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-xl flex items-center justify-center text-3xl mr-4">
+                            <i class="fas fa-key text-white text-3xl drop-shadow-lg"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">
+                                รายละเอียด API Key
+                            </h3>
+                            <p class="mt-1 text-sm text-blue-100">
+                                เก็บข้อมูลนี้ไว้อย่างปลอดภัย คุณจะไม่สามารถดู API Key เต็มอีกครั้ง
+                            </p>
+                        </div>
                     </div>
-                    <div>
-                        <h3 class="text-2xl font-bold text-white">
-                            API Key Details
-                        </h3>
-                        <p class="mt-1 text-sm text-purple-100">
-                            Save this information securely. You won't be able to see the full API key again.
-                        </p>
+                    <div class="flex space-x-3">
+                        <a href="/api-keys/<%= apiKey.api_key_id %>/edit" class="bg-ruxchai-blue text-white px-4 py-2 rounded-lg hover:bg-ruxchai-blue-dark transition-colors font-medium">
+                            <i class="fas fa-edit mr-2"></i>
+                            แก้ไข
+                        </a>
+                        <a href="/api-keys" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors font-medium">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            ย้อนกลับ
+                        </a>
                     </div>
                 </div>
             </div>

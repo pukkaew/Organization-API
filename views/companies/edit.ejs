@@ -11,42 +11,59 @@
 <main class="flex-1 py-8">
     <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8"> 
     <div class="max-w-3xl mx-auto">
-        <div class="bg-white rounded-2xl shadow-2xl border border-gray-100">
-            <%- include('../partials/form-header', { 
-                title: 'Edit Company',
-                icon: 'building',
-                iconColor: 'blue',
-                backUrl: '/companies'
-            }) %>
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-ruxchai-blue rounded-lg flex items-center justify-center">
+                            <i class="fas fa-building text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900">แก้ไขบริษัท</h1>
+                            <p class="text-gray-600">แก้ไขข้อมูลบริษัทในระบบ</p>
+                        </div>
+                    </div>
+                    <a href="/companies" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors font-medium">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        ย้อนกลับ
+                    </a>
+                </div>
+            </div>
             
-            <form method="post" action="/companies/<%= company.company_code %>" class="form-section">
+            <form method="post" action="/companies/<%= company.company_code %>" class="p-6">
                 <% if (typeof csrfToken !== 'undefined') { %>
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <% } %>
                 <input type="hidden" name="_method" value="PUT">
                 
+                <!-- Error Messages -->
+                <%- include('../partials/form-errors', { 
+                    error: typeof error !== 'undefined' ? error : null,
+                    validationErrors: typeof validationErrors !== 'undefined' ? validationErrors : null
+                }) %>
+                
                 <div class="space-y-4">
                     <!-- Company Code (Read-only) -->
-                    <div class="form-group-enhanced">
-                        <label for="company_code" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-tag text-lg mr-2"></i>
-                            Company Code
+                    <div class="mb-6">
+                        <label for="company_code" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-tag mr-2 text-ruxchai-blue"></i>
+                            รหัสบริษัท
                         </label>
                         <input type="text" 
                                id="company_code" 
                                value="<%= company.company_code %>" 
                                disabled
-                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed">
                         <p class="mt-1 text-sm text-gray-500">
-                            Company code cannot be changed
+                            รหัสบริษัทไม่สามารถเปลี่ยนแปลงได้
                         </p>
                     </div>
                     
                     <!-- Thai Name -->
-                    <div class="form-group-enhanced">
-                        <label for="company_name_th" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-university text-lg mr-2"></i>
-                            Thai Name <span class="text-red-500">*</span>
+                    <div class="mb-6">
+                        <label for="company_name_th" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-building mr-2 text-ruxchai-blue"></i>
+                            ชื่อบริษัท (ภาษาไทย) <span class="text-red-500">*</span>
                         </label>
                         <input type="text" 
                                id="company_name_th" 
@@ -54,28 +71,28 @@
                                required
                                maxlength="200"
                                value="<%= company.company_name_th %>"
-                               class="form-input-enhanced">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-blue focus:border-ruxchai-blue">
                     </div>
                     
                     <!-- English Name -->
-                    <div class="form-group-enhanced">
-                        <label for="company_name_en" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-globe text-lg mr-2"></i>
-                            English Name
+                    <div class="mb-6">
+                        <label for="company_name_en" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-globe mr-2 text-ruxchai-blue"></i>
+                            ชื่อบริษัท (ภาษาอังกฤษ)
                         </label>
                         <input type="text" 
                                id="company_name_en" 
                                name="company_name_en" 
                                maxlength="200"
                                value="<%= company.company_name_en || '' %>"
-                               class="form-input-enhanced">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-blue focus:border-ruxchai-blue">
                     </div>
                     
                     <!-- Tax ID -->
-                    <div class="form-group-enhanced">
-                        <label for="tax_id" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-clipboard text-lg mr-2"></i>
-                            Tax ID
+                    <div class="mb-6">
+                        <label for="tax_id" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-clipboard mr-2 text-ruxchai-blue"></i>
+                            เลขประจำตัวผู้เสียภาษี
                         </label>
                         <input type="text" 
                                id="tax_id" 
@@ -83,106 +100,106 @@
                                maxlength="13"
                                pattern="[0-9]{13}"
                                value="<%= company.tax_id || '' %>"
-                               class="form-input-enhanced"
-                               placeholder="13-digit tax ID">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-blue focus:border-ruxchai-blue"
+                               placeholder="เลขประจำตัวผู้เสียภาษี 13 หลัก">
                         <p class="mt-1 text-sm text-gray-500">
-                            Enter 13-digit tax identification number
+                            กรอกเลขประจำตัวผู้เสียภาษี 13 หลัก
                         </p>
                     </div>
                     
                     <!-- Website -->
-                    <div class="form-group-enhanced">
-                        <label for="website" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-globe text-lg mr-2"></i>
-                            Website
+                    <div class="mb-6">
+                        <label for="website" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-globe mr-2 text-ruxchai-blue"></i>
+                            เว็บไซต์
                         </label>
                         <input type="url" 
                                id="website" 
                                name="website"
                                value="<%= company.website || '' %>"
-                               class="form-input-enhanced"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-blue focus:border-ruxchai-blue"
                                placeholder="https://www.example.com">
                     </div>
                     
                     <!-- Email -->
-                    <div class="form-group-enhanced">
-                        <label for="email" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-envelope text-lg mr-2"></i>
-                            Email
+                    <div class="mb-6">
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-envelope mr-2 text-ruxchai-blue"></i>
+                            อีเมล
                         </label>
                         <input type="email" 
                                id="email" 
                                name="email"
                                value="<%= company.email || '' %>"
-                               class="form-input-enhanced"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-blue focus:border-ruxchai-blue"
                                placeholder="contact@example.com">
                     </div>
                     
                     <!-- Phone -->
-                    <div class="form-group-enhanced">
-                        <label for="phone" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-phone text-lg mr-2"></i>
-                            Phone
+                    <div class="mb-6">
+                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-phone mr-2 text-ruxchai-blue"></i>
+                            โทรศัพท์
                         </label>
                         <input type="tel" 
                                id="phone" 
                                name="phone"
                                value="<%= company.phone || '' %>"
-                               class="form-input-enhanced"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-blue focus:border-ruxchai-blue"
                                placeholder="02-123-4567">
                     </div>
                     
                     <!-- Address -->
-                    <div class="form-group-enhanced">
-                        <label for="address" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-map-marker-alt text-lg mr-2"></i>
-                            Address
+                    <div class="mb-6">
+                        <label for="address" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-map-marker-alt mr-2 text-ruxchai-blue"></i>
+                            ที่อยู่
                         </label>
                         <textarea id="address" 
                                   name="address" 
                                   rows="3"
-                                  class="form-input-enhanced"><%= company.address || '' %></textarea>
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-blue focus:border-ruxchai-blue"><%= company.address || '' %></textarea>
                     </div>
                     
                     <!-- Status Notice -->
-                    <div class="bg-ruxchai-green-50 border border-ruxchai-green-200 rounded-lg p-4">
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                         <div class="flex">
                             <div class="flex-shrink-0">
-                                <i class="fas fa-exclamation-triangle text-ruxchai-green-400"></i>
+                                <i class="fas fa-info-circle text-ruxchai-blue"></i>
                             </div>
                             <div class="ml-3">
-                                <p class="text-sm text-ruxchai-green-700">
-                                    Status: <strong><%= company.is_active ? 'Active' : 'Inactive' %></strong>
+                                <p class="text-sm text-blue-700">
+                                    สถานะปัจจุบัน: <strong><%= company.is_active ? 'ใช้งาน' : 'ไม่ใช้งาน' %></strong>
                                 </p>
-                                <p class="text-sm text-yellow-700 mt-1">
-                                    To change status, use the toggle button on the company list page.
+                                <p class="text-sm text-blue-600 mt-1">
+                                    หากต้องการเปลี่ยนสถานะ ให้ใช้ปุ่มเปิด/ปิดในหน้ารายการบริษัท
                                 </p>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Metadata -->
-                    <div class="bg-ruxchai-grey-50 border border-ruxchai-grey-200 rounded-lg p-4">
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
                         <div class="grid grid-cols-2 gap-4 text-sm">
                             <div>
-                                <span class="text-gray-500">Created:</span>
+                                <span class="text-gray-500">วันที่สร้าง:</span>
                                 <span class="text-gray-900 ml-2">
                                     <%= new Date(company.created_date).toLocaleString('th-TH') %>
                                 </span>
                             </div>
                             <div>
-                                <span class="text-gray-500">Created by:</span>
+                                <span class="text-gray-500">สร้างโดย:</span>
                                 <span class="text-gray-900 ml-2"><%= company.created_by %></span>
                             </div>
                             <% if (company.updated_date) { %>
                                 <div>
-                                    <span class="text-gray-500">Updated:</span>
+                                    <span class="text-gray-500">แก้ไขล่าสุด:</span>
                                     <span class="text-gray-900 ml-2">
                                         <%= new Date(company.updated_date).toLocaleString('th-TH') %>
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="text-gray-500">Updated by:</span>
+                                    <span class="text-gray-500">แก้ไขโดย:</span>
                                     <span class="text-gray-900 ml-2"><%= company.updated_by %></span>
                                 </div>
                             <% } %>
@@ -192,19 +209,19 @@
                 
                 <!-- Form Actions -->
                 <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
-                    <a href="/companies" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:bg-gray-100 transition-all duration-200">
+                    <a href="/companies" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors font-medium">
                         <i class="fas fa-arrow-left mr-2"></i>
-                        Cancel
+                        ยกเลิก
                     </a>
                     
-                    <button type="submit" id="submit-btn" class="btn bg-ruxchai-blue hover:bg-ruxchai-blue-700 text-white shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
+                    <button type="submit" id="submit-btn" class="bg-ruxchai-blue text-white px-4 py-2 rounded-lg hover:bg-ruxchai-blue-dark transition-colors font-medium">
                         <span class="btn-text">
                             <i class="fas fa-save mr-2"></i>
-                            Update Company
+                            บันทึกการเปลี่ยนแปลง
                         </span>
                         <span class="btn-loading hidden">
-                            <i class="spinner mr-2"></i>
-                            Updating...
+                            <i class="fas fa-spinner fa-spin mr-2"></i>
+                            กำลังบันทึก...
                         </span>
                     </button>
                 </div>

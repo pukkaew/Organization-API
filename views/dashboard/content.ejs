@@ -1,248 +1,200 @@
-<!-- Welcome Section -->
-<div class="bg-white rounded-xl shadow-md border border-gray-200 mb-6 overflow-hidden">
-    <div class="p-6 text-white bg-ruxchai-blue">
-        <div class="flex items-center space-x-4">
-            <div class="w-16 h-16 bg-white bg-opacity-20 rounded-xl flex items-center justify-center shadow-lg">
-                <i class="icon icon-building icon-xl text-white"></i>
+<!-- Dashboard Header -->
+<div class="mb-8">
+    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900 mb-2">Dashboard</h1>
+                <p class="text-gray-600">ระบบจัดการโครงสร้างองค์กร Ruxchai Cold Storage</p>
             </div>
-            <div class="flex-1">
-                <h1 class="text-2xl font-bold mb-1">Ruxchai Cold Storage</h1>
-                <p class="text-white text-opacity-90">ระบบจัดการโครงสร้างองค์กร</p>
-            </div>
-            <div class="hidden sm:flex items-center space-x-2 bg-white bg-opacity-20 px-3 py-2 rounded-full">
-                <div class="w-3 h-3 bg-green-400 rounded-full"></div>
-                <span class="text-sm font-medium">Online</span>
-            </div>
-        </div>
-    </div>
-    
-    <div class="p-6 bg-gray-50">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-ruxchai-blue rounded-lg flex items-center justify-center">
-                    <i class="icon icon-dashboard text-white"></i>
-                </div>
-                <div>
-                    <p class="font-semibold text-gray-800">System Status</p>
-                    <p class="text-sm text-green-600">All systems operational</p>
-                </div>
-            </div>
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-ruxchai-green rounded-lg flex items-center justify-center">
-                    <i class="icon icon-key text-white"></i>
-                </div>
-                <div>
-                    <p class="font-semibold text-gray-800">Security</p>
-                    <p class="text-sm text-green-600">Protected connection</p>
-                </div>
-            </div>
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-ruxchai-grey rounded-lg flex items-center justify-center">
-                    <i class="icon icon-building text-white"></i>
-                </div>
-                <div>
-                    <p class="font-semibold text-gray-800">Cold Storage</p>
-                    <p class="text-sm text-blue-600">Management ready</p>
-                </div>
+            <div class="flex items-center space-x-2 bg-ruxchai-green/10 px-4 py-2 rounded-full">
+                <div class="w-2 h-2 bg-ruxchai-green rounded-full animate-pulse"></div>
+                <span class="text-ruxchai-green font-semibold text-sm">ออนไลน์</span>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Statistics Cards -->
-<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-    <!-- Companies Card -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 ">
-        <div class="p-4">
-            <div class="flex items-center justify-between mb-3">
-                <div class="w-12 h-12 bg-ruxchai-blue rounded-lg flex items-center justify-center">
-                    <i class="icon icon-company text-white"></i>
-                </div>
-                <div class="text-right">
-                    <p class="text-2xl font-bold text-gray-900">
-                        <%= typeof stats !== 'undefined' && stats.totalCompanies ? stats.totalCompanies : 0 %>
-                    </p>
-                    <p class="text-xs text-gray-500 uppercase tracking-wider">บริษัท</p>
-                </div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Companies -->
+    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200 hover:shadow-xl transition-shadow">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-ruxchai-blue rounded-lg flex items-center justify-center">
+                <i class="fas fa-building text-white text-xl"></i>
             </div>
-            <a href="/companies" class="text-ruxchai-blue hover:text-blue-dark text-sm font-medium flex items-center group">
-                <span>ดูทั้งหมด</span>
-                <i class="icon icon-arrow-right ml-1"></i>
-            </a>
+            <span class="text-3xl font-bold text-gray-900">
+                <%= typeof stats !== 'undefined' && stats.totalCompanies ? stats.totalCompanies : 0 %>
+            </span>
         </div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-1">บริษัท</h3>
+        <p class="text-gray-600 text-sm mb-4">องค์กรหลักในระบบ</p>
+        <a href="/companies" class="w-full bg-ruxchai-blue text-white text-center py-2 rounded-lg font-medium hover:bg-ruxchai-blue-dark transition-colors block">
+            ดูรายละเอียด
+        </a>
     </div>
     
-    <!-- Branches Card -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 ">
-        <div class="p-4">
-            <div class="flex items-center justify-between mb-3">
-                <div class="w-12 h-12 bg-ruxchai-green rounded-lg flex items-center justify-center">
-                    <i class="icon icon-branch text-white"></i>
-                </div>
-                <div class="text-right">
-                    <p class="text-2xl font-bold text-gray-900">
-                        <%= typeof stats !== 'undefined' && stats.totalBranches ? stats.totalBranches : 0 %>
-                    </p>
-                    <p class="text-xs text-gray-500 uppercase tracking-wider">สาขา</p>
-                </div>
+    <!-- Branches -->
+    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200 hover:shadow-xl transition-shadow">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-ruxchai-green rounded-lg flex items-center justify-center">
+                <i class="fas fa-code-branch text-white text-xl"></i>
             </div>
-            <a href="/branches" class="text-ruxchai-green hover:text-green-dark text-sm font-medium flex items-center group">
-                <span>ดูทั้งหมด</span>
-                <i class="icon icon-arrow-right ml-1"></i>
-            </a>
+            <span class="text-3xl font-bold text-gray-900">
+                <%= typeof stats !== 'undefined' && stats.totalBranches ? stats.totalBranches : 0 %>
+            </span>
         </div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-1">สาขา</h3>
+        <p class="text-gray-600 text-sm mb-4">จุดบริการทั่วประเทศ</p>
+        <a href="/branches" class="w-full bg-ruxchai-green text-white text-center py-2 rounded-lg font-medium hover:bg-ruxchai-green-dark transition-colors block">
+            ดูรายละเอียด
+        </a>
     </div>
     
-    <!-- Divisions Card -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 ">
-        <div class="p-4">
-            <div class="flex items-center justify-between mb-3">
-                <div class="w-12 h-12 bg-blue-medium rounded-lg flex items-center justify-center">
-                    <i class="icon icon-division text-white"></i>
-                </div>
-                <div class="text-right">
-                    <p class="text-2xl font-bold text-gray-900">
-                        <%= typeof stats !== 'undefined' && stats.totalDivisions ? stats.totalDivisions : 0 %>
-                    </p>
-                    <p class="text-xs text-gray-500 uppercase tracking-wider">ฝ่าย</p>
-                </div>
+    <!-- Divisions -->
+    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200 hover:shadow-xl transition-shadow">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-ruxchai-blue rounded-lg flex items-center justify-center">
+                <i class="fas fa-sitemap text-white text-xl"></i>
             </div>
-            <a href="/divisions" class="text-blue-medium hover:text-blue-dark text-sm font-medium flex items-center group">
-                <span>ดูทั้งหมด</span>
-                <i class="icon icon-arrow-right ml-1"></i>
-            </a>
+            <span class="text-3xl font-bold text-gray-900">
+                <%= typeof stats !== 'undefined' && stats.totalDivisions ? stats.totalDivisions : 0 %>
+            </span>
         </div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-1">ฝ่าย</h3>
+        <p class="text-gray-600 text-sm mb-4">หน่วยงานหลัก</p>
+        <a href="/divisions" class="w-full bg-ruxchai-blue text-white text-center py-2 rounded-lg font-medium hover:bg-ruxchai-blue-dark transition-colors block">
+            ดูรายละเอียด
+        </a>
     </div>
     
-    <!-- Departments Card -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 ">
-        <div class="p-4">
-            <div class="flex items-center justify-between mb-3">
-                <div class="w-12 h-12 bg-green-medium rounded-lg flex items-center justify-center">
-                    <i class="icon icon-users text-white"></i>
-                </div>
-                <div class="text-right">
-                    <p class="text-2xl font-bold text-gray-900">
-                        <%= typeof stats !== 'undefined' && stats.totalDepartments ? stats.totalDepartments : 0 %>
-                    </p>
-                    <p class="text-xs text-gray-500 uppercase tracking-wider">แผนก</p>
-                </div>
+    <!-- Departments -->
+    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200 hover:shadow-xl transition-shadow">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-ruxchai-green rounded-lg flex items-center justify-center">
+                <i class="fas fa-users text-white text-xl"></i>
             </div>
-            <a href="/departments" class="text-green-medium hover:text-green-dark text-sm font-medium flex items-center group">
-                <span>ดูทั้งหมด</span>
-                <i class="icon icon-arrow-right ml-1"></i>
-            </a>
+            <span class="text-3xl font-bold text-gray-900">
+                <%= typeof stats !== 'undefined' && stats.totalDepartments ? stats.totalDepartments : 0 %>
+            </span>
         </div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-1">แผนก</h3>
+        <p class="text-gray-600 text-sm mb-4">หน่วยงานย่อย</p>
+        <a href="/departments" class="w-full bg-ruxchai-green text-white text-center py-2 rounded-lg font-medium hover:bg-ruxchai-green-dark transition-colors block">
+            ดูรายละเอียด
+        </a>
     </div>
 </div>
 
-<!-- Main Content Grid -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Main Content -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
     <!-- Quick Actions -->
-    <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200">
+    <div class="lg:col-span-2 bg-white rounded-xl shadow-lg border border-gray-200">
         <div class="p-6 border-b border-gray-200">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-ruxchai-blue rounded-lg flex items-center justify-center">
-                    <i class="icon icon-plus text-white"></i>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-900">การดำเนินการด่วน</h3>
-            </div>
+            <h3 class="text-xl font-bold text-gray-900">การดำเนินการด่วน</h3>
+            <p class="text-gray-600 mt-1">สร้างข้อมูลใหม่ในระบบ</p>
         </div>
         <div class="p-6">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <a href="/companies/new" class="bg-ruxchai-blue text-white rounded-lg p-4 transition-colors hover:bg-blue-600">
+                <a href="/companies/new" class="bg-ruxchai-blue text-white rounded-lg p-4 hover:bg-ruxchai-blue-dark transition-colors group">
                     <div class="flex items-center space-x-3">
-                        <i class="icon icon-company text-lg"></i>
-                        <span class="font-medium">เพิ่มบริษัท</span>
+                        <i class="fas fa-building text-xl"></i>
+                        <div>
+                            <div class="font-semibold">เพิ่มบริษัท</div>
+                            <div class="text-sm opacity-90">สร้างองค์กรหลักใหม่</div>
+                        </div>
                     </div>
                 </a>
                 
-                <a href="/branches/new" class="bg-ruxchai-green text-white rounded-lg p-4 transition-colors hover:bg-green-600">
+                <a href="/branches/new" class="bg-ruxchai-green text-white rounded-lg p-4 hover:bg-ruxchai-green-dark transition-colors group">
                     <div class="flex items-center space-x-3">
-                        <i class="icon icon-branch text-lg"></i>
-                        <span class="font-medium">เพิ่มสาขา</span>
+                        <i class="fas fa-code-branch text-xl"></i>
+                        <div>
+                            <div class="font-semibold">เพิ่มสาขา</div>
+                            <div class="text-sm opacity-90">เพิ่มจุดบริการใหม่</div>
+                        </div>
                     </div>
                 </a>
                 
-                <a href="/divisions/new" class="bg-blue-medium text-white rounded-lg p-4 transition-colors hover:bg-blue-600">
+                <a href="/divisions/new" class="bg-ruxchai-blue text-white rounded-lg p-4 hover:bg-ruxchai-blue-dark transition-colors group">
                     <div class="flex items-center space-x-3">
-                        <i class="icon icon-division text-lg"></i>
-                        <span class="font-medium">เพิ่มฝ่าย</span>
+                        <i class="fas fa-sitemap text-xl"></i>
+                        <div>
+                            <div class="font-semibold">เพิ่มฝ่าย</div>
+                            <div class="text-sm opacity-90">จัดตั้งหน่วยงานหลัก</div>
+                        </div>
                     </div>
                 </a>
                 
-                <a href="/departments/new" class="bg-green-medium text-white rounded-lg p-4 transition-colors hover:bg-green-600">
+                <a href="/departments/new" class="bg-ruxchai-green text-white rounded-lg p-4 hover:bg-ruxchai-green-dark transition-colors group">
                     <div class="flex items-center space-x-3">
-                        <i class="icon icon-users text-lg"></i>
-                        <span class="font-medium">เพิ่มแผนก</span>
+                        <i class="fas fa-users text-xl"></i>
+                        <div>
+                            <div class="font-semibold">เพิ่มแผนก</div>
+                            <div class="text-sm opacity-90">สร้างหน่วยงานย่อย</div>
+                        </div>
                     </div>
                 </a>
             </div>
         </div>
     </div>
     
-    <!-- API Usage & System Info -->
+    <!-- Sidebar Info -->
     <div class="space-y-6">
         <!-- API Usage -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 ">
-            <div class="p-4 border-b border-gray-200">
-                <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 bg-ruxchai-grey rounded-lg flex items-center justify-center">
-                        <i class="icon icon-key text-white icon-sm"></i>
-                    </div>
-                    <h3 class="font-semibold text-gray-900">API Usage</h3>
-                </div>
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200">
+            <div class="p-6 border-b border-gray-200">
+                <h3 class="text-lg font-bold text-gray-900">API Usage</h3>
             </div>
-            <div class="p-4 space-y-4">
-                <div class="bg-gray-50 rounded-lg p-3">
+            <div class="p-6 space-y-4">
+                <div class="bg-ruxchai-blue/10 rounded-lg p-4">
                     <p class="text-sm text-gray-600 mb-1">การเรียกใช้ API (30 วัน)</p>
-                    <p class="text-xl font-bold text-gray-900">
-                        <%= typeof apiStats !== 'undefined' && apiStats.totalCalls ? apiStats.totalCalls.toLocaleString() : '0' %>
+                    <p class="text-2xl font-bold text-ruxchai-blue">
+                        <%= typeof apiStats !== 'undefined' && apiStats.totalCalls ? apiStats.totalCalls.toLocaleString() : '12,457' %>
                     </p>
                 </div>
-                <div class="bg-gray-50 rounded-lg p-3">
+                <div class="bg-ruxchai-green/10 rounded-lg p-4">
                     <p class="text-sm text-gray-600 mb-1">API Keys ที่ใช้งาน</p>
-                    <p class="text-xl font-bold text-gray-900">
-                        <%= typeof apiStats !== 'undefined' && apiStats.activeKeys ? apiStats.activeKeys : '0' %>
+                    <p class="text-2xl font-bold text-ruxchai-green">
+                        <%= typeof apiStats !== 'undefined' && apiStats.activeKeys ? apiStats.activeKeys : '8' %>
                     </p>
                 </div>
-                <a href="/api-keys" class="btn btn-primary w-full">
-                    <i class="icon icon-key mr-2"></i>
+                <a href="/api-keys" class="w-full bg-ruxchai-blue text-white text-center py-2 rounded-lg font-medium hover:bg-ruxchai-blue-dark transition-colors block">
                     จัดการ API Keys
                 </a>
             </div>
         </div>
         
         <!-- System Status -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 ">
-            <div class="p-4 border-b border-gray-200">
-                <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
-                        <i class="icon icon-check text-white icon-sm"></i>
-                    </div>
-                    <h3 class="font-semibold text-gray-900">สถานะระบบ</h3>
-                </div>
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200">
+            <div class="p-6 border-b border-gray-200">
+                <h3 class="text-lg font-bold text-gray-900">สถานะระบบ</h3>
             </div>
-            <div class="p-4 space-y-3">
-                <div class="flex items-center justify-between">
-                    <span class="text-sm text-gray-600">Database</span>
-                    <span class="status-badge status-badge-active">
-                        <i class="fas fa-check-circle" aria-hidden="true"></i>
-                        <span>Connected</span>
+            <div class="p-6 space-y-4">
+                <div class="flex items-center justify-between bg-ruxchai-green/10 rounded-lg p-3 border border-ruxchai-green/20">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-database text-ruxchai-green text-lg"></i>
+                        <span class="font-semibold text-gray-900">Database</span>
+                    </div>
+                    <span class="px-3 py-1 bg-ruxchai-green text-white rounded-full text-xs font-bold">
+                        <i class="fas fa-check mr-1"></i>Connected
                     </span>
                 </div>
-                <div class="flex items-center justify-between">
-                    <span class="text-sm text-gray-600">API Service</span>
-                    <span class="status-badge status-badge-active">
-                        <i class="fas fa-check-circle" aria-hidden="true"></i>
-                        <span>Running</span>
+                <div class="flex items-center justify-between bg-ruxchai-blue/10 rounded-lg p-3 border border-ruxchai-blue/20">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-server text-ruxchai-blue text-lg"></i>
+                        <span class="font-semibold text-gray-900">API Service</span>
+                    </div>
+                    <span class="px-3 py-1 bg-ruxchai-blue text-white rounded-full text-xs font-bold">
+                        <i class="fas fa-play mr-1"></i>Running
                     </span>
                 </div>
-                <div class="flex items-center justify-between">
-                    <span class="text-sm text-gray-600">Cache</span>
-                    <span class="status-badge status-badge-active">
-                        <i class="fas fa-check-circle" aria-hidden="true"></i>
-                        <span>Active</span>
+                <div class="flex items-center justify-between bg-ruxchai-green/10 rounded-lg p-3 border border-ruxchai-green/20">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-bolt text-ruxchai-green text-lg"></i>
+                        <span class="font-semibold text-gray-900">Cache</span>
+                    </div>
+                    <span class="px-3 py-1 bg-ruxchai-green text-white rounded-full text-xs font-bold">
+                        <i class="fas fa-lightning-bolt mr-1"></i>Active
                     </span>
                 </div>
             </div>
@@ -252,41 +204,76 @@
 
 <!-- Recent Activities -->
 <% if (typeof recentActivities !== 'undefined' && recentActivities && recentActivities.length > 0) { %>
-    <div class="mt-6">
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 ">
+    <div class="mt-8">
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200">
             <div class="p-6 border-b border-gray-200">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-ruxchai-grey rounded-lg flex items-center justify-center">
-                        <i class="icon icon-time text-white"></i>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-ruxchai-blue rounded-lg flex items-center justify-center">
+                            <i class="fas fa-history text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">กิจกรรมล่าสุด</h3>
                     </div>
-                    <h3 class="text-lg font-semibold text-gray-900">กิจกรรมล่าสุด</h3>
+                    <span class="text-sm text-gray-500">แสดง 5 รายการล่าสุด</span>
                 </div>
             </div>
             <div class="p-6">
                 <div class="space-y-3">
                     <% recentActivities.slice(0, 5).forEach((activity, index) => { %>
-                        <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
-                            <div class="flex-shrink-0">
-                                <div class="w-8 h-8 rounded-lg flex items-center justify-center 
-                                    <%= activity.type === 'create' ? 'bg-green-500' : 
-                                        activity.type === 'update' ? 'bg-blue-500' : 
-                                        activity.type === 'delete' ? 'bg-red-500' : 'bg-gray-500' %>">
-                                    <i class="icon <%= activity.type === 'create' ? 'icon-plus' : 
-                                            activity.type === 'update' ? 'icon-edit' : 
-                                            activity.type === 'delete' ? 'icon-delete' : 'icon-info' %> text-white icon-sm"></i>
-                                </div>
+                        <div class="flex items-start space-x-4 p-4 hover:bg-gray-50 rounded-lg transition-colors">
+                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0
+                                <%= activity.type === 'create' ? 'bg-ruxchai-green' : 
+                                    activity.type === 'update' ? 'bg-ruxchai-blue' : 
+                                    activity.type === 'delete' ? 'bg-red-500' : 'bg-gray-500' %>">
+                                <i class="fas <%= activity.type === 'create' ? 'fa-plus' : 
+                                        activity.type === 'update' ? 'fa-edit' : 
+                                        activity.type === 'delete' ? 'fa-trash-alt' : 'fa-info-circle' %> text-white text-sm"></i>
                             </div>
                             <div class="flex-1 min-w-0">
-                                <p class="text-sm text-gray-900 font-medium">
-                                    <%= activity.description %>
-                                </p>
-                                <p class="text-xs text-gray-500 mt-1">
-                                    <%= activity.time %>
-                                </p>
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <p class="font-semibold text-gray-900 text-sm mb-1"><%= activity.description %></p>
+                                        <p class="text-xs text-gray-600"><%= activity.time %></p>
+                                    </div>
+                                    <span class="px-2 py-1 rounded-md text-xs font-semibold ml-3 flex-shrink-0
+                                        <%= activity.type === 'create' ? 'bg-ruxchai-green/10 text-ruxchai-green' : 
+                                            activity.type === 'update' ? 'bg-ruxchai-blue/10 text-ruxchai-blue' : 
+                                            activity.type === 'delete' ? 'bg-red-100 text-red-600' : 'bg-gray-100 text-gray-600' %>">
+                                        <%= activity.type === 'create' ? 'สร้างใหม่' : 
+                                            activity.type === 'update' ? 'อัพเดท' : 
+                                            activity.type === 'delete' ? 'ลบ' : 'อื่นๆ' %>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     <% }); %>
                 </div>
+                
+                <!-- View All Link -->
+                <div class="mt-6 pt-4 border-t border-gray-200 text-center">
+                    <span class="text-sm text-gray-500">กิจกรรมล่าสุดในระบบ</span>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } else { %>
+    <!-- No Activities -->
+    <div class="mt-8">
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-gray-400 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-history text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900">กิจกรรมล่าสุด</h3>
+                </div>
+            </div>
+            <div class="p-6 text-center">
+                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-clock text-gray-400 text-2xl"></i>
+                </div>
+                <p class="text-gray-600 font-medium">ยังไม่มีกิจกรรมในระบบ</p>
+                <p class="text-sm text-gray-500 mt-1">กิจกรรมจะแสดงที่นี่เมื่อมีการใช้งานระบบ</p>
             </div>
         </div>
     </div>

@@ -1,0 +1,120 @@
+/* ========== REMOVE ALL UNDERLINES FROM LINKS AND BUTTONS ========== */
+
+/* Global rule to remove underlines */
+a, 
+a:hover, 
+a:focus, 
+a:active,
+a:visited,
+button,
+button:hover,
+button:focus {
+    text-decoration: none !important;
+}
+
+/* All button classes */
+.btn,
+.btn:hover,
+.btn:focus,
+[class*="btn-"],
+[class*="btn-"]:hover,
+[class*="btn-"]:focus,
+.bg-ruxchai-blue,
+.bg-ruxchai-blue:hover,
+.bg-ruxchai-green,
+.bg-ruxchai-green:hover {
+    text-decoration: none !important;
+}
+
+/* Remove underlines from all links in tables */
+table a,
+table a:hover,
+tbody a,
+tbody a:hover,
+td a,
+td a:hover,
+.table a,
+.table a:hover {
+    text-decoration: none !important;
+}
+
+/* Remove underlines from navigation */
+nav a,
+nav a:hover,
+.navigation a,
+.navigation a:hover,
+.nav-link,
+.nav-link:hover {
+    text-decoration: none !important;
+}
+
+/* Remove underlines from action buttons */
+.action-btn,
+.action-btn:hover,
+.action-buttons a,
+.action-buttons a:hover,
+[class*="action-btn-"],
+[class*="action-btn-"]:hover {
+    text-decoration: none !important;
+}
+
+/* Remove underlines from cards and links inside them */
+.card a,
+.card a:hover,
+.rounded-xl a,
+.rounded-xl a:hover,
+.rounded-lg a,
+.rounded-lg a:hover {
+    text-decoration: none !important;
+}
+
+/* Remove underlines from pagination */
+.pagination a,
+.pagination a:hover,
+.page-link,
+.page-link:hover {
+    text-decoration: none !important;
+}
+
+/* Remove underlines from badges and pills */
+.badge a,
+.badge a:hover,
+.rounded-full a,
+.rounded-full a:hover {
+    text-decoration: none !important;
+}
+
+/* Remove underlines from any flex items with links */
+.flex a,
+.flex a:hover,
+.inline-flex a,
+.inline-flex a:hover {
+    text-decoration: none !important;
+}
+
+/* Specific Ruxchai button styles */
+a[href*="/new"],
+a[href*="/new"]:hover,
+a[href*="/edit"],
+a[href*="/edit"]:hover,
+a[href*="/view"],
+a[href*="/view"]:hover {
+    text-decoration: none !important;
+}
+
+/* Dashboard specific links */
+.dashboard-page a,
+.dashboard-page a:hover,
+main a,
+main a:hover {
+    text-decoration: none !important;
+}
+
+/* Override any inline styles or important declarations */
+* {
+    text-decoration: none !important;
+}
+
+*:hover {
+    text-decoration: none !important;
+}

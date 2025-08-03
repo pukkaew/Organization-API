@@ -12,36 +12,48 @@
 <main class="flex-1 py-8">
     <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mx-auto">
-            <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl border border-gray-100">
-                <%- include('../partials/form-header', { 
-                    title: 'Create New Division',
-                    icon: 'sitemap',
-                    iconColor: 'orange',
-                    backUrl: '/divisions'
-                }) %>
+            <div class="bg-white rounded-xl shadow-lg border border-gray-200">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-ruxchai-blue rounded-lg flex items-center justify-center">
+                                <i class="fas fa-sitemap text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h1 class="text-2xl font-bold text-gray-900">สร้างฝ่ายใหม่</h1>
+                                <p class="text-gray-600">เพิ่มข้อมูลฝ่ายในระบบ</p>
+                            </div>
+                        </div>
+                        <a href="/divisions" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors font-medium">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            ย้อนกลับ
+                        </a>
+                    </div>
+                </div>
                 
-                <%- include('../partials/form-errors', { 
-                    error: typeof error !== 'undefined' ? error : null,
-                    validationErrors: typeof validationErrors !== 'undefined' ? validationErrors : null
-                }) %>
-                
-                <form method="post" action="/divisions" class="form-section">
+                <form method="post" action="/divisions" class="p-6">
                     <% if (typeof csrfToken !== 'undefined') { %>
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <% } %>
+                    
+                    <!-- Error Messages -->
+                    <%- include('../partials/form-errors', { 
+                        error: typeof error !== 'undefined' ? error : null,
+                        validationErrors: typeof validationErrors !== 'undefined' ? validationErrors : null
+                    }) %>
                 
                 <div class="space-y-4">
                     <!-- Company Selection -->
-                    <div class="form-group-enhanced">
-                        <label for="company_code" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">🏢</span>
-                            Company <span class="text-red-500">*</span>
+                    <div class="mb-6">
+                        <label for="company_code" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-building mr-2 text-ruxchai-blue"></i>
+                            บริษัท <span class="text-red-500">*</span>
                         </label>
                         <select id="company_code" 
                                 name="company_code" 
                                 required
-                                class="form-input-enhanced">
-                            <option value="">Select a company</option>
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-blue focus:border-ruxchai-blue">
+                            <option value="">เลือกบริษัท</option>
                             <% if (typeof companies !== 'undefined' && companies) { %>
                                 <% companies.forEach(function(company) { %>
                                     <option value="<%= company.company_code %>">
@@ -53,26 +65,26 @@
                     </div>
                     
                     <!-- Branch Selection -->
-                    <div class="form-group-enhanced">
-                        <label for="branch_code" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2"><i class="fas fa-sitemap"></i></span>
-                            Branch
+                    <div class="mb-6">
+                        <label for="branch_code" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-code-branch mr-2 text-ruxchai-blue"></i>
+                            สาขา
                         </label>
                         <select id="branch_code" 
                                 name="branch_code"
-                                class="form-input-enhanced">
-                            <option value="">Company Level (No Branch)</option>
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-blue focus:border-ruxchai-blue">
+                            <option value="">ระดับบริษัท (ไม่มีสาขา)</option>
                         </select>
                         <p class="mt-1 text-sm text-gray-500">
-                            Leave empty if this division is at the company level
+                            เว้นว่างไว้หากฝ่ายนี้อยู่ในระดับบริษัท
                         </p>
                     </div>
                     
                     <!-- Division Code -->
-                    <div class="form-group-enhanced">
-                        <label for="division_code" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-tag text-lg mr-2" aria-hidden="true"></i>
-                            Division Code <span class="text-red-500">*</span>
+                    <div class="mb-6">
+                        <label for="division_code" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-tag mr-2 text-ruxchai-blue"></i>
+                            รหัสฝ่าย <span class="text-red-500">*</span>
                         </label>
                         <input type="text" 
                                id="division_code" 
@@ -80,33 +92,33 @@
                                required
                                maxlength="20"
                                pattern="[A-Z0-9]+"
-                               class="form-input-enhanced uppercase"
-                               placeholder="e.g., DIV001">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-blue focus:border-ruxchai-blue uppercase"
+                               placeholder="เช่น DIV001">
                         <p class="mt-1 text-sm text-gray-500">
-                            Use uppercase letters and numbers only. This cannot be changed later.
+                            ใช้ตัวอักษรพิมพ์ใหญ่และตัวเลขเท่านั้น ไม่สามารถเปลี่ยนแปลงได้ภายหลัง
                         </p>
                     </div>
                     
                     <!-- Division Name -->
-                    <div class="form-group-enhanced">
-                        <label for="division_name" class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
-                            <span class="text-lg mr-2">📁</span>
-                            Division Name <span class="text-red-500">*</span>
+                    <div class="mb-6">
+                        <label for="division_name" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-sitemap mr-2 text-ruxchai-blue"></i>
+                            ชื่อฝ่าย <span class="text-red-500">*</span>
                         </label>
                         <input type="text" 
                                id="division_name" 
                                name="division_name" 
                                required
                                maxlength="200"
-                               class="form-input-enhanced"
-                               placeholder="e.g., Human Resources">
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-blue focus:border-ruxchai-blue"
+                               placeholder="เช่น ฝ่ายทรัพยากรบุคคล">
                     </div>
                     
                     <!-- Status -->
-                    <div class="form-group-enhanced">
-                        <label class="block text-sm font-medium text-gray-800 font-semibold flex items-center">
-                            <i class="fas fa-power-off text-lg mr-2" aria-hidden="true"></i>
-                            Status
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-toggle-on mr-2 text-ruxchai-blue"></i>
+                            สถานะ
                         </label>
                         <div class="flex items-center space-x-6 mt-2">
                             <label class="inline-flex items-center">
@@ -114,15 +126,15 @@
                                        name="is_active" 
                                        value="true" 
                                        checked
-                                       class="text-primary-600 ">
-                                <span class="ml-2 text-sm text-gray-700">Active</span>
+                                       class="text-ruxchai-blue">
+                                <span class="ml-2 text-sm text-gray-700">ใช้งาน</span>
                             </label>
                             <label class="inline-flex items-center">
                                 <input type="radio" 
                                        name="is_active" 
                                        value="false"
-                                       class="text-primary-600 ">
-                                <span class="ml-2 text-sm text-gray-700">Inactive</span>
+                                       class="text-ruxchai-blue">
+                                <span class="ml-2 text-sm text-gray-700">ไม่ใช้งาน</span>
                             </label>
                         </div>
                     </div>
@@ -130,23 +142,23 @@
                 
                 <!-- Form Actions -->
                 <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
-                    <a href="/divisions" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 hover:bg-gray-100 transition-all duration-200">
+                    <a href="/divisions" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors font-medium">
                         <i class="fas fa-arrow-left mr-2"></i>
-                        Cancel
+                        ยกเลิก
                     </a>
                     
                     <div class="flex items-center space-x-3">
-                        <button type="reset" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 border-gray-300 text-gray-600 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200">
-                            <i class="fas fa-redo mr-2"></i>
-                            Reset
+                        <button type="reset" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition-colors font-medium">
+                            <i class="fas fa-sync-alt mr-2"></i>
+                            รีเซ็ต
                         </button>
-                        <button type="submit" id="submit-btn" class="btn btn-primary">
+                        <button type="submit" class="bg-ruxchai-blue text-white px-4 py-2 rounded-lg hover:bg-ruxchai-blue-dark transition-colors font-medium" id="submit-btn">
                             <span class="btn-text">
-                                <span style="font-size: 1rem; margin-right: 0.5rem;">💾</span>
+                                <i class="fas fa-save mr-2"></i>
                                 บันทึกฝ่าย
                             </span>
                             <span class="btn-loading hidden">
-                                <span class="spinner mr-2"></span>
+                                <i class="fas fa-spinner fa-spin mr-2"></i>
                                 กำลังบันทึก...
                             </span>
                         </button>
@@ -156,33 +168,35 @@
         </div>
         
         <!-- Help Section -->
-        <div class="mt-6 bg-gradient-to-r from-orange-50 to-red-50 rounded-2xl p-6 border border-orange-100 shadow-lg">
+        <div class="mt-6 bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
             <div class="flex">
                 <div class="flex-shrink-0">
-                    <span class="text-2xl"><i class="fas fa-lightbulb"></i></span>
+                    <div class="w-10 h-10 bg-ruxchai-blue rounded-lg flex items-center justify-center">
+                        <i class="fas fa-lightbulb text-white text-xl"></i>
+                    </div>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-lg font-bold text-orange-800 flex items-center">
-                        <span class="mr-2"><i class="fas fa-book"></i></span>
-                        Guidelines
+                    <h3 class="text-lg font-bold text-gray-900 flex items-center">
+                        <i class="fas fa-info-circle mr-2 text-ruxchai-blue"></i>
+                        คำแนะนำ
                     </h3>
-                    <div class="mt-3 text-sm text-orange-700">
+                    <div class="mt-3 text-sm text-gray-600">
                         <ul class="space-y-2">
                             <li class="flex items-start">
-                                <span class="text-orange-500 mr-2 mt-0.5">•</span>
-                                Division code cannot be changed after creation
+                                <span class="text-ruxchai-blue mr-2 mt-0.5">•</span>
+                                รหัสฝ่ายไม่สามารถเปลี่ยนแปลงได้หลังจากสร้างแล้ว
                             </li>
                             <li class="flex items-start">
-                                <span class="text-orange-500 mr-2 mt-0.5">•</span>
-                                Division can be at company level or under a specific branch
+                                <span class="text-ruxchai-blue mr-2 mt-0.5">•</span>
+                                ฝ่ายสามารถอยู่ในระดับบริษัทหรือภายใต้สาขาเฉพาะ
                             </li>
                             <li class="flex items-start">
-                                <span class="text-orange-500 mr-2 mt-0.5">•</span>
-                                Division code must be unique across the entire system
+                                <span class="text-ruxchai-blue mr-2 mt-0.5">•</span>
+                                รหัสฝ่ายต้องไม่ซ้ำกันในทั้งระบบ
                             </li>
                             <li class="flex items-start">
-                                <span class="text-orange-500 mr-2 mt-0.5">•</span>
-                                All divisions start as active by default
+                                <span class="text-ruxchai-blue mr-2 mt-0.5">•</span>
+                                ฝ่ายทุกแห่งจะเริ่มต้นเป็น "ใช้งาน" เป็นค่าเริ่มต้น
                             </li>
                         </ul>
                     </div>

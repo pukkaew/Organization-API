@@ -88,19 +88,27 @@ const showEditBranchForm = asyncHandler(async (req, res) => {
 // Handle create branch form submission
 const handleCreateBranch = asyncHandler(async (req, res) => {
     try {
+        // Validation
+        if (!req.body.branch_code || !req.body.branch_name || !req.body.company_code) {
+            logger.error('Missing required fields for branch creation:', req.body);
+            return res.redirect('/branches/new');
+        }
+
         const branchData = {
-            branch_code: req.body.branch_code,
-            branch_name: req.body.branch_name,
-            company_code: req.body.company_code,
+            branch_code: req.body.branch_code.trim(),
+            branch_name: req.body.branch_name.trim(),
+            company_code: req.body.company_code.trim(),
             is_headquarters: req.body.is_headquarters === 'on',
-            is_active: req.body.is_active === 'true' || req.body.is_active === 'on',
+            is_active: req.body.is_active === 'true' || req.body.is_active === 'on' || true,
             created_by: req.user?.username || 'admin'
         };
+
+        logger.info('Creating branch with data:', branchData);
 
         const branch = new Branch(branchData);
         await branch.create();
         
-        logger.info(`Branch created: ${branch.branch_code} by ${branchData.created_by}`);
+        logger.info(`Branch created successfully: ${branch.branch_code} by ${branchData.created_by}`);
         
         res.redirect('/branches');
     } catch (error) {

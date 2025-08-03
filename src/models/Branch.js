@@ -212,7 +212,7 @@ class Branch {
                 await executeQuery(
                     `UPDATE Branches 
                      SET is_headquarters = 0, 
-                         updated_date = GETDATE(), 
+                         updated_date = datetime('now'), 
                          updated_by = @updated_by
                      WHERE company_code = @company_code AND is_headquarters = 1`,
                     { 
@@ -293,7 +293,7 @@ class Branch {
                 await executeQuery(
                     `UPDATE Branches 
                      SET is_headquarters = 0, 
-                         updated_date = GETDATE(), 
+                         updated_date = datetime('now'), 
                          updated_by = @updated_by
                      WHERE company_code = @company_code 
                      AND is_headquarters = 1 
@@ -310,7 +310,7 @@ class Branch {
                 UPDATE Branches
                 SET branch_name = @branch_name,
                     is_headquarters = @is_headquarters,
-                    updated_date = GETDATE(),
+                    updated_date = datetime('now'),
                     updated_by = @updated_by
                 WHERE branch_code = @branch_code
             `;
@@ -390,7 +390,7 @@ class Branch {
             const query = `
                 UPDATE Branches
                 SET is_active = @is_active,
-                    updated_date = GETDATE(),
+                    updated_date = datetime('now'),
                     updated_by = @updated_by
                 WHERE branch_code = @branch_code
             `;

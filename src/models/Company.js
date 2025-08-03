@@ -8,6 +8,10 @@ class Company {
         this.company_name_th = data.company_name_th;
         this.company_name_en = data.company_name_en;
         this.tax_id = data.tax_id;
+        this.website = data.website;
+        this.email = data.email;
+        this.phone = data.phone;
+        this.address = data.address;
         this.is_active = data.is_active !== undefined ? data.is_active : true;
         this.created_date = data.created_date;
         this.created_by = data.created_by;
@@ -153,11 +157,11 @@ class Company {
             const query = `
                 INSERT INTO Companies (
                     company_code, company_name_th, company_name_en, 
-                    tax_id, is_active, created_by
+                    tax_id, is_active, created_date, created_by
                 )
                 VALUES (
                     @company_code, @company_name_th, @company_name_en, 
-                    @tax_id, @is_active, @created_by
+                    @tax_id, @is_active, GETDATE(), @created_by
                 )
             `;
             
@@ -244,7 +248,7 @@ class Company {
             const query = `
                 UPDATE Companies
                 SET is_active = @is_active,
-                    updated_date = GETDATE(),
+                    updated_date = datetime('now'),
                     updated_by = @updated_by
                 WHERE company_code = @company_code
             `;

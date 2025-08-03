@@ -99,7 +99,101 @@ async function initializeTables() {
                         });
                     }
                 });
+            });
+            
+            // Create Companies table
+            db.run(`
+                CREATE TABLE IF NOT EXISTS Companies (
+                    company_code TEXT PRIMARY KEY,
+                    company_name_th TEXT NOT NULL,
+                    company_name_en TEXT,
+                    tax_id TEXT,
+                    is_active INTEGER DEFAULT 1,
+                    created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    created_by TEXT,
+                    updated_date DATETIME,
+                    updated_by TEXT
+                )
+            `, (err) => {
+                if (err) {
+                    logger.error('Failed to create Companies table:', err);
+                } else {
+                    logger.info('Companies table created/verified');
+                }
+            });
+            
+            // Create Branches table
+            db.run(`
+                CREATE TABLE IF NOT EXISTS Branches (
+                    branch_code TEXT PRIMARY KEY,
+                    branch_name_th TEXT NOT NULL,
+                    branch_name_en TEXT,
+                    company_code TEXT NOT NULL,
+                    is_active INTEGER DEFAULT 1,
+                    created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    created_by TEXT,
+                    updated_date DATETIME,
+                    updated_by TEXT,
+                    FOREIGN KEY (company_code) REFERENCES Companies (company_code) ON DELETE CASCADE
+                )
+            `, (err) => {
+                if (err) {
+                    logger.error('Failed to create Branches table:', err);
+                } else {
+                    logger.info('Branches table created/verified');
+                }
+            });
+            
+            // Create Divisions table
+            db.run(`
+                CREATE TABLE IF NOT EXISTS Divisions (
+                    division_code TEXT PRIMARY KEY,
+                    division_name_th TEXT NOT NULL,
+                    division_name_en TEXT,
+                    branch_code TEXT NOT NULL,
+                    company_code TEXT NOT NULL,
+                    is_active INTEGER DEFAULT 1,
+                    created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    created_by TEXT,
+                    updated_date DATETIME,
+                    updated_by TEXT,
+                    FOREIGN KEY (branch_code) REFERENCES Branches (branch_code) ON DELETE CASCADE,
+                    FOREIGN KEY (company_code) REFERENCES Companies (company_code) ON DELETE CASCADE
+                )
+            `, (err) => {
+                if (err) {
+                    logger.error('Failed to create Divisions table:', err);
+                } else {
+                    logger.info('Divisions table created/verified');
+                }
+            });
+            
+            // Create Departments table
+            db.run(`
+                CREATE TABLE IF NOT EXISTS Departments (
+                    department_code TEXT PRIMARY KEY,
+                    department_name_th TEXT NOT NULL,
+                    department_name_en TEXT,
+                    division_code TEXT NOT NULL,
+                    branch_code TEXT NOT NULL,
+                    company_code TEXT NOT NULL,
+                    is_active INTEGER DEFAULT 1,
+                    created_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    created_by TEXT,
+                    updated_date DATETIME,
+                    updated_by TEXT,
+                    FOREIGN KEY (division_code) REFERENCES Divisions (division_code) ON DELETE CASCADE,
+                    FOREIGN KEY (branch_code) REFERENCES Branches (branch_code) ON DELETE CASCADE,
+                    FOREIGN KEY (company_code) REFERENCES Companies (company_code) ON DELETE CASCADE
+                )
+            `, (err) => {
+                if (err) {
+                    logger.error('Failed to create Departments table:', err);
+                } else {
+                    logger.info('Departments table created/verified');
+                }
                 
+                // All tables created - resolve
                 resolve();
             });
         });

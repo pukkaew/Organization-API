@@ -12,193 +12,203 @@
 <main class="flex-1 py-8">
     <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mx-auto">
-            <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl border border-gray-100">
-                <%- include('../partials/form-header', { 
-                    title: 'Edit API Key',
-                    icon: 'key',
-                    iconColor: 'purple',
-                    backUrl: '/api-keys/' + apiKey.api_key_id
-                }) %>
+            <div class="bg-white rounded-xl shadow-lg border border-gray-200">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-ruxchai-blue rounded-lg flex items-center justify-center">
+                                <i class="fas fa-key text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h1 class="text-2xl font-bold text-gray-900">แก้ไข API Key</h1>
+                                <p class="text-gray-600">แก้ไขข้อมูล API Key ในระบบ</p>
+                            </div>
+                        </div>
+                        <a href="/api-keys/<%= apiKey.api_key_id %>" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors font-medium">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            ย้อนกลับ
+                        </a>
+                    </div>
+                </div>
                 
-                <%- include('../partials/form-errors', { 
-                    error: typeof error !== 'undefined' ? error : null,
-                    validationErrors: typeof validationErrors !== 'undefined' ? validationErrors : null
-                }) %>
-    
-        <form method="post" action="/api-keys/<%= apiKey.api_key_id %>" class="form-section mt-8 space-y-4">
+                <form method="post" action="/api-keys/<%= apiKey.api_key_id %>" class="p-6">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             
-            <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl border border-gray-100 px-4 py-5 sm:p-6">
-                <div class="md:grid md:grid-cols-3 md:gap-6">
-                    <div class="md:col-span-1">
-                        <h3 class="text-lg font-bold text-gray-900 flex items-center">
-                            <i class="fas fa-key text-xl mr-2" aria-hidden="true"></i>
-                            API Key Information
-                        </h3>
-                        <p class="mt-1 text-sm text-gray-500">
-                            Update the application details and permissions for this API key.
-                        </p>
+            <!-- Error Messages -->
+            <%- include('../partials/form-errors', { 
+                error: typeof error !== 'undefined' ? error : null,
+                validationErrors: typeof validationErrors !== 'undefined' ? validationErrors : null
+            }) %>
+            
+            <div class="space-y-4">
+                <!-- API Key ID (Read-only) -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-key mr-2 text-ruxchai-blue"></i>
+                        API Key ID
+                    </label>
+                    <input type="text" value="<%= apiKey.api_key_id %>" disabled
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed">
+                    <p class="mt-1 text-sm text-gray-500">รหัสนี้ไม่สามารถเปลี่ยนแปลงได้</p>
+                </div>
+
+                <!-- Application Name -->
+                <div class="mb-6">
+                    <label for="app_name" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-mobile-alt mr-2 text-ruxchai-blue"></i>
+                        ชื่อแอปพลิเคชัน <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" name="app_name" id="app_name" required
+                           maxlength="100"
+                           value="<%= apiKey.app_name %>"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-blue focus:border-ruxchai-blue"
+                           placeholder="เช่น ระบบ ERP, แดชบอร์ด HR">
+                    <p class="mt-1 text-sm text-gray-500">ชื่อของแอปพลิเคชันที่จะใช้ API Key นี้</p>
+                </div>
+    
+                <!-- Description -->
+                <div class="mb-6">
+                    <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-edit mr-2 text-ruxchai-blue"></i>
+                        คำอธิบาย
+                    </label>
+                    <textarea name="description" id="description" rows="3"
+                              maxlength="500"
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-blue focus:border-ruxchai-blue"
+                              placeholder="อธิบายวัตถุประสงค์ของ API Key นี้..."><%= apiKey.description || '' %></textarea>
+                </div>
+    
+                <!-- Permissions -->
+                <div class="mb-6">
+                    <label for="permissions" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-lock mr-2 text-ruxchai-blue"></i>
+                        สิทธิ์การเข้าถึง <span class="text-red-500">*</span>
+                    </label>
+                    <select name="permissions" id="permissions" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-blue focus:border-ruxchai-blue">
+                        <option value="read" <%= apiKey.permissions === 'read' ? 'selected' : '' %>>
+                            อ่านอย่างเดียว - สามารถดูข้อมูลองค์กรได้
+                        </option>
+                        <option value="write" <%= apiKey.permissions === 'write' ? 'selected' : '' %>>
+                            เขียนอย่างเดียว - สามารถแก้ไขข้อมูลองค์กรได้
+                        </option>
+                        <option value="read_write" <%= apiKey.permissions === 'read_write' ? 'selected' : '' %>>
+                            อ่านและเขียน - เข้าถึงข้อมูลองค์กรได้อย่างเต็มที่
+                        </option>
+                    </select>
+                    <p class="mt-1 text-sm text-gray-500">เลือกระดับการเข้าถึงสำหรับ API Key นี้</p>
+                </div>
+    
+                <!-- Expiration Date -->
+                <div class="mb-6">
+                    <label for="expires_date" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-calendar mr-2 text-ruxchai-blue"></i>
+                        วันหมดอายุ
+                    </label>
+                    <input type="date" name="expires_date" id="expires_date"
+                           min="<%= new Date().toISOString().split('T')[0] %>"
+                           value="<%= apiKey.expires_date ? new Date(apiKey.expires_date).toISOString().split('T')[0] : '' %>"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-ruxchai-blue focus:border-ruxchai-blue">
+                    <p class="mt-1 text-sm text-gray-500">เว้นว่างไว้หากไม่ต้องการกำหนดอายุ</p>
+                </div>
+
+                <!-- Status Display -->
+                <div class="mb-6">
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-info-circle text-ruxchai-blue"></i>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-blue-700">
+                                    สถานะปัจจุบัน: <strong><%= apiKey.is_active ? 'ใช้งาน' : 'ไม่ใช้งาน' %></strong>
+                                </p>
+                                <p class="text-sm text-blue-600 mt-1">
+                                    หากต้องการเปลี่ยนสถานะ ให้ใช้ปุ่มเปิด/ปิดในหน้ารายการ API Keys
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mt-5 md:mt-0 md:col-span-2">
-                        <div class="grid grid-cols-6 gap-6">
-                            <!-- API Key ID (Read-only) -->
-                            <div class="col-span-6 form-group-enhanced">
-                                <label class="block text-sm font-semibold text-gray-800 flex items-center">
-                                    <i class="fas fa-key text-lg mr-2" aria-hidden="true"></i>
-                                    API Key ID
-                                </label>
-                                <input type="text" value="<%= apiKey.api_key_id %>" disabled
-                                       class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-100">
-                                <p class="mt-1 text-sm text-gray-500">This ID cannot be changed</p>
-                            </div>
+                </div>
 
-                            <!-- Application Name -->
-                            <div class="col-span-6 form-group-enhanced">
-                                <label for="app_name" class="block text-sm font-semibold text-gray-800 flex items-center">
-                                    <i class="fas fa-mobile-alt text-lg mr-2" aria-hidden="true"></i>
-                                    Application Name <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text" name="app_name" id="app_name" required
-                                       maxlength="100"
-                                       value="<%= apiKey.app_name %>"
-                                       class="form-input-enhanced"
-                                       placeholder="e.g. ERP System, HR Dashboard">
-                                <p class="mt-1 text-sm text-gray-500">Name of the application that will use this API key</p>
-                            </div>
-    
-                            <!-- Description -->
-                            <div class="col-span-6 form-group-enhanced">
-                                <label for="description" class="block text-sm font-semibold text-gray-800 flex items-center">
-                                    <i class="fas fa-edit text-lg mr-2" aria-hidden="true"></i>
-                                    Description
-                                </label>
-                                <textarea name="description" id="description" rows="3"
-                                          maxlength="500"
-                                          class="form-input-enhanced"
-                                          placeholder="Describe the purpose of this API key..."><%= apiKey.description || '' %></textarea>
-                            </div>
-    
-                            <!-- Permissions -->
-                            <div class="col-span-6 form-group-enhanced">
-                                <label for="permissions" class="block text-sm font-semibold text-gray-800 flex items-center">
-                                    <i class="fas fa-lock text-lg mr-2" aria-hidden="true"></i>
-                                    Permissions <span class="text-red-500">*</span>
-                                </label>
-                                <select name="permissions" id="permissions" required
-                                        class="form-input-enhanced">
-                                    <option value="read" <%= apiKey.permissions === 'read' ? 'selected' : '' %>>
-                                        Read Only - Can view organization data
-                                    </option>
-                                    <option value="write" <%= apiKey.permissions === 'write' ? 'selected' : '' %>>
-                                        Write Only - Can modify organization data
-                                    </option>
-                                    <option value="read_write" <%= apiKey.permissions === 'read_write' ? 'selected' : '' %>>
-                                        Read & Write - Full access to organization data
-                                    </option>
-                                </select>
-                                <p class="mt-1 text-sm text-gray-500">Select the level of access for this API key</p>
-                            </div>
-    
-                            <!-- Expiration Date -->
-                            <div class="col-span-6 sm:col-span-3 form-group-enhanced">
-                                <label for="expires_date" class="block text-sm font-semibold text-gray-800 flex items-center">
-                                    <i class="fas fa-calendar text-lg mr-2" aria-hidden="true"></i>
-                                    Expiration Date
-                                </label>
-                                <input type="date" name="expires_date" id="expires_date"
-                                       min="<%= new Date().toISOString().split('T')[0] %>"
-                                       value="<%= apiKey.expires_date ? new Date(apiKey.expires_date).toISOString().split('T')[0] : '' %>"
-                                       class="form-input-enhanced">
-                                <p class="mt-1 text-sm text-gray-500">Leave empty for no expiration</p>
-                            </div>
-
-                            <!-- Status Display -->
-                            <div class="col-span-6">
-                                <div class="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg p-4">
-                                    <div class="flex">
-                                        <div class="flex-shrink-0">
-                                            <i class="fas fa-info-circle text-yellow-400" aria-hidden="true"></i>
-                                        </div>
-                                        <div class="ml-3">
-                                            <p class="text-sm text-yellow-700">
-                                                Status: <%= apiKey.is_active ? 'Active' : 'Inactive' %>
-                                            </p>
-                                            <p class="text-sm text-yellow-700">
-                                                To change the status, use the toggle button on the API keys list page.
-                                            </p>
-                                        </div>
-                                    </div>
+                <!-- Metadata -->
+                <% if (apiKey.created_date || apiKey.updated_date) { %>
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
+                        <div class="grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2 text-sm">
+                            <% if (apiKey.created_date) { %>
+                                <div>
+                                    <span class="text-gray-500">วันที่สร้าง:</span>
+                                    <span class="text-gray-900 ml-2">
+                                        <%= new Date(apiKey.created_date).toLocaleString('th-TH') %>
+                                        <% if (apiKey.created_by) { %>
+                                            โดย <%= apiKey.created_by %>
+                                        <% } %>
+                                    </span>
                                 </div>
-                            </div>
-
-                            <!-- Metadata -->
-                            <% if (apiKey.created_date || apiKey.updated_date) { %>
-                                <div class="col-span-6 border-t pt-4">
-                                    <dl class="grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2">
-                                        <% if (apiKey.created_date) { %>
-                                            <div class="sm:col-span-1">
-                                                <dt class="text-sm font-medium text-gray-500">Created</dt>
-                                                <dd class="mt-1 text-sm text-gray-900">
-                                                    <%= new Date(apiKey.created_date).toLocaleString() %>
-                                                    <% if (apiKey.created_by) { %>
-                                                        by <%= apiKey.created_by %>
-                                                    <% } %>
-                                                </dd>
-                                            </div>
+                            <% } %>
+                            <% if (apiKey.updated_date) { %>
+                                <div>
+                                    <span class="text-gray-500">แก้ไขล่าสุด:</span>
+                                    <span class="text-gray-900 ml-2">
+                                        <%= new Date(apiKey.updated_date).toLocaleString('th-TH') %>
+                                        <% if (apiKey.updated_by) { %>
+                                            โดย <%= apiKey.updated_by %>
                                         <% } %>
-                                        <% if (apiKey.updated_date) { %>
-                                            <div class="sm:col-span-1">
-                                                <dt class="text-sm font-medium text-gray-500">Last Updated</dt>
-                                                <dd class="mt-1 text-sm text-gray-900">
-                                                    <%= new Date(apiKey.updated_date).toLocaleString() %>
-                                                    <% if (apiKey.updated_by) { %>
-                                                        by <%= apiKey.updated_by %>
-                                                    <% } %>
-                                                </dd>
-                                            </div>
-                                        <% } %>
-                                        <% if (apiKey.last_used_date) { %>
-                                            <div class="sm:col-span-1">
-                                                <dt class="text-sm font-medium text-gray-500">Last Used</dt>
-                                                <dd class="mt-1 text-sm text-gray-900">
-                                                    <%= new Date(apiKey.last_used_date).toLocaleString() %>
-                                                </dd>
-                                            </div>
-                                        <% } %>
-                                    </dl>
+                                    </span>
+                                </div>
+                            <% } %>
+                            <% if (apiKey.last_used_date) { %>
+                                <div>
+                                    <span class="text-gray-500">ใช้ครั้งล่าสุด:</span>
+                                    <span class="text-gray-900 ml-2">
+                                        <%= new Date(apiKey.last_used_date).toLocaleString('th-TH') %>
+                                    </span>
                                 </div>
                             <% } %>
                         </div>
                     </div>
-                </div>
-                    
-                    <!-- Security Notice -->
-            <div class="bg-gradient-to-r from-cyan-50 to-blue-50 rounded-2xl border border-cyan-100 shadow-lg p-4">
-                <div class="flex">
-                    <div class="flex-shrink-0">
-                        <i class="fas fa-shield-alt text-blue-400" aria-hidden="true"></i>
-                    </div>
-                    <div class="ml-3">
-                        <h3 class="text-lg font-bold text-cyan-800 flex items-center">
-                            <i class="fas fa-shield-alt mr-2" aria-hidden="true"></i>
-                            Security Note
-                        </h3>
-                        <div class="mt-2 text-sm text-cyan-700">
-                            <p>Changing permissions will immediately affect all requests using this API key.</p>
-                        </div>
-                    </div>
-                </div>
-                    
-                    <!-- Form Actions -->
-            <div class="flex justify-end">
-                <a href="/api-keys/<%= apiKey.api_key_id %>" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none   ">
-                    Cancel
+                <% } %>
+            </div>
+            
+            <!-- Form Actions -->
+            <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
+                <a href="/api-keys/<%= apiKey.api_key_id %>" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors font-medium">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    ยกเลิก
                 </a>
-                <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-lg text-sm font-medium rounded-md text-white bg-gradient-to-r from-cyan-600 to-blue-700 hover:from-cyan-700 hover:to-blue-800 transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none">
-                    <span class="mr-2">💾</span>
-                    Update API Key
+                
+                <button type="submit" class="bg-ruxchai-blue text-white px-4 py-2 rounded-lg hover:bg-ruxchai-blue-dark transition-colors font-medium" id="submit-btn">
+                    <span class="btn-text">
+                        <i class="fas fa-save mr-2"></i>
+                        บันทึกการเปลี่ยนแปลง
+                    </span>
+                    <span class="btn-loading hidden">
+                        <i class="fas fa-spinner fa-spin mr-2"></i>
+                        กำลังบันทึก...
+                    </span>
                 </button>
-                </form>
+            </div>
+        </form>
+        
+        <!-- Help Section -->
+        <div class="mt-6 bg-white rounded-xl p-6 border border-gray-200 shadow-lg">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <div class="w-10 h-10 bg-ruxchai-blue rounded-lg flex items-center justify-center">
+                        <i class="fas fa-shield-alt text-white text-xl"></i>
+                    </div>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-lg font-bold text-gray-900 flex items-center">
+                        <i class="fas fa-info-circle mr-2 text-ruxchai-blue"></i>
+                        ข้อมูลความปลอดภัย
+                    </h3>
+                    <div class="mt-3 text-sm text-gray-600">
+                        <p>การเปลี่ยนสิทธิ์จะมีผลต่อคำขอ API ทั้งหมดที่ใช้ API Key นี้ทันที</p>
+                    </div>
+                </div>
+            </div>
+        </div>
                 
                 <!-- Danger Zone -->
         <div class="mt-8 bg-red-50 border border-red-200 rounded-lg p-6">

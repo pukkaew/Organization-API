@@ -295,7 +295,7 @@ class Division {
                 UPDATE Divisions
                 SET division_name = @division_name,
                     branch_code = @branch_code,
-                    updated_date = GETDATE(),
+                    updated_date = datetime('now'),
                     updated_by = @updated_by
                 WHERE division_code = @division_code
             `;
@@ -375,7 +375,7 @@ class Division {
             const query = `
                 UPDATE Divisions
                 SET is_active = @is_active,
-                    updated_date = GETDATE(),
+                    updated_date = datetime('now'),
                     updated_by = @updated_by
                 WHERE division_code = @division_code
             `;
@@ -628,7 +628,7 @@ class Division {
             const updateQuery = `
                 UPDATE Divisions
                 SET branch_code = @branch_code,
-                    updated_date = GETDATE(),
+                    updated_date = datetime('now'),
                     updated_by = @updated_by
                 WHERE division_code = @division_code
             `;

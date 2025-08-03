@@ -121,18 +121,26 @@ const showEditDepartmentForm = asyncHandler(async (req, res) => {
 // Handle create department form submission
 const handleCreateDepartment = asyncHandler(async (req, res) => {
     try {
+        // Validation
+        if (!req.body.department_code || !req.body.department_name || !req.body.division_code) {
+            logger.error('Missing required fields for department creation:', req.body);
+            return res.redirect('/departments/new');
+        }
+
         const departmentData = {
-            department_code: req.body.department_code,
-            department_name: req.body.department_name,
-            division_code: req.body.division_code,
-            is_active: req.body.is_active === 'true' || req.body.is_active === 'on',
+            department_code: req.body.department_code.trim(),
+            department_name: req.body.department_name.trim(),
+            division_code: req.body.division_code.trim(),
+            is_active: req.body.is_active === 'true' || req.body.is_active === 'on' || true,
             created_by: req.user?.username || 'admin'
         };
+
+        logger.info('Creating department with data:', departmentData);
 
         const department = new Department(departmentData);
         await department.create();
         
-        logger.info(`Department created: ${department.department_code} by ${departmentData.created_by}`);
+        logger.info(`Department created successfully: ${department.department_code} by ${departmentData.created_by}`);
         
         res.redirect('/departments');
     } catch (error) {

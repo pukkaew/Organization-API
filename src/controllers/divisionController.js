@@ -116,19 +116,27 @@ const showEditDivisionForm = asyncHandler(async (req, res) => {
 // Handle create division form submission
 const handleCreateDivision = asyncHandler(async (req, res) => {
     try {
+        // Validation
+        if (!req.body.division_code || !req.body.division_name || !req.body.company_code) {
+            logger.error('Missing required fields for division creation:', req.body);
+            return res.redirect('/divisions/new');
+        }
+
         const divisionData = {
-            division_code: req.body.division_code,
-            division_name: req.body.division_name,
-            company_code: req.body.company_code,
-            branch_code: req.body.branch_code || null,
-            is_active: req.body.is_active === 'true' || req.body.is_active === 'on',
+            division_code: req.body.division_code.trim(),
+            division_name: req.body.division_name.trim(),
+            company_code: req.body.company_code.trim(),
+            branch_code: req.body.branch_code ? req.body.branch_code.trim() : null,
+            is_active: req.body.is_active === 'true' || req.body.is_active === 'on' || true,
             created_by: req.user?.username || 'admin'
         };
+
+        logger.info('Creating division with data:', divisionData);
 
         const division = new Division(divisionData);
         await division.create();
         
-        logger.info(`Division created: ${division.division_code} by ${divisionData.created_by}`);
+        logger.info(`Division created successfully: ${division.division_code} by ${divisionData.created_by}`);
         
         res.redirect('/divisions');
     } catch (error) {

@@ -8,12 +8,14 @@
 <div class="filter-card">
     <div class="filter-card-content">
         <div class="filter-card-header">
-            <span class="text-xl">🔍</span>
-            <h2 class="filter-card-title">Search & Filter</h2>
+            <i class="fas fa-search text-ruxchai-blue text-xl" aria-hidden="true"></i>
+            <h2 class="filter-card-title">ค้นหาและกรองข้อมูล</h2>
         </div>
         <form method="get" action="<%= action %>" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <div>
-                <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+                <label for="search" class="block text-sm font-medium text-gray-700 mb-1">
+                    <i class="fas fa-search mr-1" aria-hidden="true"></i>ค้นหา
+                </label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class="fas fa-search text-gray-400" aria-hidden="true"></i>
@@ -28,7 +30,9 @@
             </div>
             
             <div>
-                <label for="is_active" class="block text-sm font-medium text-gray-700 mb-1">สถานะ</label>
+                <label for="is_active" class="block text-sm font-medium text-gray-700 mb-1">
+                    <i class="fas fa-toggle-on mr-1" aria-hidden="true"></i>สถานะ
+                </label>
                 <select name="is_active" id="is_active" class="form-input-enhanced">
                     <option value="">ทั้งหมด</option>
                     <option value="true" <%= filters.is_active === 'true' ? 'selected' : '' %>>ใช้งาน</option>
@@ -38,9 +42,11 @@
             
             <% if (entityType === 'branches' || entityType === 'divisions' || entityType === 'departments') { %>
                 <div>
-                    <label for="company_code" class="block text-sm font-medium text-gray-700 mb-1">Company</label>
+                    <label for="company_code" class="block text-sm font-medium text-gray-700 mb-1">
+                        <i class="fas fa-building mr-1" aria-hidden="true"></i>บริษัท
+                    </label>
                     <select name="company_code" id="company_code" class="form-input-enhanced">
-                        <option value="">All Companies</option>
+                        <option value="">ทุกบริษัท</option>
                         <!-- Company options would be populated by the controller -->
                     </select>
                 </div>
@@ -48,7 +54,8 @@
             
             <div class="sm:col-span-2 lg:col-span-3 flex items-end">
                 <button type="submit" class="btn btn-primary w-full">
-                    🔍 Apply Filters
+                    <i class="fas fa-search mr-2" aria-hidden="true"></i>
+                    ค้นหา
                 </button>
             </div>
         </form>

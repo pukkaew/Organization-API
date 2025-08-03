@@ -80,7 +80,9 @@
       "Bash(pgrep:*)",
       "Bash(git commit:*)",
       "Bash(del:*)",
-      "Bash(set PORT=3010)"
+      "Bash(set PORT=3010)",
+      "Bash(sqlite3:*)",
+      "Bash(npm restart)"
     ],
     "deny": []
   }

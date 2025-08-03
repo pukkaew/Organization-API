@@ -149,15 +149,21 @@ const showCreateApiKeyForm = asyncHandler(async (req, res) => {
 // Handle create API key form submission
 const handleCreateApiKey = asyncHandler(async (req, res) => {
     try {
+        // Validation
+        if (!req.body.app_name) {
+            logger.error('Missing required fields for API key creation:', req.body);
+            return res.redirect('/api-keys/new');
+        }
+
         // Generate a unique API key
         const crypto = require('crypto');
         const newApiKey = crypto.randomBytes(24).toString('hex');
         
         const apiKeyData = {
-            api_key_id: Date.now(), // Simple ID generation
-            app_name: req.body.app_name,
-            description: req.body.description,
-            permissions: req.body.permissions,
+            api_key_id: Date.now().toString(), // Simple ID generation
+            app_name: req.body.app_name.trim(),
+            description: req.body.description ? req.body.description.trim() : '',
+            permissions: req.body.permissions || 'read',
             expires_date: req.body.expires_date || null,
             is_active: true,
             created_by: req.user?.username || 'admin',
@@ -165,7 +171,12 @@ const handleCreateApiKey = asyncHandler(async (req, res) => {
             actual_key: `rcs_${newApiKey}` // Prefix for Ruxchai Cold Storage
         };
 
-        logger.info(`API Key created for app: ${apiKeyData.app_name} by ${apiKeyData.created_by}`);
+        logger.info('Creating API key with data:', { app_name: apiKeyData.app_name, permissions: apiKeyData.permissions });
+
+        const apiKey = new ApiKey(apiKeyData);
+        await apiKey.create();
+        
+        logger.info(`API Key created successfully for app: ${apiKeyData.app_name} by ${apiKeyData.created_by}`);
         
         // Store the API key temporarily in session to show it once
         req.session.newApiKey = apiKeyData.actual_key;

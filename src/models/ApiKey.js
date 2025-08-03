@@ -221,7 +221,7 @@ class ApiKey {
                     description = @description,
                     permissions = @permissions,
                     expires_date = @expires_date,
-                    updated_date = GETDATE(),
+                    updated_date = datetime('now'),
                     updated_by = @updated_by
                 WHERE api_key_id = @api_key_id
             `;
@@ -254,7 +254,7 @@ class ApiKey {
             const query = `
                 UPDATE API_Keys
                 SET is_active = @is_active,
-                    updated_date = GETDATE(),
+                    updated_date = datetime('now'),
                     updated_by = @updated_by
                 WHERE api_key_id = @api_key_id
             `;
@@ -283,7 +283,7 @@ class ApiKey {
         try {
             const query = `
                 UPDATE API_Keys
-                SET last_used_date = GETDATE()
+                SET last_used_date = datetime('now')
                 WHERE api_key_id = @api_key_id
             `;
             
@@ -380,7 +380,7 @@ class ApiKey {
                     COUNT(*) as total_keys,
                     SUM(CASE WHEN is_active = 1 THEN 1 ELSE 0 END) as active_keys,
                     SUM(CASE WHEN is_active = 0 THEN 1 ELSE 0 END) as inactive_keys,
-                    SUM(CASE WHEN expires_date < GETDATE() THEN 1 ELSE 0 END) as expired_keys,
+                    SUM(CASE WHEN expires_date < datetime('now') THEN 1 ELSE 0 END) as expired_keys,
                     SUM(CASE WHEN permissions = 'read' THEN 1 ELSE 0 END) as read_only_keys,
                     SUM(CASE WHEN permissions = 'write' THEN 1 ELSE 0 END) as write_only_keys,
                     SUM(CASE WHEN permissions = 'read_write' THEN 1 ELSE 0 END) as read_write_keys

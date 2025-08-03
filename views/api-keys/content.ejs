@@ -1,124 +1,155 @@
 <!-- Path: /views/api-keys/content.ejs -->
-<div class="space-y-6">
-    <!-- Page Header -->
-    <%- include('../partials/page-header', { 
-        title: 'API Keys',
-        description: 'Manage API keys for accessing the organization structure API',
-        icon: 'key',
-        iconColor: 'purple',
-        addUrl: '/api-keys/new',
-        addText: 'สร้าง API Key ใหม่'
-    }) %>
-    
-    <!-- Filters Section -->
-    <%- include('../partials/api-keys-filter-card', { 
-        action: '/api-keys',
-        query: typeof query !== 'undefined' ? query : {}
-    }) %>
-    
-    <!-- API Keys Table -->
-    <div class="table-container">
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-purple-600 text-white">
-                    <tr>
-                        <th scope="col" class="px-3 py-3 sm:px-6 sm:py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
-                            <i class="fas fa-mobile-alt mr-1" aria-hidden="true"></i> App Name
-                        </th>
-                        <th scope="col" class="hidden sm:table-cell px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
-                            <i class="fas fa-clipboard mr-1" aria-hidden="true"></i> Description
-                        </th>
-                        <th scope="col" class="px-3 py-3 sm:px-6 sm:py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
-                            <i class="fas fa-lock mr-1" aria-hidden="true"></i> <span class="hidden sm:inline">Permissions</span><span class="sm:hidden">Perms</span>
-                        </th>
-                        <th scope="col" class="hidden lg:table-cell px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
-                            <i class="fas fa-chart-bar mr-1" aria-hidden="true"></i> Usage
-                        </th>
-                        <th scope="col" class="px-3 py-3 sm:px-6 sm:py-4 text-center text-xs font-bold text-white uppercase tracking-wider">
-                            <i class="fas fa-info-circle mr-1" aria-hidden="true"></i> <span class="hidden sm:inline">Status</span>
-                        </th>
-                        <th scope="col" class="hidden md:table-cell px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">
-                            <i class="fas fa-calendar mr-1" aria-hidden="true"></i> Created
-                        </th>
-                        <th scope="col" class="px-3 py-3 sm:px-6 sm:py-4 text-center text-xs font-bold text-white uppercase tracking-wider">
-                            <i class="fas fa-cog mr-1" aria-hidden="true"></i> <span class="hidden sm:inline">Actions</span>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <% if (typeof apiKeys !== 'undefined' && apiKeys.length > 0) { %>
-                        <% apiKeys.forEach(function(apiKey, index) { %>
-                            <tr class="table-row <%= index % 2 === 0 ? 'bg-white' : 'bg-gray-50' %>">
-                                <td class="px-3 py-4 sm:px-6 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="table-icon table-icon-purple">
-                                            <i class="fas fa-key" aria-hidden="true"></i>
+<!-- Page Header -->
+<div class="mb-8">
+    <div class="bg-white rounded-xl p-6 shadow-lg border border-gray-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900 mb-2">API Keys</h1>
+                <p class="text-gray-600">จัดการ API Keys สำหรับการเข้าถึงระบบ</p>
+            </div>
+            <a href="/api-keys/new" class="bg-ruxchai-blue text-white px-4 py-2 rounded-lg hover:bg-ruxchai-blue-dark transition-colors font-medium">
+                <i class="fas fa-plus mr-2"></i>
+                เพิ่ม API Key ใหม่
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Filters Section -->
+<%- include('../partials/api-keys-filter-card', { 
+    action: '/api-keys',
+    query: typeof query !== 'undefined' ? query : {}
+}) %>
+
+<!-- API Keys Table -->
+<div class="bg-white rounded-xl shadow-lg border border-gray-200">
+    <div class="p-6 border-b border-gray-200">
+        <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 bg-ruxchai-blue rounded-lg flex items-center justify-center">
+                <i class="fas fa-table text-white"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900">รายการ API Keys</h3>
+        </div>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="min-w-full">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <i class="fas fa-key mr-2 text-ruxchai-blue"></i>
+                        ชื่อแอป
+                    </th>
+                    <th scope="col" class="hidden sm:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <i class="fas fa-file-alt mr-2 text-ruxchai-blue"></i>
+                        คำอธิบาย
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <i class="fas fa-shield-alt mr-2 text-ruxchai-blue"></i>
+                        สิทธิ์
+                    </th>
+                    <th scope="col" class="hidden lg:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <i class="fas fa-chart-bar mr-2 text-ruxchai-blue"></i>
+                        การใช้งาน
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <i class="fas fa-toggle-on mr-2 text-ruxchai-blue"></i>
+                        สถานะ
+                    </th>
+                    <th scope="col" class="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <i class="fas fa-calendar mr-2 text-ruxchai-blue"></i>
+                        วันที่สร้าง
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <i class="fas fa-cogs mr-2 text-ruxchai-blue"></i>
+                        การดำเนินการ
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                <% if (typeof apiKeys !== 'undefined' && apiKeys.length > 0) { %>
+                    <% apiKeys.forEach(function(apiKey, index) { %>
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-ruxchai-blue rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-key text-white"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-base font-bold text-gray-900">
+                                            <a href="/api-keys/<%= apiKey.api_key_id %>" 
+                                               class="text-ruxchai-blue hover:text-ruxchai-blue-dark">
+                                                <%= apiKey.app_name %>
+                                            </a>
                                         </div>
-                                        <a href="/api-keys/<%= apiKey.api_key_id %>" 
-                                           class="text-sm font-medium text-purple-600 hover:text-purple-700 truncate">
-                                            <%= apiKey.app_name %>
-                                        </a>
-                                    </div>
-                                    <!-- Mobile description shown under name -->
-                                    <div class="sm:hidden mt-1 text-xs text-gray-500 truncate">
-                                        <%= apiKey.description || '-' %>
-                                    </div>
-                                </td>
-                                <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-500 max-w-xs truncate" 
-                                         title="<%= apiKey.description %>">
-                                        <%= apiKey.description || '-' %>
-                                    </div>
-                                </td>
-                                <td class="px-3 py-4 sm:px-6 whitespace-nowrap">
-                                    <%- include('../partials/permissions-badge', { permissions: apiKey.permissions }) %>
-                                </td>
-                                <td class="hidden lg:table-cell px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">
-                                        <%= apiKey.usage_count || 0 %> requests
-                                    </div>
-                                    <% if (apiKey.last_used_date) { %>
-                                        <div class="text-xs text-gray-500">
-                                            Last: <%= new Date(apiKey.last_used_date).toLocaleDateString() %>
+                                        <!-- Mobile description shown under name -->
+                                        <div class="sm:hidden mt-1 text-xs text-gray-500 truncate">
+                                            <%= apiKey.description || '-' %>
                                         </div>
-                                    <% } else { %>
-                                        <div class="text-xs text-gray-500">Never used</div>
-                                    <% } %>
-                                </td>
-                                <td class="px-3 py-4 sm:px-6 whitespace-nowrap text-center">
-                                    <%- include('../partials/status-badge', { isActive: apiKey.is_active }) %>
-                                </td>
-                                <td class="hidden md:table-cell px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-500">
-                                        <%= new Date(apiKey.created_date).toLocaleDateString() %>
                                     </div>
-                                </td>
-                                <td class="px-3 py-4 sm:px-6 whitespace-nowrap text-center">
+                                </div>
+                            </td>
+                            <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap">
+                                <div class="text-base font-bold text-gray-900 max-w-xs truncate" 
+                                     title="<%= apiKey.description %>">
+                                    <%= apiKey.description || '-' %>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <%- include('../partials/permissions-badge', { permissions: apiKey.permissions }) %>
+                            </td>
+                            <td class="hidden lg:table-cell px-6 py-4 whitespace-nowrap">
+                                <div class="text-base font-bold text-gray-900">
+                                    <%= apiKey.usage_count || 0 %> คำขอ
+                                </div>
+                                <% if (apiKey.last_used_date) { %>
+                                    <div class="text-xs text-gray-500 mt-1">
+                                        ใช้ล่าสุด: <%= new Date(apiKey.last_used_date).toLocaleDateString('th-TH') %>
+                                    </div>
+                                <% } else { %>
+                                    <div class="text-xs text-gray-500 mt-1">ยังไม่เคยใช้</div>
+                                <% } %>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <%- include('../partials/status-badge', { isActive: apiKey.is_active }) %>
+                            </td>
+                            <td class="hidden md:table-cell px-6 py-4 whitespace-nowrap">
+                                <div class="text-base font-bold text-gray-900">
+                                    <%= new Date(apiKey.created_date).toLocaleDateString('th-TH') %>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <div class="flex justify-center space-x-2">
                                     <%- include('../partials/api-keys-action-buttons', { 
                                         apiKeyId: apiKey.api_key_id, 
                                         isActive: apiKey.is_active,
                                         csrfToken: typeof csrfToken !== 'undefined' ? csrfToken : null
                                     }) %>
-                                </td>
-                            </tr>
-                        <% }); %>
-                    <% } else { %>
-                        <tr>
-                            <td colspan="7" class="px-6 py-4 text-center text-gray-500">
-                                No API keys found.
+                                </div>
                             </td>
                         </tr>
-                    <% } %>
-                </tbody>
-            </table>
-        </div>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="7" class="px-6 py-12 text-center">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-key text-gray-400 text-2xl"></i>
+                            </div>
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">ไม่พบ API Keys</h3>
+                            <p class="text-gray-600">เริ่มต้นด้วยการสร้าง API Key แรกของคุณ</p>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
     </div>
-    
-    <!-- Pagination -->
-    <% if (typeof pagination !== 'undefined' && pagination.pages > 1) { %>
-        <%- include('../partials/pagination', { pagination, query: typeof query !== 'undefined' ? query : {} }) %>
-    <% } %>
 </div>
+
+<!-- Pagination -->
+<% if (typeof pagination !== 'undefined' && pagination.pages > 1) { %>
+    <div class="mt-6">
+        <%- include('../partials/pagination', { pagination, query: typeof query !== 'undefined' ? query : {} }) %>
+    </div>
+<% } %>
 
 <!-- Load external API Keys JavaScript -->
 <script src="/assets/js/api-keys.js"></script>

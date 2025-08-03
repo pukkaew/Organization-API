@@ -43,10 +43,10 @@ app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
-            styleSrc: ["'self'", "'unsafe-inline'"],
+            styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
             scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
             imgSrc: ["'self'", "data:"],
-            fontSrc: ["'self'", "data:"],
+            fontSrc: ["'self'", "data:", "https://cdnjs.cloudflare.com"],
             connectSrc: ["'self'"],
         },
     },

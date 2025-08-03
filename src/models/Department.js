@@ -265,7 +265,7 @@ class Department {
             const query = `
                 UPDATE Departments
                 SET department_name = @department_name,
-                    updated_date = GETDATE(),
+                    updated_date = datetime('now'),
                     updated_by = @updated_by
                 WHERE department_code = @department_code
             `;
@@ -344,7 +344,7 @@ class Department {
             const query = `
                 UPDATE Departments
                 SET is_active = @is_active,
-                    updated_date = GETDATE(),
+                    updated_date = datetime('now'),
                     updated_by = @updated_by
                 WHERE department_code = @department_code
             `;
@@ -581,7 +581,7 @@ class Department {
             const updateQuery = `
                 UPDATE Departments
                 SET division_code = @division_code,
-                    updated_date = GETDATE(),
+                    updated_date = datetime('now'),
                     updated_by = @updated_by
                 WHERE department_code = @department_code
             `;
