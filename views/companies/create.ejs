@@ -266,8 +266,9 @@
         e.target.value = e.target.value.replace(/[^0-9]/g, '');
     });
     
-    // Form submission loading state
-    document.querySelector('form').addEventListener('submit', function() {
+    // Form submission loading state with timeout safety
+    document.querySelector('form').addEventListener('submit', function(e) {
+        console.log('Form submitted');
         const submitBtn = document.getElementById('submit-btn');
         const btnText = submitBtn.querySelector('.btn-text');
         const btnLoading = submitBtn.querySelector('.btn-loading');
@@ -275,6 +276,16 @@
         submitBtn.disabled = true;
         btnText.classList.add('hidden');
         btnLoading.classList.remove('hidden');
+        
+        // Safety timeout - re-enable button after 10 seconds if no response
+        setTimeout(function() {
+            if (submitBtn.disabled) {
+                console.log('Form submission timeout - re-enabling button');
+                submitBtn.disabled = false;
+                btnText.classList.remove('hidden');
+                btnLoading.classList.add('hidden');
+            }
+        }, 10000);
     });
     </script>
     </div>
