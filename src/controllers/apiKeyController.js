@@ -178,6 +178,10 @@ const handleCreateApiKey = asyncHandler(async (req, res) => {
         
         logger.info(`API Key created successfully for app: ${apiKeyData.app_name} by ${apiKeyData.created_by}`);
         
+        if (req.flash) {
+            req.flash('success', `API Key ${apiKeyData.app_name} ถูกสร้างเรียบร้อยแล้ว`);
+        }
+        
         // Store the API key temporarily in session to show it once
         req.session.newApiKey = apiKeyData.actual_key;
         req.session.newApiKeyData = apiKeyData;
@@ -330,6 +334,10 @@ const handleUpdateApiKey = asyncHandler(async (req, res) => {
         };
         
         logger.info(`API Key updated successfully: ${updatedData.app_name} by ${updatedData.updated_by}`);
+        
+        if (req.flash) {
+            req.flash('success', `API Key ${updatedData.app_name} ถูกอัพเดทเรียบร้อยแล้ว`);
+        }
         
         // Redirect back to API keys list with success
         res.redirect('/api-keys');

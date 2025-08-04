@@ -97,11 +97,10 @@ class Branch {
                 const Company = require('./Company');
                 const company = await Company.findByCode(mockBranch.company_code);
                 
-                return {
-                    ...new Branch(mockBranch),
-                    company_name_th: company?.company_name_th || '',
-                    company_name_en: company?.company_name_en || ''
-                };
+                const branch = new Branch(mockBranch);
+                branch.company_name_th = company?.company_name_th || '';
+                branch.company_name_en = company?.company_name_en || '';
+                return branch;
             }
             
             const query = `
@@ -121,11 +120,10 @@ class Branch {
             }
             
             const row = result.recordset[0];
-            return {
-                ...new Branch(row),
-                company_name_th: row.company_name_th,
-                company_name_en: row.company_name_en
-            };
+            const branch = new Branch(row);
+            branch.company_name_th = row.company_name_th;
+            branch.company_name_en = row.company_name_en;
+            return branch;
         } catch (error) {
             logger.error('Error in Branch.findByCode:', error);
             throw error;

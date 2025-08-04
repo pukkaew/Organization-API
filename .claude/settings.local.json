@@ -82,7 +82,12 @@
       "Bash(del:*)",
       "Bash(set PORT=3010)",
       "Bash(sqlite3:*)",
-      "Bash(npm restart)"
+      "Bash(npm restart)",
+      "Bash(\"taskkill\" \"/f\" \"/im\" \"node.exe\")",
+      "Bash(npx kill-port:*)",
+      "Bash(git checkout:*)",
+      "Bash(set PORT=3025)",
+      "Bash(set PORT=3030)"
     ],
     "deny": []
   }

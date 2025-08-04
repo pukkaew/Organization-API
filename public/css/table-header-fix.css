@@ -1,0 +1,156 @@
+/* Table Header Contrast Fix - Ruxchai CI Colors */
+
+/* Override gradient background with Ruxchai CI colors - Multiple selectors for maximum coverage */
+table thead,
+thead,
+.bg-gradient-to-r,
+table thead.bg-gradient-to-r,
+table thead.from-blue-50,
+thead.bg-gradient-to-r {
+    background: linear-gradient(135deg, #0090D3 0%, #007AB8 100%) !important;
+    background-image: linear-gradient(135deg, #0090D3 0%, #007AB8 100%) !important;
+    background-color: #0090D3 !important;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 144, 211, 0.15) !important;
+}
+
+/* Make header text white for maximum contrast */
+table thead th {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 0.875rem !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+    border-bottom: 3px solid #007AB8 !important;
+    background-color: transparent !important;
+}
+
+/* Make icons white in header */
+table thead th i {
+    color: #ffffff !important;
+    opacity: 0.9;
+}
+
+/* Add subtle shadow to header */
+table thead {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Alternative clean style - uncomment to use */
+/*
+table thead.bg-gradient-to-r {
+    background: #f8fafc !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+}
+
+table thead th {
+    color: #1a202c !important;
+    font-weight: 700 !important;
+    border-bottom: 2px solid #cbd5e0 !important;
+}
+
+table thead th i {
+    color: #4299e1 !important;
+}
+*/
+
+/* Hover effect on header */
+table thead th:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    transition: background-color 0.2s ease !important;
+}
+
+/* Ensure proper padding and alignment */
+table thead th {
+    padding: 1rem 1.5rem !important;
+    white-space: nowrap !important;
+}
+
+/* Fix mobile responsive headers */
+@media (max-width: 1024px) {
+    table thead th {
+        font-size: 0.75rem !important;
+        padding: 0.75rem 1rem !important;
+    }
+    
+    table thead th i {
+        font-size: 0.875rem !important;
+        margin-right: 0.375rem !important;
+    }
+}
+
+/* Dark mode alternative - ready for future use */
+@media (prefers-color-scheme: dark) {
+    table thead.bg-gradient-to-r {
+        background: #1f2937 !important;
+    }
+    
+    table thead th {
+        color: #f9fafb !important;
+        border-bottom-color: #374151 !important;
+    }
+}
+
+/* Enhanced style option - Professional look with Ruxchai colors */
+.table-professional thead {
+    background: linear-gradient(180deg, var(--ruxchai-blue) 0%, var(--ruxchai-blue-dark) 100%) !important;
+}
+
+.table-professional thead th {
+    position: relative;
+    overflow: hidden;
+}
+
+.table-professional thead th::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--ruxchai-blue-light), transparent);
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Specific fixes for company table headers */
+table thead th.text-gray-800,
+thead th.text-gray-800,
+th.text-gray-800 {
+    color: #ffffff !important; /* Override gray with white in headers */
+}
+
+table thead .text-blue-600,
+thead .text-blue-600,
+thead i.text-blue-600 {
+    color: #ffffff !important; /* Override blue icons with white */
+}
+
+/* Ensure all text in header is visible */
+table thead .uppercase,
+thead .uppercase {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Brute force override for stubborn styles */
+table thead th,
+thead th {
+    background-color: #0090D3 !important;
+    background-image: linear-gradient(135deg, #0090D3 0%, #007AB8 100%) !important;
+    color: #ffffff !important;
+    border-color: #007AB8 !important;
+}
+
+table thead th i,
+thead th i {
+    color: #ffffff !important;
+}
+
+/* Override Tailwind's border colors */
+.border-blue-200 {
+    border-color: #007AB8 !important;
+}

@@ -7,7 +7,8 @@ class Company {
         this.company_code = data.company_code;
         this.company_name_th = data.company_name_th;
         this.company_name_en = data.company_name_en;
-        this.tax_id = data.tax_id;
+        // Convert empty tax_id to null for database compatibility
+        this.tax_id = data.tax_id && data.tax_id.trim && data.tax_id.trim() !== '' ? data.tax_id.trim() : null;
         this.website = data.website;
         this.email = data.email;
         this.phone = data.phone;
@@ -116,8 +117,12 @@ class Company {
         if (this.company_code && !/^[A-Z0-9]{2,20}$/.test(this.company_code)) {
             errors.push('รหัสบริษัทต้องเป็นตัวอักษรภาษาอังกฤษหรือตัวเลข 2-20 ตัวอักษร');
         }
-        if (this.tax_id && !/^\d{13}$/.test(this.tax_id)) {
-            errors.push('เลขประจำตัวผู้เสียภาษีต้องเป็นตัวเลข 13 หลัก');
+        
+        // Tax ID validation - allow empty or exactly 13 digits
+        if (this.tax_id && this.tax_id.trim() !== '') {
+            if (!/^\d{13}$/.test(this.tax_id.trim())) {
+                errors.push('เลขประจำตัวผู้เสียภาษีต้องเป็นตัวเลข 13 หลัก');
+            }
         }
 
         // Length validation
@@ -211,6 +216,7 @@ class Company {
                 SET company_name_th = @company_name_th,
                     company_name_en = @company_name_en,
                     tax_id = @tax_id,
+                    is_active = @is_active,
                     updated_date = GETDATE(),
                     updated_by = @updated_by
                 WHERE company_code = @company_code
@@ -221,6 +227,7 @@ class Company {
                 company_name_th: this.company_name_th,
                 company_name_en: this.company_name_en,
                 tax_id: this.tax_id,
+                is_active: this.is_active,
                 updated_by: this.updated_by
             };
             
@@ -245,24 +252,31 @@ class Company {
                 return await this.updateMockStatus(companyCode, isActive, updatedBy);
             }
             
+            // Ultimate fix: Use parameterized query with explicit type casting
             const query = `
                 UPDATE Companies
                 SET is_active = @is_active,
-                    updated_date = datetime('now'),
+                    updated_date = GETDATE(),
                     updated_by = @updated_by
                 WHERE company_code = @company_code
             `;
             
             const inputs = {
                 company_code: companyCode,
-                is_active: isActive,
-                updated_by: updatedBy
+                is_active: isActive === true || isActive === 'true' ? 1 : 0,
+                updated_by: updatedBy || 'admin'
             };
             
+            logger.info('Final updateStatus query:', { query, inputs });
             const result = await executeQuery(query, inputs);
+            logger.info('Final updateStatus result:', { 
+                rowsAffected: result.rowsAffected,
+                recordset: result.recordset 
+            });
             
-            if (result.rowsAffected[0] === 0) {
-                throw new Error('Company not found');
+            if (!result.rowsAffected || result.rowsAffected[0] === 0) {
+                logger.error('No rows affected in updateStatus');
+                throw new Error('Company not found or not updated');
             }
             
             return await Company.findByCode(companyCode);

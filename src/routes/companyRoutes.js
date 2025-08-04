@@ -13,13 +13,10 @@ router.get('/create', companyController.showCreateCompanyForm); // เพิ่�
 // Create company
 router.post('/', companyController.handleCreateCompany);
 
-// Show company details (ใส่ก่อน /:code/edit)
-router.get('/:company_code', companyController.show);
-
-// Display edit form
+// Display edit form (ต้องอยู่ก่อน /:code ที่เป็น GET)
 router.get('/:code/edit', companyController.showEditCompanyForm);
 
-// Update company
+// Update company (ต้องอยู่ก่อน GET /:company_code)
 router.put('/:code', companyController.handleUpdateCompany);
 router.post('/:code', companyController.handleUpdateCompany); // Backup for method-override
 
@@ -29,5 +26,8 @@ router.post('/:code/toggle-status', companyController.handleToggleStatus);
 // Delete company
 router.delete('/:code', companyController.handleDeleteCompany);
 router.post('/:code/delete', companyController.handleDeleteCompany); // Backup for method-override
+
+// Show company details (ต้องอยู่หลังสุดเพื่อไม่ให้ทับ routes อื่น)
+router.get('/:company_code', companyController.show);
 
 module.exports = router;

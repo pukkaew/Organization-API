@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Company - Simple Test</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        form { max-width: 500px; margin: 0 auto; }
+        input, button { display: block; width: 100%; margin: 10px 0; padding: 10px; }
+        button { background-color: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>แก้ไขบริษัท - Simple Test</h1>
+    
+    <form method="post" action="/companies/<%= company.company_code %>">
+        <input type="hidden" name="_method" value="PUT">
+        
+        <label>รหัสบริษัท (ไม่สามารถแก้ไข):</label>
+        <input type="text" value="<%= company.company_code %>" disabled>
+        
+        <label>ชื่อบริษัท (ภาษาไทย) *:</label>
+        <input type="text" name="company_name_th" value="<%= company.company_name_th %>" required>
+        
+        <label>ชื่อบริษัท (ภาษาอังกฤษ):</label>
+        <input type="text" name="company_name_en" value="<%= company.company_name_en || '' %>">
+        
+        <label>เลขประจำตัวผู้เสียภาษี:</label>
+        <input type="text" name="tax_id" value="<%= company.tax_id || '' %>" maxlength="13">
+        
+        <label>สถานะ:</label>
+        <select name="is_active">
+            <option value="true" <%= company.is_active ? 'selected' : '' %>>ใช้งาน</option>
+            <option value="false" <%= !company.is_active ? 'selected' : '' %>>ไม่ใช้งาน</option>
+        </select>
+        
+        <button type="submit">บันทึก</button>
+        <a href="/companies">ยกเลิก</a>
+    </form>
+    
+    <hr>
+    <p>Debug info:</p>
+    <ul>
+        <li>Form method: POST</li>
+        <li>Form action: /companies/<%= company.company_code %></li>
+        <li>_method: PUT</li>
+        <li>No JavaScript interference</li>
+    </ul>
+</body>
+</html>

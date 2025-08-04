@@ -186,14 +186,13 @@
     pageScripts: `
     <script>
     // Form submission loading state
-    document.querySelector('form').addEventListener('submit', function() {
+    document.querySelector('form').addEventListener('submit', function(e) {
         const submitBtn = document.getElementById('submit-btn');
-        const btnText = submitBtn.querySelector('.btn-text');
-        const btnLoading = submitBtn.querySelector('.btn-loading');
+        submitBtn.style.opacity = '0.7';
         
-        submitBtn.disabled = true;
-        btnText.classList.add('hidden');
-        btnLoading.classList.remove('hidden');
+        const tempMessage = document.createElement('div');
+        tempMessage.innerHTML = '<div class="fixed top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg z-50"><i class="fas fa-spinner fa-spin mr-2"></i>กำลังบันทึกข้อมูล...</div>';
+        document.body.appendChild(tempMessage);
     });
     </script>
     `

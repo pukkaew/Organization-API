@@ -244,7 +244,11 @@ const showEditCompanyForm = asyncHandler(async (req, res) => {
             updated_by: company.updated_by || null
         };
         
-        res.render('companies/edit', {
+        // Use simple edit form for testing
+        const useSimpleForm = req.query.simple === 'true';
+        const template = useSimpleForm ? 'companies/edit-simple' : 'companies/edit';
+        
+        res.render(template, {
             title: 'Edit Company',
             company: safeCompany,
         });
@@ -335,10 +339,21 @@ const handleCreateCompany = asyncHandler(async (req, res) => {
             });
         }
         
-        // Other errors - render form with generic error
+        // Handle database constraint errors with specific messages
+        let errorMessage = 'เกิดข้อผิดพลาดในการสร้างบริษัท กรุณาลองใหม่อีกครั้ง';
+        
+        if (error.message && error.message.includes('CK_Companies_TaxId')) {
+            errorMessage = 'เลขประจำตัวผู้เสียภาษีไม่ถูกต้อง กรุณากรอกเฉพาะตัวเลข 13 หลัก หรือเว้นว่างไว้';
+        } else if (error.message && error.message.includes('UNIQUE constraint')) {
+            errorMessage = 'รหัสบริษัทหรือเลขประจำตัวผู้เสียภาษีนี้มีอยู่ในระบบแล้ว';
+        } else if (error.message && error.message.includes('duplicate')) {
+            errorMessage = 'ข้อมูลที่กรอกซ้ำกับข้อมูลที่มีอยู่ในระบบ';
+        }
+        
+        // Other errors - render form with specific error message
         return res.render('companies/create', {
             title: 'สร้างบริษัทใหม่',
-            error: 'เกิดข้อผิดพลาดในการสร้างบริษัท กรุณาลองใหม่อีกครั้ง',
+            error: errorMessage,
             validationErrors: null,
             formData: req.body
         });
@@ -402,8 +417,11 @@ const handleUpdateCompany = asyncHandler(async (req, res) => {
         company.email = req.body.email ? req.body.email.trim() : null;
         company.phone = req.body.phone ? req.body.phone.trim() : null;
         company.address = req.body.address ? req.body.address.trim() : null;
+        console.log('is_active from form:', req.body.is_active, typeof req.body.is_active);
         if (req.body.is_active !== undefined) {
-            company.is_active = req.body.is_active === 'on' || req.body.is_active === true;
+            const newActiveStatus = req.body.is_active === 'true' || req.body.is_active === true;
+            console.log('Setting is_active to:', newActiveStatus);
+            company.is_active = newActiveStatus;
         }
         company.updated_by = req.user?.username || 'admin';
         
@@ -411,6 +429,11 @@ const handleUpdateCompany = asyncHandler(async (req, res) => {
         console.log('Update result:', result);
         
         logger.info(`Company updated: ${company.company_code} by ${company.updated_by}`);
+        
+        // Add success flash message
+        if (req.flash) {
+            req.flash('success', `บริษัท ${company.company_name_th} ถูกอัพเดทเรียบร้อยแล้ว`);
+        }
         
         console.log('Redirecting to /companies');
         res.redirect('/companies');
@@ -436,14 +459,38 @@ const handleUpdateCompany = asyncHandler(async (req, res) => {
 // Handle toggle company status
 const handleToggleStatus = asyncHandler(async (req, res) => {
     try {
+        logger.info('Toggle status request:', { code: req.params.code });
+        
         const company = await Company.findByCode(req.params.code);
+        logger.info('Found company for toggle:', { code: company?.company_code, currentStatus: company?.is_active });
         
         if (!company) {
+            logger.warn('Company not found for toggle:', { code: req.params.code });
             return res.redirect('/companies');
         }
         
         const newStatus = !company.is_active;
-        await Company.updateStatus(req.params.code, newStatus, req.user?.username || 'admin');
+        logger.info('Toggling status:', { code: req.params.code, from: company.is_active, to: newStatus });
+        
+        // Final working approach: Use updateStatus method
+        try {
+            logger.info('Calling updateStatus method...', { 
+                code: req.params.code, 
+                newStatus, 
+                user: req.user?.username || 'admin' 
+            });
+            
+            const result = await Company.updateStatus(req.params.code, newStatus, req.user?.username || 'admin');
+            
+            logger.info('UpdateStatus completed successfully:', { 
+                code: result?.company_code, 
+                newStatus: result?.is_active 
+            });
+            
+        } catch (updateError) {
+            logger.error('Toggle updateStatus failed:', updateError);
+            throw updateError;
+        }
         
         res.redirect('/companies');
     } catch (error) {

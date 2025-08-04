@@ -138,6 +138,10 @@ const handleCreateDivision = asyncHandler(async (req, res) => {
         
         logger.info(`Division created successfully: ${division.division_code} by ${divisionData.created_by}`);
         
+        if (req.flash) {
+            req.flash('success', `ดิวิชั่น ${divisionData.division_name} ถูกสร้างเรียบร้อยแล้ว`);
+        }
+        
         res.redirect('/divisions');
     } catch (error) {
         logger.error('Error creating division:', error);
@@ -170,6 +174,10 @@ const handleUpdateDivision = asyncHandler(async (req, res) => {
         await division.update();
         
         logger.info(`Division updated: ${division.division_code} by ${division.updated_by}`);
+        
+        if (req.flash) {
+            req.flash('success', `ดิวิชั่น ${division.division_name} ถูกอัพเดทเรียบร้อยแล้ว`);
+        }
         
         res.redirect('/divisions');
     } catch (error) {

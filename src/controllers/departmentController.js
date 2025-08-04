@@ -142,6 +142,10 @@ const handleCreateDepartment = asyncHandler(async (req, res) => {
         
         logger.info(`Department created successfully: ${department.department_code} by ${departmentData.created_by}`);
         
+        if (req.flash) {
+            req.flash('success', `แผนก ${departmentData.department_name} ถูกสร้างเรียบร้อยแล้ว`);
+        }
+        
         res.redirect('/departments');
     } catch (error) {
         logger.error('Error creating department:', error);
@@ -176,6 +180,10 @@ const handleUpdateDepartment = asyncHandler(async (req, res) => {
         await department.update();
         
         logger.info(`Department updated: ${department.department_code} by ${department.updated_by}`);
+        
+        if (req.flash) {
+            req.flash('success', `แผนก ${department.department_name} ถูกอัพเดทเรียบร้อยแล้ว`);
+        }
         
         res.redirect('/departments');
     } catch (error) {

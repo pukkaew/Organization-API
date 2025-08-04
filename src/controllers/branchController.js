@@ -78,6 +78,9 @@ const showEditBranchForm = asyncHandler(async (req, res) => {
             title: 'Edit Branch',
             branch: safeBranch,
             companies: companies || [],
+            csrfToken: req.csrfToken ? req.csrfToken() : '',
+            error: null,
+            validationErrors: null
         });
     } catch (error) {
         logger.error('Error in showEditBranchForm:', error);
@@ -110,6 +113,10 @@ const handleCreateBranch = asyncHandler(async (req, res) => {
         
         logger.info(`Branch created successfully: ${branch.branch_code} by ${branchData.created_by}`);
         
+        if (req.flash) {
+            req.flash('success', `สาขา ${branchData.branch_name} ถูกสร้างเรียบร้อยแล้ว`);
+        }
+        
         res.redirect('/branches');
     } catch (error) {
         logger.error('Error creating branch:', error);
@@ -120,6 +127,10 @@ const handleCreateBranch = asyncHandler(async (req, res) => {
 // Handle update branch form submission
 const handleUpdateBranch = asyncHandler(async (req, res) => {
     try {
+        console.log('=== BRANCH UPDATE DEBUG ===');
+        console.log('Request params:', req.params);
+        console.log('Request body:', req.body);
+        
         const branch = await Branch.findByCode(req.params.code);
         
         if (!branch) {
@@ -128,10 +139,24 @@ const handleUpdateBranch = asyncHandler(async (req, res) => {
         
         // Validate required fields
         if (!req.body.branch_name || req.body.branch_name.trim() === '') {
-            return res.redirect(`/branches/${req.params.code}/edit`);
+            console.log('Validation failed: branch_name is required');
+            return res.render('branches/edit', {
+                title: 'Edit Branch',
+                branch: branch,
+                companies: await Company.findAll({ is_active: true }) || [],
+                error: 'ชื่อสาขาจำเป็นต้องกรอก',
+                validationErrors: null,
+                csrfToken: req.csrfToken ? req.csrfToken() : ''
+            });
         }
         
         // Update fields
+        console.log('Before update - branch data:', {
+            branch_code: branch.branch_code,
+            branch_name: branch.branch_name,
+            is_headquarters: branch.is_headquarters
+        });
+        
         branch.branch_name = req.body.branch_name.trim();
         branch.is_headquarters = req.body.is_headquarters === 'on';
         if (req.body.is_active !== undefined) {
@@ -139,14 +164,41 @@ const handleUpdateBranch = asyncHandler(async (req, res) => {
         }
         branch.updated_by = req.user?.username || 'admin';
         
-        await branch.update();
+        console.log('After field update - branch data:', {
+            branch_code: branch.branch_code,
+            branch_name: branch.branch_name,
+            is_headquarters: branch.is_headquarters
+        });
+        
+        const result = await branch.update();
+        console.log('Update result:', result);
         
         logger.info(`Branch updated: ${branch.branch_code} by ${branch.updated_by}`);
         
+        if (req.flash) {
+            req.flash('success', `สาขา ${branch.branch_name} ถูกอัพเดทเรียบร้อยแล้ว`);
+        }
+        
         res.redirect('/branches');
     } catch (error) {
+        console.error('Error in handleUpdateBranch:', error);
         logger.error('Error updating branch:', error);
-        res.redirect(`/branches/${req.params.code}/edit`);
+        
+        // Try to get branch data for re-rendering the form
+        try {
+            const branch = await Branch.findByCode(req.params.code);
+            const companies = await Company.findAll({ is_active: true });
+            return res.render('branches/edit', {
+                title: 'Edit Branch',
+                branch: branch,
+                companies: companies || [],
+                error: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล กรุณาลองใหม่อีกครั้ง',
+                validationErrors: null,
+                csrfToken: req.csrfToken ? req.csrfToken() : ''
+            });
+        } catch (findError) {
+            return res.redirect('/branches');
+        }
     }
 });
 
