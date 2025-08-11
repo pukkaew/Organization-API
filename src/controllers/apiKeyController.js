@@ -281,11 +281,62 @@ const showApiKeyDetails = asyncHandler(async (req, res) => {
             }
         ];
 
+        // Mock endpoint statistics
+        const mockEndpointStats = [
+            {
+                method: 'GET',
+                endpoint: '/api/v1/companies',
+                request_count: 245,
+                avg_response_time: 125,
+                error_count: 2
+            },
+            {
+                method: 'POST',
+                endpoint: '/api/v1/branches',
+                request_count: 89,
+                avg_response_time: 234,
+                error_count: 0
+            },
+            {
+                method: 'GET',
+                endpoint: '/api/v1/departments',
+                request_count: 156,
+                avg_response_time: 98,
+                error_count: 1
+            },
+            {
+                method: 'PUT',
+                endpoint: '/api/v1/divisions/DIV001',
+                request_count: 45,
+                avg_response_time: 189,
+                error_count: 0
+            },
+            {
+                method: 'DELETE',
+                endpoint: '/api/v1/departments/DEPT003',
+                request_count: 12,
+                avg_response_time: 67,
+                error_count: 0
+            }
+        ];
+
+        // Mock hourly statistics for chart
+        const mockHourlyStats = [];
+        for (let i = 0; i < 24; i++) {
+            mockHourlyStats.push({
+                hour: i,
+                request_count: Math.floor(Math.random() * 50) + 10,
+                avg_response_time: Math.floor(Math.random() * 100) + 50
+            });
+        }
+
         res.render('api-keys/details', {
             title: `API Key Details: ${mockApiKey.app_name}`,
             apiKey: mockApiKey,
             stats: mockStats,
-            recentLogs: mockRecentLogs
+            recentLogs: mockRecentLogs,
+            endpointStats: mockEndpointStats,
+            hourlyStats: mockHourlyStats
         });
     } catch (error) {
         console.error('Error in showApiKeyDetails:', error);
@@ -371,16 +422,26 @@ const handleUpdateApiKey = asyncHandler(async (req, res) => {
 // Handle toggle API key status
 const handleToggleStatus = asyncHandler(async (req, res) => {
     try {
+        const apiKeyId = parseInt(req.params.id);
         console.log('=== TOGGLE API KEY STATUS ===');
-        console.log('ID from params:', req.params.id);
+        console.log('API Key ID:', apiKeyId);
         console.log('Method:', req.method);
         console.log('Body:', req.body);
         
-        logger.info(`Toggle status request for API Key ID: ${req.params.id}`);
+        logger.info(`Toggle status request for API Key ID: ${apiKeyId}`);
         
-        // Simulate successful toggle
-        const username = req.user?.username || 'admin';
-        logger.info(`API Key status toggled successfully by ${username}`);
+        // Find the API key in mock store and toggle its status
+        const apiKey = ApiKey.mockApiKeys.find(key => key.api_key_id === apiKeyId);
+        if (apiKey) {
+            const oldStatus = apiKey.is_active;
+            apiKey.is_active = !apiKey.is_active;
+            console.log(`API Key ${apiKeyId} status changed from ${oldStatus} to ${apiKey.is_active}`);
+            
+            const username = req.user?.username || 'admin';
+            logger.info(`API Key ID ${apiKeyId} status toggled to ${apiKey.is_active} by ${username}`);
+        } else {
+            console.log('API Key not found in mock store');
+        }
         
         console.log('Redirecting to /api-keys');
         res.redirect('/api-keys');

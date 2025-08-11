@@ -9,15 +9,26 @@ class OrganizationService {
      * Get organization statistics
      */
     static async getOrganizationStats() {
-        // Skip database if USE_DATABASE is false
+        // Use mock data if USE_DATABASE is false
         if (process.env.USE_DATABASE === 'false') {
+            const Company = require('../models/Company');
+            const Branch = require('../models/Branch');
+            const Division = require('../models/Division');
+            const Department = require('../models/Department');
+            
+            const activeCompanies = Company.mockCompanies.filter(c => c.is_active).length;
+            const activeBranches = Branch.mockBranches.filter(b => b.is_active).length;
+            const activeDivisions = Division.mockDivisions.filter(d => d.is_active).length;
+            const activeDepartments = Department.mockDepartments.filter(d => d.is_active).length;
+            const headquarters = Branch.mockBranches.filter(b => b.is_headquarters && b.is_active).length;
+            
             return {
-                totalCompanies: 0,
-                totalBranches: 0,
-                totalDivisions: 0,
-                totalDepartments: 0,
-                active_divisions: 0,
-                headquarters_count: 0
+                totalCompanies: activeCompanies,
+                totalBranches: activeBranches,
+                totalDivisions: activeDivisions,
+                totalDepartments: activeDepartments,
+                active_divisions: activeDivisions,
+                headquarters_count: headquarters
             };
         }
         
@@ -59,47 +70,91 @@ class OrganizationService {
      */
     static async getRecentActivities(limit = 10) {
         try {
-            // Simulated activities - in production, this would come from an audit log table
+            // Generate dynamic times based on current time
+            const now = new Date();
+            const getTimeAgo = (minutes) => {
+                const date = new Date(now.getTime() - minutes * 60 * 1000);
+                const diff = Math.floor((now - date) / 1000);
+                
+                if (diff < 60) return `${diff} วินาทีที่แล้ว`;
+                if (diff < 3600) return `${Math.floor(diff / 60)} นาทีที่แล้ว`;
+                if (diff < 86400) return `${Math.floor(diff / 3600)} ชั่วโมงที่แล้ว`;
+                return `${Math.floor(diff / 86400)} วันที่แล้ว`;
+            };
+            
+            // Enhanced activities with more variety and realistic data
             const activities = [
                 {
                     id: 1,
-                    description: 'เพิ่มบริษัทใหม่ <span class="font-medium">บริษัท รุ่งชัย เทคโนโลยี จำกัด</span>',
-                    user: 'admin@ruxchai.com',
-                    time: '5 นาทีที่แล้ว',
-                    icon: 'building',
-                    color: 'ruxchai-blue',
-                    status: 'สำเร็จ',
-                    statusColor: 'ruxchai-green'
+                    type: 'create',
+                    description: 'สร้าง API Key ใหม่ <span class="font-mono bg-blue-100 px-2 py-1 rounded text-blue-700">RC_MMS_2024</span>',
+                    user: 'admin',
+                    time: getTimeAgo(3),
+                    icon: 'key',
+                    detail: 'สำหรับระบบ RC MMS với สิทธิ์ Read Only'
                 },
                 {
                     id: 2,
-                    description: 'เปิดสาขาใหม่ <span class="font-medium">สาขาชลบุรี</span> ภายใต้ ABC Company',
-                    user: 'manager@abc.com',
-                    time: '1 ชั่วโมงที่แล้ว',
-                    icon: 'code-branch',
-                    color: 'ruxchai-green',
-                    status: 'สำเร็จ',
-                    statusColor: 'ruxchai-green'
+                    type: 'create',
+                    description: 'เพิ่มบริษัทใหม่ <span class="font-semibold text-ruxchai-blue">บริษัท รุ่งชัยเทคโนโลยี จำกัด</span>',
+                    user: 'admin',
+                    time: getTimeAgo(35),
+                    icon: 'building',
+                    detail: 'รหัสบริษัท: RCT001 | เลขประจำตัวผู้เสียภาษี: 0123456789012'
                 },
                 {
                     id: 3,
-                    description: 'API Key <span class="font-mono bg-gray-100 px-1 rounded">prod_xxx_2024</span> ถูกสร้างขึ้น',
-                    user: 'สำหรับ Mobile App',
-                    time: '2 ชั่วโมงที่แล้ว',
-                    icon: 'key',
-                    color: 'purple',
-                    status: 'API',
-                    statusColor: 'gray'
+                    type: 'update',
+                    description: 'แก้ไขข้อมูล <span class="font-semibold text-ruxchai-green">สาขาลาดพร้าว</span>',
+                    user: 'manager.lprao',
+                    time: getTimeAgo(67),
+                    icon: 'code-branch',
+                    detail: 'อัปเดตที่อยู่และเบอร์โทรศัพท์ติดต่อ'
                 },
                 {
                     id: 4,
-                    description: 'ปรับโครงสร้าง <span class="font-medium">ฝ่ายการตลาด</span> ย้ายไปอยู่ภายใต้สาขาใหม่',
-                    user: 'hr@xyz.com',
-                    time: '3 ชั่วโมงที่แล้ว',
+                    type: 'create',
+                    description: 'จัดตั้งฝ่ายใหม่ <span class="font-semibold text-purple-600">ฝ่ายเทคโนโลยีสารสนเทศ</span>',
+                    user: 'hr.admin',
+                    time: getTimeAgo(125),
                     icon: 'sitemap',
-                    color: 'orange',
-                    status: 'อัพเดท',
-                    statusColor: 'orange'
+                    detail: 'ภายใต้สาขาสำนักงานใหญ่ | รหัสฝ่าย: IT001'
+                },
+                {
+                    id: 5,
+                    type: 'update',
+                    description: 'เปลี่ยนสถานะ API Key <span class="font-mono bg-red-100 px-2 py-1 rounded text-red-700">OLD_SYSTEM_KEY</span>',
+                    user: 'admin',
+                    time: getTimeAgo(189),
+                    icon: 'toggle-off',
+                    detail: 'ปิดใช้งาน API Key เก่าเพื่อความปลอดภัย'
+                },
+                {
+                    id: 6,
+                    type: 'create',
+                    description: 'เพิ่มแผนกใหม่ <span class="font-semibold text-orange-600">แผนกพัฒนาระบบ</span>',
+                    user: 'hr.admin',
+                    time: getTimeAgo(245),
+                    icon: 'users',
+                    detail: 'ภายใต้ฝ่ายเทคโนโลยีสารสนเทศ | รหัสแผนก: IT001-DEV'
+                },
+                {
+                    id: 7,
+                    type: 'delete',
+                    description: 'ลบ API Key <span class="font-mono bg-gray-100 px-2 py-1 rounded text-gray-700">TEST_KEY_2023</span>',
+                    user: 'admin',
+                    time: getTimeAgo(312),
+                    icon: 'trash-alt',
+                    detail: 'API Key ทดสอบที่หมดอายุการใช้งาน'
+                },
+                {
+                    id: 8,
+                    type: 'update',
+                    description: 'อัปเดตข้อมูลบริษัท <span class="font-semibold text-ruxchai-blue">Ruxchai Cold Storage</span>',
+                    user: 'super.admin',
+                    time: getTimeAgo(425),
+                    icon: 'edit',
+                    detail: 'เปลี่ยนแปลงข้อมูลการติดต่อและที่อยู่จดทะเบียน'
                 }
             ];
 

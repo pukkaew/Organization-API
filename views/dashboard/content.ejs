@@ -153,9 +153,10 @@
                     </p>
                 </div>
                 <div class="bg-ruxchai-green/10 rounded-lg p-4">
-                    <p class="text-sm text-gray-600 mb-1">API Keys ที่ใช้งาน</p>
+                    <p class="text-sm text-gray-600 mb-1">API Keys ที่มีการใช้งาน</p>
+                    <p class="text-xs text-gray-500 mb-2">Keys ที่มี usage history</p>
                     <p class="text-2xl font-bold text-ruxchai-green">
-                        <%= typeof apiStats !== 'undefined' && apiStats.activeKeys ? apiStats.activeKeys : '8' %>
+                        <%= typeof apiStats !== 'undefined' && apiStats.activeKeys !== undefined ? apiStats.activeKeys : '0' %>
                     </p>
                 </div>
                 <a href="/api-keys" class="w-full bg-ruxchai-blue text-white text-center py-2 rounded-lg font-medium hover:bg-ruxchai-blue-dark transition-colors block">
@@ -220,29 +221,36 @@
             <div class="p-6">
                 <div class="space-y-3">
                     <% recentActivities.slice(0, 5).forEach((activity, index) => { %>
-                        <div class="flex items-start space-x-4 p-4 hover:bg-gray-50 rounded-lg transition-colors">
-                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0
-                                <%= activity.type === 'create' ? 'bg-ruxchai-green' : 
-                                    activity.type === 'update' ? 'bg-ruxchai-blue' : 
-                                    activity.type === 'delete' ? 'bg-red-500' : 'bg-gray-500' %>">
-                                <i class="fas <%= activity.type === 'create' ? 'fa-plus' : 
-                                        activity.type === 'update' ? 'fa-edit' : 
-                                        activity.type === 'delete' ? 'fa-trash-alt' : 'fa-info-circle' %> text-white text-sm"></i>
+                        <div class="flex items-start space-x-4 p-4 hover:bg-gray-50 rounded-lg transition-colors border-l-4 <%= activity.type === 'create' ? 'border-ruxchai-green' : activity.type === 'update' ? 'border-ruxchai-blue' : activity.type === 'delete' ? 'border-red-500' : 'border-gray-400' %>">
+                            <!-- Icon -->
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 <%= activity.type === 'create' ? 'bg-ruxchai-green shadow-lg shadow-green-500/25' : activity.type === 'update' ? 'bg-ruxchai-blue shadow-lg shadow-blue-500/25' : activity.type === 'delete' ? 'bg-red-500 shadow-lg shadow-red-500/25' : 'bg-gray-500 shadow-lg shadow-gray-500/25' %>">
+                                <i class="fas fa-<%= activity.icon %> text-white text-lg"></i>
                             </div>
+                            
+                            <!-- Content -->
                             <div class="flex-1 min-w-0">
-                                <div class="flex items-start justify-between">
+                                <div class="flex items-start justify-between mb-2">
                                     <div class="flex-1">
-                                        <p class="font-semibold text-gray-900 text-sm mb-1"><%= activity.description %></p>
-                                        <p class="text-xs text-gray-600"><%= activity.time %></p>
+                                        <p class="font-semibold text-gray-900 text-sm mb-1"><%- activity.description %></p>
+                                        <% if (activity.detail) { %>
+                                            <p class="text-xs text-gray-600 mb-2"><%= activity.detail %></p>
+                                        <% } %>
+                                        <div class="flex items-center space-x-3 text-xs text-gray-500">
+                                            <span class="flex items-center">
+                                                <i class="fas fa-user mr-1"></i>
+                                                <%= activity.user %>
+                                            </span>
+                                            <span class="flex items-center">
+                                                <i class="fas fa-clock mr-1"></i>
+                                                <%= activity.time %>
+                                            </span>
+                                        </div>
                                     </div>
-                                    <span class="px-2 py-1 rounded-md text-xs font-semibold ml-3 flex-shrink-0
-                                        <%= activity.type === 'create' ? 'bg-ruxchai-green/10 text-ruxchai-green' : 
-                                            activity.type === 'update' ? 'bg-ruxchai-blue/10 text-ruxchai-blue' : 
-                                            activity.type === 'delete' ? 'bg-red-100 text-red-600' : 'bg-gray-100 text-gray-600' %>">
-                                        <%= activity.type === 'create' ? 'สร้างใหม่' : 
-                                            activity.type === 'update' ? 'อัพเดท' : 
-                                            activity.type === 'delete' ? 'ลบ' : 'อื่นๆ' %>
-                                    </span>
+                                    <div class="flex flex-col items-end space-y-1">
+                                        <span class="px-3 py-1 rounded-full text-xs font-semibold <%= activity.type === 'create' ? 'bg-ruxchai-green/10 text-ruxchai-green' : activity.type === 'update' ? 'bg-ruxchai-blue/10 text-ruxchai-blue' : activity.type === 'delete' ? 'bg-red-100 text-red-600' : 'bg-gray-100 text-gray-600' %>">
+                                            <%= activity.type === 'create' ? 'สร้างใหม่' : activity.type === 'update' ? 'อัพเดท' : activity.type === 'delete' ? 'ลบ' : 'อื่นๆ' %>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

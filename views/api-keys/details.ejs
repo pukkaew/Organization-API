@@ -1,9 +1,16 @@
 <!-- Path: /views/api-keys/details.ejs -->
-<%- include('../layouts/main', { 
+<%- include('../partials/header', { 
     title: apiKey.app_name + ' - API Key Details',
+    includeChartJS: true
+}) %>
+<%- include('../partials/navigation', { 
     activeMenu: 'api-keys',
-    includeChartJS: true,
-    body: ` 
+    user: typeof user !== 'undefined' ? user : null
+}) %>
+
+<!-- Main Content -->
+<main class="flex-1 py-8">
+    <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
     <div class="max-w-full mx-auto">
         <!-- Header -->
         <div class="bg-gradient-to-r from-violet-600 to-indigo-700 rounded-xl p-8 text-white mb-8 shadow-xl">
@@ -29,7 +36,7 @@
                         Edit
                     </a>
                     <form method="POST" action="/api-keys/<%= apiKey.api_key_id %>/regenerate" class="inline">
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : 'dev-csrf-token' %>">
                         <button type="submit" 
                                 onclick="return confirm('Are you sure you want to regenerate this API key? The current key will be deactivated.')"
                                 class="btn btn-yellow">
@@ -194,7 +201,7 @@
                                 IP Whitelist
                             </dt>
                             <dd class="detail-value font-mono text-xs">
-                                <%- apiKey.ip_whitelist.split('\n').join('<br>') %>
+                                <%- (apiKey.ip_whitelist || '').split('\n').join('<br>') %>
                             </dd>
                         </div>
                     <% } %>
@@ -448,11 +455,16 @@
             </div>
         </div>
     </div>
-    `,
-    pageScripts: `
+    </div>
+</main>
+
+<% 
+// Prepare hourly stats data for JavaScript
+const hourlyStatsJson = JSON.stringify(hourlyStats || []);
+const pageScripts = `
     <script>
         // Parse hourly stats data
-        const hourlyStats = <%- hourlyStats %>;
+        const hourlyStats = ${hourlyStatsJson};
         
         // Hourly Usage Chart
         const ctx = document.getElementById('hourlyChart').getContext('2d');
@@ -496,5 +508,9 @@
             }
         });
     </script>
-    `
+`;
+%>
+
+<%- include('../partials/footer', {
+    pageScripts: pageScripts
 }) %>
