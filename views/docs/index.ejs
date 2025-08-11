@@ -11,7 +11,7 @@
             
             <h2>Base URL</h2>
             <div class="bg-gray-100 p-4 rounded-lg font-mono text-sm">
-                ${process.env.API_PREFIX || '/api/v1'}
+                http://localhost:3001/api
             </div>
             
             <h2>Authentication</h2>
@@ -367,15 +367,39 @@
             
             <h3>Get All Companies</h3>
             <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
-                <pre><code>GET /api/v1/companies?page=1&limit=10&is_active=true
+                <pre><code>GET http://localhost:3001/api/companies?page=1&limit=10&is_active=true
 
 Headers:
 X-API-Key: YOUR_API_KEY</code></pre>
             </div>
             
+            <div class="bg-green-50 border border-green-200 p-4 rounded-lg mt-2">
+                <strong class="text-green-800">Response (200 OK):</strong>
+                <pre class="text-green-800 mt-2"><code>{
+    "success": true,
+    "data": [
+        {
+            "company_code": "RCS001",
+            "company_name_th": "บริษัท รุ่งชัยเย็นแข็ง จำกัด",
+            "company_name_en": "Ruxchai Cold Storage Co., Ltd.",
+            "tax_id": "0105558123456",
+            "is_active": true,
+            "created_date": "2024-01-15T08:30:00.000Z"
+        }
+    ],
+    "pagination": {
+        "page": 1,
+        "limit": 10,
+        "total": 1,
+        "pages": 1
+    },
+    "message": "Companies retrieved successfully"
+}</code></pre>
+            </div>
+            
             <h3>Create New Company</h3>
             <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
-                <pre><code>POST /api/v1/companies
+                <pre><code>POST http://localhost:3001/api/companies
 
 Headers:
 X-API-Key: YOUR_API_KEY
@@ -383,17 +407,71 @@ Content-Type: application/json
 
 Body:
 {
-    "company_code": "ABC",
-    "company_name_th": "บริษัท เอบีซี จำกัด",
-    "company_name_en": "ABC Company Limited",
-    "tax_id": "0105558123456",
+    "company_code": "RCS002",
+    "company_name_th": "บริษัท รุ่งชัยโลจิสติกส์ จำกัด",
+    "company_name_en": "Ruxchai Logistics Co., Ltd.",
+    "tax_id": "0105558987654",
     "is_active": true
+}</code></pre>
+            </div>
+            
+            <div class="bg-green-50 border border-green-200 p-4 rounded-lg mt-2">
+                <strong class="text-green-800">Response (201 Created):</strong>
+                <pre class="text-green-800 mt-2"><code>{
+    "success": true,
+    "data": {
+        "company_code": "RCS002",
+        "company_name_th": "บริษัท รุ่งชัยโลจิสติกส์ จำกัด",
+        "company_name_en": "Ruxchai Logistics Co., Ltd.",
+        "tax_id": "0105558987654",
+        "is_active": true,
+        "created_date": "2024-01-15T09:15:00.000Z",
+        "created_by": "admin",
+        "updated_date": null,
+        "updated_by": null
+    },
+    "message": "Company created successfully"
+}</code></pre>
+            </div>
+            
+            <h3>Create New Branch</h3>
+            <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+                <pre><code>POST http://localhost:3001/api/branches
+
+Headers:
+X-API-Key: YOUR_API_KEY
+Content-Type: application/json
+
+Body:
+{
+    "branch_code": "RCS001-BKK",
+    "branch_name": "สาขากรุงเทพฯ",
+    "company_code": "RCS001",
+    "is_headquarters": true,
+    "is_active": true
+}</code></pre>
+            </div>
+            
+            <div class="bg-green-50 border border-green-200 p-4 rounded-lg mt-2">
+                <strong class="text-green-800">Response (201 Created):</strong>
+                <pre class="text-green-800 mt-2"><code>{
+    "success": true,
+    "data": {
+        "branch_code": "RCS001-BKK",
+        "branch_name": "สาขากรุงเทพฯ",
+        "company_code": "RCS001",
+        "is_headquarters": true,
+        "is_active": true,
+        "created_date": "2024-01-15T09:30:00.000Z",
+        "created_by": "admin"
+    },
+    "message": "Branch created successfully"
 }</code></pre>
             </div>
             
             <h3>Create New Division</h3>
             <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
-                <pre><code>POST /api/v1/divisions
+                <pre><code>POST http://localhost:3001/api/divisions
 
 Headers:
 X-API-Key: YOUR_API_KEY
@@ -401,44 +479,140 @@ Content-Type: application/json
 
 Body:
 {
-    "division_code": "HR",
-    "division_name": "Human Resources",
-    "company_code": "ABC",
-    "branch_code": null,
+    "division_code": "RCS001-IT",
+    "division_name": "ฝ่ายเทคโนโลยีสารสนเทศ",
+    "company_code": "RCS001",
+    "branch_code": "RCS001-BKK",
     "is_active": true
+}</code></pre>
+            </div>
+            
+            <div class="bg-green-50 border border-green-200 p-4 rounded-lg mt-2">
+                <strong class="text-green-800">Response (201 Created):</strong>
+                <pre class="text-green-800 mt-2"><code>{
+    "success": true,
+    "data": {
+        "division_code": "RCS001-IT",
+        "division_name": "ฝ่ายเทคโนโลยีสารสนเทศ",
+        "company_code": "RCS001",
+        "branch_code": "RCS001-BKK",
+        "is_active": true,
+        "created_date": "2024-01-15T10:00:00.000Z",
+        "created_by": "admin"
+    },
+    "message": "Division created successfully"
+}</code></pre>
+            </div>
+            
+            <h3>Create New Department</h3>
+            <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+                <pre><code>POST http://localhost:3001/api/departments
+
+Headers:
+X-API-Key: YOUR_API_KEY
+Content-Type: application/json
+
+Body:
+{
+    "department_code": "RCS001-IT-DEV",
+    "department_name": "แผนกพัฒนาระบบ",
+    "division_code": "RCS001-IT",
+    "is_active": true
+}</code></pre>
+            </div>
+            
+            <div class="bg-green-50 border border-green-200 p-4 rounded-lg mt-2">
+                <strong class="text-green-800">Response (201 Created):</strong>
+                <pre class="text-green-800 mt-2"><code>{
+    "success": true,
+    "data": {
+        "department_code": "RCS001-IT-DEV",
+        "department_name": "แผนกพัฒนาระบบ",
+        "division_code": "RCS001-IT",
+        "is_active": true,
+        "created_date": "2024-01-15T10:15:00.000Z",
+        "created_by": "admin",
+        "division_name": "ฝ่ายเทคโนโลยีสารสนเทศ",
+        "company_code": "RCS001",
+        "branch_code": "RCS001-BKK"
+    },
+    "message": "Department created successfully"
 }</code></pre>
             </div>
             
             <h3>Get Organization Tree</h3>
             <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
-                <pre><code>GET /api/v1/organization-tree?company_code=ABC
+                <pre><code>GET http://localhost:3001/api/organization-tree?company_code=RCS001
 
 Headers:
-X-API-Key: YOUR_API_KEY
-
-Response:
-{
+X-API-Key: YOUR_API_KEY</code></pre>
+            </div>
+            
+            <div class="bg-green-50 border border-green-200 p-4 rounded-lg mt-2">
+                <strong class="text-green-800">Response (200 OK):</strong>
+                <pre class="text-green-800 mt-2"><code>{
     "success": true,
     "data": {
-        "company": {
-            "company_code": "ABC",
-            "company_name_th": "บริษัท เอบีซี จำกัด",
-            "branches": [
-                {
-                    "branch_code": "BKK01",
-                    "branch_name": "สำนักงานใหญ่",
-                    "divisions": [...]
-                }
-            ],
-            "divisions": [
-                {
-                    "division_code": "HR",
-                    "division_name": "Human Resources",
-                    "departments": [...]
-                }
-            ]
-        }
-    }
+        "company_code": "RCS001",
+        "company_name_th": "บริษัท รุ่งชัยเย็นแข็ง จำกัด",
+        "company_name_en": "Ruxchai Cold Storage Co., Ltd.",
+        "branches": [
+            {
+                "branch_code": "RCS001-BKK",
+                "branch_name": "สาขากรุงเทพฯ",
+                "is_headquarters": true,
+                "divisions": [
+                    {
+                        "division_code": "RCS001-IT",
+                        "division_name": "ฝ่ายเทคโนโลยีสารสนเทศ",
+                        "departments": [
+                            {
+                                "department_code": "RCS001-IT-DEV",
+                                "department_name": "แผนกพัฒนาระบบ"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "message": "Organization tree retrieved successfully"
+}</code></pre>
+            </div>
+            
+            <h3>Search Across Organization</h3>
+            <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+                <pre><code>GET http://localhost:3001/api/search?q=รุ่งชัย&limit=5
+
+Headers:
+X-API-Key: YOUR_API_KEY</code></pre>
+            </div>
+            
+            <div class="bg-green-50 border border-green-200 p-4 rounded-lg mt-2">
+                <strong class="text-green-800">Response (200 OK):</strong>
+                <pre class="text-green-800 mt-2"><code>{
+    "success": true,
+    "data": {
+        "companies": [
+            {
+                "company_code": "RCS001",
+                "company_name_th": "บริษัท รุ่งชัยเย็นแข็ง จำกัด",
+                "type": "company"
+            }
+        ],
+        "branches": [
+            {
+                "branch_code": "RCS001-BKK",
+                "branch_name": "สาขากรุงเทพฯ",
+                "company_name": "รุ่งชัยเย็นแข็ง",
+                "type": "branch"
+            }
+        ],
+        "divisions": [],
+        "departments": [],
+        "total_results": 2
+    },
+    "message": "Search completed successfully"
 }</code></pre>
             </div>
             
