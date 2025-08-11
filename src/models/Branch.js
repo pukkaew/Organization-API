@@ -631,41 +631,7 @@ class Branch {
     }
 
     // Mock data for testing
-    static mockBranches = [
-        {
-            branch_code: 'RUXCHAI-HQ',
-            branch_name: 'สำนักงานใหญ่',
-            company_code: 'RUXCHAI',
-            is_headquarters: true,
-            is_active: true,
-            created_date: '2024-01-15T00:00:00.000Z',
-            created_by: 'admin',
-            updated_date: null,
-            updated_by: null
-        },
-        {
-            branch_code: 'RUXCHAI-BKK',
-            branch_name: 'สาขากรุงเทพ',
-            company_code: 'RUXCHAI',
-            is_headquarters: false,
-            is_active: true,
-            created_date: '2024-01-20T00:00:00.000Z',
-            created_by: 'admin',
-            updated_date: null,
-            updated_by: null
-        },
-        {
-            branch_code: 'COLD001-HQ',
-            branch_name: 'สำนักงานใหญ่',
-            company_code: 'COLD001',
-            is_headquarters: true,
-            is_active: true,
-            created_date: '2024-02-01T00:00:00.000Z',
-            created_by: 'admin',
-            updated_date: null,
-            updated_by: null
-        }
-    ];
+    static mockBranches = [];
 
     static getMockData() {
         return this.mockBranches.map(data => new Branch(data));

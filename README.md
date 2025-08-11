@@ -6,19 +6,25 @@
 
 - 🏢 จัดการข้อมูลโครงสร้างองค์กร 4 ระดับ (บริษัท, สาขา, ฝ่าย, แผนก)
 - 🔌 RESTful API พร้อมระบบ Authentication
-- 🎨 Web Interface สำหรับจัดการข้อมูล
+- 🎨 Modern Web Interface ด้วย Tailwind CSS
 - 🔐 ระบบจัดการ API Keys และ Permissions
-- 📊 Dashboard แสดงสถิติการใช้งาน
+- 📊 Real-time Dashboard แสดงสถิติการใช้งาน
 - 📝 API Logging และ Monitoring
+- 🔍 ระบบค้นหาข้ามทุกระดับ
+- 🔒 Authentication และ Session Management
+- 🌐 Responsive Design รองรับทุกอุปกรณ์
+- ⚡ Performance Optimized พร้อม Caching
 
 ## Tech Stack
 
 - **Backend**: Node.js, Express.js
-- **Database**: Microsoft SQL Server
-- **View Engine**: EJS
-- **CSS Framework**: Tailwind CSS
-- **Authentication**: JWT, API Keys
-- **Testing**: Jest, Supertest
+- **Database**: Microsoft SQL Server 2019+
+- **View Engine**: EJS Templates
+- **Frontend**: Tailwind CSS, Font Awesome
+- **Authentication**: Session-based + API Keys
+- **Caching**: In-memory Cache
+- **Logging**: Winston Logger
+- **Security**: Rate Limiting, XSS Protection
 
 ## Prerequisites
 
@@ -41,17 +47,33 @@ npm install
 
 3. Setup environment variables
 ```bash
-cp .env.example .env
-# แก้ไขค่าต่างๆ ใน .env file
+# สร้างไฟล์ .env และตั้งค่าดังนี้:
+PORT=3001
+NODE_ENV=development
+
+# Database Configuration
+DB_TYPE=mssql
+USE_DATABASE=true
+FORCE_MSSQL=true
+
+# MSSQL Server Configuration
+DB_SERVER=your-mssql-server
+DB_PORT=1433
+DB_DATABASE=OrgStructureDB
+DB_USER=sa
+DB_PASSWORD=your-password
+
+# Session Configuration
+SESSION_SECRET=your-session-secret-key
+JWT_SECRET=your-jwt-secret-key
 ```
 
-4. Create database
+4. Database Setup
 ```bash
-# รัน SQL scripts ใน database/scripts/ ตามลำดับ:
-# 1. create-database.sql
-# 2. create-tables.sql
-# 3. create-indexes.sql
-# 4. create-constraints.sql
+# ระบบรองรับ MSSQL Server
+# ตรวจสอบให้แน่ใจว่า MSSQL Server พร้อมใช้งาน
+# และมีฐานข้อมูล OrgStructureDB พร้อมตารางที่จำเป็น:
+# - Companies, Branches, Divisions, Departments, API_Keys, API_Logs
 ```
 
 5. Run application
@@ -61,6 +83,17 @@ npm run dev
 
 # Production mode
 npm start
+```
+
+6. Access the application
+```
+- Web Interface: http://localhost:3001
+- API Endpoint: http://localhost:3001/api
+- API Documentation: http://localhost:3001/docs
+
+Default Login:
+- Username: admin
+- Password: admin123
 ```
 
 ## Project Structure
@@ -87,7 +120,7 @@ npm start
 
 ### Base URL
 ```
-http://localhost:3001/api/v1
+http://localhost:3001/api
 ```
 
 ### Authentication
@@ -163,8 +196,29 @@ npm run test:coverage
 
 ISC
 
+## Current Status
+
+ระบบพร้อมใช้งาน! 
+
+**System Information:**
+- 🌐 **Server**: Running on Port 3001
+- 🗄️ **Database**: MSSQL Server Connected
+- 🧹 **Data**: Clean Database (No test data)
+- 📊 **Dashboard**: Real-time Statistics
+- 🔑 **API Keys**: Management Ready
+- 🔍 **Search**: Cross-level Search Available
+
+## Quick Start
+
+1. เริ่มต้นใช้งาน: http://localhost:3001
+2. Login ด้วย: admin / admin123  
+3. สร้างบริษัทแรก จาก Dashboard → "เพิ่มบริษัท"
+4. เพิ่มสาขา, ฝ่าย, แผนก ตามลำดับ
+5. จัดการ API Keys สำหรับเชื่อมต่อระบบอื่น
+
 ## Support
 
 สำหรับคำถามหรือปัญหา กรุณาติดต่อ:
-- Email: support@organization.com
-- Documentation: /docs
+- 📧 Email: support@organization.com  
+- 📚 Documentation: http://localhost:3001/docs
+- 🔧 System Status: http://localhost:3001 (Dashboard)

@@ -1,0 +1,287 @@
+/* Documentation Page Visibility Fixes */
+
+/* Improve table header contrast */
+.docs-page thead th {
+    background-color: #1f2937 !important; /* Dark gray background */
+    color: #ffffff !important; /* White text */
+    font-weight: 600 !important;
+    border-bottom: 2px solid #374151 !important;
+}
+
+/* Make table text more visible */
+.docs-page tbody td {
+    color: #111827 !important; /* Very dark gray for high contrast */
+    font-weight: 400 !important;
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #e5e7eb !important;
+}
+
+/* Enhance code blocks visibility */
+.docs-page .bg-gray-900 {
+    background-color: #1a1a2e !important; /* Deep dark blue-gray */
+    border: 2px solid #16213e !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+.docs-page .text-gray-100 {
+    color: #f8fafc !important; /* Very light text */
+    font-weight: 500 !important;
+}
+
+/* Improve section headers visibility */
+.docs-page h1, .docs-page h2, .docs-page h3 {
+    color: #111827 !important; /* Very dark text */
+    font-weight: 700 !important;
+    text-shadow: none !important;
+}
+
+/* Fix method badges */
+.docs-page .bg-green-100 {
+    background-color: #065f46 !important; /* Dark green */
+    color: #ffffff !important; /* White text */
+    font-weight: 600 !important;
+    padding: 4px 8px !important;
+    border-radius: 6px !important;
+    border: 1px solid #047857 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+.docs-page .bg-blue-100 {
+    background-color: #1e3a8a !important; /* Even darker blue */
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    padding: 4px 8px !important;
+    border-radius: 6px !important;
+    border: 1px solid #1e40af !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Specific fix for POST badges */
+.docs-page span.bg-blue-100.text-blue-800 {
+    background-color: #1e3a8a !important; /* Very dark blue */
+    color: #ffffff !important;
+    border: 2px solid #1d4ed8 !important;
+    font-weight: 700 !important;
+    text-shadow: none !important;
+    min-width: 50px !important;
+    display: inline-block !important;
+    text-align: center !important;
+}
+
+.docs-page .bg-yellow-100 {
+    background-color: #d97706 !important; /* Dark orange */
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    padding: 4px 8px !important;
+    border-radius: 6px !important;
+}
+
+.docs-page .bg-purple-100 {
+    background-color: #7c3aed !important; /* Dark purple */
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    padding: 4px 8px !important;
+    border-radius: 6px !important;
+}
+
+.docs-page .bg-red-100 {
+    background-color: #dc2626 !important; /* Dark red */
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    padding: 4px 8px !important;
+    border-radius: 6px !important;
+}
+
+/* Fix text colors in method badges */
+.docs-page .text-green-800,
+.docs-page .text-blue-800,
+.docs-page .text-yellow-800,
+.docs-page .text-purple-800,
+.docs-page .text-red-800 {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    text-shadow: none !important;
+}
+
+/* Additional POST badge fixes */
+.docs-page span[class*="bg-blue"] {
+    background-color: #1e3a8a !important; /* Very dark blue */
+    color: #ffffff !important;
+    border: 2px solid #1d4ed8 !important;
+    font-weight: 700 !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Force POST visibility */
+.docs-page td span:contains("POST"),
+.docs-page span:contains("POST") {
+    background-color: #1e3a8a !important;
+    color: #ffffff !important;
+    border: 2px solid #3b82f6 !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+}
+
+/* Improve font mono visibility */
+.docs-page .font-mono {
+    color: #1f2937 !important; /* Dark gray */
+    background-color: #f3f4f6 !important; /* Light gray background */
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-weight: 500 !important;
+}
+
+/* Enhance section background colors */
+.docs-page .bg-ruxchai-blue {
+    background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%) !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+    border: 2px solid #1e3a8a !important;
+    font-weight: 700 !important;
+}
+
+.docs-page .bg-ruxchai-green {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+    border: 2px solid #047857 !important;
+    font-weight: 700 !important;
+}
+
+.docs-page .bg-ruxchai-primary {
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+    border: 2px solid #6d28d9 !important;
+    font-weight: 700 !important;
+}
+
+/* Extra fix for API Keys Management header */
+.docs-page div[class*="bg-ruxchai"] h3 {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 1.125rem !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Alternative fix using different selector */
+.docs-page .text-white {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+/* Ultimate method badge fix - more specific selectors */
+.docs-page tbody td:first-child span {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    text-shadow: none !important;
+    border: 2px solid transparent !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Specific color overrides for each method */
+.docs-page tbody td:first-child span[class*="bg-green"] {
+    background-color: #16a34a !important; /* Bright green */
+    border-color: #15803d !important;
+}
+
+.docs-page tbody td:first-child span[class*="bg-blue"] {
+    background-color: #2563eb !important; /* Bright blue */
+    border-color: #1d4ed8 !important;
+}
+
+.docs-page tbody td:first-child span[class*="bg-yellow"] {
+    background-color: #ea580c !important; /* Bright orange */
+    border-color: #dc2626 !important;
+}
+
+.docs-page tbody td:first-child span[class*="bg-purple"] {
+    background-color: #9333ea !important; /* Bright purple */
+    border-color: #7c3aed !important;
+}
+
+.docs-page tbody td:first-child span[class*="bg-red"] {
+    background-color: #dc2626 !important; /* Bright red */
+    border-color: #b91c1c !important;
+}
+
+/* Fix Base URL and code examples */
+.docs-page .bg-gray-100 {
+    background-color: #f9fafb !important;
+    border: 2px solid #e5e7eb !important;
+    color: #111827 !important;
+    font-weight: 600 !important;
+}
+
+/* Improve table borders */
+.docs-page table {
+    border: 2px solid #374151 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Fix info box */
+.docs-page .bg-blue-50 {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
+    border: 2px solid #3b82f6 !important;
+    border-radius: 8px !important;
+}
+
+.docs-page .text-blue-800 {
+    color: #1e40af !important;
+    font-weight: 600 !important;
+}
+
+.docs-page .text-blue-700 {
+    color: #1d4ed8 !important;
+    font-weight: 500 !important;
+}
+
+.docs-page .text-blue-400 {
+    color: #2563eb !important;
+}
+
+/* Fix paragraph text */
+.docs-page p {
+    color: #374151 !important;
+    line-height: 1.6 !important;
+    font-weight: 400 !important;
+}
+
+/* Fix list items */
+.docs-page ul li {
+    color: #374151 !important;
+    font-weight: 400 !important;
+    margin-bottom: 0.25rem !important;
+}
+
+.docs-page ul li code {
+    background-color: #f3f4f6 !important;
+    color: #1f2937 !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+}
+
+/* Enhance lead text */
+.docs-page .lead {
+    color: #4b5563 !important;
+    font-size: 1.125rem !important;
+    font-weight: 500 !important;
+    line-height: 1.5 !important;
+}
+
+/* Fix underlined links */
+.docs-page .underline {
+    text-decoration: underline !important;
+    color: #2563eb !important;
+    font-weight: 600 !important;
+}
+
+.docs-page .underline:hover {
+    color: #1d4ed8 !important;
+    text-decoration: none !important;
+}

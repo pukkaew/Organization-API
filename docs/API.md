@@ -7,7 +7,7 @@ The Organization Structure Management System provides a comprehensive RESTful AP
 ## Base URL
 
 ```
-http://localhost:3001/api/v1
+http://localhost:3001/api
 ```
 
 ## Authentication
@@ -84,7 +84,7 @@ Retrieve a list of all companies with optional filtering and pagination.
 
 **Example Request:**
 ```http
-GET /api/v1/companies?page=1&limit=10&search=ABC&is_active=true
+GET /api/companies?page=1&limit=10&search=ABC&is_active=true
 X-API-Key: your-api-key
 ```
 
@@ -531,7 +531,7 @@ Get organization statistics and summary data.
 
 1. **Create Company:**
 ```http
-POST /api/v1/companies
+POST /api/companies
 Content-Type: application/json
 X-API-Key: your-api-key
 
@@ -545,7 +545,7 @@ X-API-Key: your-api-key
 
 2. **Create Branch:**
 ```http
-POST /api/v1/branches
+POST /api/branches
 Content-Type: application/json
 X-API-Key: your-api-key
 
@@ -559,7 +559,7 @@ X-API-Key: your-api-key
 
 3. **Create Division:**
 ```http
-POST /api/v1/divisions
+POST /api/divisions
 Content-Type: application/json
 X-API-Key: your-api-key
 
@@ -573,7 +573,7 @@ X-API-Key: your-api-key
 
 4. **Create Department:**
 ```http
-POST /api/v1/departments
+POST /api/departments
 Content-Type: application/json
 X-API-Key: your-api-key
 
@@ -601,5 +601,5 @@ X-API-Key: your-api-key
 
 For API support and questions:
 - **Documentation**: Available at `/docs` endpoint
-- **Status**: Check system status at `/api/v1/statistics`
+- **Status**: Check system status at `/api/statistics`
 - **Issues**: Report issues through the web interface

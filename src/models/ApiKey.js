@@ -401,32 +401,7 @@ class ApiKey {
     }
 
     // Mock data for development/testing
-    static mockApiKeys = [
-        {
-            api_key_id: 1,
-            api_key_hash: '$2a$10$test.hash.for.development',
-            app_name: 'Development Key',
-            description: 'API key for development and testing',
-            permissions: 'read_write',
-            is_active: true,
-            created_date: new Date('2024-01-01'),
-            created_by: 'system',
-            expires_date: null,
-            raw_key: 'test-api-key-12345' // For development only
-        },
-        {
-            api_key_id: 2,
-            api_key_hash: '$2a$10$another.test.hash',
-            app_name: 'Read Only Key',
-            description: 'Read-only access key',
-            permissions: 'read',
-            is_active: true,
-            created_date: new Date('2024-01-15'),
-            created_by: 'admin',
-            expires_date: null,
-            raw_key: 'read-only-key-67890'
-        }
-    ];
+    static mockApiKeys = [];
 
     static authenticateMock(apiKey) {
         const mockKey = this.mockApiKeys.find(key => 

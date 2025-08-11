@@ -649,41 +649,7 @@ class Division {
     }
 
     // Mock data for testing
-    static mockDivisions = [
-        {
-            division_code: 'RUXCHAI-DIV01',
-            division_name: 'ฝ่ายขาย',
-            company_code: 'RUXCHAI',
-            branch_code: 'RUXCHAI-HQ',
-            is_active: true,
-            created_date: '2024-01-16T00:00:00.000Z',
-            created_by: 'admin',
-            updated_date: null,
-            updated_by: null
-        },
-        {
-            division_code: 'RUXCHAI-DIV02',
-            division_name: 'ฝ่ายการเงิน',
-            company_code: 'RUXCHAI',
-            branch_code: 'RUXCHAI-HQ',
-            is_active: true,
-            created_date: '2024-01-16T00:00:00.000Z',
-            created_by: 'admin',
-            updated_date: null,
-            updated_by: null
-        },
-        {
-            division_code: 'COLD001-DIV01',
-            division_name: 'ฝ่ายโลจิสติกส์',
-            company_code: 'COLD001',
-            branch_code: 'COLD001-HQ',
-            is_active: true,
-            created_date: '2024-02-02T00:00:00.000Z',
-            created_by: 'admin',
-            updated_date: null,
-            updated_by: null
-        }
-    ];
+    static mockDivisions = [];
 
     static getMockData() {
         return this.mockDivisions.map(data => new Division(data));

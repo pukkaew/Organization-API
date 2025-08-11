@@ -602,48 +602,7 @@ class Department {
     }
 
     // Mock data for testing
-    static mockDepartments = [
-        {
-            department_code: 'RUXCHAI-DEPT01',
-            department_name: 'แผนกขายในประเทศ',
-            division_code: 'RUXCHAI-DIV01',
-            is_active: true,
-            created_date: '2024-01-17T00:00:00.000Z',
-            created_by: 'admin',
-            updated_date: null,
-            updated_by: null
-        },
-        {
-            department_code: 'RUXCHAI-DEPT02',
-            department_name: 'แผนกขายต่างประเทศ',
-            division_code: 'RUXCHAI-DIV01',
-            is_active: true,
-            created_date: '2024-01-17T00:00:00.000Z',
-            created_by: 'admin',
-            updated_date: null,
-            updated_by: null
-        },
-        {
-            department_code: 'RUXCHAI-DEPT03',
-            department_name: 'แผนกบัญชี',
-            division_code: 'RUXCHAI-DIV02',
-            is_active: true,
-            created_date: '2024-01-17T00:00:00.000Z',
-            created_by: 'admin',
-            updated_date: null,
-            updated_by: null
-        },
-        {
-            department_code: 'COLD001-DEPT01',
-            department_name: 'แผนกขนส่ง',
-            division_code: 'COLD001-DIV01',
-            is_active: true,
-            created_date: '2024-02-03T00:00:00.000Z',
-            created_by: 'admin',
-            updated_date: null,
-            updated_by: null
-        }
-    ];
+    static mockDepartments = [];
 
     static getMockData() {
         return this.mockDepartments.map(data => new Department(data));

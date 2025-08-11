@@ -70,95 +70,9 @@ class OrganizationService {
      */
     static async getRecentActivities(limit = 10) {
         try {
-            // Generate dynamic times based on current time
-            const now = new Date();
-            const getTimeAgo = (minutes) => {
-                const date = new Date(now.getTime() - minutes * 60 * 1000);
-                const diff = Math.floor((now - date) / 1000);
-                
-                if (diff < 60) return `${diff} วินาทีที่แล้ว`;
-                if (diff < 3600) return `${Math.floor(diff / 60)} นาทีที่แล้ว`;
-                if (diff < 86400) return `${Math.floor(diff / 3600)} ชั่วโมงที่แล้ว`;
-                return `${Math.floor(diff / 86400)} วันที่แล้ว`;
-            };
-            
-            // Enhanced activities with more variety and realistic data
-            const activities = [
-                {
-                    id: 1,
-                    type: 'create',
-                    description: 'สร้าง API Key ใหม่ <span class="font-mono bg-blue-100 px-2 py-1 rounded text-blue-700">RC_MMS_2024</span>',
-                    user: 'admin',
-                    time: getTimeAgo(3),
-                    icon: 'key',
-                    detail: 'สำหรับระบบ RC MMS với สิทธิ์ Read Only'
-                },
-                {
-                    id: 2,
-                    type: 'create',
-                    description: 'เพิ่มบริษัทใหม่ <span class="font-semibold text-ruxchai-blue">บริษัท รุ่งชัยเทคโนโลยี จำกัด</span>',
-                    user: 'admin',
-                    time: getTimeAgo(35),
-                    icon: 'building',
-                    detail: 'รหัสบริษัท: RCT001 | เลขประจำตัวผู้เสียภาษี: 0123456789012'
-                },
-                {
-                    id: 3,
-                    type: 'update',
-                    description: 'แก้ไขข้อมูล <span class="font-semibold text-ruxchai-green">สาขาลาดพร้าว</span>',
-                    user: 'manager.lprao',
-                    time: getTimeAgo(67),
-                    icon: 'code-branch',
-                    detail: 'อัปเดตที่อยู่และเบอร์โทรศัพท์ติดต่อ'
-                },
-                {
-                    id: 4,
-                    type: 'create',
-                    description: 'จัดตั้งฝ่ายใหม่ <span class="font-semibold text-purple-600">ฝ่ายเทคโนโลยีสารสนเทศ</span>',
-                    user: 'hr.admin',
-                    time: getTimeAgo(125),
-                    icon: 'sitemap',
-                    detail: 'ภายใต้สาขาสำนักงานใหญ่ | รหัสฝ่าย: IT001'
-                },
-                {
-                    id: 5,
-                    type: 'update',
-                    description: 'เปลี่ยนสถานะ API Key <span class="font-mono bg-red-100 px-2 py-1 rounded text-red-700">OLD_SYSTEM_KEY</span>',
-                    user: 'admin',
-                    time: getTimeAgo(189),
-                    icon: 'toggle-off',
-                    detail: 'ปิดใช้งาน API Key เก่าเพื่อความปลอดภัย'
-                },
-                {
-                    id: 6,
-                    type: 'create',
-                    description: 'เพิ่มแผนกใหม่ <span class="font-semibold text-orange-600">แผนกพัฒนาระบบ</span>',
-                    user: 'hr.admin',
-                    time: getTimeAgo(245),
-                    icon: 'users',
-                    detail: 'ภายใต้ฝ่ายเทคโนโลยีสารสนเทศ | รหัสแผนก: IT001-DEV'
-                },
-                {
-                    id: 7,
-                    type: 'delete',
-                    description: 'ลบ API Key <span class="font-mono bg-gray-100 px-2 py-1 rounded text-gray-700">TEST_KEY_2023</span>',
-                    user: 'admin',
-                    time: getTimeAgo(312),
-                    icon: 'trash-alt',
-                    detail: 'API Key ทดสอบที่หมดอายุการใช้งาน'
-                },
-                {
-                    id: 8,
-                    type: 'update',
-                    description: 'อัปเดตข้อมูลบริษัท <span class="font-semibold text-ruxchai-blue">Ruxchai Cold Storage</span>',
-                    user: 'super.admin',
-                    time: getTimeAgo(425),
-                    icon: 'edit',
-                    detail: 'เปลี่ยนแปลงข้อมูลการติดต่อและที่อยู่จดทะเบียน'
-                }
-            ];
-
-            return activities.slice(0, limit);
+            // For now, return empty array since we want clean database state
+            // In production, this should query actual activity logs from database
+            return [];
         } catch (error) {
             logger.error('Error getting recent activities:', error);
             return [];

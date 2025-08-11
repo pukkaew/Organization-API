@@ -460,41 +460,7 @@ class Company {
     }
 
     // Mock data for development/testing
-    static mockCompanies = [
-        {
-            company_code: 'RUXCHAI',
-            company_name_th: 'บริษัท รักษ์ชายธุรกิจ จำกัด',
-            company_name_en: 'Ruxchai Business Company Limited',
-            tax_id: '0105561234567',
-            is_active: true,
-            created_date: new Date('2024-01-15'),
-            created_by: 'admin',
-            updated_date: null,
-            updated_by: null
-        },
-        {
-            company_code: 'COLD001',
-            company_name_th: 'บริษัท รักษ์ชาย โคลสโตเรจ จำกัด',
-            company_name_en: 'Ruxchai Cold Storage Company Limited',
-            tax_id: '0105567890123',
-            is_active: true,
-            created_date: new Date('2024-02-01'),
-            created_by: 'admin',
-            updated_date: new Date('2024-02-15'),
-            updated_by: 'admin'
-        },
-        {
-            company_code: 'LOGISTICS',
-            company_name_th: 'บริษัท รักษ์ชาย โลจิสติกส์ จำกัด',
-            company_name_en: 'Ruxchai Logistics Company Limited',
-            tax_id: '0105512345678',
-            is_active: false,
-            created_date: new Date('2024-03-01'),
-            created_by: 'admin',
-            updated_date: new Date('2024-03-10'),
-            updated_by: 'admin'
-        }
-    ];
+    static mockCompanies = [];
 
     static getMockData() {
         return this.mockCompanies.map(data => new Company(data));
