@@ -48,7 +48,6 @@ let mockApiKeysStore = [
 const showApiKeysPage = asyncHandler(async (req, res) => {
     try {
         console.log('\n=== SHOW API KEYS PAGE CALLED ===');
-        console.log('Current deletedApiKeys:', deletedApiKeys);
         const { page, limit } = getPaginationParams(req);
         const filters = {
             is_active: req.query.is_active,
@@ -71,13 +70,16 @@ const showApiKeysPage = asyncHandler(async (req, res) => {
                 };
             });
         } else {
-            // Use persistent global store instead of creating new mock data each time
-            console.log('\n=== SHOW API KEYS PAGE - USING GLOBAL STORE ===');
-            console.log('Current mockApiKeysStore count:', mockApiKeysStore.length);
-            console.log('Current deletedApiKeys:', deletedApiKeys);
+            // Use ApiKey model's mock data directly
+            console.log('\n=== SHOW API KEYS PAGE - USING MODEL MOCK DATA ===');
+            console.log('ApiKey.mockApiKeys count:', ApiKey.mockApiKeys.length);
             
-            // Use the global store directly (it already has items removed by delete)
-            apiKeysWithStats = [...mockApiKeysStore]; // Create a copy
+            // Get all API keys from the model and add usage stats
+            apiKeysWithStats = ApiKey.mockApiKeys.map((apiKey) => ({
+                ...apiKey,
+                usage_count: Math.floor(Math.random() * 1000),
+                last_used_date: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000)
+            }));
             
             console.log('Final API Keys count:', apiKeysWithStats.length);
             console.log('=== END SHOW API KEYS PAGE ===\n');
@@ -437,23 +439,18 @@ const handleDeleteApiKey = asyncHandler(async (req, res) => {
         console.log('Parsed API Key ID:', apiKeyId);
         logger.info(`Delete API Key request for ID: ${apiKeyId}`);
         
-        // Remove from global store directly
-        console.log('\n=== DELETING FROM GLOBAL STORE ===');
-        console.log('Before delete - mockApiKeysStore count:', mockApiKeysStore.length);
+        // Remove from model's mock store directly
+        console.log('\n=== DELETING FROM MODEL MOCK STORE ===');
+        console.log('Before delete - ApiKey.mockApiKeys count:', ApiKey.mockApiKeys.length);
         console.log('Deleting API Key ID:', apiKeyId);
         
-        const initialLength = mockApiKeysStore.length;
-        mockApiKeysStore = mockApiKeysStore.filter(key => key.api_key_id !== apiKeyId);
-        const finalLength = mockApiKeysStore.length;
+        const initialLength = ApiKey.mockApiKeys.length;
+        ApiKey.mockApiKeys = ApiKey.mockApiKeys.filter(key => key.api_key_id !== apiKeyId);
+        const finalLength = ApiKey.mockApiKeys.length;
         
-        console.log('After delete - mockApiKeysStore count:', finalLength);
+        console.log('After delete - ApiKey.mockApiKeys count:', finalLength);
         console.log('Successfully deleted:', initialLength > finalLength);
-        console.log('=== END DELETE FROM GLOBAL STORE ===\n');
-        
-        // Also add to deleted array for backup
-        if (!deletedApiKeys.includes(apiKeyId)) {
-            deletedApiKeys.push(apiKeyId);
-        }
+        console.log('=== END DELETE FROM MODEL MOCK STORE ===\n');
         
         const username = req.user?.username || 'admin';
         logger.info(`API Key ID ${apiKeyId} marked as deleted by ${username}`);
