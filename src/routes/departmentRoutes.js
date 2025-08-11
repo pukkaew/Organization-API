@@ -7,12 +7,7 @@ const departmentController = require('../controllers/departmentController');
 router.get('/', departmentController.showDepartmentsPage);
 
 // Display create form (ต้องอยู่ก่อน /:code)
-router.get('/new', (req, res) => {
-    res.render('departments/create', { 
-        title: 'Create Department',
-        csrfToken: req.csrfToken ? req.csrfToken() : null
-    });
-});
+router.get('/new', departmentController.showCreateDepartmentForm);
 router.get('/create', departmentController.showCreateDepartmentForm); // เพิ่ม route มาตรฐาน
 
 // Create department
@@ -31,5 +26,8 @@ router.post('/:code/toggle-status', departmentController.handleToggleStatus);
 // Delete department
 router.delete('/:code', departmentController.handleDeleteDepartment);
 router.post('/:code/delete', departmentController.handleDeleteDepartment); // Backup for method-override
+
+// AJAX endpoint to get divisions by company
+router.get('/company/:companyCode/divisions', departmentController.getDivisionsByCompany);
 
 module.exports = router;

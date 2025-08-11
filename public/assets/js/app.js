@@ -472,8 +472,25 @@ window.OrgSystem = {
 };
 
 // Utility functions for common tasks
-function confirmDelete(message = 'Are you sure you want to delete this item?') {
-  return confirm(message);
+function confirmDelete(code, entityType) {
+  console.log('confirmDelete called with:', code, entityType);
+  
+  const entityNames = {
+    'company': 'บริษัท',
+    'companies': 'บริษัท',
+    'branch': 'สาขา',
+    'branches': 'สาขา',
+    'division': 'ฝ่าย',
+    'divisions': 'ฝ่าย',
+    'department': 'แผนก',
+    'departments': 'แผนก'
+  };
+  
+  const entityName = entityNames[entityType] || entityType;
+  const message = `คุณแน่ใจหรือไม่ที่ต้องการลบ${entityName} ${code}?\n\nการดำเนินการนี้ไม่สามารถยกเลิกได้`;
+  const result = confirm(message);
+  console.log('User confirmed:', result);
+  return result;
 }
 
 function formatDate(dateString) {

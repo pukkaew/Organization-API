@@ -7,12 +7,7 @@ const divisionController = require('../controllers/divisionController');
 router.get('/', divisionController.showDivisionsPage);
 
 // Display create form (ต้องอยู่ก่อน /:code)
-router.get('/new', (req, res) => {
-    res.render('divisions/create', { 
-        title: 'Create Division',
-        csrfToken: req.csrfToken ? req.csrfToken() : null
-    });
-});
+router.get('/new', divisionController.showCreateDivisionForm);
 router.get('/create', divisionController.showCreateDivisionForm); // เพิ่ม route มาตรฐาน
 
 // Create division
@@ -31,5 +26,8 @@ router.post('/:code/toggle-status', divisionController.handleToggleStatus);
 // Delete division
 router.delete('/:code', divisionController.handleDeleteDivision);
 router.post('/:code/delete', divisionController.handleDeleteDivision); // Backup for method-override
+
+// AJAX endpoint to get branches by company
+router.get('/company/:companyCode/branches', divisionController.getBranchesByCompany);
 
 module.exports = router;

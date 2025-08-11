@@ -224,7 +224,7 @@
         
         if (companyCode) {
             // Fetch branches for selected company
-            fetch(\`/api/companies/\${companyCode}/branches\`)
+            fetch(\`/ajax/companies/\${companyCode}/branches\`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success && data.data) {

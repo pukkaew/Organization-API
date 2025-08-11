@@ -155,26 +155,25 @@ const handleCreateApiKey = asyncHandler(async (req, res) => {
             return res.redirect('/api-keys/new');
         }
 
-        // Generate a unique API key
-        const crypto = require('crypto');
-        const newApiKey = crypto.randomBytes(24).toString('hex');
-        
         const apiKeyData = {
-            api_key_id: Date.now().toString(), // Simple ID generation
             app_name: req.body.app_name.trim(),
             description: req.body.description ? req.body.description.trim() : '',
             permissions: req.body.permissions || 'read',
             expires_date: req.body.expires_date || null,
             is_active: true,
-            created_by: req.user?.username || 'admin',
-            created_date: new Date(),
-            actual_key: `rcs_${newApiKey}` // Prefix for Ruxchai Cold Storage
+            created_by: req.user?.username || 'admin'
         };
 
+        console.log('=== CREATE API KEY DEBUG ===');
+        console.log('Request body:', req.body);
+        console.log('Generated API key data:', apiKeyData);
+        
         logger.info('Creating API key with data:', { app_name: apiKeyData.app_name, permissions: apiKeyData.permissions });
 
         const apiKey = new ApiKey(apiKeyData);
-        await apiKey.create();
+        console.log('About to call apiKey.create()');
+        const result = await apiKey.create();
+        console.log('Create result:', result);
         
         logger.info(`API Key created successfully for app: ${apiKeyData.app_name} by ${apiKeyData.created_by}`);
         
@@ -183,11 +182,13 @@ const handleCreateApiKey = asyncHandler(async (req, res) => {
         }
         
         // Store the API key temporarily in session to show it once
-        req.session.newApiKey = apiKeyData.actual_key;
-        req.session.newApiKeyData = apiKeyData;
+        req.session.newApiKey = result.api_key;
+        req.session.newApiKeyData = result;
+        
+        console.log('Redirecting to:', `/api-keys/${result.api_key_id}/show`);
         
         // Redirect to show the new API key
-        res.redirect(`/api-keys/${apiKeyData.api_key_id}/show`);
+        res.redirect(`/api-keys/${result.api_key_id}/show`);
     } catch (error) {
         logger.error('Error creating API key:', error);
         

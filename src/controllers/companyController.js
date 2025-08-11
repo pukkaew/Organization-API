@@ -502,19 +502,31 @@ const handleToggleStatus = asyncHandler(async (req, res) => {
 // Handle delete company
 const handleDeleteCompany = asyncHandler(async (req, res) => {
     try {
+        console.log('=== DELETE COMPANY REQUEST ===');
+        console.log('Method:', req.method);
+        console.log('Code to delete:', req.params.code);
+        console.log('User:', req.user?.username || 'system');
+        console.log('Body:', req.body);
+        
         const company = await Company.findByCode(req.params.code);
         
         if (!company) {
+            console.log('Company not found:', req.params.code);
             return res.redirect('/companies');
         }
         
+        console.log('Found company:', company.company_code, company.company_name_th);
+        
         // Delete the company
-        await company.delete();
+        const deleteResult = await company.delete();
+        console.log('Delete result:', deleteResult);
         
         logger.info(`Company deleted: ${req.params.code} by ${req.user?.username || 'system'}`);
         
+        console.log('Redirecting to /companies');
         res.redirect('/companies');
     } catch (error) {
+        console.error('Error deleting company:', error);
         logger.error('Error deleting company:', error);
         res.redirect('/companies');
     }

@@ -16,6 +16,7 @@ const divisionRoutes = require('./divisionRoutes');
 const departmentRoutes = require('./departmentRoutes');
 const apiKeyRoutes = require('./apiKeyRoutes');
 
+
 // Store return URL before checking auth
 router.use(storeReturnTo);
 
@@ -35,6 +36,7 @@ router.get('/health', (req, res) => {
         uptime: process.uptime()
     });
 });
+
 
 // Apply auth middleware to all routes below this line
 router.use(requireAuth);
@@ -78,5 +80,20 @@ router.get('/docs', (req, res) => {
         title: 'API Documentation'
     });
 });
+
+// AJAX endpoints (after auth but accessible to authenticated users)
+const Branch = require('../models/Branch');
+const Division = require('../models/Division');
+const { asyncHandler } = require('../middleware/errorHandler');
+
+router.get('/ajax/companies/:companyCode/branches', asyncHandler(async (req, res) => {
+    const branches = await Branch.findByCompany(req.params.companyCode);
+    res.json({ success: true, data: branches });
+}));
+
+router.get('/ajax/companies/:companyCode/divisions', asyncHandler(async (req, res) => {
+    const divisions = await Division.findByCompany(req.params.companyCode);
+    res.json({ success: true, data: divisions });
+}));
 
 module.exports = router;

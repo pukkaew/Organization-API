@@ -554,6 +554,33 @@ class Company {
         return new Company(this.mockCompanies[index]);
     }
 
+    async deleteMock() {
+        const index = Company.mockCompanies.findIndex(c => c.company_code === this.company_code);
+        if (index === -1) {
+            throw new Error('Company not found');
+        }
+
+        // Remove from mock array
+        const deleted = Company.mockCompanies.splice(index, 1)[0];
+        
+        // Also remove related data from other models if they exist
+        if (typeof Branch !== 'undefined' && Branch.mockBranches) {
+            Branch.mockBranches = Branch.mockBranches.filter(b => b.company_code !== this.company_code);
+        }
+        if (typeof Division !== 'undefined' && Division.mockDivisions) {
+            Division.mockDivisions = Division.mockDivisions.filter(d => d.company_code !== this.company_code);
+        }
+        if (typeof Department !== 'undefined' && Department.mockDepartments) {
+            // Remove departments that belong to divisions of this company
+            Department.mockDepartments = Department.mockDepartments.filter(dept => {
+                const division = Division.mockDivisions.find(div => div.division_code === dept.division_code);
+                return !division || division.company_code !== this.company_code;
+            });
+        }
+
+        return { company_code: deleted.company_code };
+    }
+
     static getMockPaginated(page = 1, limit = 20, filters = {}) {
         let filteredData = this.getMockData();
 

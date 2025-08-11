@@ -104,12 +104,11 @@ class Division {
                 const branch = mockDivision.branch_code ? 
                     Branch.mockBranches.find(b => b.branch_code === mockDivision.branch_code) : null;
                 
-                return {
-                    ...new Division(mockDivision),
-                    company_name_th: company?.company_name_th || '',
-                    company_name_en: company?.company_name_en || '',
-                    branch_name: branch?.branch_name || null
-                };
+                const division = new Division(mockDivision);
+                division.company_name_th = company?.company_name_th || '';
+                division.company_name_en = company?.company_name_en || '';
+                division.branch_name = branch?.branch_name || null;
+                return division;
             }
             
             const query = `
@@ -131,12 +130,11 @@ class Division {
             }
             
             const row = result.recordset[0];
-            return {
-                ...new Division(row),
-                company_name_th: row.company_name_th,
-                company_name_en: row.company_name_en,
-                branch_name: row.branch_name
-            };
+            const division = new Division(row);
+            division.company_name_th = row.company_name_th;
+            division.company_name_en = row.company_name_en;
+            division.branch_name = row.branch_name;
+            return division;
         } catch (error) {
             logger.error('Error in Division.findByCode:', error);
             throw error;

@@ -112,15 +112,14 @@ class Department {
                 const branch = division?.branch_code ? 
                     Branch.mockBranches.find(b => b.branch_code === division.branch_code) : null;
                 
-                return {
-                    ...new Department(mockDepartment),
-                    division_name: division?.division_name || '',
-                    company_code: division?.company_code || '',
-                    branch_code: division?.branch_code || null,
-                    company_name_th: company?.company_name_th || '',
-                    company_name_en: company?.company_name_en || '',
-                    branch_name: branch?.branch_name || null
-                };
+                const department = new Department(mockDepartment);
+                department.division_name = division?.division_name || '';
+                department.company_code = division?.company_code || '';
+                department.branch_code = division?.branch_code || null;
+                department.company_name_th = company?.company_name_th || '';
+                department.company_name_en = company?.company_name_en || '';
+                department.branch_name = branch?.branch_name || null;
+                return department;
             }
             
             const query = `
@@ -144,15 +143,14 @@ class Department {
             }
             
             const row = result.recordset[0];
-            return {
-                ...new Department(row),
-                division_name: row.division_name,
-                company_code: row.company_code,
-                branch_code: row.branch_code,
-                company_name_th: row.company_name_th,
-                company_name_en: row.company_name_en,
-                branch_name: row.branch_name
-            };
+            const department = new Department(row);
+            department.division_name = row.division_name;
+            department.company_code = row.company_code;
+            department.branch_code = row.branch_code;
+            department.company_name_th = row.company_name_th;
+            department.company_name_en = row.company_name_en;
+            department.branch_name = row.branch_name;
+            return department;
         } catch (error) {
             logger.error('Error in Department.findByCode:', error);
             throw error;

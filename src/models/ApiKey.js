@@ -175,6 +175,11 @@ class ApiKey {
             const apiKey = ApiKey.generateApiKey();
             const apiKeyHash = await ApiKey.hashApiKey(apiKey);
             
+            // Use mock data if USE_DATABASE is false
+            if (process.env.USE_DATABASE === 'false') {
+                return await this.createMock(apiKey, apiKeyHash);
+            }
+            
             const query = `
                 INSERT INTO API_Keys (
                     api_key, api_key_hash, app_name, description,
@@ -442,6 +447,42 @@ class ApiKey {
             apiKeyId: mockKey.api_key_id,
             appName: mockKey.app_name,
             permissions: mockKey.permissions
+        };
+    }
+
+    // Mock create method
+    async createMock(apiKey, apiKeyHash) {
+        // Find the highest existing ID
+        const maxId = Math.max(...ApiKey.mockApiKeys.map(k => k.api_key_id), 0);
+        const newId = maxId + 1;
+
+        // Create new API key entry
+        const newApiKey = {
+            api_key_id: newId,
+            api_key: apiKey.substring(0, 8) + '...', // Store partial key for reference
+            api_key_hash: apiKeyHash,
+            app_name: this.app_name,
+            description: this.description || '',
+            permissions: this.permissions,
+            is_active: this.is_active !== undefined ? this.is_active : true,
+            expires_date: this.expires_date || null,
+            created_date: new Date().toISOString(),
+            created_by: this.created_by,
+            updated_date: null,
+            updated_by: null,
+            raw_key: apiKey // For mock authentication
+        };
+
+        // Add to mock data
+        ApiKey.mockApiKeys.push(newApiKey);
+        
+        // Set the ID on this instance
+        this.api_key_id = newId;
+        
+        // Return the new API key with the full key (only shown once)
+        return {
+            ...new ApiKey(newApiKey),
+            api_key: apiKey
         };
     }
 }
