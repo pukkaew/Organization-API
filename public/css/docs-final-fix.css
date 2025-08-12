@@ -1,0 +1,578 @@
+/* Final Documentation Fix - Override all conflicts */
+
+/* Critical: Load last to override everything */
+.docs-page {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    line-height: 1.6 !important;
+    color: #1f2937 !important;
+    background: white !important;
+}
+
+/* Force reset all prose and conflicting styles */
+.docs-page *,
+.docs-page .prose *,
+.docs-page .max-w-none *,
+.docs-page .mx-auto * {
+    box-sizing: border-box !important;
+}
+
+/* Headers - Force proper display */
+.docs-page h1,
+.docs-page h2,
+.docs-page h3,
+.docs-page h4,
+.docs-page .prose h1,
+.docs-page .prose h2,
+.docs-page .prose h3,
+.docs-page .prose h4 {
+    display: block !important;
+    font-family: inherit !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    text-align: left !important;
+}
+
+.docs-page h1 { 
+    font-size: 2.5rem !important; 
+    margin-bottom: 1rem !important;
+}
+
+.docs-page h2 { 
+    font-size: 2rem !important; 
+    margin-top: 2rem !important;
+    margin-bottom: 1rem !important;
+}
+
+.docs-page h3 { 
+    font-size: 1.5rem !important; 
+    margin-top: 1.5rem !important;
+    margin-bottom: 1rem !important;
+}
+
+.docs-page h4 { 
+    font-size: 1.25rem !important; 
+    margin-bottom: 1rem !important;
+}
+
+/* Paragraphs - Force proper display */
+.docs-page p,
+.docs-page .prose p {
+    display: block !important;
+    font-family: inherit !important;
+    color: #374151 !important;
+    line-height: 1.7 !important;
+    font-weight: 400 !important;
+    margin-bottom: 1rem !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    text-align: left !important;
+}
+
+.docs-page .lead {
+    color: #6b7280 !important;
+    font-size: 1.125rem !important;
+    font-weight: 500 !important;
+    line-height: 1.6 !important;
+}
+
+/* Tables - Force complete override */
+.docs-page table,
+.docs-page .prose table {
+    display: table !important;
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    border: 2px solid #e5e7eb !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07) !important;
+    background: white !important;
+    margin: 1rem 0 !important;
+    font-family: inherit !important;
+}
+
+.docs-page thead,
+.docs-page .prose thead {
+    display: table-header-group !important;
+    background: #1f2937 !important;
+}
+
+.docs-page thead th,
+.docs-page .prose thead th {
+    display: table-cell !important;
+    background: #1f2937 !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 16px 24px !important;
+    text-align: left !important;
+    font-size: 13px !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase !important;
+    border: none !important;
+    border-bottom: 3px solid #3b82f6 !important;
+    font-family: inherit !important;
+    vertical-align: middle !important;
+}
+
+.docs-page tbody,
+.docs-page .prose tbody {
+    display: table-row-group !important;
+    background: white !important;
+}
+
+.docs-page tbody td,
+.docs-page .prose tbody td {
+    display: table-cell !important;
+    padding: 16px 24px !important;
+    border-bottom: 1px solid #f3f4f6 !important;
+    color: #1f2937 !important;
+    font-weight: 500 !important;
+    vertical-align: middle !important;
+    background: white !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+    font-family: inherit !important;
+    text-align: left !important;
+}
+
+.docs-page tbody tr:hover td {
+    background: #f8fafc !important;
+}
+
+/* Method badges - Override everything */
+.docs-page span[class*="bg-green"],
+.docs-page .bg-green-100 {
+    display: inline-block !important;
+    background: #16a34a !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    border: 2px solid #15803d !important;
+    min-width: 60px !important;
+    text-align: center !important;
+    text-transform: uppercase !important;
+    font-size: 11px !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    font-family: inherit !important;
+    line-height: 1 !important;
+}
+
+.docs-page span[class*="bg-blue"],
+.docs-page .bg-blue-100 {
+    display: inline-block !important;
+    background: #2563eb !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    border: 2px solid #1d4ed8 !important;
+    min-width: 60px !important;
+    text-align: center !important;
+    text-transform: uppercase !important;
+    font-size: 11px !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    font-family: inherit !important;
+    line-height: 1 !important;
+}
+
+.docs-page span[class*="bg-yellow"],
+.docs-page .bg-yellow-100 {
+    display: inline-block !important;
+    background: #ea580c !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    border: 2px solid #dc2626 !important;
+    min-width: 60px !important;
+    text-align: center !important;
+    text-transform: uppercase !important;
+    font-size: 11px !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    font-family: inherit !important;
+    line-height: 1 !important;
+}
+
+.docs-page span[class*="bg-purple"],
+.docs-page .bg-purple-100 {
+    display: inline-block !important;
+    background: #9333ea !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    border: 2px solid #7c3aed !important;
+    min-width: 60px !important;
+    text-align: center !important;
+    text-transform: uppercase !important;
+    font-size: 11px !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    font-family: inherit !important;
+    line-height: 1 !important;
+}
+
+.docs-page span[class*="bg-red"],
+.docs-page .bg-red-100 {
+    display: inline-block !important;
+    background: #dc2626 !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    border: 2px solid #b91c1c !important;
+    min-width: 60px !important;
+    text-align: center !important;
+    text-transform: uppercase !important;
+    font-size: 11px !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    font-family: inherit !important;
+    line-height: 1 !important;
+}
+
+/* Force text colors in badges */
+.docs-page .text-green-800,
+.docs-page .text-blue-800,
+.docs-page .text-yellow-800,
+.docs-page .text-purple-800,
+.docs-page .text-red-800,
+.docs-page span[class*="text-green"],
+.docs-page span[class*="text-blue"],
+.docs-page span[class*="text-yellow"],
+.docs-page span[class*="text-purple"],
+.docs-page span[class*="text-red"] {
+    color: white !important;
+    font-weight: 700 !important;
+}
+
+/* Code blocks */
+.docs-page .bg-gray-900 {
+    display: block !important;
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%) !important;
+    border: 2px solid #4a5568 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    padding: 1.5rem !important;
+    overflow-x: auto !important;
+    margin: 1rem 0 !important;
+}
+
+.docs-page .text-gray-100 {
+    color: #e2e8f0 !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+}
+
+.docs-page code,
+.docs-page .prose code {
+    display: inline !important;
+    background: #f3f4f6 !important;
+    color: #1f2937 !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+    border: 1px solid #d1d5db !important;
+    font-size: 0.875rem !important;
+    font-family: 'Menlo', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace !important;
+}
+
+.docs-page .bg-gray-900 code,
+.docs-page .bg-gray-900 pre {
+    background: transparent !important;
+    color: #e2e8f0 !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.docs-page pre,
+.docs-page .prose pre {
+    display: block !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    font-family: 'Menlo', 'Monaco', 'Cascadia Code', monospace !important;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Base URL box */
+.docs-page .bg-gray-100 {
+    display: block !important;
+    background: #f9fafb !important;
+    border: 2px solid #3b82f6 !important;
+    color: #1e40af !important;
+    font-weight: 700 !important;
+    font-family: 'Menlo', 'Monaco', monospace !important;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1) !important;
+    padding: 1rem !important;
+    border-radius: 8px !important;
+    margin: 1rem 0 !important;
+}
+
+/* Info boxes */
+.docs-page .bg-blue-50,
+.docs-page .bg-green-50,
+.docs-page .bg-yellow-50,
+.docs-page .bg-red-50,
+.docs-page .bg-purple-50 {
+    display: block !important;
+    border-radius: 8px !important;
+    padding: 1rem !important;
+    margin: 1rem 0 !important;
+}
+
+.docs-page .bg-blue-50 {
+    background: #eff6ff !important;
+    border: 2px solid #3b82f6 !important;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1) !important;
+}
+
+.docs-page .bg-green-50 {
+    background: #f0fdf4 !important;
+    border: 2px solid #16a34a !important;
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1) !important;
+}
+
+.docs-page .bg-yellow-50 {
+    background: #fffbeb !important;
+    border: 2px solid #f59e0b !important;
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.1) !important;
+}
+
+.docs-page .bg-red-50 {
+    background: #fef2f2 !important;
+    border: 2px solid #dc2626 !important;
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.1) !important;
+}
+
+.docs-page .bg-purple-50 {
+    background: #faf5ff !important;
+    border: 2px solid #9333ea !important;
+    box-shadow: 0 2px 4px rgba(147, 51, 234, 0.1) !important;
+}
+
+/* Section headers */
+.docs-page .bg-ruxchai-blue,
+.docs-page .bg-ruxchai-green,
+.docs-page .bg-ruxchai-primary,
+.docs-page .bg-purple-600 {
+    display: block !important;
+    color: white !important;
+    font-weight: 700 !important;
+    border: none !important;
+    padding: 12px 16px !important;
+    border-radius: 8px 8px 0 0 !important;
+}
+
+.docs-page .bg-ruxchai-blue {
+    background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%) !important;
+    box-shadow: 0 4px 6px rgba(30, 64, 175, 0.1) !important;
+}
+
+.docs-page .bg-ruxchai-green {
+    background: linear-gradient(135deg, #16a34a 0%, #059669 100%) !important;
+    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.1) !important;
+}
+
+.docs-page .bg-ruxchai-primary,
+.docs-page .bg-purple-600 {
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
+    box-shadow: 0 4px 6px rgba(124, 58, 237, 0.1) !important;
+}
+
+/* Lists */
+.docs-page ul,
+.docs-page .prose ul {
+    display: block !important;
+    list-style: disc !important;
+    padding-left: 1.5rem !important;
+    margin: 1rem 0 !important;
+}
+
+.docs-page ul li,
+.docs-page .prose ul li {
+    display: list-item !important;
+    color: #374151 !important;
+    font-weight: 400 !important;
+    margin-bottom: 0.5rem !important;
+    line-height: 1.6 !important;
+    list-style: disc !important;
+}
+
+.docs-page ul li code {
+    background: #f3f4f6 !important;
+    color: #1f2937 !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+    border: 1px solid #d1d5db !important;
+    font-size: 0.875rem !important;
+}
+
+/* Links */
+.docs-page a,
+.docs-page .underline {
+    color: #2563eb !important;
+    font-weight: 600 !important;
+    text-decoration: underline !important;
+    transition: color 0.2s ease !important;
+}
+
+.docs-page a:hover,
+.docs-page .underline:hover {
+    color: #1d4ed8 !important;
+    text-decoration: none !important;
+}
+
+/* Grid and layout */
+.docs-page .grid {
+    display: grid !important;
+    gap: 1.5rem !important;
+}
+
+.docs-page .grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+}
+
+.docs-page .md\\:grid-cols-2 {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+}
+
+@media (min-width: 768px) {
+    .docs-page .md\\:grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+.docs-page .lg\\:grid-cols-2 {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+}
+
+@media (min-width: 1024px) {
+    .docs-page .lg\\:grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+/* Card styling */
+.docs-page .rounded-lg {
+    border-radius: 8px !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.docs-page .border {
+    border-width: 1px !important;
+    border-color: #e5e7eb !important;
+}
+
+.docs-page .border-gray-200 {
+    border-color: #e5e7eb !important;
+}
+
+/* Force proper spacing */
+.docs-page .mb-8 { margin-bottom: 2rem !important; }
+.docs-page .mt-8 { margin-top: 2rem !important; }
+.docs-page .mt-6 { margin-top: 1.5rem !important; }
+.docs-page .mt-4 { margin-top: 1rem !important; }
+.docs-page .mt-2 { margin-top: 0.5rem !important; }
+.docs-page .mt-1 { margin-top: 0.25rem !important; }
+.docs-page .mb-6 { margin-bottom: 1.5rem !important; }
+.docs-page .mb-4 { margin-bottom: 1rem !important; }
+.docs-page .mb-2 { margin-bottom: 0.5rem !important; }
+.docs-page .mb-1 { margin-bottom: 0.25rem !important; }
+.docs-page .p-6 { padding: 1.5rem !important; }
+.docs-page .p-4 { padding: 1rem !important; }
+.docs-page .p-3 { padding: 0.75rem !important; }
+
+/* Font styling */
+.docs-page .font-mono {
+    font-family: 'Menlo', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace !important;
+    background: #f3f4f6 !important;
+    color: #1f2937 !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+    border: 1px solid #d1d5db !important;
+    font-size: 0.875rem !important;
+}
+
+.docs-page .font-semibold {
+    font-weight: 600 !important;
+}
+
+.docs-page .font-bold {
+    font-weight: 700 !important;
+}
+
+.docs-page .font-medium {
+    font-weight: 500 !important;
+}
+
+/* Text colors */
+.docs-page .text-blue-800 { color: #1e40af !important; font-weight: 600 !important; }
+.docs-page .text-blue-700 { color: #1d4ed8 !important; font-weight: 500 !important; }
+.docs-page .text-green-800 { color: #166534 !important; font-weight: 600 !important; }
+.docs-page .text-green-700 { color: #15803d !important; font-weight: 500 !important; }
+.docs-page .text-yellow-800 { color: #92400e !important; font-weight: 600 !important; }
+.docs-page .text-yellow-700 { color: #b45309 !important; font-weight: 500 !important; }
+.docs-page .text-purple-800 { color: #6b21a8 !important; font-weight: 600 !important; }
+.docs-page .text-red-800 { color: #991b1b !important; font-weight: 600 !important; }
+.docs-page .text-gray-900 { color: #111827 !important; }
+.docs-page .text-gray-800 { color: #1f2937 !important; }
+.docs-page .text-gray-700 { color: #374151 !important; }
+.docs-page .text-gray-600 { color: #4b5563 !important; }
+.docs-page .text-gray-500 { color: #6b7280 !important; }
+
+/* Background colors */
+.docs-page .bg-white {
+    background: white !important;
+}
+
+.docs-page .bg-gray-50 {
+    background: #f9fafb !important;
+}
+
+/* Text sizes */
+.docs-page .text-sm { font-size: 0.875rem !important; }
+.docs-page .text-xs { font-size: 0.75rem !important; }
+.docs-page .text-lg { font-size: 1.125rem !important; }
+
+/* Ensure proper text rendering */
+.docs-page * {
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .docs-page h1 { font-size: 2rem !important; }
+    .docs-page h2 { font-size: 1.75rem !important; }
+    .docs-page h3 { font-size: 1.25rem !important; }
+    
+    .docs-page table,
+    .docs-page .prose table {
+        font-size: 14px !important;
+    }
+    
+    .docs-page thead th,
+    .docs-page .prose thead th,
+    .docs-page tbody td,
+    .docs-page .prose tbody td {
+        padding: 12px 16px !important;
+    }
+}

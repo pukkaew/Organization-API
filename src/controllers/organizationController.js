@@ -4,7 +4,7 @@ const logger = require('../utils/logger');
 
 class OrganizationController {
     
-    // GET /api/v1/organization-tree
+    // GET /api/organization-tree
     // ดึงโครงสร้างองค์กรทั้งหมด
     static async getOrganizationTree(req, res) {
         try {
@@ -63,7 +63,7 @@ class OrganizationController {
         }
     }
 
-    // GET /api/v1/organization-tree/{company_code}
+    // GET /api/organization-tree/{company_code}
     // ดึงโครงสร้างองค์กรของบริษัทที่ระบุ
     static async getCompanyOrganizationTree(req, res) {
         try {

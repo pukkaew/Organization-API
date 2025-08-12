@@ -3,7 +3,770 @@
     title: 'API Documentation',
     activeMenu: '',
     body: ` 
-    <link rel="stylesheet" href="/css/docs-visibility-fix.css">
+    <link rel="stylesheet" href="/css/docs-final-fix.css">
+    <style>
+    /* Emergency override - load last */
+    .docs-page .docs-page {
+        all: initial !important;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        color: #1f2937 !important;
+        background: white !important;
+    }
+    
+    /* Clean table styling */
+    .docs-page table { 
+        display: table !important; 
+        width: 100% !important;
+        border: 2px solid #e5e7eb !important;
+        border-radius: 8px !important;
+        background: white !important;
+        margin: 0 !important;
+        border-collapse: separate !important;
+        border-spacing: 0 !important;
+        overflow: hidden !important;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07) !important;
+    }
+    
+    .docs-page thead { 
+        display: table-header-group !important;
+        background: #1f2937 !important;
+    }
+    
+    .docs-page thead th { 
+        display: table-cell !important;
+        background: #1f2937 !important;
+        color: white !important;
+        padding: 16px 24px !important;
+        font-weight: 700 !important;
+        font-size: 13px !important;
+        letter-spacing: 0.5px !important;
+        text-align: left !important;
+        border: none !important;
+        border-bottom: 3px solid #3b82f6 !important;
+    }
+    
+    .docs-page tbody { 
+        display: table-row-group !important;
+        background: white !important;
+    }
+    
+    .docs-page tbody td { 
+        display: table-cell !important;
+        background: white !important;
+        color: #1f2937 !important;
+        padding: 16px 24px !important;
+        border-bottom: 1px solid #f3f4f6 !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-top: none !important;
+        vertical-align: middle !important;
+        font-weight: 500 !important;
+    }
+    
+    .docs-page tbody tr:hover td {
+        background: #f8fafc !important;
+    }
+    
+    /* Specific method badge override (only for spans in table cells) */
+    .docs-page table td span[class*="bg-green"],
+    .docs-page table td span[class*="bg-blue"], 
+    .docs-page table td span[class*="bg-yellow"],
+    .docs-page table td span[class*="bg-purple"],
+    .docs-page table td span[class*="bg-red"] { 
+        display: inline-block !important;
+        padding: 6px 12px !important;
+        border-radius: 6px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        font-size: 11px !important;
+        color: white !important;
+        min-width: 60px !important;
+        text-align: center !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .docs-page table td span[class*="bg-green"] { background: #20C67A !important; }
+    .docs-page table td span[class*="bg-blue"] { background: #0090D3 !important; }
+    .docs-page table td span[class*="bg-yellow"] { background: #ea580c !important; }
+    .docs-page table td span[class*="bg-purple"] { background: #9333ea !important; }
+    .docs-page table td span[class*="bg-red"] { background: #dc2626 !important; }
+    
+    .docs-page [class*="text-"][class*="-800"] {
+        color: white !important;
+    }
+    
+    /* Remove white backgrounds that cover text */
+    .docs-page .bg-gray-100,
+    .docs-page .bg-blue-50,
+    .docs-page .bg-green-50,
+    .docs-page .bg-yellow-50,
+    .docs-page .bg-red-50,
+    .docs-page .bg-purple-50 {
+        background: transparent !important;
+        border: 2px solid #3b82f6 !important;
+        border-radius: 8px !important;
+        padding: 1rem !important;
+        margin: 1rem 0 !important;
+    }
+    
+    .docs-page .bg-gray-100 {
+        border-color: #0090D3 !important;
+        color: #007AB8 !important;
+        font-weight: 700 !important;
+    }
+    
+    .docs-page .bg-blue-50 {
+        border-color: #0090D3 !important;
+        color: #007AB8 !important;
+    }
+    
+    .docs-page .bg-green-50 {
+        border-color: #20C67A !important;
+        color: #1BA666 !important;
+    }
+    
+    .docs-page .bg-yellow-50 {
+        border-color: #f59e0b !important;
+        color: #92400e !important;
+    }
+    
+    .docs-page .bg-red-50 {
+        border-color: #dc2626 !important;
+        color: #991b1b !important;
+    }
+    
+    .docs-page .bg-purple-50 {
+        border-color: #9333ea !important;
+        color: #6b21a8 !important;
+    }
+    
+    /* Headers and paragraphs - no background */
+    .docs-page h1,
+    .docs-page h2,
+    .docs-page h3,
+    .docs-page h4,
+    .docs-page p {
+        background: transparent !important;
+    }
+    
+    /* Code blocks stay dark */
+    .docs-page .bg-gray-900 {
+        background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%) !important;
+        color: #e2e8f0 !important;
+        padding: 1.5rem !important;
+        border-radius: 8px !important;
+        border: 2px solid #4a5568 !important;
+    }
+    
+    .docs-page .bg-gray-900 .text-gray-100 {
+        color: #e2e8f0 !important;
+    }
+    
+    /* Force page background to be completely transparent */
+    .docs-page {
+        background: transparent !important;
+    }
+    
+    .docs-page .prose {
+        background: transparent !important;
+    }
+    
+    /* Force all elements to have transparent background unless specifically styled */
+    .docs-page * {
+        background: transparent !important;
+    }
+    
+    /* Restore specific backgrounds for styled elements */
+    .docs-page table { background: white !important; }
+    .docs-page thead { background: #1f2937 !important; }
+    .docs-page thead th { background: #1f2937 !important; }
+    .docs-page tbody { background: white !important; }
+    .docs-page tbody td { background: white !important; }
+    .docs-page tbody tr:hover td { background: #f8fafc !important; }
+    .docs-page .bg-gray-900 { background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%) !important; }
+    
+    /* Ensure proper text visibility with RUXCHAI CI colors */
+    .docs-page .text-blue-600,
+    .docs-page .text-blue-700,
+    .docs-page .text-blue-800 {
+        color: #0090D3 !important;
+        background: transparent !important;
+    }
+    
+    .docs-page .text-green-600,
+    .docs-page .text-green-700,
+    .docs-page .text-green-800 {
+        color: #20C67A !important;
+        background: transparent !important;
+    }
+    
+    .docs-page .border-blue-400 {
+        border-color: #0090D3 !important;
+    }
+    
+    /* Fix all text-blue-600 solution texts to use CI color */
+    .docs-page p.text-xs.text-blue-600,
+    .docs-page .text-blue-600 {
+        color: #0090D3 !important;
+        background: transparent !important;
+    }
+    
+    /* Corporate section headers with RUXCHAI CI COLORS */
+    .docs-page .bg-ruxchai-blue { 
+        background: linear-gradient(135deg, #0090D3 0%, #007AB8 100%) !important; 
+        color: white !important;
+        font-weight: 700 !important;
+        box-shadow: 0 4px 6px rgba(0, 144, 211, 0.15) !important;
+    }
+    .docs-page .bg-ruxchai-green { 
+        background: linear-gradient(135deg, #20C67A 0%, #1BA666 100%) !important; 
+        color: white !important;
+        font-weight: 700 !important;
+        box-shadow: 0 4px 6px rgba(32, 198, 122, 0.15) !important;
+    }
+    .docs-page .bg-ruxchai-primary,
+    .docs-page .bg-purple-600 { 
+        background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important; 
+        color: white !important;
+        font-weight: 700 !important;
+    }
+    
+    /* Clean method badges with consistent styling */
+    .docs-page .method-badge {
+        display: inline-block !important;
+        padding: 6px 12px !important;
+        border-radius: 6px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        font-size: 11px !important;
+        letter-spacing: 0.5px !important;
+        color: white !important;
+        min-width: 60px !important;
+        text-align: center !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+        border: 2px solid transparent !important;
+    }
+    
+    .docs-page .method-get {
+        background: #20C67A !important;
+        border-color: #1BA666 !important;
+    }
+    
+    .docs-page .method-post {
+        background: #0090D3 !important;
+        border-color: #007AB8 !important;
+    }
+    
+    .docs-page .method-put {
+        background: #ea580c !important;
+        border-color: #dc2626 !important;
+    }
+    
+    .docs-page .method-patch {
+        background: #9333ea !important;
+        border-color: #7c3aed !important;
+    }
+    
+    .docs-page .method-delete {
+        background: #dc2626 !important;
+        border-color: #b91c1c !important;
+    }
+    
+    /* Response examples styling - clean and modern with RUXCHAI CI */
+    .docs-page .response-success {
+        border: 3px solid #20C67A !important;
+        background: transparent !important;
+        border-radius: 8px !important;
+        padding: 1.5rem !important;
+        margin: 1rem 0 !important;
+        box-shadow: 0 4px 6px rgba(32, 198, 122, 0.1) !important;
+    }
+    
+    .docs-page .response-success strong {
+        color: white !important;
+        font-weight: 700 !important;
+        font-size: 1rem !important;
+        display: block !important;
+        margin-bottom: 0.75rem !important;
+        padding: 8px 12px !important;
+        background: #20C67A !important;
+        color: white !important;
+        border-radius: 4px !important;
+        display: inline-block !important;
+    }
+    
+    .docs-page .response-success pre {
+        background: #f8fafc !important;
+        color: #1f2937 !important;
+        padding: 1rem !important;
+        border-radius: 6px !important;
+        border: 1px solid #e5e7eb !important;
+        font-family: 'Menlo', 'Monaco', 'Cascadia Code', monospace !important;
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+        overflow-x: auto !important;
+    }
+    
+    .docs-page .response-info {
+        border: 3px solid #0090D3 !important;
+        background: transparent !important;
+        border-radius: 8px !important;
+        padding: 1.5rem !important;
+        margin: 1rem 0 !important;
+        box-shadow: 0 4px 6px rgba(0, 144, 211, 0.1) !important;
+    }
+    
+    .docs-page .response-info strong {
+        color: white !important;
+        font-weight: 700 !important;
+        font-size: 1rem !important;
+        display: inline-block !important;
+        margin-bottom: 0.75rem !important;
+        padding: 8px 12px !important;
+        background: #0090D3 !important;
+        border-radius: 4px !important;
+    }
+    
+    .docs-page .response-info pre {
+        background: #f8fafc !important;
+        color: #1f2937 !important;
+        padding: 1rem !important;
+        border-radius: 6px !important;
+        border: 1px solid #e5e7eb !important;
+        font-family: 'Menlo', 'Monaco', 'Cascadia Code', monospace !important;
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+        overflow-x: auto !important;
+    }
+    
+    /* Special styling for 201 Created responses */
+    .docs-page .response-created {
+        border: 3px solid #f59e0b !important;
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.02) 0%, rgba(217, 119, 6, 0.02) 100%) !important;
+        border-radius: 8px !important;
+        padding: 1.5rem !important;
+        margin: 1rem 0 !important;
+        box-shadow: 0 6px 12px rgba(245, 158, 11, 0.15) !important;
+        position: relative !important;
+    }
+    
+    .docs-page .response-created::before {
+        content: "✨" !important;
+        position: absolute !important;
+        top: -8px !important;
+        right: 12px !important;
+        background: #f59e0b !important;
+        color: white !important;
+        border-radius: 50% !important;
+        width: 24px !important;
+        height: 24px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 12px !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .docs-page .response-created strong {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+        color: white !important;
+        font-weight: 700 !important;
+        font-size: 1rem !important;
+        display: inline-block !important;
+        margin-bottom: 0.75rem !important;
+        padding: 10px 16px !important;
+        border-radius: 6px !important;
+        box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2) !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+    }
+    
+    .docs-page .response-created pre {
+        background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%) !important;
+        color: #92400e !important;
+        padding: 1.25rem !important;
+        border-radius: 6px !important;
+        border: 2px solid #fbbf24 !important;
+        font-family: 'Menlo', 'Monaco', 'Cascadia Code', monospace !important;
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+        overflow-x: auto !important;
+        font-weight: 500 !important;
+        box-shadow: inset 0 2px 4px rgba(245, 158, 11, 0.1) !important;
+    }
+    
+    /* Hover effect for 201 Created */
+    .docs-page .response-created:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 20px rgba(245, 158, 11, 0.2) !important;
+        border-color: #d97706 !important;
+    }
+    
+    /* Animation for new content feeling */
+    .docs-page .response-created {
+        animation: subtle-glow 3s ease-in-out infinite alternate !important;
+    }
+    
+    @keyframes subtle-glow {
+        0% { box-shadow: 0 6px 12px rgba(245, 158, 11, 0.15) !important; }
+        100% { box-shadow: 0 6px 16px rgba(245, 158, 11, 0.25) !important; }
+    }
+    
+    /* Special highlight for "created" text in the JSON */
+    .docs-page .response-created pre code {
+        position: relative !important;
+    }
+    
+    /* Success badge improvements with RUXCHAI CI */
+    .docs-page .response-success strong {
+        background: linear-gradient(135deg, #20C67A 0%, #1BA666 100%) !important;
+        box-shadow: 0 2px 4px rgba(32, 198, 122, 0.2) !important;
+    }
+    
+    .docs-page .response-info strong {
+        background: linear-gradient(135deg, #0090D3 0%, #007AB8 100%) !important;
+        box-shadow: 0 2px 4px rgba(0, 144, 211, 0.2) !important;
+    }
+    
+    /* Special styling for Flexible Endpoints section */
+    .docs-page .flexible-endpoints-section {
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.03) 0%, rgba(109, 40, 217, 0.03) 100%) !important;
+        border: 3px solid #7c3aed !important;
+        border-radius: 12px !important;
+        margin: 2rem 0 !important;
+        padding: 0 !important;
+        box-shadow: 0 8px 25px rgba(124, 58, 237, 0.15) !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+    
+    .docs-page .flexible-endpoints-section::before {
+        content: "⭐" !important;
+        position: absolute !important;
+        top: -5px !important;
+        right: 15px !important;
+        background: #7c3aed !important;
+        color: white !important;
+        border-radius: 50% !important;
+        width: 28px !important;
+        height: 28px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 14px !important;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2) !important;
+        z-index: 10 !important;
+    }
+    
+    .docs-page .flexible-endpoints-header {
+        background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
+        color: white !important;
+        font-weight: 700 !important;
+        border: none !important;
+        padding: 1rem 1.5rem !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+    
+    .docs-page .flexible-endpoints-header::after {
+        content: "" !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: -100% !important;
+        width: 100% !important;
+        height: 100% !important;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent) !important;
+        animation: shimmer 3s infinite !important;
+    }
+    
+    @keyframes shimmer {
+        0% { left: -100%; }
+        100% { left: 100%; }
+    }
+    
+    .docs-page .flexible-endpoints-header h3 {
+        color: white !important;
+        margin: 0 !important;
+        font-size: 1.25rem !important;
+        position: relative !important;
+        z-index: 5 !important;
+    }
+    
+    .docs-page .flexible-endpoints-header h3::after {
+        content: " 🚀" !important;
+        opacity: 0.8 !important;
+    }
+    
+    /* Special styling for featured endpoint row */
+    .docs-page .featured-endpoint {
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(217, 119, 6, 0.08) 100%) !important;
+        border-left: 4px solid #f59e0b !important;
+        position: relative !important;
+    }
+    
+    .docs-page .featured-endpoint::before {
+        content: "🔥" !important;
+        position: absolute !important;
+        left: -8px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        background: #f59e0b !important;
+        color: white !important;
+        border-radius: 50% !important;
+        width: 20px !important;
+        height: 20px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 10px !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .docs-page .featured-endpoint td {
+        background: inherit !important;
+        font-weight: 600 !important;
+    }
+    
+    .docs-page .featured-endpoint .font-bold {
+        color: #0090D3 !important;
+        font-weight: 800 !important;
+        text-shadow: 0 1px 2px rgba(0, 144, 211, 0.1) !important;
+    }
+    
+    /* Hover effects for flexible endpoints */
+    .docs-page .flexible-endpoints-section:hover {
+        transform: translateY(-3px) !important;
+        box-shadow: 0 12px 35px rgba(124, 58, 237, 0.2) !important;
+    }
+    
+    .docs-page .flexible-endpoints-section table {
+        margin: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    
+    /* Featured callout box styling */
+    .docs-page .featured-callout {
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(217, 119, 6, 0.05) 100%) !important;
+        border: 3px solid #f59e0b !important;
+        border-radius: 12px !important;
+        padding: 1.5rem !important;
+        margin: 2rem 0 !important;
+        box-shadow: 0 6px 20px rgba(245, 158, 11, 0.15) !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+    
+    .docs-page .featured-callout::before {
+        content: "" !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 4px !important;
+        background: linear-gradient(90deg, #f59e0b, #fbbf24, #f59e0b) !important;
+        animation: featured-glow 2s ease-in-out infinite alternate !important;
+    }
+    
+    @keyframes featured-glow {
+        0% { opacity: 0.7; }
+        100% { opacity: 1; }
+    }
+    
+    .docs-page .featured-icon {
+        color: #f59e0b !important;
+        font-size: 1.5rem !important;
+        animation: star-pulse 2s ease-in-out infinite !important;
+    }
+    
+    @keyframes star-pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+    
+    .docs-page .featured-title {
+        color: #92400e !important;
+        font-weight: 700 !important;
+        font-size: 1.25rem !important;
+        margin: 0 !important;
+        text-shadow: 0 1px 2px rgba(146, 64, 14, 0.1) !important;
+    }
+    
+    .docs-page .featured-content {
+        color: #451a03 !important;
+        line-height: 1.6 !important;
+    }
+    
+    .docs-page .featured-content p {
+        color: inherit !important;
+        margin: 0 !important;
+        font-weight: 500 !important;
+    }
+    
+    .docs-page .featured-content strong {
+        color: #92400e !important;
+        font-weight: 700 !important;
+    }
+    
+    /* Hover effect for featured callout */
+    .docs-page .featured-callout:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(245, 158, 11, 0.2) !important;
+        border-color: #d97706 !important;
+    }
+    
+    /* Grid layout improvements */
+    .docs-page .response-examples {
+        display: grid !important;
+        gap: 1.5rem !important;
+        margin: 2rem 0 !important;
+    }
+    
+    /* Section spacing */
+    .docs-page .endpoint-section {
+        margin-bottom: 3rem !important;
+        padding-bottom: 2rem !important;
+        border-bottom: 1px solid #e5e7eb !important;
+    }
+    
+    .docs-page .endpoint-section:last-child {
+        border-bottom: none !important;
+    }
+    
+    /* Mobile responsive design */
+    @media (max-width: 768px) {
+        .docs-page h1 { 
+            font-size: 2rem !important; 
+            margin-bottom: 1rem !important;
+        }
+        .docs-page h2 { 
+            font-size: 1.5rem !important; 
+            margin-top: 1.5rem !important;
+            margin-bottom: 1rem !important;
+        }
+        .docs-page h3 { 
+            font-size: 1.25rem !important; 
+            margin-top: 1.25rem !important;
+            margin-bottom: 0.75rem !important;
+        }
+        
+        .docs-page table,
+        .docs-page tbody,
+        .docs-page tr,
+        .docs-page td,
+        .docs-page th {
+            font-size: 13px !important;
+        }
+        
+        .docs-page table td,
+        .docs-page table th {
+            padding: 12px 16px !important;
+        }
+        
+        .docs-page .method-badge {
+            font-size: 10px !important;
+            padding: 4px 8px !important;
+        }
+        
+        .docs-page .flexible-endpoints-section {
+            margin: 1.5rem 0 !important;
+        }
+        
+        .docs-page .featured-callout {
+            padding: 1rem !important;
+            margin: 1.5rem 0 !important;
+        }
+        
+        .docs-page .endpoint-section {
+            margin-bottom: 2rem !important;
+            padding-bottom: 1.5rem !important;
+        }
+        
+        .docs-page .response-success,
+        .docs-page .response-info,
+        .docs-page .response-created {
+            padding: 1rem !important;
+        }
+        
+        .docs-page pre {
+            font-size: 12px !important;
+        }
+    }
+    
+    /* Tablet responsive design */
+    @media (max-width: 1024px) and (min-width: 769px) {
+        .docs-page .grid.grid-cols-1.md\\:grid-cols-2 {
+            gap: 1rem !important;
+        }
+        
+        .docs-page .featured-callout {
+            padding: 1.25rem !important;
+        }
+        
+        .docs-page table td,
+        .docs-page table th {
+            padding: 14px 20px !important;
+        }
+    }
+    
+    /* Prevent horizontal scroll on mobile */
+    @media (max-width: 768px) {
+        .docs-page .overflow-x-auto {
+            max-width: 100vw !important;
+            width: 100% !important;
+        }
+        
+        .docs-page pre {
+            white-space: pre-wrap !important;
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+        }
+        
+        .docs-page .font-mono {
+            font-size: 12px !important;
+        }
+    }
+    
+    /* High contrast for accessibility */
+    @media (prefers-contrast: high) {
+        .docs-page .method-badge {
+            border-width: 3px !important;
+            font-weight: 800 !important;
+        }
+        
+        .docs-page table td,
+        .docs-page table th {
+            border-width: 2px !important;
+        }
+        
+        .docs-page .response-success,
+        .docs-page .response-info,
+        .docs-page .response-created {
+            border-width: 4px !important;
+        }
+    }
+    
+    /* Print styles */
+    @media print {
+        .docs-page .flexible-endpoints-section::before,
+        .docs-page .featured-endpoint::before {
+            display: none !important;
+        }
+        
+        .docs-page .response-created {
+            animation: none !important;
+        }
+        
+        .docs-page .flexible-endpoints-header::after {
+            animation: none !important;
+        }
+        
+        .docs-page * {
+            box-shadow: none !important;
+            animation: none !important;
+        }
+    }
+    </style>
     <div class="max-w-full mx-auto docs-page">
         <div class="prose max-w-none docs-page">
             <h1>API Documentation</h1>
@@ -12,6 +775,9 @@
             <h2>Base URL</h2>
             <div class="bg-gray-100 p-4 rounded-lg font-mono text-sm">
                 http://localhost:3001/api
+            </div>
+            <div class="mt-2 p-3 bg-blue-50 border-l-4 border-blue-400 rounded">
+                <p class="text-sm" style="color: #007AB8 !important;"><strong>Important:</strong> API versioning has been removed. Use direct endpoints without /v1 prefix.</p>
             </div>
             
             <h2>Authentication</h2>
@@ -52,43 +818,49 @@
                     <h3 class="text-lg font-semibold mb-0">Companies</h3>
                 </div>
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead>
                         <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Endpoint</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permission</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Method</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Endpoint</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Description</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Permission</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/companies</td>
                             <td class="px-4 py-3 text-sm">Get all companies with pagination</td>
                             <td class="px-4 py-3 text-sm">read</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/companies/{code}</td>
                             <td class="px-4 py-3 text-sm">Get company by code</td>
                             <td class="px-4 py-3 text-sm">read</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded">POST</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-post">POST</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/companies</td>
                             <td class="px-4 py-3 text-sm">Create new company</td>
                             <td class="px-4 py-3 text-sm">write</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded">PUT</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-put">PUT</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/companies/{code}</td>
                             <td class="px-4 py-3 text-sm">Update company</td>
                             <td class="px-4 py-3 text-sm">write</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-purple-100 text-purple-800 rounded">PATCH</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-patch">PATCH</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/companies/{code}/status</td>
                             <td class="px-4 py-3 text-sm">Toggle company status</td>
+                            <td class="px-4 py-3 text-sm">write</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-delete">DELETE</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/companies/{code}</td>
+                            <td class="px-4 py-3 text-sm">Delete company</td>
                             <td class="px-4 py-3 text-sm">write</td>
                         </tr>
                     </tbody>
@@ -101,49 +873,55 @@
                     <h3 class="text-lg font-semibold mb-0">Branches</h3>
                 </div>
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead>
                         <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Endpoint</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permission</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Method</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Endpoint</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Description</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Permission</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/branches</td>
                             <td class="px-4 py-3 text-sm">Get all branches with pagination</td>
                             <td class="px-4 py-3 text-sm">read</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/branches/{code}</td>
                             <td class="px-4 py-3 text-sm">Get branch by code</td>
                             <td class="px-4 py-3 text-sm">read</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/companies/{code}/branches</td>
                             <td class="px-4 py-3 text-sm">Get branches by company</td>
                             <td class="px-4 py-3 text-sm">read</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded">POST</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-post">POST</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/branches</td>
                             <td class="px-4 py-3 text-sm">Create new branch</td>
                             <td class="px-4 py-3 text-sm">write</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded">PUT</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-put">PUT</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/branches/{code}</td>
                             <td class="px-4 py-3 text-sm">Update branch</td>
                             <td class="px-4 py-3 text-sm">write</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-purple-100 text-purple-800 rounded">PATCH</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-patch">PATCH</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/branches/{code}/status</td>
                             <td class="px-4 py-3 text-sm">Toggle branch status</td>
+                            <td class="px-4 py-3 text-sm">write</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-delete">DELETE</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/branches/{code}</td>
+                            <td class="px-4 py-3 text-sm">Delete branch</td>
                             <td class="px-4 py-3 text-sm">write</td>
                         </tr>
                     </tbody>
@@ -156,55 +934,67 @@
                     <h3 class="text-lg font-semibold mb-0">Divisions</h3>
                 </div>
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead>
                         <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Endpoint</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permission</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Method</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Endpoint</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Description</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Permission</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/divisions</td>
                             <td class="px-4 py-3 text-sm">Get all divisions with pagination</td>
                             <td class="px-4 py-3 text-sm">read</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/divisions/{code}</td>
                             <td class="px-4 py-3 text-sm">Get division by code</td>
                             <td class="px-4 py-3 text-sm">read</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/companies/{code}/divisions</td>
                             <td class="px-4 py-3 text-sm">Get divisions by company</td>
                             <td class="px-4 py-3 text-sm">read</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/branches/{code}/divisions</td>
                             <td class="px-4 py-3 text-sm">Get divisions by branch</td>
                             <td class="px-4 py-3 text-sm">read</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded">POST</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-post">POST</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/divisions</td>
                             <td class="px-4 py-3 text-sm">Create new division</td>
                             <td class="px-4 py-3 text-sm">write</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded">PUT</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-put">PUT</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/divisions/{code}</td>
                             <td class="px-4 py-3 text-sm">Update division</td>
                             <td class="px-4 py-3 text-sm">write</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-purple-100 text-purple-800 rounded">PATCH</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-patch">PATCH</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/divisions/{code}/status</td>
                             <td class="px-4 py-3 text-sm">Toggle division status</td>
+                            <td class="px-4 py-3 text-sm">write</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-patch">PATCH</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/divisions/{code}/move</td>
+                            <td class="px-4 py-3 text-sm">Move division to another branch</td>
+                            <td class="px-4 py-3 text-sm">write</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-delete">DELETE</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/divisions/{code}</td>
+                            <td class="px-4 py-3 text-sm">Delete division</td>
                             <td class="px-4 py-3 text-sm">write</td>
                         </tr>
                     </tbody>
@@ -217,56 +1007,62 @@
                     <h3 class="text-lg font-semibold mb-0">Departments</h3>
                 </div>
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead>
                         <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Endpoint</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permission</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Method</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Endpoint</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Description</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Permission</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/departments</td>
                             <td class="px-4 py-3 text-sm">Get all departments with pagination</td>
                             <td class="px-4 py-3 text-sm">read</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/departments/{code}</td>
                             <td class="px-4 py-3 text-sm">Get department by code</td>
                             <td class="px-4 py-3 text-sm">read</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/divisions/{code}/departments</td>
                             <td class="px-4 py-3 text-sm">Get departments by division</td>
                             <td class="px-4 py-3 text-sm">read</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded">POST</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-post">POST</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/departments</td>
                             <td class="px-4 py-3 text-sm">Create new department</td>
                             <td class="px-4 py-3 text-sm">write</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded">PUT</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-put">PUT</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/departments/{code}</td>
                             <td class="px-4 py-3 text-sm">Update department</td>
                             <td class="px-4 py-3 text-sm">write</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-purple-100 text-purple-800 rounded">PATCH</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-patch">PATCH</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/departments/{code}/status</td>
                             <td class="px-4 py-3 text-sm">Toggle department status</td>
                             <td class="px-4 py-3 text-sm">write</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded">DELETE</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-patch">PATCH</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/departments/{code}/move</td>
+                            <td class="px-4 py-3 text-sm">Move department to another division</td>
+                            <td class="px-4 py-3 text-sm">write</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-delete">DELETE</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/departments/{code}</td>
                             <td class="px-4 py-3 text-sm">Delete department</td>
-                            <td class="px-4 py-3 text-sm">delete</td>
+                            <td class="px-4 py-3 text-sm">write</td>
                         </tr>
                     </tbody>
                 </table>
@@ -278,35 +1074,35 @@
                     <h3 class="text-lg font-semibold mb-0">API Keys Management</h3>
                 </div>
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead>
                         <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Endpoint</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permission</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Method</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Endpoint</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Description</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Permission</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/api-keys</td>
                             <td class="px-4 py-3 text-sm">Get all API keys (admin only)</td>
                             <td class="px-4 py-3 text-sm">admin</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded">POST</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-post">POST</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/api-keys</td>
                             <td class="px-4 py-3 text-sm">Create new API key</td>
                             <td class="px-4 py-3 text-sm">admin</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-purple-100 text-purple-800 rounded">PATCH</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-patch">PATCH</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/api-keys/{id}/status</td>
                             <td class="px-4 py-3 text-sm">Toggle API key status</td>
                             <td class="px-4 py-3 text-sm">admin</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/api-keys/{id}/logs</td>
                             <td class="px-4 py-3 text-sm">Get API usage logs</td>
                             <td class="px-4 py-3 text-sm">admin</td>
@@ -315,37 +1111,86 @@
                 </table>
             </div>
             
+            <!-- Flexible Endpoints -->
+            <div class="flexible-endpoints-section">
+                <div class="flexible-endpoints-header">
+                    <h3 class="text-lg font-semibold mb-0">Flexible Endpoints (Recommended)</h3>
+                </div>
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Method</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Endpoint</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Description</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Permission</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="featured-endpoint">
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
+                            <td class="px-4 py-3 font-mono text-sm font-bold" style="color: #0090D3 !important;">/flexible/company-departments</td>
+                            <td class="px-4 py-3 text-sm">Get all departments by company code (bypassing hierarchy)</td>
+                            <td class="px-4 py-3 text-sm">read</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/flexible/company-full</td>
+                            <td class="px-4 py-3 text-sm">Get company with complete hierarchy (branches, divisions, departments)</td>
+                            <td class="px-4 py-3 text-sm">read</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/flexible/custom</td>
+                            <td class="px-4 py-3 text-sm">Customize data retrieval with include/skip parameters</td>
+                            <td class="px-4 py-3 text-sm">read</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
             <!-- Special Endpoints -->
             <div class="mt-8 rounded-lg overflow-hidden">
-                <div class="bg-ruxchai-primary text-white px-4 py-3">
+                <div class="bg-purple-600 text-white px-4 py-3">
                     <h3 class="text-lg font-semibold mb-0">Special Endpoints</h3>
                 </div>
                 <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                    <thead>
                         <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Method</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Endpoint</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Permission</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Method</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Endpoint</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Description</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Permission</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/organization-tree</td>
-                            <td class="px-4 py-3 text-sm">Get complete organization hierarchy</td>
+                            <td class="px-4 py-3 text-sm">Get complete organization tree hierarchy</td>
                             <td class="px-4 py-3 text-sm">read</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/organization-tree/{company_code}</td>
+                            <td class="px-4 py-3 text-sm">Get organization tree for specific company</td>
+                            <td class="px-4 py-3 text-sm">read</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/search</td>
-                            <td class="px-4 py-3 text-sm">Search across all entities</td>
+                            <td class="px-4 py-3 text-sm">Search across all entities (companies, branches, divisions, departments)</td>
                             <td class="px-4 py-3 text-sm">read</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap"><span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">GET</span></td>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
+                            <td class="px-4 py-3 font-mono text-sm">/hierarchy/{type}/{code}</td>
+                            <td class="px-4 py-3 text-sm">Get hierarchy for specific entity (type: company/branch/division/department)</td>
+                            <td class="px-4 py-3 text-sm">read</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap"><span class="method-badge method-get">GET</span></td>
                             <td class="px-4 py-3 font-mono text-sm">/statistics</td>
-                            <td class="px-4 py-3 text-sm">Get organization statistics</td>
+                            <td class="px-4 py-3 text-sm">Get organization statistics (counts, active status, etc.)</td>
                             <td class="px-4 py-3 text-sm">read</td>
                         </tr>
                     </tbody>
@@ -353,19 +1198,241 @@
             </div>
             
             <h2>Query Parameters</h2>
-            <p>Many endpoints support the following query parameters:</p>
-            <ul>
-                <li><code>page</code> - Page number (default: 1)</li>
-                <li><code>limit</code> - Items per page (default: 20, max: 100)</li>
-                <li><code>sort</code> - Field to sort by</li>
-                <li><code>order</code> - Sort order (asc/desc)</li>
-                <li><code>is_active</code> - Filter by active status (true/false)</li>
-                <li><code>search</code> - Search term</li>
-            </ul>
+            <p>The API supports comprehensive query parameters for filtering, pagination, sorting, and custom data selection. Below are all available parameters organized by category:</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                <div class="bg-white border border-gray-200 rounded-lg p-4">
+                    <h4 class="font-semibold text-gray-900 mb-2">📄 Pagination Parameters</h4>
+                    <ul class="space-y-1 text-sm">
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">page</code> - Page number (default: 1, min: 1)</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">limit</code> - Records per page (default: 20, max: 100, min: 1)</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white border border-gray-200 rounded-lg p-4">
+                    <h4 class="font-semibold text-gray-900 mb-2">🔍 Filter Parameters</h4>
+                    <ul class="space-y-1 text-sm">
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">is_active</code> - Active status filter (true/false)</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">search</code> - Text search across name fields</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">company_code</code> - Filter by company code</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">branch_code</code> - Filter by branch code</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">division_code</code> - Filter by division code</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white border border-gray-200 rounded-lg p-4">
+                    <h4 class="font-semibold text-gray-900 mb-2">📊 Sort Parameters</h4>
+                    <ul class="space-y-1 text-sm">
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">sort</code> - Sort by field name (e.g., company_name_th, created_date)</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">order</code> - Sort direction (asc/desc, default: asc)</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white border border-gray-200 rounded-lg p-4">
+                    <h4 class="font-semibold text-gray-900 mb-2">⚙️ Advanced Parameters</h4>
+                    <ul class="space-y-1 text-sm">
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">include</code> - Include related data (branches,divisions,departments)</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">skip</code> - Exclude specific data (branches,divisions,departments)</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">with_hierarchy</code> - Include full hierarchy tree (true/false)</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">flat</code> - Return flat structure instead of nested (true/false)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Parameter Usage Examples</h3>
+            <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mt-4">
+                <pre><code># Pagination
+GET /api/companies?page=2&limit=5
+
+# Filtering
+GET /api/departments?company_code=RCS001&is_active=true
+
+# Searching
+GET /api/search?q=รุ่งชัย&limit=10
+
+# Sorting
+GET /api/companies?sort=company_name_th&order=asc
+
+# Flexible endpoints
+GET /api/flexible/custom?company=RCS001&include=departments&skip=branches,divisions
+
+# Combined parameters
+GET /api/departments?company_code=RCS001&is_active=true&page=1&limit=20&sort=department_name&order=asc</code></pre>
+            </div>
             
             <h2>Example Requests</h2>
             
-            <h3>Get All Companies</h3>
+            <!-- Flexible Company-Departments Section -->
+            <div class="featured-callout">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-star featured-icon"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="featured-title">Featured: Company Departments Endpoint</h3>
+                        <div class="mt-3 featured-content">
+                            <p><strong>Primary Use Case:</strong> Retrieve all departments for a specific company, bypassing the hierarchical structure (branches and divisions).</p>
+                            <p class="mt-2"><strong>Benefits:</strong> Faster queries, simplified data structure, perfect for department selection interfaces.</p>
+                            <p class="mt-2"><strong>Perfect For:</strong> Dropdown lists, department filters, quick selections.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="endpoint-section">
+                <h3>Company Departments Endpoint</h3>
+                <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+                    <pre><code>GET http://localhost:3001/api/flexible/company-departments?company=RCS001
+
+Headers:
+X-API-Key: YOUR_API_KEY</code></pre>
+                </div>
+            
+            <div class="response-success">
+                <strong>Response (200 OK):</strong>
+                <pre><code>{
+    "success": true,
+    "data": {
+        "company": {
+            "company_code": "RCS001",
+            "company_name_th": "บริษัท รุ่งชัยเย็นแข็ง จำกัด",
+            "company_name_en": "Ruxchai Cold Storage Co., Ltd.",
+            "tax_id": "0105558123456",
+            "is_active": true
+        },
+        "departments": [
+            {
+                "department_code": "RCS001-IT-DEV",
+                "department_name": "แผนกพัฒนาระบบ",
+                "division_code": "RCS001-IT",
+                "is_active": true
+            },
+            {
+                "department_code": "RCS001-HR-REC",
+                "department_name": "แผนกสรรหาบุคลากร",
+                "division_code": "RCS001-HR",
+                "is_active": true
+            },
+            {
+                "department_code": "RCS001-FIN-ACC",
+                "department_name": "แผนกบัญชี",
+                "division_code": "RCS001-FIN",
+                "is_active": true
+            }
+        ]
+    },
+    "meta": {
+        "included": ["company", "departments"],
+        "total_departments": 3
+    }
+}</code></pre>
+            </div>
+            </div>
+
+            <div class="endpoint-section">
+                <h4>Advanced Usage - Custom Selection</h4>
+            <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+                <pre><code>GET http://localhost:3001/api/flexible/custom?company=RCS001&include=departments&skip=branches,divisions
+
+Headers:
+X-API-Key: YOUR_API_KEY</code></pre>
+            </div>
+            
+            <div class="response-info">
+                <strong>Response (200 OK):</strong>
+                <pre><code>{
+    "success": true,
+    "data": {
+        "company": {
+            "company_code": "RCS001",
+            "company_name_th": "บริษัท รุ่งชัยเย็นแข็ง จำกัด",
+            "company_name_en": "Ruxchai Cold Storage Co., Ltd.",
+            "tax_id": "0105558123456",
+            "is_active": true
+        },
+        "departments": [
+            {
+                "department_code": "RCS001-IT-DEV",
+                "department_name": "แผนกพัฒนาระบบ",
+                "division_code": "RCS001-IT",
+                "is_active": true
+            }
+        ]
+    },
+    "meta": {
+        "included": ["company", "departments"],
+        "total_departments": 1
+    }
+}</code></pre>
+            </div>
+            </div>
+
+            <div class="endpoint-section">
+                <h4>Complete Company Data</h4>
+            <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+                <pre><code>GET http://localhost:3001/api/flexible/company-full?company=RCS001
+
+Headers:
+X-API-Key: YOUR_API_KEY</code></pre>
+            </div>
+            
+            <div class="response-info">
+                <strong>Response (200 OK):</strong>
+                <pre><code>{
+    "success": true,
+    "data": {
+        "company": {
+            "company_code": "RCS001",
+            "company_name_th": "บริษัท รุ่งชัยเย็นแข็ง จำกัด",
+            "company_name_en": "Ruxchai Cold Storage Co., Ltd.",
+            "tax_id": "0105558123456",
+            "is_active": true,
+            "created_date": "2024-01-15T08:30:00.000Z",
+            "created_by": "admin",
+            "updated_date": null,
+            "updated_by": null
+        },
+        "branches": [
+            {
+                "branch_code": "RCS001-BKK",
+                "branch_name": "สาขากรุงเทพฯ",
+                "company_code": "RCS001",
+                "is_headquarters": true,
+                "is_active": true
+            }
+        ],
+        "divisions": [
+            {
+                "division_code": "RCS001-IT",
+                "division_name": "ฝ่ายเทคโนโลยีสารสนเทศ",
+                "company_code": "RCS001",
+                "branch_code": "RCS001-BKK",
+                "is_active": true
+            }
+        ],
+        "departments": [
+            {
+                "department_code": "RCS001-IT-DEV",
+                "department_name": "แผนกพัฒนาระบบ",
+                "division_code": "RCS001-IT",
+                "is_active": true
+            }
+        ]
+    },
+    "meta": {
+        "included": ["company", "branches", "divisions", "departments"],
+        "total_branches": 1,
+        "total_divisions": 1,
+        "total_departments": 1
+    }
+}</code></pre>
+            </div>
+            </div>
+            
+            <hr class="my-8 border-gray-300">
+            
+            <div class="endpoint-section">
+                <h3>Get All Companies</h3>
             <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
                 <pre><code>GET http://localhost:3001/api/companies?page=1&limit=10&is_active=true
 
@@ -373,9 +1440,9 @@ Headers:
 X-API-Key: YOUR_API_KEY</code></pre>
             </div>
             
-            <div class="bg-green-50 border border-green-200 p-4 rounded-lg mt-2">
-                <strong class="text-green-800">Response (200 OK):</strong>
-                <pre class="text-green-800 mt-2"><code>{
+            <div class="response-success">
+                <strong>Response (200 OK):</strong>
+                <pre><code>{
     "success": true,
     "data": [
         {
@@ -396,8 +1463,10 @@ X-API-Key: YOUR_API_KEY</code></pre>
     "message": "Companies retrieved successfully"
 }</code></pre>
             </div>
+            </div>
             
-            <h3>Create New Company</h3>
+            <div class="endpoint-section">
+                <h3>Create New Company</h3>
             <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
                 <pre><code>POST http://localhost:3001/api/companies
 
@@ -415,9 +1484,9 @@ Body:
 }</code></pre>
             </div>
             
-            <div class="bg-green-50 border border-green-200 p-4 rounded-lg mt-2">
-                <strong class="text-green-800">Response (201 Created):</strong>
-                <pre class="text-green-800 mt-2"><code>{
+            <div class="response-created">
+                <strong>Response (201 Created):</strong>
+                <pre><code>{
     "success": true,
     "data": {
         "company_code": "RCS002",
@@ -433,8 +1502,10 @@ Body:
     "message": "Company created successfully"
 }</code></pre>
             </div>
+            </div>
             
-            <h3>Create New Branch</h3>
+            <div class="endpoint-section">
+                <h3>Create New Branch</h3>
             <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
                 <pre><code>POST http://localhost:3001/api/branches
 
@@ -452,9 +1523,9 @@ Body:
 }</code></pre>
             </div>
             
-            <div class="bg-green-50 border border-green-200 p-4 rounded-lg mt-2">
-                <strong class="text-green-800">Response (201 Created):</strong>
-                <pre class="text-green-800 mt-2"><code>{
+            <div class="response-created">
+                <strong>Response (201 Created):</strong>
+                <pre><code>{
     "success": true,
     "data": {
         "branch_code": "RCS001-BKK",
@@ -468,8 +1539,10 @@ Body:
     "message": "Branch created successfully"
 }</code></pre>
             </div>
+            </div>
             
-            <h3>Create New Division</h3>
+            <div class="endpoint-section">
+                <h3>Create New Division</h3>
             <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
                 <pre><code>POST http://localhost:3001/api/divisions
 
@@ -487,9 +1560,9 @@ Body:
 }</code></pre>
             </div>
             
-            <div class="bg-green-50 border border-green-200 p-4 rounded-lg mt-2">
-                <strong class="text-green-800">Response (201 Created):</strong>
-                <pre class="text-green-800 mt-2"><code>{
+            <div class="response-created">
+                <strong>Response (201 Created):</strong>
+                <pre><code>{
     "success": true,
     "data": {
         "division_code": "RCS001-IT",
@@ -503,8 +1576,10 @@ Body:
     "message": "Division created successfully"
 }</code></pre>
             </div>
+            </div>
             
-            <h3>Create New Department</h3>
+            <div class="endpoint-section">
+                <h3>Create New Department</h3>
             <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
                 <pre><code>POST http://localhost:3001/api/departments
 
@@ -521,9 +1596,9 @@ Body:
 }</code></pre>
             </div>
             
-            <div class="bg-green-50 border border-green-200 p-4 rounded-lg mt-2">
-                <strong class="text-green-800">Response (201 Created):</strong>
-                <pre class="text-green-800 mt-2"><code>{
+            <div class="response-created">
+                <strong>Response (201 Created):</strong>
+                <pre><code>{
     "success": true,
     "data": {
         "department_code": "RCS001-IT-DEV",
@@ -539,8 +1614,10 @@ Body:
     "message": "Department created successfully"
 }</code></pre>
             </div>
+            </div>
             
-            <h3>Get Organization Tree</h3>
+            <div class="endpoint-section">
+                <h3>Get Organization Tree</h3>
             <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
                 <pre><code>GET http://localhost:3001/api/organization-tree?company_code=RCS001
 
@@ -548,9 +1625,9 @@ Headers:
 X-API-Key: YOUR_API_KEY</code></pre>
             </div>
             
-            <div class="bg-green-50 border border-green-200 p-4 rounded-lg mt-2">
-                <strong class="text-green-800">Response (200 OK):</strong>
-                <pre class="text-green-800 mt-2"><code>{
+            <div class="response-success">
+                <strong>Response (200 OK):</strong>
+                <pre><code>{
     "success": true,
     "data": {
         "company_code": "RCS001",
@@ -579,8 +1656,10 @@ X-API-Key: YOUR_API_KEY</code></pre>
     "message": "Organization tree retrieved successfully"
 }</code></pre>
             </div>
+            </div>
             
-            <h3>Search Across Organization</h3>
+            <div class="endpoint-section">
+                <h3>Search Across Organization</h3>
             <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
                 <pre><code>GET http://localhost:3001/api/search?q=รุ่งชัย&limit=5
 
@@ -588,9 +1667,9 @@ Headers:
 X-API-Key: YOUR_API_KEY</code></pre>
             </div>
             
-            <div class="bg-green-50 border border-green-200 p-4 rounded-lg mt-2">
-                <strong class="text-green-800">Response (200 OK):</strong>
-                <pre class="text-green-800 mt-2"><code>{
+            <div class="response-success">
+                <strong>Response (200 OK):</strong>
+                <pre><code>{
     "success": true,
     "data": {
         "companies": [
@@ -615,55 +1694,203 @@ X-API-Key: YOUR_API_KEY</code></pre>
     "message": "Search completed successfully"
 }</code></pre>
             </div>
+            </div>
             
-            <h2>Error Codes</h2>
-            <table class="min-w-full divide-y divide-gray-200 rounded-lg overflow-hidden">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Code</th>
-                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <tr>
-                        <td class="px-4 py-3 font-mono text-sm">MISSING_API_KEY</td>
-                        <td class="px-4 py-3 text-sm">API key was not provided</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-3 font-mono text-sm">INVALID_API_KEY</td>
-                        <td class="px-4 py-3 text-sm">API key is invalid or expired</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-3 font-mono text-sm">INSUFFICIENT_PERMISSIONS</td>
-                        <td class="px-4 py-3 text-sm">API key lacks required permissions</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-3 font-mono text-sm">VALIDATION_ERROR</td>
-                        <td class="px-4 py-3 text-sm">Request data validation failed</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-3 font-mono text-sm">NOT_FOUND</td>
-                        <td class="px-4 py-3 text-sm">Requested resource not found</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-3 font-mono text-sm">DUPLICATE_CODE</td>
-                        <td class="px-4 py-3 text-sm">Entity code already exists</td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-3 font-mono text-sm">RATE_LIMIT_EXCEEDED</td>
-                        <td class="px-4 py-3 text-sm">Too many requests</td>
-                    </tr>
-                </tbody>
-            </table>
+            <h2>Error Codes & Troubleshooting</h2>
             
-            <div class="mt-12 bg-blue-50 p-4 rounded-lg">
-                <div class="flex items-start space-x-3">
-                    <i class="fas fa-info-circle text-blue-400 mt-0.5"></i>
-                    <div>
-                        <h3 class="text-sm font-medium text-blue-800">Need an API Key?</h3>
-                        <p class="mt-1 text-sm text-blue-700">
-                            Visit the <a href="/api-keys" class="underline font-medium hover:no-underline">API Keys</a> page to create and manage your API keys.
-                        </p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-4">
+                <!-- Authentication Errors -->
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <div style="background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;" class="px-4 py-3 border-b border-red-200">
+                        <h3 class="text-lg font-semibold text-white">🔐 Authentication Errors</h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="space-y-3">
+                            <div class="border-l-4 border-red-400 pl-3">
+                                <code class="font-mono text-sm font-bold text-red-600">MISSING_API_KEY</code>
+                                <p class="text-sm text-gray-600 mt-1">API key not provided in header</p>
+                                <p class="text-xs" style="color: #0090D3 !important;">Solution: Add X-API-Key: YOUR_KEY</p>
+                            </div>
+                            <div class="border-l-4 border-red-400 pl-3">
+                                <code class="font-mono text-sm font-bold text-red-600">INVALID_API_KEY</code>
+                                <p class="text-sm text-gray-600 mt-1">API key is invalid or expired</p>
+                                <p class="text-xs" style="color: #0090D3 !important;">Solution: Check API key or create new one</p>
+                            </div>
+                            <div class="border-l-4 border-red-400 pl-3">
+                                <code class="font-mono text-sm font-bold text-red-600">INSUFFICIENT_PERMISSIONS</code>
+                                <p class="text-sm text-gray-600 mt-1">Insufficient permissions</p>
+                                <p class="text-xs" style="color: #0090D3 !important;">Solution: Use API key with write/admin permissions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Errors -->
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <div style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;" class="px-4 py-3 border-b border-orange-200">
+                        <h3 class="text-lg font-semibold text-white">📊 Data Errors</h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="space-y-3">
+                            <div class="border-l-4" style="border-color: #f59e0b !important;" class="pl-3">
+                                <code class="font-mono text-sm font-bold" style="color: #f59e0b !important;">VALIDATION_ERROR</code>
+                                <p class="text-sm text-gray-600 mt-1">Request data validation failed</p>
+                                <p class="text-xs" style="color: #0090D3 !important;">Solution: Check data format and required fields</p>
+                            </div>
+                            <div class="border-l-4" style="border-color: #f59e0b !important;" class="pl-3">
+                                <code class="font-mono text-sm font-bold" style="color: #f59e0b !important;">NOT_FOUND</code>
+                                <p class="text-sm text-gray-600 mt-1">Requested resource not found</p>
+                                <p class="text-xs" style="color: #0090D3 !important;">Solution: Verify the code parameter</p>
+                            </div>
+                            <div class="border-l-4" style="border-color: #f59e0b !important;" class="pl-3">
+                                <code class="font-mono text-sm font-bold" style="color: #f59e0b !important;">DUPLICATE_CODE</code>
+                                <p class="text-sm text-gray-600 mt-1">Code already exists</p>
+                                <p class="text-xs" style="color: #0090D3 !important;">Solution: Use a unique code</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Errors -->
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <div style="background: linear-gradient(135deg, #0090D3 0%, #007AB8 100%) !important;" class="px-4 py-3 border-b border-purple-200">
+                        <h3 class="text-lg font-semibold text-white">⚙️ System Errors</h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="space-y-3">
+                            <div class="border-l-4" style="border-color: #0090D3 !important;" class="pl-3">
+                                <code class="font-mono text-sm font-bold" style="color: #0090D3 !important;">RATE_LIMIT_EXCEEDED</code>
+                                <p class="text-sm text-gray-600 mt-1">Too many requests</p>
+                                <p class="text-xs" style="color: #0090D3 !important;">Solution: Wait before making another request</p>
+                            </div>
+                            <div class="border-l-4" style="border-color: #0090D3 !important;" class="pl-3">
+                                <code class="font-mono text-sm font-bold" style="color: #0090D3 !important;">INTERNAL_ERROR</code>
+                                <p class="text-sm text-gray-600 mt-1">Internal server error</p>
+                                <p class="text-xs" style="color: #0090D3 !important;">Solution: Retry or contact administrator</p>
+                            </div>
+                            <div class="border-l-4" style="border-color: #0090D3 !important;" class="pl-3">
+                                <code class="font-mono text-sm font-bold" style="color: #0090D3 !important;">DATABASE_ERROR</code>
+                                <p class="text-sm text-gray-600 mt-1">Database connection issue</p>
+                                <p class="text-xs" style="color: #0090D3 !important;">Solution: Contact system administrator</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flexible Endpoint Specific -->
+                <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <div style="background: linear-gradient(135deg, #20C67A 0%, #1BA666 100%) !important;" class="px-4 py-3 border-b border-yellow-200">
+                        <h3 class="text-lg font-semibold text-white">🔀 Flexible Endpoint Errors</h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="space-y-3">
+                            <div class="border-l-4" style="border-color: #20C67A !important;" class="pl-3">
+                                <code class="font-mono text-sm font-bold" style="color: #20C67A !important;">MISSING_COMPANY</code>
+                                <p class="text-sm text-gray-600 mt-1">Missing company parameter</p>
+                                <p class="text-xs" style="color: #0090D3 !important;">Solution: Add ?company=COMPANY_CODE</p>
+                            </div>
+                            <div class="border-l-4" style="border-color: #20C67A !important;" class="pl-3">
+                                <code class="font-mono text-sm font-bold" style="color: #20C67A !important;">COMPANY_NOT_FOUND</code>
+                                <p class="text-sm text-gray-600 mt-1">Company not found</p>
+                                <p class="text-xs" style="color: #0090D3 !important;">Solution: Verify company_code</p>
+                            </div>
+                            <div class="border-l-4" style="border-color: #20C67A !important;" class="pl-3">
+                                <code class="font-mono text-sm font-bold" style="color: #20C67A !important;">INVALID_PARAMETER</code>
+                                <p class="text-sm text-gray-600 mt-1">Invalid parameter</p>
+                                <p class="text-xs" style="color: #0090D3 !important;">Solution: Check include/skip values</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="mt-6 text-lg font-semibold">🛠️ Error Response Example</h3>
+            <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+                <pre><code>{
+    "success": false,
+    "error": {
+        "code": "MISSING_COMPANY",
+        "message": "Company code is required",
+        "field": "company",
+        "timestamp": "2025-08-12T10:30:00.000Z",
+        "request_id": "req_12345"
+    }
+}</code></pre>
+            </div>
+
+            <h3 class="mt-6 text-lg font-semibold">📋 Quick Troubleshooting Checklist</h3>
+            <div style="background: linear-gradient(135deg, rgba(0, 144, 211, 0.08) 0%, rgba(0, 122, 184, 0.08) 100%) !important; border: 2px solid #0090D3 !important;" class="rounded-lg p-4 mt-4">
+                <ul class="space-y-2 text-sm">
+                    <li class="flex items-start">
+                        <span style="color: #0090D3 !important;" class="mr-2">✓</span>
+                        Verify API Key in header: <code class="bg-white px-2 py-1 rounded text-xs">X-API-Key</code>
+                    </li>
+                    <li class="flex items-start">
+                        <span style="color: #0090D3 !important;" class="mr-2">✓</span>
+                        Verify Base URL: <code class="bg-white px-2 py-1 rounded text-xs">http://localhost:3001/api</code>
+                    </li>
+                    <li class="flex items-start">
+                        <span style="color: #0090D3 !important;" class="mr-2">✓</span>
+                        Verify HTTP Method (GET, POST, PUT, PATCH, DELETE)
+                    </li>
+                    <li class="flex items-start">
+                        <span style="color: #0090D3 !important;" class="mr-2">✓</span>
+                        Verify Content-Type: <code class="bg-white px-2 py-1 rounded text-xs">application/json</code>
+                    </li>
+                    <li class="flex items-start">
+                        <span style="color: #0090D3 !important;" class="mr-2">✓</span>
+                        Verify JSON format for POST/PUT requests
+                    </li>
+                    <li class="flex items-start">
+                        <span style="color: #0090D3 !important;" class="mr-2">✓</span>
+                        Verify required parameters (company_code, etc.)
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div style="background: linear-gradient(135deg, rgba(0, 144, 211, 0.08) 0%, rgba(0, 122, 184, 0.08) 100%) !important; border: 2px solid #0090D3 !important;" class="p-4 rounded-lg">
+                    <div class="flex items-start space-x-3">
+                        <i class="fas fa-key mt-0.5" style="color: #0090D3 !important;"></i>
+                        <div>
+                            <h3 class="text-sm font-medium" style="color: #007AB8 !important;">Need an API Key?</h3>
+                            <p class="mt-1 text-sm" style="color: #0090D3 !important;">
+                                Visit the <a href="/api-keys" class="underline font-medium hover:no-underline">API Keys</a> page to create and manage your API keys.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, rgba(32, 198, 122, 0.08) 0%, rgba(27, 166, 102, 0.08) 100%) !important; border: 2px solid #20C67A !important;" class="p-4 rounded-lg">
+                    <div class="flex items-start space-x-3">
+                        <i class="fas fa-code mt-0.5" style="color: #20C67A !important;"></i>
+                        <div>
+                            <h3 class="text-sm font-medium" style="color: #1BA666 !important;">Quick Reference</h3>
+                            <p class="mt-1 text-sm" style="color: #20C67A !important;">
+                                Use <code class="bg-gray-100 px-2 py-1 rounded text-xs">/api/flexible/company-departments?company=CODE</code><br>
+                                to retrieve all departments by company code
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6 p-4" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(217, 119, 6, 0.08) 100%) !important; border-left: 4px solid #f59e0b !important; border-radius: 8px !important;">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-lightbulb" style="color: #f59e0b !important;"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium" style="color: #d97706 !important;">💡 Pro Tips</h3>
+                        <div class="mt-2 text-sm" style="color: #92400e !important;">
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Store API Keys in environment variables securely</li>
+                                <li>Always use HTTPS in production environments</li>
+                                <li>Set appropriate timeouts for HTTP requests (recommended: 30 seconds)</li>
+                                <li>Implement comprehensive error handling for all API calls</li>
+                                <li>Test with real data before deployment</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

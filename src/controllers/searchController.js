@@ -4,7 +4,7 @@ const logger = require('../utils/logger');
 
 class SearchController {
     
-    // GET /api/v1/search
+    // GET /api/search
     // ค้นหาข้ามทุกระดับ (Companies, Branches, Divisions, Departments)
     static async globalSearch(req, res) {
         try {

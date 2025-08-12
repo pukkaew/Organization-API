@@ -255,7 +255,7 @@ const showApiKeyDetails = asyncHandler(async (req, res) => {
             {
                 id: 1,
                 method: 'GET',
-                endpoint: '/api/v1/companies',
+                endpoint: '/api/companies',
                 response_status: 200,
                 created_date: new Date(Date.now() - 10 * 60 * 1000),
                 response_time_ms: 145,
@@ -264,7 +264,7 @@ const showApiKeyDetails = asyncHandler(async (req, res) => {
             {
                 id: 2,
                 method: 'POST',
-                endpoint: '/api/v1/branches',
+                endpoint: '/api/branches',
                 response_status: 201,
                 created_date: new Date(Date.now() - 30 * 60 * 1000),
                 response_time_ms: 234,
@@ -273,7 +273,7 @@ const showApiKeyDetails = asyncHandler(async (req, res) => {
             {
                 id: 3,
                 method: 'GET',
-                endpoint: '/api/v1/departments',
+                endpoint: '/api/departments',
                 response_status: 200,
                 created_date: new Date(Date.now() - 60 * 60 * 1000),
                 response_time_ms: 98,
@@ -285,35 +285,35 @@ const showApiKeyDetails = asyncHandler(async (req, res) => {
         const mockEndpointStats = [
             {
                 method: 'GET',
-                endpoint: '/api/v1/companies',
+                endpoint: '/api/companies',
                 request_count: 245,
                 avg_response_time: 125,
                 error_count: 2
             },
             {
                 method: 'POST',
-                endpoint: '/api/v1/branches',
+                endpoint: '/api/branches',
                 request_count: 89,
                 avg_response_time: 234,
                 error_count: 0
             },
             {
                 method: 'GET',
-                endpoint: '/api/v1/departments',
+                endpoint: '/api/departments',
                 request_count: 156,
                 avg_response_time: 98,
                 error_count: 1
             },
             {
                 method: 'PUT',
-                endpoint: '/api/v1/divisions/DIV001',
+                endpoint: '/api/divisions/DIV001',
                 request_count: 45,
                 avg_response_time: 189,
                 error_count: 0
             },
             {
                 method: 'DELETE',
-                endpoint: '/api/v1/departments/DEPT003',
+                endpoint: '/api/departments/DEPT003',
                 request_count: 12,
                 avg_response_time: 67,
                 error_count: 0

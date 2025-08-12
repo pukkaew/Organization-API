@@ -47,8 +47,8 @@ const validateEnv = () => {
     // Set defaults for optional variables
     process.env.NODE_ENV = process.env.NODE_ENV || 'development';
     process.env.PORT = process.env.PORT || '3000';
-    process.env.API_VERSION = process.env.API_VERSION || 'v1';
-    process.env.API_PREFIX = process.env.API_PREFIX || '/api/v1';
+    process.env.API_VERSION = process.env.API_VERSION || '';
+    process.env.API_PREFIX = process.env.API_PREFIX || '/api';
     process.env.BCRYPT_ROUNDS = process.env.BCRYPT_ROUNDS || '10';
     process.env.JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '7d';
     process.env.LOG_LEVEL = process.env.LOG_LEVEL || 'info';

@@ -1,0 +1,376 @@
+/* Professional API Documentation Styling */
+
+/* Corporate Blue Color Scheme */
+:root {
+    --primary-blue: #1e40af;
+    --secondary-blue: #3b82f6;
+    --light-blue: #dbeafe;
+    --dark-blue: #1e3a8a;
+    --success-green: #10b981;
+    --warning-orange: #f59e0b;
+    --danger-red: #ef4444;
+    --text-dark: #1f2937;
+    --text-medium: #374151;
+    --text-light: #6b7280;
+}
+
+/* Base styling improvements */
+.docs-page {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-dark);
+}
+
+/* Headers */
+.docs-page h1, .docs-page h2, .docs-page h3, .docs-page h4 {
+    color: var(--text-dark) !important;
+    font-weight: 700 !important;
+    margin-bottom: 1rem !important;
+}
+
+.docs-page h1 { font-size: 2.5rem !important; }
+.docs-page h2 { font-size: 2rem !important; margin-top: 2rem !important; }
+.docs-page h3 { font-size: 1.5rem !important; margin-top: 1.5rem !important; }
+.docs-page h4 { font-size: 1.25rem !important; }
+
+/* Corporate section headers */
+.docs-page .bg-ruxchai-blue {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%) !important;
+    color: white !important;
+    font-weight: 700 !important;
+    border: none !important;
+    box-shadow: 0 4px 6px rgba(30, 64, 175, 0.1) !important;
+}
+
+.docs-page .bg-ruxchai-green {
+    background: linear-gradient(135deg, var(--success-green) 0%, #059669 100%) !important;
+    color: white !important;
+    font-weight: 700 !important;
+    border: none !important;
+    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.1) !important;
+}
+
+.docs-page .bg-ruxchai-primary,
+.docs-page .bg-purple-600 {
+    background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
+    color: white !important;
+    font-weight: 700 !important;
+    border: none !important;
+    box-shadow: 0 4px 6px rgba(124, 58, 237, 0.1) !important;
+}
+
+/* Method badges with high contrast */
+.docs-page .bg-green-100,
+.docs-page span[class*="bg-green"] {
+    background: var(--success-green) !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    border: 2px solid #059669 !important;
+    min-width: 60px !important;
+    text-align: center !important;
+    display: inline-block !important;
+    text-transform: uppercase !important;
+    font-size: 11px !important;
+    letter-spacing: 0.5px !important;
+}
+
+.docs-page .bg-blue-100,
+.docs-page span[class*="bg-blue"] {
+    background: var(--secondary-blue) !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    border: 2px solid var(--primary-blue) !important;
+    min-width: 60px !important;
+    text-align: center !important;
+    display: inline-block !important;
+    text-transform: uppercase !important;
+    font-size: 11px !important;
+    letter-spacing: 0.5px !important;
+}
+
+.docs-page .bg-yellow-100,
+.docs-page span[class*="bg-yellow"] {
+    background: var(--warning-orange) !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    border: 2px solid #d97706 !important;
+    min-width: 60px !important;
+    text-align: center !important;
+    display: inline-block !important;
+    text-transform: uppercase !important;
+    font-size: 11px !important;
+    letter-spacing: 0.5px !important;
+}
+
+.docs-page .bg-purple-100,
+.docs-page span[class*="bg-purple"] {
+    background: #9333ea !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    border: 2px solid #7c3aed !important;
+    min-width: 60px !important;
+    text-align: center !important;
+    display: inline-block !important;
+    text-transform: uppercase !important;
+    font-size: 11px !important;
+    letter-spacing: 0.5px !important;
+}
+
+.docs-page .bg-red-100,
+.docs-page span[class*="bg-red"] {
+    background: var(--danger-red) !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 6px 12px !important;
+    border-radius: 6px !important;
+    border: 2px solid #dc2626 !important;
+    min-width: 60px !important;
+    text-align: center !important;
+    display: inline-block !important;
+    text-transform: uppercase !important;
+    font-size: 11px !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* Force method badge colors */
+.docs-page .text-green-800,
+.docs-page .text-blue-800,
+.docs-page .text-yellow-800,
+.docs-page .text-purple-800,
+.docs-page .text-red-800 {
+    color: white !important;
+}
+
+/* Tables */
+.docs-page table {
+    border: 2px solid #e5e7eb !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07) !important;
+    background: white !important;
+    width: 100% !important;
+}
+
+.docs-page thead th {
+    background: var(--text-dark) !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 16px 24px !important;
+    border-bottom: 3px solid var(--primary-blue) !important;
+    font-size: 13px !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase !important;
+    border: none !important;
+}
+
+.docs-page tbody td {
+    padding: 16px 24px !important;
+    border-bottom: 1px solid #f3f4f6 !important;
+    color: var(--text-dark) !important;
+    font-weight: 500 !important;
+    vertical-align: middle !important;
+    background: white !important;
+    border-left: none !important;
+    border-right: none !important;
+}
+
+.docs-page tbody tr:hover {
+    background: #f8fafc !important;
+}
+
+/* Code blocks and inline code */
+.docs-page .bg-gray-900 {
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%) !important;
+    border: 2px solid #4a5568 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    padding: 1.5rem !important;
+}
+
+.docs-page .text-gray-100 {
+    color: #e2e8f0 !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+}
+
+.docs-page .bg-gray-900 code,
+.docs-page .bg-gray-900 pre {
+    background: transparent !important;
+    color: #e2e8f0 !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.docs-page code {
+    background: #edf2f7 !important;
+    color: #2d3748 !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+    border: 1px solid #cbd5e0 !important;
+    font-size: 0.875rem !important;
+}
+
+.docs-page .font-mono {
+    font-family: 'Menlo', 'Monaco', 'Cascadia Code', 'Roboto Mono', monospace !important;
+    background: #edf2f7 !important;
+    color: #2d3748 !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+    border: 1px solid #cbd5e0 !important;
+    font-size: 0.875rem !important;
+}
+
+/* Base URL styling */
+.docs-page .bg-gray-100 {
+    background: #f7fafc !important;
+    border: 2px solid var(--primary-blue) !important;
+    color: var(--primary-blue) !important;
+    font-weight: 700 !important;
+    font-family: 'Menlo', 'Monaco', monospace !important;
+    box-shadow: 0 2px 4px rgba(30, 64, 175, 0.1) !important;
+    padding: 1rem !important;
+    border-radius: 8px !important;
+}
+
+/* Info boxes */
+.docs-page .bg-blue-50 {
+    background: #ebf8ff !important;
+    border: 2px solid var(--secondary-blue) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1) !important;
+}
+
+.docs-page .bg-green-50 {
+    background: #f0fff4 !important;
+    border: 2px solid var(--success-green) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.1) !important;
+}
+
+.docs-page .bg-yellow-50 {
+    background: #fffbeb !important;
+    border: 2px solid var(--warning-orange) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.1) !important;
+}
+
+.docs-page .bg-orange-50 {
+    background: #fff7ed !important;
+    border: 2px solid #ea580c !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 4px rgba(234, 88, 12, 0.1) !important;
+}
+
+.docs-page .bg-red-50 {
+    background: #fef2f2 !important;
+    border: 2px solid var(--danger-red) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.1) !important;
+}
+
+.docs-page .bg-purple-50 {
+    background: #faf5ff !important;
+    border: 2px solid #9333ea !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 4px rgba(147, 51, 234, 0.1) !important;
+}
+
+/* Text colors */
+.docs-page .text-blue-800 { color: var(--dark-blue) !important; font-weight: 600 !important; }
+.docs-page .text-blue-700 { color: var(--primary-blue) !important; font-weight: 500 !important; }
+.docs-page .text-blue-600 { color: var(--secondary-blue) !important; font-weight: 500 !important; }
+.docs-page .text-green-800 { color: #065f46 !important; font-weight: 600 !important; }
+.docs-page .text-green-700 { color: #047857 !important; font-weight: 500 !important; }
+.docs-page .text-yellow-800 { color: #92400e !important; font-weight: 600 !important; }
+.docs-page .text-yellow-700 { color: #b45309 !important; font-weight: 500 !important; }
+
+/* Paragraphs and lists */
+.docs-page p {
+    color: var(--text-medium) !important;
+    line-height: 1.7 !important;
+    font-weight: 400 !important;
+    margin-bottom: 1rem !important;
+}
+
+.docs-page ul li {
+    color: var(--text-medium) !important;
+    font-weight: 400 !important;
+    margin-bottom: 0.5rem !important;
+    line-height: 1.6 !important;
+}
+
+.docs-page .lead {
+    color: var(--text-light) !important;
+    font-size: 1.125rem !important;
+    font-weight: 500 !important;
+    line-height: 1.6 !important;
+}
+
+/* Links */
+.docs-page .underline {
+    color: var(--secondary-blue) !important;
+    font-weight: 600 !important;
+    text-decoration: underline !important;
+    transition: color 0.2s ease !important;
+}
+
+.docs-page .underline:hover {
+    color: var(--primary-blue) !important;
+    text-decoration: none !important;
+}
+
+/* Response examples */
+.docs-page pre {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    font-family: 'Menlo', 'Monaco', 'Cascadia Code', monospace !important;
+}
+
+/* Grid improvements */
+.docs-page .grid {
+    gap: 1.5rem !important;
+}
+
+/* Card styling */
+.docs-page .rounded-lg {
+    border-radius: 8px !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.docs-page .border {
+    border-width: 1px !important;
+    border-color: #e5e7eb !important;
+}
+
+/* Hover effects */
+.docs-page .rounded-lg:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Icons */
+.docs-page .fas {
+    color: inherit !important;
+}
+
+/* Remove emoji and casual language styling */
+.docs-page [class*="fire"],
+.docs-page [class*="emoji"] {
+    display: none !important;
+}
+
+/* Professional spacing */
+.docs-page .mb-8 { margin-bottom: 2rem !important; }
+.docs-page .mt-8 { margin-top: 2rem !important; }
+.docs-page .p-6 { padding: 1.5rem !important; }
+.docs-page .p-4 { padding: 1rem !important; }

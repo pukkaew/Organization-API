@@ -4,7 +4,7 @@ const logger = require('../utils/logger');
 
 class FlexibleController {
     
-    // GET /api/v1/flexible/company-departments
+    // GET /api/flexible/company-departments
     // ดึงบริษัทพร้อมแผนกทั้งหมด (ข้ามสาขาและฝ่าย)
     static async getCompanyDepartments(req, res) {
         try {
@@ -85,7 +85,7 @@ class FlexibleController {
         }
     }
 
-    // GET /api/v1/flexible/company-full
+    // GET /api/flexible/company-full
     // ดึงบริษัทพร้อมสาขา ฝ่าย แผนก ในครั้งเดียว
     static async getCompanyFull(req, res) {
         try {
@@ -192,7 +192,7 @@ class FlexibleController {
         }
     }
 
-    // GET /api/v1/flexible/custom
+    // GET /api/flexible/custom
     // ดึงข้อมูลแบบกำหนดเอง
     static async getCustom(req, res) {
         try {

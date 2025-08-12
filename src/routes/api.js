@@ -36,7 +36,7 @@ const { getPaginationParams } = require('../utils/pagination');
 const { asyncHandler } = require('../middleware/errorHandler');
 
 // API Version
-const API_VERSION = '/v1';
+const API_VERSION = '';
 
 // Apply API authentication to all routes except auth endpoints
 router.use((req, res, next) => {
