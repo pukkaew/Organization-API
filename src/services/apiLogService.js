@@ -8,35 +8,15 @@ class ApiLogService {
      * Get today's API usage statistics
      */
     static async getTodayStats() {
-        // Use mock data if USE_DATABASE is false
+        // Skip database operations if USE_DATABASE is false
         if (process.env.USE_DATABASE === 'false') {
-            const ApiKey = require('../models/ApiKey');
-            const allActiveKeys = ApiKey.mockApiKeys.filter(key => key.is_active);
-            
-            // Only count keys with usage history (exclude newly created keys)
-            // Simulate that only older keys have usage data
-            const keysWithUsage = allActiveKeys.filter(key => {
-                // Consider keys as "used" only if they were created more than 1 hour ago
-                // or if they have specific conditions that indicate actual usage
-                const createdDate = new Date(key.created_date);
-                const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-                return createdDate < oneHourAgo;
-            });
-            
-            // If no keys meet the usage criteria, use a fixed number for demo
-            const usedKeysCount = keysWithUsage.length > 0 ? keysWithUsage.length : Math.max(0, allActiveKeys.length - 1);
-            
-            // Generate realistic mock statistics
-            const totalCalls = usedKeysCount > 0 ? Math.floor(Math.random() * 5000) + 8000 : 0;
-            const todayCalls = usedKeysCount > 0 ? Math.floor(Math.random() * 500) + 200 : 0;
-            
             return {
-                todayCalls: todayCalls,
-                uniqueKeys: usedKeysCount,
-                avgResponseTime: usedKeysCount > 0 ? Math.floor(Math.random() * 200) + 100 : 0,
-                errorCount: usedKeysCount > 0 ? Math.floor(Math.random() * 20) + 5 : 0,
-                totalCalls: totalCalls,
-                activeKeys: usedKeysCount
+                todayCalls: 0,
+                uniqueKeys: 0,
+                avgResponseTime: 0,
+                errorCount: 0,
+                totalCalls: 0,
+                activeKeys: 0
             };
         }
         

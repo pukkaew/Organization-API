@@ -226,7 +226,7 @@ class ApiKey {
                     description = @description,
                     permissions = @permissions,
                     expires_date = @expires_date,
-                    updated_date = datetime('now'),
+                    updated_date = GETDATE(),
                     updated_by = @updated_by
                 WHERE api_key_id = @api_key_id
             `;
@@ -259,7 +259,7 @@ class ApiKey {
             const query = `
                 UPDATE API_Keys
                 SET is_active = @is_active,
-                    updated_date = datetime('now'),
+                    updated_date = GETDATE(),
                     updated_by = @updated_by
                 WHERE api_key_id = @api_key_id
             `;
@@ -299,8 +299,30 @@ class ApiKey {
         }
     }
 
+    // Delete API key
+    static async delete(apiKeyId) {
+        try {
+            const query = `
+                DELETE FROM API_Keys
+                WHERE api_key_id = @api_key_id
+            `;
+            
+            const result = await executeQuery(query, { api_key_id: apiKeyId });
+            
+            if (result.rowsAffected[0] === 0) {
+                throw new Error('API Key not found');
+            }
+            
+            return { success: true, deletedCount: result.rowsAffected[0] };
+        } catch (error) {
+            logger.error('Error in ApiKey.delete:', error);
+            throw error;
+        }
+    }
+
     // Get API keys with pagination
     static async findPaginated(page = 1, limit = 20, filters = {}) {
+        
         // Skip database if USE_DATABASE is false
         if (process.env.USE_DATABASE === 'false') {
             return {
@@ -401,7 +423,44 @@ class ApiKey {
     }
 
     // Mock data for development/testing
-    static mockApiKeys = [];
+    static mockApiKeys = [
+        {
+            api_key_id: 1,
+            api_key: 'rcs_dev1...', 
+            app_name: 'RC MMS',
+            description: 'API key for development and testing',
+            permissions: 'read,write',
+            is_active: true,
+            usage_count: 156,
+            last_used_date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+            created_date: new Date('2024-01-15'),
+            created_by: 'admin'
+        },
+        {
+            api_key_id: 2,
+            api_key: 'rcs_dev2...',
+            app_name: 'Mobile App',
+            description: 'API key for mobile application',
+            permissions: 'read',
+            is_active: true,
+            usage_count: 89,
+            last_used_date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
+            created_date: new Date('2024-02-01'),
+            created_by: 'developer'
+        },
+        {
+            api_key_id: 3,
+            api_key: 'rcs_dev3...',
+            app_name: 'Analytics Dashboard',
+            description: 'API key for analytics dashboard',
+            permissions: 'read',
+            is_active: false,
+            usage_count: 0,
+            last_used_date: null,
+            created_date: new Date('2024-01-30'),
+            created_by: 'analyst'
+        }
+    ];
 
     static authenticateMock(apiKey) {
         const mockKey = this.mockApiKeys.find(key => 

@@ -7,42 +7,7 @@ const logger = require('../utils/logger');
 // Global array to track deleted API keys (for demo purposes)
 let deletedApiKeys = [];
 
-// Global store for mock API keys with persistent state
-let mockApiKeysStore = [
-    {
-        api_key_id: 1,
-        app_name: 'RC MMS',
-        description: 'API key for development and testing',
-        permissions: 'read,write',
-        is_active: true,
-        usage_count: 156,
-        last_used_date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
-        created_date: new Date('2024-01-15'),
-        created_by: 'admin'
-    },
-    {
-        api_key_id: 2,
-        app_name: 'RC MMS1',
-        description: 'API key for mobile application',
-        permissions: 'read',
-        is_active: true,
-        usage_count: 89,
-        last_used_date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
-        created_date: new Date('2024-02-01'),
-        created_by: 'developer'
-    },
-    {
-        api_key_id: 3,
-        app_name: 'Data Analytics',
-        description: 'API key for analytics dashboard',
-        permissions: 'read',
-        is_active: false,
-        usage_count: 0,
-        last_used_date: null,
-        created_date: new Date('2024-01-30'),
-        created_by: 'analyst'
-    }
-];
+// Removed mock API keys store - now using real data from database
 
 // Display API keys list page
 const showApiKeysPage = asyncHandler(async (req, res) => {
@@ -56,53 +21,50 @@ const showApiKeysPage = asyncHandler(async (req, res) => {
         };
 
         const result = await ApiKey.findPaginated(page, limit, filters);
+        console.log('DATABASE QUERY RESULT:', {
+            dataCount: result.data?.length || 0,
+            totalRecords: result.pagination?.total || 0,
+            sampleData: result.data?.slice(0, 1) || []
+        });
         
         // Use mock data if no API keys found or database error
         let apiKeysWithStats = [];
         
         if (result.data && result.data.length > 0) {
-            // Get usage statistics for each API key
-            apiKeysWithStats = result.data.map((apiKey) => {
-                return {
-                    ...apiKey,
-                    usage_count: Math.floor(Math.random() * 1000), // Mock usage count
-                    last_used_date: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000) // Random last used within 30 days
-                };
-            });
-        } else {
-            // Use ApiKey model's mock data directly
-            console.log('\n=== SHOW API KEYS PAGE - USING MODEL MOCK DATA ===');
-            console.log('ApiKey.mockApiKeys count:', ApiKey.mockApiKeys.length);
-            
-            // Get all API keys from the model and add usage stats
-            apiKeysWithStats = ApiKey.mockApiKeys.map((apiKey) => ({
-                ...apiKey,
-                usage_count: Math.floor(Math.random() * 1000),
-                last_used_date: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000)
+            // Get real usage statistics for each API key from API_Logs table
+            apiKeysWithStats = await Promise.all(result.data.map(async (apiKey) => {
+                try {
+                    // Get actual usage count and last used date from API_Logs
+                    const usageQuery = `
+                        SELECT 
+                            COUNT(*) as usage_count,
+                            MAX(created_date) as last_used_date
+                        FROM API_Logs 
+                        WHERE api_key_id = @api_key_id
+                    `;
+                    const usageResult = await require('../config/database').executeQuery(usageQuery, {
+                        api_key_id: apiKey.api_key_id
+                    });
+                    
+                    const stats = usageResult.recordset[0];
+                    
+                    return {
+                        ...apiKey,
+                        usage_count: stats.usage_count || 0,
+                        last_used_date: stats.last_used_date || null
+                    };
+                } catch (error) {
+                    logger.error('Error getting API key usage stats:', error);
+                    return {
+                        ...apiKey,
+                        usage_count: 0,
+                        last_used_date: null
+                    };
+                }
             }));
-            
-            console.log('Final API Keys count:', apiKeysWithStats.length);
-            console.log('=== END SHOW API KEYS PAGE ===\n');
-            
-            // Apply filters to mock data
-            if (filters.is_active !== undefined) {
-                const isActiveFilter = filters.is_active === 'true';
-                apiKeysWithStats = apiKeysWithStats.filter(key => key.is_active === isActiveFilter);
-            }
-            
-            if (filters.permissions) {
-                apiKeysWithStats = apiKeysWithStats.filter(key => 
-                    key.permissions.includes(filters.permissions)
-                );
-            }
-            
-            if (filters.search) {
-                const searchLower = filters.search.toLowerCase();
-                apiKeysWithStats = apiKeysWithStats.filter(key => 
-                    key.app_name.toLowerCase().includes(searchLower) ||
-                    (key.description && key.description.toLowerCase().includes(searchLower))
-                );
-            }
+        } else {
+            // Return empty result when no data found
+            apiKeysWithStats = [];
         }
         
         res.render('api-keys/index', {
@@ -230,19 +192,14 @@ const showApiKeyDetails = asyncHandler(async (req, res) => {
     console.log('ID from params:', req.params.id);
     
     try {
-        // Use mock data for testing - since database might not have API key data
-        const mockApiKey = {
-            api_key_id: req.params.id,
-            app_name: `API Key ${req.params.id}`,
-            description: `API key for development and testing (ID: ${req.params.id})`,
-            permissions: 'read,write',
-            is_active: true,
-            usage_count: Math.floor(Math.random() * 500) + 50,
-            last_used_date: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000),
-            created_date: new Date('2024-01-15'),
-            created_by: 'admin',
-            expires_date: null
-        };
+        // Get real API key data from database
+        const apiKey = await ApiKey.findById(req.params.id);
+        if (!apiKey) {
+            return res.status(404).render('error', {
+                title: 'API Key Not Found',
+                message: 'The requested API key does not exist.'
+            });
+        }
         
         // Mock usage statistics  
         const mockStats = {
@@ -320,23 +277,21 @@ const showApiKeyDetails = asyncHandler(async (req, res) => {
             }
         ];
 
-        // Mock hourly statistics for chart
-        const mockHourlyStats = [];
-        for (let i = 0; i < 24; i++) {
-            mockHourlyStats.push({
-                hour: i,
-                request_count: Math.floor(Math.random() * 50) + 10,
-                avg_response_time: Math.floor(Math.random() * 100) + 50
-            });
-        }
+        // Get real hourly statistics from API logs
+        const hourlyStats = await ApiLog.getHourlyStatistics(new Date());
 
         res.render('api-keys/details', {
-            title: `API Key Details: ${mockApiKey.app_name}`,
-            apiKey: mockApiKey,
-            stats: mockStats,
-            recentLogs: mockRecentLogs,
-            endpointStats: mockEndpointStats,
-            hourlyStats: mockHourlyStats
+            title: `API Key Details: ${apiKey.app_name}`,
+            apiKey: apiKey,
+            stats: {
+                total_requests: 0,
+                avg_response_time: 0,
+                success_rate: 100,
+                error_count: 0
+            },
+            recentLogs: [],
+            endpointStats: [],
+            hourlyStats: hourlyStats || []
         });
     } catch (error) {
         console.error('Error in showApiKeyDetails:', error);
@@ -352,21 +307,18 @@ const showEditApiKeyForm = asyncHandler(async (req, res) => {
     console.log('=== SHOW EDIT API KEY FORM ===');
     console.log('ID from params:', req.params.id);
     
-    // Use mock data for editing
-    const mockApiKey = {
-        api_key_id: req.params.id,
-        app_name: `API Key ${req.params.id}`,
-        description: `API key for development and testing (ID: ${req.params.id})`,
-        permissions: 'read_write',
-        is_active: Math.random() > 0.5, // Random active status
-        expires_date: null,
-        created_date: new Date('2024-01-15'),
-        created_by: 'admin'
-    };
+    // Get real API key data for editing
+    const apiKey = await ApiKey.findById(req.params.id);
+    if (!apiKey) {
+        return res.status(404).render('error', {
+            title: 'API Key Not Found', 
+            message: 'The requested API key does not exist.'
+        });
+    }
     
     res.render('api-keys/edit', {
         title: 'Edit API Key',
-        apiKey: mockApiKey,
+        apiKey: apiKey,
         error: null,
         csrfToken: req.csrfToken ? req.csrfToken() : 'dev-csrf-token'
     });
@@ -375,22 +327,36 @@ const showEditApiKeyForm = asyncHandler(async (req, res) => {
 // Handle update API key form submission
 const handleUpdateApiKey = asyncHandler(async (req, res) => {
     try {
-        logger.info(`API Key update request for ID: ${req.params.id}`);
+        const apiKeyId = parseInt(req.params.id);
+        logger.info(`API Key update request for ID: ${apiKeyId}`);
         logger.info('Update data:', req.body);
         
-        // Simulate successful update
-        const updatedData = {
-            app_name: req.body.app_name,
-            description: req.body.description,
-            permissions: req.body.permissions,
+        // Get existing API key
+        const existingApiKey = await ApiKey.findById(apiKeyId);
+        if (!existingApiKey) {
+            return res.status(404).render('error', {
+                title: 'API Key Not Found',
+                message: 'The requested API key does not exist.'
+            });
+        }
+        
+        // Create ApiKey instance with updated data
+        const apiKey = new ApiKey({
+            api_key_id: apiKeyId,
+            app_name: req.body.app_name.trim(),
+            description: req.body.description ? req.body.description.trim() : '',
+            permissions: req.body.permissions || 'read',
             expires_date: req.body.expires_date || null,
             updated_by: req.user?.username || 'admin'
-        };
+        });
         
-        logger.info(`API Key updated successfully: ${updatedData.app_name} by ${updatedData.updated_by}`);
+        // Perform actual database update
+        const updatedApiKey = await apiKey.update();
+        
+        logger.info(`API Key updated successfully: ${updatedApiKey.app_name} by ${apiKey.updated_by}`);
         
         if (req.flash) {
-            req.flash('success', `API Key ${updatedData.app_name} ถูกอัพเดทเรียบร้อยแล้ว`);
+            req.flash('success', `API Key ${updatedApiKey.app_name} ถูกอัพเดทเรียบร้อยแล้ว`);
         }
         
         // Redirect back to API keys list with success
@@ -398,23 +364,28 @@ const handleUpdateApiKey = asyncHandler(async (req, res) => {
     } catch (error) {
         logger.error('Error updating API key:', error);
         
-        // Render edit form with error
-        const mockApiKey = {
-            api_key_id: req.params.id,
-            app_name: req.body.app_name || 'Development App',
-            description: req.body.description || '',
-            permissions: req.body.permissions || 'read_write',
-            is_active: true,
-            expires_date: req.body.expires_date || null,
-            created_date: new Date('2024-01-15'),
-            created_by: 'admin'
-        };
+        // Get the existing API key for re-rendering the form
+        let apiKeyData;
+        try {
+            apiKeyData = await ApiKey.findById(req.params.id);
+        } catch (err) {
+            apiKeyData = {
+                api_key_id: req.params.id,
+                app_name: req.body.app_name || '',
+                description: req.body.description || '',
+                permissions: req.body.permissions || 'read',
+                is_active: true,
+                expires_date: req.body.expires_date || null,
+                created_date: new Date(),
+                created_by: 'admin'
+            };
+        }
         
         res.render('api-keys/edit', {
             title: 'Edit API Key',
-            apiKey: mockApiKey,
+            apiKey: apiKeyData,
             error: 'Failed to update API key. Please try again.',
-            csrfToken: 'dev-csrf-token'
+            csrfToken: req.csrfToken ? req.csrfToken() : 'dev-csrf-token'
         });
     }
 });
@@ -430,17 +401,17 @@ const handleToggleStatus = asyncHandler(async (req, res) => {
         
         logger.info(`Toggle status request for API Key ID: ${apiKeyId}`);
         
-        // Find the API key in mock store and toggle its status
-        const apiKey = ApiKey.mockApiKeys.find(key => key.api_key_id === apiKeyId);
+        // Toggle API key status in database
+        const apiKey = await ApiKey.findById(apiKeyId);
         if (apiKey) {
-            const oldStatus = apiKey.is_active;
-            apiKey.is_active = !apiKey.is_active;
-            console.log(`API Key ${apiKeyId} status changed from ${oldStatus} to ${apiKey.is_active}`);
+            const newStatus = !apiKey.is_active;
+            const result = await ApiKey.updateStatus(apiKeyId, newStatus);
+            console.log(`API Key ${apiKeyId} status changed to ${newStatus}`);
             
             const username = req.user?.username || 'admin';
-            logger.info(`API Key ID ${apiKeyId} status toggled to ${apiKey.is_active} by ${username}`);
+            logger.info(`API Key ID ${apiKeyId} status toggled to ${newStatus} by ${username}`);
         } else {
-            console.log('API Key not found in mock store');
+            console.log('API Key not found in database');
         }
         
         console.log('Redirecting to /api-keys');
@@ -500,18 +471,14 @@ const handleDeleteApiKey = asyncHandler(async (req, res) => {
         console.log('Parsed API Key ID:', apiKeyId);
         logger.info(`Delete API Key request for ID: ${apiKeyId}`);
         
-        // Remove from model's mock store directly
-        console.log('\n=== DELETING FROM MODEL MOCK STORE ===');
-        console.log('Before delete - ApiKey.mockApiKeys count:', ApiKey.mockApiKeys.length);
+        // Delete from database
+        console.log('\n=== DELETING FROM DATABASE ===');
         console.log('Deleting API Key ID:', apiKeyId);
         
-        const initialLength = ApiKey.mockApiKeys.length;
-        ApiKey.mockApiKeys = ApiKey.mockApiKeys.filter(key => key.api_key_id !== apiKeyId);
-        const finalLength = ApiKey.mockApiKeys.length;
+        const result = await ApiKey.delete(apiKeyId);
         
-        console.log('After delete - ApiKey.mockApiKeys count:', finalLength);
-        console.log('Successfully deleted:', initialLength > finalLength);
-        console.log('=== END DELETE FROM MODEL MOCK STORE ===\n');
+        console.log('Delete result:', result);
+        console.log('=== END DELETE FROM DATABASE ===\n');
         
         const username = req.user?.username || 'admin';
         logger.info(`API Key ID ${apiKeyId} marked as deleted by ${username}`);

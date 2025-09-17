@@ -37,6 +37,7 @@ router.get('/:id/logs', apiKeyController.showApiLogs);
 // Update API key
 router.put('/:id', apiKeyController.handleUpdateApiKey);
 router.post('/:id/update', apiKeyController.handleUpdateApiKey);
+router.post('/:id', apiKeyController.handleUpdateApiKey); // Add POST /:id route for form submission
 
 // Toggle status
 router.post('/:id/toggle-status', apiKeyController.handleToggleStatus);
